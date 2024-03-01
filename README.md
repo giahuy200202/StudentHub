@@ -1,4 +1,4 @@
-# todo
+# StudentHub
 
 A new Flutter project.
 
