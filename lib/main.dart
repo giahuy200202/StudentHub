@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:studenthub/screens/home_screen.dart';
+import 'package:studenthub/screens/homepage.screen.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:studenthub/notifications/local_notification.dart';
 import 'package:timezone/data/latest.dart' as tz;
@@ -36,7 +36,7 @@ class _AppState extends ConsumerState<App> {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: theme,
-      home: const HomeScreen(),
+      home: const HomepageScreen(),
     );
   }
 }

@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:studenthub/providers/tasks_provider.dart';
 
-class HomeWidget extends ConsumerWidget {
-  const HomeWidget({
+class HomepageWidget extends ConsumerWidget {
+  const HomepageWidget({
     super.key,
   });
 
@@ -12,9 +12,9 @@ class HomeWidget extends ConsumerWidget {
     // final tasks = ref.watch(tasksProvider);
     return const Scaffold(
       body: SingleChildScrollView(
-        physics: const NeverScrollableScrollPhysics(),
+        physics: NeverScrollableScrollPhysics(),
         child: Padding(
-            padding: const EdgeInsets.only(left: 24, right: 24, top: 200),
+            padding: EdgeInsets.only(left: 24, right: 24, top: 200),
             child: Text('Hello')),
       ),
     );
