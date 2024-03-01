@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:todo/screens/home_screen.dart';
+import 'package:studenthub/screens/home_screen.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:todo/notifications/local_notifications.dart';
+import 'package:studenthub/notifications/local_notification.dart';
 import 'package:timezone/data/latest.dart' as tz;
 
 final theme = ThemeData(

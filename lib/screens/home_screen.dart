@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:todo/providers/options_provider.dart';
-import 'package:todo/widgets/home_widget.dart';
+import 'package:studenthub/providers/option_provider.dart';
+import 'package:studenthub/widgets/home_widget.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class HomeScreen extends ConsumerWidget {

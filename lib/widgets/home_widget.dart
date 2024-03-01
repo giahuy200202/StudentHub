@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:todo/providers/tasks_provider.dart';
+import 'package:studenthub/providers/tasks_provider.dart';
 
 class HomeWidget extends ConsumerWidget {
   const HomeWidget({

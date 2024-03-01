@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:todo/models/task.dart';
-import 'package:todo/data/dummy_data.dart';
+import 'package:studenthub/models/task.dart';
+import 'package:studenthub/data/dummy_data.dart';
 
 class TasksNotifier extends StateNotifier<List<Task>> {
   TasksNotifier() : super(listTask);
