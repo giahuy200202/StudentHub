@@ -10,13 +10,90 @@ class HomepageWidget extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     // final tasks = ref.watch(tasksProvider);
-    return const Scaffold(
+    return Scaffold(
       body: SingleChildScrollView(
-        physics: NeverScrollableScrollPhysics(),
-        child: Padding(
-            padding: EdgeInsets.only(left: 24, right: 24, top: 200),
-            child: Text('Hello')),
-      ),
+          physics: const NeverScrollableScrollPhysics(),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: Center(
+              child: Column(
+                children: [
+                  const SizedBox(height: 50),
+                  const Text(
+                    'Build your product with high-skilled student',
+                    style: TextStyle(
+                      fontSize: 18,
+                      color: Colors.black,
+                      fontWeight: FontWeight.w500,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 40),
+                  const Text(
+                    'Find and onboard best-skilled student for your product. Student works to gain experience & skills from real-world projects',
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: Colors.black,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 40),
+                  SizedBox(
+                    width: 130,
+                    child: ElevatedButton(
+                      onPressed: () {},
+                      style: ElevatedButton.styleFrom(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(6),
+                        ),
+                        backgroundColor:
+                            const Color.fromARGB(255, 235, 237, 239),
+                      ),
+                      child: const Text(
+                        'Company',
+                        style: TextStyle(
+                          fontSize: 18,
+                          color: Colors.black,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 15),
+                  SizedBox(
+                    width: 130,
+                    child: ElevatedButton(
+                      onPressed: () {},
+                      style: ElevatedButton.styleFrom(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(6),
+                        ),
+                        backgroundColor:
+                            const Color.fromARGB(255, 235, 237, 239),
+                      ),
+                      child: const Text(
+                        'Student',
+                        style: TextStyle(
+                          fontSize: 18,
+                          color: Colors.black,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 40),
+                  const Text(
+                    'StudentHub is university market place to connect high-skilled student and company on a real-world project',
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: Colors.black,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ],
+              ),
+            ),
+          )),
     );
   }
 }

@@ -2,15 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:studenthub/screens/homepage.screen.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:studenthub/notifications/local_notification.dart';
+import 'package:studenthub/screens/layout.screen.dart';
 import 'package:timezone/data/latest.dart' as tz;
-
-final theme = ThemeData(
-  useMaterial3: true,
-  colorScheme: ColorScheme.fromSeed(
-    brightness: Brightness.light,
-    seedColor: Colors.black,
-  ),
-);
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -35,8 +28,14 @@ class _AppState extends ConsumerState<App> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: theme,
-      home: const HomepageScreen(),
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: Colors.black,
+          primary: Colors.black,
+          secondary: Colors.black,
+        ),
+      ),
+      home: const LayoutScreen(),
     );
   }
 }

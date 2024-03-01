@@ -9,21 +9,6 @@ class HomepageScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(60),
-        child: Container(
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              colors: <Color>[Colors.black, Color.fromARGB(255, 73, 80, 87)],
-            ),
-          ),
-          child: const TopNavbar(),
-        ),
-      ),
-      body: const Center(
-        child: Text('Content'),
-      ),
-    );
+    return HomepageWidget();
   }
 }
