@@ -1,15 +1,15 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 // import 'package:todo/models/option.dart';
 
-enum Option { categoryOption }
+enum Option { widgetOption }
 
 class OptionsNotifier extends StateNotifier<Map<Option, String>> {
-  OptionsNotifier() : super({Option.categoryOption: ''});
+  OptionsNotifier() : super({Option.widgetOption: ''});
 
-  bool setCategoryOption(String option) {
+  bool setWidgetOption(String option) {
     state = {
       ...state,
-      Option.categoryOption: option,
+      Option.widgetOption: option,
     };
     return true;
   }

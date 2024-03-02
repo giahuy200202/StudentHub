@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:studenthub/providers/options_provider.dart';
 
 class SignupStep1 extends ConsumerStatefulWidget {
   const SignupStep1({super.key});
@@ -247,7 +248,9 @@ class _SignupStep1State extends ConsumerState<SignupStep1> {
                           tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                         ),
                         onPressed: () {
-                          print('abc');
+                          ref
+                              .read(optionsProvider.notifier)
+                              .setWidgetOption('Login');
                         },
                         child: Container(
                           padding: const EdgeInsets.only(

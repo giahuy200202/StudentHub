@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:studenthub/providers/tasks_provider.dart';
+import 'package:studenthub/providers/options_provider.dart';
 
 class LoginWidget extends ConsumerStatefulWidget {
   const LoginWidget({super.key});
@@ -128,7 +128,11 @@ class _LoginWidgetState extends ConsumerState<LoginWidget> {
                     height: 50,
                     width: 160,
                     child: ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        ref
+                            .read(optionsProvider.notifier)
+                            .setWidgetOption('SignupStep1');
+                      },
                       style: ElevatedButton.styleFrom(
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(8),

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:studenthub/providers/tasks_provider.dart';
+import 'package:studenthub/providers/options_provider.dart';
 
 class HomepageWidget extends ConsumerWidget {
   const HomepageWidget({
@@ -42,7 +42,11 @@ class HomepageWidget extends ConsumerWidget {
                     height: 45,
                     width: 130,
                     child: ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        ref
+                            .read(optionsProvider.notifier)
+                            .setWidgetOption('Login');
+                      },
                       style: ElevatedButton.styleFrom(
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(6),
@@ -65,7 +69,11 @@ class HomepageWidget extends ConsumerWidget {
                     height: 45,
                     width: 130,
                     child: ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        ref
+                            .read(optionsProvider.notifier)
+                            .setWidgetOption('Login');
+                      },
                       style: ElevatedButton.styleFrom(
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(6),
