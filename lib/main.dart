@@ -31,7 +31,7 @@ class _AppState extends ConsumerState<App> {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
           seedColor: Colors.black,
-          primary: Colors.black,
+          primary: Colors.grey,
           secondary: Colors.black,
         ),
       ),

@@ -92,7 +92,7 @@ class _LoginWidgetState extends ConsumerState<LoginWidget> {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 15),
+                  const SizedBox(height: 18),
                   SizedBox(
                     height: 52,
                     width: MediaQuery.of(context).size.width,
@@ -105,7 +105,7 @@ class _LoginWidgetState extends ConsumerState<LoginWidget> {
                         backgroundColor: Colors.black,
                       ),
                       child: const Text(
-                        'Login',
+                        'Sign in',
                         style: TextStyle(
                           fontSize: 18,
                           color: Colors.white,
@@ -114,14 +114,36 @@ class _LoginWidgetState extends ConsumerState<LoginWidget> {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 350),
+                  const SizedBox(height: 280),
                   const Text(
-                    'Don\'t have an Student Hub account?',
+                    '_______Don\'t have an Student Hub account?_______',
                     style: TextStyle(
                       fontSize: 16,
                       color: Colors.black,
                     ),
                     textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 20),
+                  SizedBox(
+                    height: 50,
+                    width: 160,
+                    child: ElevatedButton(
+                      onPressed: () {},
+                      style: ElevatedButton.styleFrom(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
+                            side: const BorderSide(color: Colors.black)),
+                        backgroundColor: Colors.white,
+                      ),
+                      child: const Text(
+                        'Sign up',
+                        style: TextStyle(
+                          fontSize: 18,
+                          color: Colors.black,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ),
                   ),
                 ],
               ),

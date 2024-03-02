@@ -39,15 +39,16 @@ class HomepageWidget extends ConsumerWidget {
                   ),
                   const SizedBox(height: 40),
                   SizedBox(
+                    height: 45,
                     width: 130,
                     child: ElevatedButton(
                       onPressed: () {},
                       style: ElevatedButton.styleFrom(
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(6),
+                          side: const BorderSide(color: Colors.black),
                         ),
-                        backgroundColor:
-                            const Color.fromARGB(255, 235, 237, 239),
+                        backgroundColor: Colors.white,
                       ),
                       child: const Text(
                         'Company',
@@ -59,17 +60,17 @@ class HomepageWidget extends ConsumerWidget {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 15),
+                  const SizedBox(height: 20),
                   SizedBox(
+                    height: 45,
                     width: 130,
                     child: ElevatedButton(
                       onPressed: () {},
                       style: ElevatedButton.styleFrom(
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(6),
-                        ),
-                        backgroundColor:
-                            const Color.fromARGB(255, 235, 237, 239),
+                            borderRadius: BorderRadius.circular(6),
+                            side: const BorderSide(color: Colors.black)),
+                        backgroundColor: Colors.white,
                       ),
                       child: const Text(
                         'Student',

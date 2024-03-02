@@ -9,6 +9,6 @@ class HomepageScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return HomepageWidget();
+    return const HomepageWidget();
   }
 }
