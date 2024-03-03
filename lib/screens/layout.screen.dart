@@ -3,8 +3,11 @@ import 'package:studenthub/providers/options_provider.dart';
 import 'package:studenthub/screens/homepage.screen.dart';
 import 'package:studenthub/screens/login.screen.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:studenthub/screens/profile.screen.dart';
 import 'package:studenthub/widgets/signup_step1.widget.dart';
 import 'package:studenthub/widgets/top_navbar.widget.dart';
+import 'package:studenthub/widgets/welcome_company.widget.dart';
+import 'package:studenthub/widgets/dashboard_company.widget.dart';
 
 class LayoutScreen extends ConsumerWidget {
   const LayoutScreen({super.key});
@@ -38,7 +41,7 @@ class LayoutScreen extends ConsumerWidget {
           child: const TopNavbar(),
         ),
       ),
-      body: currentScreen,
+      body: const DashboardCompanyWidget(),
     );
   }
 }
