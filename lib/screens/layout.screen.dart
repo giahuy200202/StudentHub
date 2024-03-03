@@ -5,6 +5,7 @@ import 'package:studenthub/screens/login.screen.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:studenthub/screens/profile.screen.dart';
 import 'package:studenthub/widgets/signup_step1.widget.dart';
+import 'package:studenthub/widgets/signup_step2.widget.dart';
 import 'package:studenthub/widgets/top_navbar.widget.dart';
 import 'package:studenthub/widgets/welcome_company.widget.dart';
 import 'package:studenthub/widgets/dashboard_company.widget.dart';
@@ -19,6 +20,8 @@ class LayoutScreen extends ConsumerWidget {
       return const LoginScreen();
     } else if (widgetOption == 'SignupStep1') {
       return const SignupStep1();
+    } else if (widgetOption == 'SignupStep2') {
+      return const SignupStep2();
     }
     return const HomepageScreen();
   }

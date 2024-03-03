@@ -210,7 +210,13 @@ class _SignupStep1State extends ConsumerState<SignupStep1> {
                     height: 52,
                     width: MediaQuery.of(context).size.width,
                     child: ElevatedButton(
-                      onPressed: () {},
+                      onPressed: !isCompany && !isStudent
+                          ? null
+                          : () {
+                              ref
+                                  .read(optionsProvider.notifier)
+                                  .setWidgetOption('SignupStep2');
+                            },
                       style: ElevatedButton.styleFrom(
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8),
@@ -227,13 +233,13 @@ class _SignupStep1State extends ConsumerState<SignupStep1> {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 40),
+                  const SizedBox(height: 25),
                   Row(
                     mainAxisAlignment: MainAxisAlignment
                         .center, //Center Column contents vertically,
                     children: [
                       const Text(
-                        'Already have an account ?',
+                        'Already have an account?',
                         style: TextStyle(
                           fontSize: 16,
                           color: Colors.black,
