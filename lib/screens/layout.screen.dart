@@ -8,7 +8,7 @@ import 'package:studenthub/widgets/signup_step1.widget.dart';
 import 'package:studenthub/widgets/signup_step2.widget.dart';
 import 'package:studenthub/widgets/top_navbar.widget.dart';
 import 'package:studenthub/widgets/welcome_company.widget.dart';
-import 'package:studenthub/widgets/dashboard_company.widget.dart';
+import 'package:studenthub/widgets/profile_company.widget.dart';
 
 class LayoutScreen extends ConsumerWidget {
   const LayoutScreen({super.key});
@@ -44,7 +44,7 @@ class LayoutScreen extends ConsumerWidget {
           child: const TopNavbar(),
         ),
       ),
-      body: const DashboardCompanyWidget(),
+      body: const ProfileCompanyWidget(),
     );
   }
 }
