@@ -4,6 +4,7 @@ import 'package:studenthub/screens/homepage.screen.dart';
 import 'package:studenthub/screens/login.screen.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:studenthub/screens/profile.screen.dart';
+import 'package:studenthub/screens/switch_account.screen.dart';
 import 'package:studenthub/widgets/profile_company.widget.dart';
 import 'package:studenthub/widgets/signup_step1.widget.dart';
 import 'package:studenthub/widgets/signup_step2.widget.dart';
@@ -21,7 +22,7 @@ class LayoutScreen extends ConsumerStatefulWidget {
 }
 
 class _LayoutScreenState extends ConsumerState<LayoutScreen> {
-  int _selectedPageIndex = 0;
+  int _selectedPageIndex = 1;
   bool isLogin = true;
 
   void _selectPage(int index) {
@@ -75,7 +76,7 @@ class _LayoutScreenState extends ConsumerState<LayoutScreen> {
           child: const TopNavbar(),
         ),
       ),
-      body: currentScreen,
+      body: const SwitchAccountScreen(),
       bottomNavigationBar: !isLogin ||
               options[Option.widgetOption] != 'Dashboard'
           ? null
