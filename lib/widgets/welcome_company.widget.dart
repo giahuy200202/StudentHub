@@ -16,7 +16,7 @@ class _WelcomeCompanyWidget extends ConsumerState<WelcomeCompanyWidget> {
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 20),
+          padding: const EdgeInsets.symmetric(horizontal: 20),
           child: Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,

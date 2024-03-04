@@ -227,7 +227,7 @@ class _SignupStep2State extends ConsumerState<SignupStep2> {
                         onPressed: () {
                           ref
                               .read(optionsProvider.notifier)
-                              .setWidgetOption('Login');
+                              .setWidgetOption('Dashboard');
                         },
                         child: Container(
                           padding: const EdgeInsets.only(
