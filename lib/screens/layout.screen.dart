@@ -9,7 +9,7 @@ import 'package:studenthub/widgets/profile_company.widget.dart';
 import 'package:studenthub/widgets/signup_step1.widget.dart';
 import 'package:studenthub/widgets/signup_step2.widget.dart';
 import 'package:studenthub/widgets/top_navbar.widget.dart';
-import 'package:studenthub/widgets/welcome_company.widget.dart';
+import 'package:studenthub/widgets/viewprofile_company.widget.dart';
 import 'package:studenthub/widgets/profile_company.widget.dart';
 
 class LayoutScreen extends ConsumerStatefulWidget {
