@@ -139,7 +139,7 @@ class ProfileCompanyWidget extends ConsumerWidget {
                 Container(
                   alignment: Alignment.centerLeft,
                   child: const Text(
-                    'Company',
+                    'Company name',
                     style: TextStyle(fontSize: 16),
                   ),
                 ),
@@ -148,7 +148,7 @@ class ProfileCompanyWidget extends ConsumerWidget {
                   height: 40,
                   child: TextField(
                     style: const TextStyle(
-                      fontSize: 17,
+                      fontSize: 13.5,
                     ),
                     decoration: InputDecoration(
                       border: OutlineInputBorder(
@@ -159,14 +159,14 @@ class ProfileCompanyWidget extends ConsumerWidget {
                         borderSide: const BorderSide(color: Colors.black),
                       ),
                       contentPadding: const EdgeInsets.symmetric(
-                        vertical: 17,
-                        horizontal: 15,
+                        vertical: 0,
+                        horizontal: 10,
                       ),
                     ),
                   ),
                 ),
                 ///////
-                const SizedBox(height: 20),
+                const SizedBox(height: 15),
                 Container(
                   alignment: Alignment.centerLeft,
                   child: const Text(
@@ -174,12 +174,12 @@ class ProfileCompanyWidget extends ConsumerWidget {
                     style: TextStyle(fontSize: 16),
                   ),
                 ),
-                const SizedBox(height: 20),
+                const SizedBox(height: 15),
                 SizedBox(
                   height: 40,
                   child: TextField(
                     style: const TextStyle(
-                      fontSize: 17,
+                      fontSize: 13.5,
                     ),
                     decoration: InputDecoration(
                       border: OutlineInputBorder(
@@ -190,14 +190,14 @@ class ProfileCompanyWidget extends ConsumerWidget {
                         borderSide: const BorderSide(color: Colors.black),
                       ),
                       contentPadding: const EdgeInsets.symmetric(
-                        vertical: 17,
-                        horizontal: 15,
+                        vertical: 0,
+                        horizontal: 10,
                       ),
                     ),
                   ),
                 ),
                 //////
-                const SizedBox(height: 20),
+                const SizedBox(height: 15),
                 Container(
                   alignment: Alignment.centerLeft,
                   child: const Text(
@@ -209,8 +209,9 @@ class ProfileCompanyWidget extends ConsumerWidget {
                 SizedBox(
                   height: 85,
                   child: TextField(
+                    maxLines: 3,
                     style: const TextStyle(
-                      fontSize: 17,
+                      fontSize: 13.5,
                     ),
                     decoration: InputDecoration(
                       border: OutlineInputBorder(
@@ -221,8 +222,8 @@ class ProfileCompanyWidget extends ConsumerWidget {
                         borderSide: const BorderSide(color: Colors.black),
                       ),
                       contentPadding: const EdgeInsets.symmetric(
-                        vertical: 17,
-                        horizontal: 15,
+                        vertical: 10,
+                        horizontal: 10,
                       ),
                     ),
                   ),
