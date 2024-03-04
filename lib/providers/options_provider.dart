@@ -13,6 +13,14 @@ class OptionsNotifier extends StateNotifier<Map<Option, String>> {
     };
     return true;
   }
+
+  // bool setWidgetOptionForBottomNavBar(int index) {
+  //   state = {
+  //     ...state,
+  //     Option.widgetOption: option,
+  //   };
+  //   return true;
+  // }
 }
 
 final optionsProvider =
