@@ -4,6 +4,7 @@ import 'package:studenthub/screens/homepage.screen.dart';
 import 'package:studenthub/screens/login.screen.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:studenthub/screens/profile.screen.dart';
+import 'package:studenthub/widgets/profile_company.widget.dart';
 import 'package:studenthub/widgets/signup_step1.widget.dart';
 import 'package:studenthub/widgets/signup_step2.widget.dart';
 import 'package:studenthub/widgets/top_navbar.widget.dart';
@@ -44,7 +45,7 @@ class LayoutScreen extends ConsumerWidget {
           child: const TopNavbar(),
         ),
       ),
-      body: const DashboardCompanyWidget(),
+      body: const ProfileCompanyWidget(),
     );
   }
 }
