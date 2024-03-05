@@ -39,7 +39,7 @@ class HomepageWidget extends ConsumerWidget {
                   ),
                   const SizedBox(height: 40),
                   SizedBox(
-                    height: 45,
+                    height: 46,
                     width: 130,
                     child: ElevatedButton(
                       onPressed: () {
@@ -66,7 +66,7 @@ class HomepageWidget extends ConsumerWidget {
                   ),
                   const SizedBox(height: 20),
                   SizedBox(
-                    height: 45,
+                    height: 46,
                     width: 130,
                     child: ElevatedButton(
                       onPressed: () {

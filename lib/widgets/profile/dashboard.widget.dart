@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class DashboardCompanyWidget extends ConsumerStatefulWidget {
-  const DashboardCompanyWidget({super.key});
+class DashboardWidget extends ConsumerStatefulWidget {
+  const DashboardWidget({super.key});
 
   @override
-  ConsumerState<DashboardCompanyWidget> createState() {
-    return _DashboardCompanyWidget();
+  ConsumerState<DashboardWidget> createState() {
+    return _DashboardWidgetState();
   }
 }
 
-class _DashboardCompanyWidget extends ConsumerState<DashboardCompanyWidget> {
+class _DashboardWidgetState extends ConsumerState<DashboardWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,21 +34,29 @@ class _DashboardCompanyWidget extends ConsumerState<DashboardCompanyWidget> {
                       style: TextStyle(fontSize: 18),
                     ),
                     const Spacer(),
-                    ElevatedButton(
-                      onPressed: () {},
-                      style: ElevatedButton.styleFrom(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8),
-                          side: const BorderSide(color: Colors.black),
+                    SizedBox(
+                      height: 43,
+                      width: 121,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          // ref
+                          //     .read(optionsProvider.notifier)
+                          //     .setWidgetOption('Dashboard');
+                        },
+                        style: ElevatedButton.styleFrom(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
+                            side: const BorderSide(color: Colors.black),
+                          ),
+                          backgroundColor: const Color.fromARGB(255, 0, 0, 0),
                         ),
-                        backgroundColor: Colors.white,
-                      ),
-                      child: const Text(
-                        'Post a job ',
-                        style: TextStyle(
-                          fontSize: 18,
-                          color: Colors.black,
-                          fontWeight: FontWeight.w400,
+                        child: const Text(
+                          'Post a job',
+                          style: TextStyle(
+                            fontSize: 16,
+                            color: Color.fromARGB(255, 255, 255, 255),
+                            fontWeight: FontWeight.w500,
+                          ),
                         ),
                       ),
                     ),

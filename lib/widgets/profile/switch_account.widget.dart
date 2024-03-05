@@ -237,44 +237,52 @@ class _SwitchAccountWidgetState extends ConsumerState<SwitchAccountWidget> {
                               ),
                             ],
                           ),
-                    const TableRow(
+                    TableRow(
                       children: [
                         TableCell(
                           verticalAlignment: TableCellVerticalAlignment.middle,
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 10, vertical: 20),
-                            child: SizedBox(
-                              // width: 250,
-                              child: Padding(
-                                padding: EdgeInsets.only(left: 8),
-                                child: Row(
-                                  children: [
-                                    Icon(
-                                      Icons.person_2_outlined,
-                                      size: 40,
-                                      color: Color.fromARGB(255, 121, 123, 125),
-                                    ),
-                                    SizedBox(width: 10),
-                                    Padding(
-                                      padding: EdgeInsets.only(left: 2),
-                                      child: Align(
-                                        alignment: Alignment.topLeft,
-                                        child: SizedBox(
-                                          width: 240,
-                                          child: Text(
-                                            'Profiles',
-                                            overflow: TextOverflow.ellipsis,
-                                            style: TextStyle(
-                                              color: Color.fromARGB(
-                                                  255, 73, 80, 87),
-                                              fontSize: 16,
+                          child: InkWell(
+                            onTap: () {
+                              ref
+                                  .read(optionsProvider.notifier)
+                                  .setWidgetOption('ProfileInput');
+                            },
+                            child: const Padding(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 10, vertical: 20),
+                              child: SizedBox(
+                                // width: 250,
+                                child: Padding(
+                                  padding: EdgeInsets.only(left: 8),
+                                  child: Row(
+                                    children: [
+                                      Icon(
+                                        Icons.person_2_outlined,
+                                        size: 40,
+                                        color:
+                                            Color.fromARGB(255, 121, 123, 125),
+                                      ),
+                                      SizedBox(width: 10),
+                                      Padding(
+                                        padding: EdgeInsets.only(left: 2),
+                                        child: Align(
+                                          alignment: Alignment.topLeft,
+                                          child: SizedBox(
+                                            width: 240,
+                                            child: Text(
+                                              'Profiles',
+                                              overflow: TextOverflow.ellipsis,
+                                              style: TextStyle(
+                                                color: Color.fromARGB(
+                                                    255, 73, 80, 87),
+                                                fontSize: 16,
+                                              ),
                                             ),
                                           ),
                                         ),
                                       ),
-                                    ),
-                                  ],
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),

@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:studenthub/providers/options_provider.dart';
+import 'package:studenthub/screens/authentication/signup_step1.screen.dart';
+import 'package:studenthub/screens/authentication/signup_step2.screen.dart';
 import 'package:studenthub/screens/homepage.screen.dart';
-import 'package:studenthub/screens/login.screen.dart';
+import 'package:studenthub/screens/authentication/login.screen.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:studenthub/screens/profile.screen.dart';
-import 'package:studenthub/screens/switch_account.screen.dart';
-import 'package:studenthub/widgets/profile_company.widget.dart';
-import 'package:studenthub/widgets/signup_step1.widget.dart';
-import 'package:studenthub/widgets/signup_step2.widget.dart';
-import 'package:studenthub/widgets/top_navbar.widget.dart';
-import 'package:studenthub/widgets/viewprofile_company.widget.dart';
-import 'package:studenthub/widgets/profile_company.widget.dart';
+import 'package:studenthub/screens/profile/dashboard.screen.dart';
+import 'package:studenthub/screens/profile/profile_input.screen.dart';
+import 'package:studenthub/screens/profile/switch_account.screen.dart';
+import 'package:studenthub/screens/profile/welcome.screen.dart';
+import 'package:studenthub/widgets/navbar/top_navbar.widget.dart';
 
 class LayoutScreen extends ConsumerStatefulWidget {
   const LayoutScreen({super.key});
@@ -33,22 +32,30 @@ class _LayoutScreenState extends ConsumerState<LayoutScreen> {
   }
 
   Widget getCurrentScreen(String widgetOption) {
-    if (widgetOption == '') {
+    if (widgetOption == '' || widgetOption == 'Homepage') {
       return const HomepageScreen();
     } else if (widgetOption == 'Login') {
       return const LoginScreen();
     } else if (widgetOption == 'SignupStep1') {
-      return const SignupStep1();
+      return const SignupStep1Screen();
     } else if (widgetOption == 'SignupStep2') {
-      return const SignupStep2();
-    }
-    if (_selectedPageIndex == 0) {
-      return const HomepageScreen();
-    } else if (_selectedPageIndex == 1 || widgetOption == 'Dashboard') {
+      return const SignupStep2Screen();
+    } else if (widgetOption == 'SwitchAccount') {
+      return const SwitchAccountScreen();
+    } else if (widgetOption == 'ProfileInput') {
+      return const ProfileInputScreen();
+    } else if (widgetOption == 'Welcome') {
+      return const WelcomeScreen();
+    } else if (widgetOption == 'Dashboard') {
       setState(() {
         _selectedPageIndex = 1;
       });
+    }
+
+    if (_selectedPageIndex == 0) {
       return const HomepageScreen();
+    } else if (_selectedPageIndex == 1) {
+      return const DashboardScreen();
     } else if (_selectedPageIndex == 2) {
       return const HomepageScreen();
     } else if (_selectedPageIndex == 3) {
@@ -76,7 +83,7 @@ class _LayoutScreenState extends ConsumerState<LayoutScreen> {
           child: const TopNavbar(),
         ),
       ),
-      body: const SwitchAccountScreen(),
+      body: currentScreen,
       bottomNavigationBar: !isLogin ||
               options[Option.widgetOption] != 'Dashboard'
           ? null

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:studenthub/widgets/login.widget.dart';
+import 'package:studenthub/widgets/authentication/login.widget.dart';
 
 class LoginScreen extends ConsumerWidget {
   const LoginScreen({super.key});

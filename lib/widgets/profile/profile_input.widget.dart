@@ -41,8 +41,8 @@ class LabeledRadio<T> extends StatelessWidget {
   }
 }
 
-class ProfileCompanyWidget extends ConsumerWidget {
-  const ProfileCompanyWidget({
+class ProfileInputWidget extends ConsumerWidget {
+  const ProfileInputWidget({
     Key? key,
   }) : super(key: key);
   void setState(Null Function() param0) {}
@@ -338,10 +338,14 @@ class ProfileCompanyWidget extends ConsumerWidget {
               Container(
                 alignment: Alignment.centerRight,
                 child: SizedBox(
-                  height: 50,
-                  width: 160,
+                  height: 46,
+                  width: 130,
                   child: ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      ref
+                          .read(optionsProvider.notifier)
+                          .setWidgetOption('Welcome');
+                    },
                     style: ElevatedButton.styleFrom(
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8),

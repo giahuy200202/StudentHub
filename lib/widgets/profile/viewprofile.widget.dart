@@ -36,8 +36,8 @@ import 'package:studenthub/providers/options_provider.dart';
 //   }
 // }
 
-class ViewProfileCompanyWidget extends ConsumerWidget {
-  const ViewProfileCompanyWidget({
+class ViewProfileWidget extends ConsumerWidget {
+  const ViewProfileWidget({
     Key? key,
   }) : super(key: key);
 

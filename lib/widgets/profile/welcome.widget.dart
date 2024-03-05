@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:studenthub/providers/options_provider.dart';
 
-class WelcomeCompanyWidget extends ConsumerStatefulWidget {
-  const WelcomeCompanyWidget({super.key});
+class WelcomeWidget extends ConsumerStatefulWidget {
+  const WelcomeWidget({super.key});
 
   @override
-  ConsumerState<WelcomeCompanyWidget> createState() {
-    return _WelcomeCompanyWidget();
+  ConsumerState<WelcomeWidget> createState() {
+    return _WelcomeWidget();
   }
 }
 
-class _WelcomeCompanyWidget extends ConsumerState<WelcomeCompanyWidget> {
+class _WelcomeWidget extends ConsumerState<WelcomeWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,7 +23,7 @@ class _WelcomeCompanyWidget extends ConsumerState<WelcomeCompanyWidget> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                const SizedBox(height: 20),
+                const SizedBox(height: 70),
                 const Icon(
                   Icons.linked_camera,
                   color: Color.fromARGB(255, 0, 0, 0),
@@ -50,23 +51,27 @@ class _WelcomeCompanyWidget extends ConsumerState<WelcomeCompanyWidget> {
                 Container(
                   alignment: Alignment.center,
                   child: SizedBox(
-                    height: 60,
-                    width: 200,
+                    height: 50,
+                    width: 145,
                     child: ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        ref
+                            .read(optionsProvider.notifier)
+                            .setWidgetOption('Dashboard');
+                      },
                       style: ElevatedButton.styleFrom(
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8),
                           side: const BorderSide(color: Colors.black),
                         ),
-                        backgroundColor: Colors.white,
+                        backgroundColor: const Color.fromARGB(255, 0, 0, 0),
                       ),
                       child: const Text(
-                        'Get Started! ',
+                        'Get started!',
                         style: TextStyle(
                           fontSize: 18,
-                          color: Colors.black,
-                          fontWeight: FontWeight.w800,
+                          color: Color.fromARGB(255, 255, 255, 255),
+                          fontWeight: FontWeight.w500,
                         ),
                       ),
                     ),

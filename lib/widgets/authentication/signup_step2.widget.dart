@@ -224,11 +224,7 @@ class _SignupStep2State extends ConsumerState<SignupStep2> {
                           minimumSize: const Size(50, 30),
                           tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                         ),
-                        onPressed: () {
-                          ref
-                              .read(optionsProvider.notifier)
-                              .setWidgetOption('Dashboard');
-                        },
+                        onPressed: () {},
                         child: Container(
                           padding: const EdgeInsets.only(
                             bottom: 0.5,

@@ -14,6 +14,7 @@ class LoginWidget extends ConsumerStatefulWidget {
 class _LoginWidgetState extends ConsumerState<LoginWidget> {
   var usernameController = TextEditingController();
   var passwordController = TextEditingController();
+  bool enable = false;
 
   @override
   void dispose() {
@@ -49,6 +50,15 @@ class _LoginWidgetState extends ConsumerState<LoginWidget> {
                     height: 80,
                     child: TextField(
                       controller: usernameController,
+                      onChanged: (data) {
+                        if (usernameController.text.isEmpty ||
+                            passwordController.text.isEmpty) {
+                          enable = false;
+                        } else {
+                          enable = true;
+                        }
+                        setState(() {});
+                      },
                       style: const TextStyle(
                         fontSize: 17,
                       ),
@@ -73,6 +83,15 @@ class _LoginWidgetState extends ConsumerState<LoginWidget> {
                     height: 80,
                     child: TextField(
                       controller: passwordController,
+                      onChanged: (data) {
+                        if (usernameController.text.isEmpty ||
+                            passwordController.text.isEmpty) {
+                          enable = false;
+                        } else {
+                          enable = true;
+                        }
+                        setState(() {});
+                      },
                       style: const TextStyle(
                         fontSize: 17,
                       ),
@@ -97,7 +116,7 @@ class _LoginWidgetState extends ConsumerState<LoginWidget> {
                     height: 52,
                     width: MediaQuery.of(context).size.width,
                     child: ElevatedButton(
-                      onPressed: () {},
+                      onPressed: enable ? () {} : null,
                       style: ElevatedButton.styleFrom(
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8),
@@ -114,7 +133,7 @@ class _LoginWidgetState extends ConsumerState<LoginWidget> {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 280),
+                  const SizedBox(height: 290),
                   const Text(
                     '_______Don\'t have an Student Hub account?_______',
                     style: TextStyle(
@@ -125,8 +144,8 @@ class _LoginWidgetState extends ConsumerState<LoginWidget> {
                   ),
                   const SizedBox(height: 20),
                   SizedBox(
-                    height: 50,
-                    width: 160,
+                    height: 46,
+                    width: 130,
                     child: ElevatedButton(
                       onPressed: () {
                         ref
