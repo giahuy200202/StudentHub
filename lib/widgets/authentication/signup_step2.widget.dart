@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:studenthub/providers/options_provider.dart';
 
 class SignupStep2 extends ConsumerStatefulWidget {
   const SignupStep2({super.key});

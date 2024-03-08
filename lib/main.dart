@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:studenthub/screens/homepage.screen.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:studenthub/notifications/local_notification.dart';
 import 'package:studenthub/screens/layout.screen.dart';

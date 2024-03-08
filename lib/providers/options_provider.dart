@@ -27,15 +27,3 @@ final optionsProvider =
     StateNotifierProvider<OptionsNotifier, Map<Option, String>>((ref) {
   return OptionsNotifier();
 });
-
-final selectedEmployeeProvider =
-    StateNotifierProvider<SelectedEmployeeNotifier, int>(
-        (ref) => SelectedEmployeeNotifier());
-
-class SelectedEmployeeNotifier extends StateNotifier<int> {
-  SelectedEmployeeNotifier() : super(0);
-
-  void selectEmployee(int value) {
-    state = value;
-  }
-}

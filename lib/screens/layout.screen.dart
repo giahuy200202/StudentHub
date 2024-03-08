@@ -10,6 +10,7 @@ import 'package:studenthub/screens/profile/profile_input.screen.dart';
 import 'package:studenthub/screens/profile/switch_account.screen.dart';
 import 'package:studenthub/screens/profile/welcome.screen.dart';
 import 'package:studenthub/widgets/navbar/top_navbar.widget.dart';
+import 'package:studenthub/screens/profile/profileInput_2.sceen.dart';
 
 class LayoutScreen extends ConsumerStatefulWidget {
   const LayoutScreen({super.key});
@@ -46,6 +47,8 @@ class _LayoutScreenState extends ConsumerState<LayoutScreen> {
       return const ProfileInputScreen();
     } else if (widgetOption == 'Welcome') {
       return const WelcomeScreen();
+    } else if (widgetOption == 'ViewProfile') {
+      return const ViewProfileInputScreen();
     } else if (widgetOption == 'Dashboard') {
       setState(() {
         _selectedPageIndex = 1;

@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:studenthub/providers/options_provider.dart';
-
-bool isConfirm = false;
+import 'package:studenthub/providers/Profile_provider.dart';
 
 class LabeledRadio<T> extends StatelessWidget {
   const LabeledRadio({
@@ -41,27 +40,35 @@ class LabeledRadio<T> extends StatelessWidget {
   }
 }
 
-class ProfileInputWidget extends ConsumerWidget {
-  const ProfileInputWidget({
-    Key? key,
-  }) : super(key: key);
-  void setState(Null Function() param0) {}
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    var selectedEmployee = ref.watch(selectedEmployeeProvider);
-    // ignore: unused_local_variable
-    Icon iconCheckedConfirm = isConfirm
-        ? const Icon(
-            Icons.check_circle,
-            size: 30,
-            color: Color.fromARGB(255, 121, 123, 125),
-          )
-        : const Icon(
-            Icons.circle_outlined,
-            size: 30,
-            color: Color.fromARGB(255, 151, 153, 155),
-          );
+class ProfileInputWidget extends ConsumerStatefulWidget {
+  const ProfileInputWidget({super.key});
 
+  @override
+  ConsumerState<ProfileInputWidget> createState() {
+    return _ProfileInputWidgetState();
+  }
+}
+
+class _ProfileInputWidgetState extends ConsumerState<ProfileInputWidget> {
+  var enable = false;
+  final textCompany = TextEditingController();
+  final textWebsite = TextEditingController();
+  final textDescription = TextEditingController();
+
+  @override
+  void dispose() {
+    textCompany.dispose();
+    textWebsite.dispose();
+    textDescription.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    var selectedEmployee = ref.watch(selectedEmployeeProvider);
+    ref.watch(TextCompanyEmployeeProvider);
+    ref.watch(TextWebsiteEmpoyleeProvider);
+    ref.watch(TextDescriptionEmpoyleeProvider);
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(
@@ -93,85 +100,6 @@ class ProfileInputWidget extends ConsumerWidget {
 
               ////////////////////////////////////////
               const SizedBox(height: 15),
-              // Row(
-              //   children: [
-              //     InkWell(
-              //       onTap: () {
-              //         setState(() {
-              //           isConfirm = !isConfirm;
-              //         });
-              //       },
-              //       child: iconCheckedConfirm,
-              //     ),
-              //     const SizedBox(width: 7),
-              //     const Text(
-              //       'It\'s just me',
-              //       style: TextStyle(
-              //         fontSize: 16,
-              //       ),
-              //     ),
-              //   ],
-              // ),
-              // const SizedBox(height: 10),
-              // Row(
-              //   children: [
-              //     InkWell(
-              //       onTap: () {
-              //         setState(() {
-              //           isConfirm = !isConfirm;
-              //         });
-              //       },
-              //       child: iconCheckedConfirm,
-              //     ),
-              //     const SizedBox(width: 7),
-              //     const Text(
-              //       '2-9 employees',
-              //       style: TextStyle(
-              //         fontSize: 16,
-              //       ),
-              //     ),
-              //   ],
-              // ),
-              // const SizedBox(height: 10),
-              // Row(
-              //   children: [
-              //     InkWell(
-              //       onTap: () {
-              //         setState(() {
-              //           isConfirm = !isConfirm;
-              //         });
-              //       },
-              //       child: iconCheckedConfirm,
-              //     ),
-              //     const SizedBox(width: 7),
-              //     const Text(
-              //       '10-99 employees',
-              //       style: TextStyle(
-              //         fontSize: 16,
-              //       ),
-              //     ),
-              //   ],
-              // ),
-              // const SizedBox(height: 10),
-              // Row(
-              //   children: [
-              //     InkWell(
-              //       onTap: () {
-              //         setState(() {
-              //           isConfirm = !isConfirm;
-              //         });
-              //       },
-              //       child: iconCheckedConfirm,
-              //     ),
-              //     const SizedBox(width: 7),
-              //     const Text(
-              //       '100-1000 employees',
-              //       style: TextStyle(
-              //         fontSize: 16,
-              //       ),
-              //     ),
-              //   ],
-              // ),
               Column(
                 children: [
                   SizedBox(
@@ -246,6 +174,7 @@ class ProfileInputWidget extends ConsumerWidget {
                   ),
                 ],
               ),
+
               //////////////////////////////////////
               const SizedBox(height: 15),
               const Text(
@@ -256,6 +185,18 @@ class ProfileInputWidget extends ConsumerWidget {
               SizedBox(
                 height: 60,
                 child: TextField(
+                  controller: textCompany,
+                  onChanged: (data) {
+                    if (textCompany.text.isEmpty || textCompany.text.isEmpty) {
+                      enable = false;
+                    } else {
+                      enable = true;
+                      ref
+                          .read(TextCompanyEmployeeProvider.notifier)
+                          .TextCompanye(data);
+                    }
+                    setState(() {});
+                  },
                   style: const TextStyle(
                     fontSize: 17,
                   ),
@@ -283,6 +224,18 @@ class ProfileInputWidget extends ConsumerWidget {
               SizedBox(
                 height: 60,
                 child: TextField(
+                  controller: textWebsite,
+                  onChanged: (data) {
+                    if (textWebsite.text.isEmpty || textWebsite.text.isEmpty) {
+                      enable = false;
+                    } else {
+                      enable = true;
+                      ref
+                          .read(TextWebsiteEmpoyleeProvider.notifier)
+                          .TextWebsitee(data);
+                    }
+                    setState(() {});
+                  },
                   style: const TextStyle(
                     fontSize: 17,
                   ),
@@ -314,6 +267,19 @@ class ProfileInputWidget extends ConsumerWidget {
                 height: 100,
                 child: TextField(
                   maxLines: 4,
+                  controller: textDescription,
+                  onChanged: (data) {
+                    if (textDescription.text.isEmpty ||
+                        textDescription.text.isEmpty) {
+                      enable = false;
+                    } else {
+                      ref
+                          .read(TextDescriptionEmpoyleeProvider.notifier)
+                          .TextDescriptione(data);
+                      enable = true;
+                    }
+                    setState(() {});
+                  },
                   style: const TextStyle(
                     fontSize: 13.5,
                   ),
@@ -341,11 +307,13 @@ class ProfileInputWidget extends ConsumerWidget {
                   height: 46,
                   width: 130,
                   child: ElevatedButton(
-                    onPressed: () {
-                      ref
-                          .read(optionsProvider.notifier)
-                          .setWidgetOption('Welcome');
-                    },
+                    onPressed: enable
+                        ? () {
+                            ref
+                                .read(optionsProvider.notifier)
+                                .setWidgetOption('Welcome');
+                          }
+                        : null,
                     style: ElevatedButton.styleFrom(
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8),
