@@ -11,6 +11,8 @@ import 'package:studenthub/screens/profile/switch_account.screen.dart';
 import 'package:studenthub/screens/profile/welcome.screen.dart';
 import 'package:studenthub/widgets/navbar/top_navbar.widget.dart';
 import 'package:studenthub/screens/profile/profileInput_2.sceen.dart';
+import 'package:studenthub/screens/profile/profileinputStudent_step1.screen.dart';
+import 'package:studenthub/screens/profile/profileinputStudent_step3.screen.dart';
 
 class LayoutScreen extends ConsumerStatefulWidget {
   const LayoutScreen({super.key});
@@ -49,6 +51,8 @@ class _LayoutScreenState extends ConsumerState<LayoutScreen> {
       return const WelcomeScreen();
     } else if (widgetOption == 'ViewProfile') {
       return const ViewProfileInputScreen();
+    } else if (widgetOption == 'ViewProfileStudent') {
+      return const ProfileIputStudentScreen();
     } else if (widgetOption == 'Dashboard') {
       setState(() {
         _selectedPageIndex = 1;
@@ -72,7 +76,7 @@ class _LayoutScreenState extends ConsumerState<LayoutScreen> {
   Widget build(BuildContext context) {
     final options = ref.watch(optionsProvider);
 
-    Widget currentScreen = getCurrentScreen(options[Option.widgetOption]!);
+    Widget currentScreen = ProfileIputStudent_step3Screen();
 
     return Scaffold(
       appBar: PreferredSize(
