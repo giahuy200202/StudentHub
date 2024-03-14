@@ -9,7 +9,6 @@ class SelectedEmployeeNotifier extends StateNotifier<int> {
 
   void selectEmployee(int value) {
     state = value;
-    print(value);
   }
 }
 
@@ -22,7 +21,6 @@ class TextCompanyEmployeeNotifier extends StateNotifier<String> {
 
   void TextCompanye(String value) {
     state = value;
-    print(value);
   }
 }
 

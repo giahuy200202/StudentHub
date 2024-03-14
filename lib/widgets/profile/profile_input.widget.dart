@@ -281,7 +281,7 @@ class _ProfileInputWidgetState extends ConsumerState<ProfileInputWidget> {
                     setState(() {});
                   },
                   style: const TextStyle(
-                    fontSize: 13.5,
+                    fontSize: 17,
                   ),
                   decoration: InputDecoration(
                     border: OutlineInputBorder(
@@ -317,7 +317,7 @@ class _ProfileInputWidgetState extends ConsumerState<ProfileInputWidget> {
                     style: ElevatedButton.styleFrom(
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8),
-                        side: const BorderSide(color: Colors.black),
+                        // side: const BorderSide(color: Colors.black),
                       ),
                       backgroundColor: const Color.fromARGB(255, 0, 0, 0),
                     ),

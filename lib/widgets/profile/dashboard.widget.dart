@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../providers/options_provider.dart';
+
 class DashboardWidget extends ConsumerStatefulWidget {
   const DashboardWidget({super.key});
 
@@ -39,9 +41,9 @@ class _DashboardWidgetState extends ConsumerState<DashboardWidget> {
                       width: 121,
                       child: ElevatedButton(
                         onPressed: () {
-                          // ref
-                          //     .read(optionsProvider.notifier)
-                          //     .setWidgetOption('Dashboard');
+                          ref
+                              .read(optionsProvider.notifier)
+                              .setWidgetOption('ProjectPostStep1');
                         },
                         style: ElevatedButton.styleFrom(
                           shape: RoundedRectangleBorder(
