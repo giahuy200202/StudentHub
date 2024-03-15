@@ -102,7 +102,7 @@ class _LayoutScreenState extends ConsumerState<LayoutScreen> {
   Widget build(BuildContext context) {
     final options = ref.watch(optionsProvider);
 
-    Widget currentScreen = ProjectPostStep2Screen();
+    Widget currentScreen = const HomepageScreen();
 
     return Scaffold(
         appBar: PreferredSize(
