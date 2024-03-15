@@ -84,7 +84,7 @@ class _ProjectPostStep1WidgetState
                       fontSize: 16,
                     ),
                     decoration: InputDecoration(
-                      labelText: 'Write a title for your post',
+                      // labelText: 'Write a title for your post',
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(9),
                       ),
@@ -93,9 +93,10 @@ class _ProjectPostStep1WidgetState
                         borderSide: const BorderSide(color: Colors.black),
                       ),
                       contentPadding: const EdgeInsets.symmetric(
-                        vertical: 16,
+                        vertical: 15,
                         horizontal: 15,
                       ),
+                      hintText: 'Write a title for your post',
                     ),
                   ),
                 ),
@@ -130,7 +131,7 @@ class _ProjectPostStep1WidgetState
                     ),
                   ),
                 ),
-                const SizedBox(height: 270),
+                const SizedBox(height: 280),
                 Container(
                   alignment: Alignment.centerRight,
                   child: SizedBox(
