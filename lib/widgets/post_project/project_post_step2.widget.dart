@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
+import '../../providers/postprofile_provider.dart';
 import '../../providers/options_provider.dart';
 
 class LabeledRadio<T> extends StatelessWidget {
@@ -61,6 +61,8 @@ class _ProjectPostStep2WidgetState
 
   @override
   Widget build(BuildContext context) {
+    var selectedMonth = ref.watch(selectmonthProvider);
+
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(
@@ -113,38 +115,38 @@ class _ProjectPostStep2WidgetState
                     fontWeight: FontWeight.w700,
                   ),
                 ),
-                // Column(
-                //   children: [
-                //     SizedBox(
-                //       height: 30,
-                //       width: MediaQuery.of(context).size.width,
-                //       child: LabeledRadio(
-                //         label: 'It\'s just me',
-                //         value: 1,
-                //         groupValue: selectedEmployee,
-                //         onChanged: (value) {
-                //           ref
-                //               .read(selectedEmployeeProvider.notifier)
-                //               .selectEmployee(value!);
-                //         },
-                //       ),
-                //     ),
-                //     SizedBox(
-                //       height: 30,
-                //       width: MediaQuery.of(context).size.width,
-                //       child: LabeledRadio(
-                //         label: '2-9 employees',
-                //         value: 2,
-                //         groupValue: selectedEmployee,
-                //         onChanged: (value) {
-                //           ref
-                //               .read(selectedEmployeeProvider.notifier)
-                //               .selectEmployee(value!);
-                //         },
-                //       ),
-                //     ),
-                //   ],
-                // ),
+                Column(
+                  children: [
+                    SizedBox(
+                      height: 30,
+                      width: MediaQuery.of(context).size.width,
+                      child: LabeledRadio(
+                        label: '1 to 3 months',
+                        value: 1,
+                        groupValue: selectedMonth,
+                        onChanged: (value) {
+                          ref
+                              .read(selectmonthProvider.notifier)
+                              .selectMonth(value!);
+                        },
+                      ),
+                    ),
+                    SizedBox(
+                      height: 30,
+                      width: MediaQuery.of(context).size.width,
+                      child: LabeledRadio(
+                        label: '3 to 6 months',
+                        value: 2,
+                        groupValue: selectedMonth,
+                        onChanged: (value) {
+                          ref
+                              .read(selectmonthProvider.notifier)
+                              .selectMonth(value!);
+                        },
+                      ),
+                    ),
+                  ],
+                ),
                 const SizedBox(height: 270),
                 Container(
                   alignment: Alignment.centerRight,

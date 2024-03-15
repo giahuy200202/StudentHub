@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:studenthub/providers/Profile_provider.dart';
+import 'package:studenthub/providers/profiles_provider.dart';
 
 class LabeledRadio<T> extends StatelessWidget {
   const LabeledRadio({

@@ -33,7 +33,6 @@ class TextDescriptionEmpoyleeNotifier extends StateNotifier<String> {
 
   void TextDescriptione(String value) {
     state = value;
-    print(value);
   }
 }
 
@@ -46,6 +45,5 @@ class TextWebsiteEmpoyleeNotifier extends StateNotifier<String> {
 
   void TextWebsitee(String value) {
     state = value;
-    print(value);
   }
 }

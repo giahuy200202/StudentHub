@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:studenthub/widgets/profile/viewprofile.widget.dart';
+import 'package:studenthub/widgets/profile/profileInput_2.widget.dart';
 
 class ViewProfileInputScreen extends ConsumerWidget {
   const ViewProfileInputScreen({super.key});
