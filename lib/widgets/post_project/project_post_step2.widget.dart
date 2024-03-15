@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../providers/postprofile_provider.dart';
+import '../../providers/profile_posting_provider.dart';
 import '../../providers/options_provider.dart';
 
 class LabeledRadio<T> extends StatelessWidget {
@@ -115,6 +115,7 @@ class _ProjectPostStep2WidgetState
                     fontWeight: FontWeight.w700,
                   ),
                 ),
+                const SizedBox(height: 15),
                 Column(
                   children: [
                     SizedBox(
@@ -147,18 +148,60 @@ class _ProjectPostStep2WidgetState
                     ),
                   ],
                 ),
-                const SizedBox(height: 270),
+                const SizedBox(height: 20),
+                const Text(
+                  'How many students do you want for this project?',
+                  textAlign: TextAlign.left,
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+                const SizedBox(height: 20),
+                SizedBox(
+                  height: 80,
+                  child: TextField(
+                    controller: titleController,
+                    onChanged: (data) {
+                      if (titleController.text.isEmpty) {
+                        enable = false;
+                      } else {
+                        enable = true;
+                      }
+                      setState(() {});
+                    },
+                    style: const TextStyle(
+                      fontSize: 16,
+                    ),
+                    decoration: InputDecoration(
+                      // labelText: 'Number of students',
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(9),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(9),
+                        borderSide: const BorderSide(color: Colors.black),
+                      ),
+                      contentPadding: const EdgeInsets.symmetric(
+                        vertical: 15,
+                        horizontal: 15,
+                      ),
+                      hintText: 'Number of students',
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 330),
                 Container(
                   alignment: Alignment.centerRight,
                   child: SizedBox(
                     height: 46,
-                    width: 150,
+                    width: 195,
                     child: ElevatedButton(
                       onPressed: enable
                           ? () {
                               ref
                                   .read(optionsProvider.notifier)
-                                  .setWidgetOption('ProjectPostStep2');
+                                  .setWidgetOption('ProjectPostStep3');
                             }
                           : null,
                       style: ElevatedButton.styleFrom(
@@ -169,7 +212,7 @@ class _ProjectPostStep2WidgetState
                         backgroundColor: const Color.fromARGB(255, 0, 0, 0),
                       ),
                       child: const Text(
-                        'Next: Scope',
+                        'Next: Description',
                         style: TextStyle(
                           fontSize: 18,
                           color: Color.fromARGB(255, 255, 255, 255),
