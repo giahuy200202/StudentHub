@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../providers/profile_posting_provider.dart';
+import '../../providers/project_posting_provider.dart';
 import '../../providers/options_provider.dart';
 
 class LabeledRadio<T> extends StatelessWidget {
@@ -51,17 +51,17 @@ class ProjectPostStep2Widget extends ConsumerStatefulWidget {
 
 class _ProjectPostStep2WidgetState
     extends ConsumerState<ProjectPostStep2Widget> {
-  var titleController = TextEditingController();
+  var numOfStudentsController = TextEditingController();
   bool enable = false;
   @override
   void dispose() {
-    titleController.dispose();
+    numOfStudentsController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    var selectedMonth = ref.watch(selectmonthProvider);
+    final projectPosting = ref.watch(projectPostingProvider);
 
     return Scaffold(
       body: SingleChildScrollView(
@@ -124,11 +124,11 @@ class _ProjectPostStep2WidgetState
                       child: LabeledRadio(
                         label: '1 to 3 months',
                         value: 1,
-                        groupValue: selectedMonth,
+                        groupValue: projectPosting.scope,
                         onChanged: (value) {
                           ref
-                              .read(selectmonthProvider.notifier)
-                              .selectMonth(value!);
+                              .read(projectPostingProvider.notifier)
+                              .setScope(value as int);
                         },
                       ),
                     ),
@@ -138,11 +138,11 @@ class _ProjectPostStep2WidgetState
                       child: LabeledRadio(
                         label: '3 to 6 months',
                         value: 2,
-                        groupValue: selectedMonth,
+                        groupValue: projectPosting.scope,
                         onChanged: (value) {
                           ref
-                              .read(selectmonthProvider.notifier)
-                              .selectMonth(value!);
+                              .read(projectPostingProvider.notifier)
+                              .setScope(value as int);
                         },
                       ),
                     ),
@@ -161,9 +161,9 @@ class _ProjectPostStep2WidgetState
                 SizedBox(
                   height: 80,
                   child: TextField(
-                    controller: titleController,
+                    controller: numOfStudentsController,
                     onChanged: (data) {
-                      if (titleController.text.isEmpty) {
+                      if (numOfStudentsController.text.isEmpty) {
                         enable = false;
                       } else {
                         enable = true;
@@ -190,7 +190,7 @@ class _ProjectPostStep2WidgetState
                     ),
                   ),
                 ),
-                const SizedBox(height: 330),
+                const SizedBox(height: 20),
                 Container(
                   alignment: Alignment.centerRight,
                   child: SizedBox(
@@ -199,6 +199,11 @@ class _ProjectPostStep2WidgetState
                     child: ElevatedButton(
                       onPressed: enable
                           ? () {
+                              ref
+                                  .read(projectPostingProvider.notifier)
+                                  .setNumOfStudents(
+                                      numOfStudentsController.text);
+
                               ref
                                   .read(optionsProvider.notifier)
                                   .setWidgetOption('ProjectPostStep3');

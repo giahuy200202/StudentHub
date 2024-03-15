@@ -7,6 +7,8 @@ import 'package:studenthub/screens/authentication/login.screen.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:studenthub/screens/post_project/project_post_step1.screen.dart';
 import 'package:studenthub/screens/post_project/project_post_step2.screen.dart';
+import 'package:studenthub/screens/post_project/project_post_step3.screen.dart';
+import 'package:studenthub/screens/post_project/project_post_step4.screen.dart';
 import 'package:studenthub/screens/profile/dashboard.screen.dart';
 import 'package:studenthub/screens/profile/profile_input.screen.dart';
 import 'package:studenthub/screens/profile/switch_account.screen.dart';
@@ -79,6 +81,16 @@ class _LayoutScreenState extends ConsumerState<LayoutScreen> {
         _selectedPageIndex = 1;
       });
       return const ProjectPostStep2Screen();
+    } else if (widgetOption == 'ProjectPostStep3') {
+      setState(() {
+        _selectedPageIndex = 1;
+      });
+      return const ProjectPostStep3Screen();
+    } else if (widgetOption == 'ProjectPostStep4') {
+      setState(() {
+        _selectedPageIndex = 1;
+      });
+      return const ProjectPostStep4Screen();
     }
 
     // if (_selectedPageIndex == 0) {

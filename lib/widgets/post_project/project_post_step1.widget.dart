@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:studenthub/providers/project_posting_provider.dart';
 
 import '../../providers/options_provider.dart';
 
@@ -131,7 +132,7 @@ class _ProjectPostStep1WidgetState
                     ),
                   ),
                 ),
-                const SizedBox(height: 280),
+                const SizedBox(height: 30),
                 Container(
                   alignment: Alignment.centerRight,
                   child: SizedBox(
@@ -140,6 +141,10 @@ class _ProjectPostStep1WidgetState
                     child: ElevatedButton(
                       onPressed: enable
                           ? () {
+                              ref
+                                  .read(projectPostingProvider.notifier)
+                                  .setTitle(titleController.text);
+
                               ref
                                   .read(optionsProvider.notifier)
                                   .setWidgetOption('ProjectPostStep2');
