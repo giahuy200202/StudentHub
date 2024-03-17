@@ -70,34 +70,79 @@ class _ProjectPostStep3WidgetState
                 const SizedBox(height: 10),
                 const Padding(
                   padding: EdgeInsets.only(left: 20),
-                  child: Text(
-                    '1.  Clear expectation about your project or deliverables',
-                    textAlign: TextAlign.left,
-                    style: TextStyle(
-                      fontSize: 16,
-                    ),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        '- ',
+                        textAlign: TextAlign.left,
+                        style: TextStyle(
+                          fontSize: 16,
+                        ),
+                      ),
+                      SizedBox(width: 10),
+                      Flexible(
+                        child: Text(
+                          'Clear expectation about your project or deliverables',
+                          textAlign: TextAlign.left,
+                          style: TextStyle(
+                            fontSize: 16,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
                 const SizedBox(height: 10),
                 const Padding(
                   padding: EdgeInsets.only(left: 20),
-                  child: Text(
-                    '2.  The skills required for your project',
-                    textAlign: TextAlign.left,
-                    style: TextStyle(
-                      fontSize: 16,
-                    ),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        '- ',
+                        textAlign: TextAlign.left,
+                        style: TextStyle(
+                          fontSize: 16,
+                        ),
+                      ),
+                      SizedBox(width: 10),
+                      Flexible(
+                        child: Text(
+                          'The skills required for your project',
+                          textAlign: TextAlign.left,
+                          style: TextStyle(
+                            fontSize: 16,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
                 const SizedBox(height: 10),
                 const Padding(
                   padding: EdgeInsets.only(left: 20),
-                  child: Text(
-                    '3.  Detail about your project',
-                    textAlign: TextAlign.left,
-                    style: TextStyle(
-                      fontSize: 16,
-                    ),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        '- ',
+                        textAlign: TextAlign.left,
+                        style: TextStyle(
+                          fontSize: 16,
+                        ),
+                      ),
+                      SizedBox(width: 10),
+                      Flexible(
+                        child: Text(
+                          'Detail about your project',
+                          textAlign: TextAlign.left,
+                          style: TextStyle(
+                            fontSize: 16,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
                 const SizedBox(height: 20),

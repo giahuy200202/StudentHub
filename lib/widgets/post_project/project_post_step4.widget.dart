@@ -60,136 +60,165 @@ class _ProjectPostStep4WidgetState
                     ),
                   ],
                 ),
-                const SizedBox(height: 20),
-                Text(
-                  projectPosting.title!,
-                  textAlign: TextAlign.left,
-                  style: const TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-                const SizedBox(height: 20),
+                const SizedBox(height: 30),
                 Container(
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      color:
-                          Colors.black, //                   <--- border color
-                      width: 0.5,
-                    ),
+                  decoration: const BoxDecoration(
+                    color: Color.fromARGB(255, 232, 233, 237),
+                    borderRadius: BorderRadius.all(Radius.circular(8)),
                   ),
-                ),
-                //            <--- BoxDecoration here
-                const SizedBox(height: 20),
-                const Text(
-                  'Students are looking for',
-                  textAlign: TextAlign.left,
-                  style: TextStyle(
-                    fontSize: 16,
-                  ),
-                ),
-                const SizedBox(height: 10),
-                const Padding(
-                  padding: EdgeInsets.only(left: 20),
-                  child: Text(
-                    '1.  Clear expectation about your project or deliverables',
-                    textAlign: TextAlign.left,
-                    style: TextStyle(
-                      fontSize: 16,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 20,
+                      horizontal: 20,
                     ),
-                  ),
-                ),
-                const SizedBox(height: 10),
-                const Padding(
-                  padding: EdgeInsets.only(left: 20),
-                  child: Text(
-                    '2.  The skills required for your project',
-                    textAlign: TextAlign.left,
-                    style: TextStyle(
-                      fontSize: 16,
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 10),
-                const Padding(
-                  padding: EdgeInsets.only(left: 20),
-                  child: Text(
-                    '3.  Detail about your project',
-                    textAlign: TextAlign.left,
-                    style: TextStyle(
-                      fontSize: 16,
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 25),
-                Container(
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      color:
-                          Colors.black, //                   <--- border color
-                      width: 0.5,
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 20),
-                Row(
-                  children: [
-                    const Icon(
-                      Icons.alarm,
-                      size: 50,
-                    ),
-                    const SizedBox(width: 20),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                    child: Column(
                       children: [
-                        const Text(
-                          'Project scope',
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 16,
+                        Row(
+                          children: [
+                            Align(
+                              alignment: Alignment.topLeft,
+                              child: SizedBox(
+                                width: 300,
+                                child: Text(
+                                  projectPosting.title!,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: const TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            const Spacer(),
+                            InkWell(
+                              onTap: () {},
+                              child: const Icon(Icons.more_horiz),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 1),
+                        const Align(
+                          alignment: Alignment.topLeft,
+                          child: SizedBox(
+                            width: 340,
+                            child: Text(
+                              'Created 3 days ago',
+                              style: TextStyle(
+                                color: Color.fromARGB(255, 94, 94, 94),
+                                overflow: TextOverflow.ellipsis,
+                                fontSize: 13,
+                              ),
+                            ),
                           ),
                         ),
-                        Text(
-                          projectPosting.scope == 1
-                              ? '-   1 to 3 months'
-                              : '-   3 to 6 months',
-                          style: const TextStyle(
-                            color: Colors.black,
-                            fontSize: 16,
+                        const SizedBox(height: 10),
+                        Container(
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                              color: Colors
+                                  .black, //                   <--- border color
+                              width: 0.3,
+                            ),
                           ),
                         ),
+                        const SizedBox(height: 10),
+                        Align(
+                          alignment: Alignment.topLeft,
+                          child: Text(
+                            projectPosting.description!,
+                            style: const TextStyle(
+                              color: Colors.black,
+                              fontSize: 16,
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 10),
+                        Container(
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                              color: Colors
+                                  .black, //                   <--- border color
+                              width: 0.3,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 30),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Row(
+                              children: [
+                                const Icon(
+                                  Icons.alarm,
+                                  size: 40,
+                                ),
+                                const SizedBox(width: 10),
+                                Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    const Text(
+                                      'Project scope',
+                                      style: TextStyle(
+                                          color: Colors.black,
+                                          overflow: TextOverflow.ellipsis,
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w700),
+                                    ),
+                                    Text(
+                                      projectPosting.scope == 1
+                                          ? '1 to 3 months'
+                                          : '3 to 6 months',
+                                      style: const TextStyle(
+                                        color: Colors.black,
+                                        overflow: TextOverflow.ellipsis,
+                                        fontSize: 14,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 30),
+                            Row(
+                              children: [
+                                const Icon(
+                                  Icons.group,
+                                  size: 40,
+                                ),
+                                const SizedBox(width: 10),
+                                Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    const Text(
+                                      'Student required',
+                                      style: TextStyle(
+                                          color: Colors.black,
+                                          overflow: TextOverflow.ellipsis,
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w700),
+                                    ),
+                                    Text(
+                                      '${projectPosting.numOfStudents} students',
+                                      style: const TextStyle(
+                                        color: Colors.black,
+                                        overflow: TextOverflow.ellipsis,
+                                        fontSize: 14,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ],
+                        )
                       ],
                     ),
-                  ],
-                ),
-                const SizedBox(height: 20),
-                Row(
-                  children: [
-                    const Icon(
-                      Icons.person_add_alt_outlined,
-                      size: 50,
-                    ),
-                    const SizedBox(width: 20),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text(
-                          'Student required',
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 16,
-                          ),
-                        ),
-                        Text(
-                          '-   ${projectPosting.numOfStudents!} students',
-                          style: const TextStyle(
-                            color: Colors.black,
-                            fontSize: 16,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
+                  ),
                 ),
               ],
             ),

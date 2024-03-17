@@ -2,17 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:studenthub/providers/options_provider.dart';
 import 'package:studenthub/screens/authentication/signup_step1.screen.dart';
 import 'package:studenthub/screens/authentication/signup_step2.screen.dart';
-import 'package:studenthub/screens/homepage.screen.dart';
+import 'package:studenthub/screens/homepage/homepage.screen.dart';
 import 'package:studenthub/screens/authentication/login.screen.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:studenthub/screens/post_project/project_post_step1.screen.dart';
 import 'package:studenthub/screens/post_project/project_post_step2.screen.dart';
 import 'package:studenthub/screens/post_project/project_post_step3.screen.dart';
 import 'package:studenthub/screens/post_project/project_post_step4.screen.dart';
-import 'package:studenthub/screens/profile/dashboard.screen.dart';
+import 'package:studenthub/screens/dashboard/dashboard.screen.dart';
 import 'package:studenthub/screens/profile/profile_input.screen.dart';
 import 'package:studenthub/screens/profile/switch_account.screen.dart';
-import 'package:studenthub/screens/profile/welcome.screen.dart';
+import 'package:studenthub/screens/welcome/welcome.screen.dart';
 import 'package:studenthub/widgets/navbar/top_navbar.widget.dart';
 import 'package:studenthub/screens/profile/profileInput_2.sceen.dart';
 import 'package:studenthub/screens/profile/profileinputStudent_step1.screen.dart';
@@ -142,28 +142,28 @@ class _LayoutScreenState extends ConsumerState<LayoutScreen> {
                 items: const [
                   BottomNavigationBarItem(
                     icon: Padding(
-                      padding: EdgeInsets.only(top: 5),
+                      padding: EdgeInsets.only(top: 6),
                       child: Icon(Icons.list_alt_outlined, size: 30),
                     ),
                     label: 'Projects',
                   ),
                   BottomNavigationBarItem(
                     icon: Padding(
-                      padding: EdgeInsets.only(top: 5),
+                      padding: EdgeInsets.only(top: 6),
                       child: Icon(Icons.dashboard_customize_outlined, size: 30),
                     ),
                     label: 'Dashboard',
                   ),
                   BottomNavigationBarItem(
                     icon: Padding(
-                      padding: EdgeInsets.only(top: 5),
+                      padding: EdgeInsets.only(top: 6),
                       child: Icon(Icons.message_outlined, size: 30),
                     ),
                     label: 'Message',
                   ),
                   BottomNavigationBarItem(
                     icon: Padding(
-                      padding: EdgeInsets.only(top: 5),
+                      padding: EdgeInsets.only(top: 6),
                       child: Icon(Icons.notifications_active, size: 30),
                     ),
                     label: 'Alert',
