@@ -13,6 +13,278 @@ class AllProjects extends ConsumerStatefulWidget {
 }
 
 class _AllProjectsState extends ConsumerState<AllProjects> {
+  void openMoreOverlay() {
+    showModalBottomSheet(
+      context: context,
+      builder: (ctx) {
+        return Container(
+          height: 270,
+          width: MediaQuery.of(context).size.width,
+          color: Colors.white,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 50, horizontal: 30),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(
+                      height: 45,
+                      width: 168,
+                      child: ElevatedButton(
+                        onPressed: () {},
+                        style: ElevatedButton.styleFrom(
+                          minimumSize: Size.zero, // Set this
+                          padding: EdgeInsets.zero, // and this
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
+                            side: const BorderSide(color: Colors.black),
+                          ),
+                          backgroundColor: Colors.white,
+                        ),
+                        child: const Padding(
+                          padding: EdgeInsets.only(left: 10),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.format_indent_increase_rounded,
+                                size: 22,
+                                color: Colors.black,
+                              ),
+                              SizedBox(width: 5),
+                              Text(
+                                'View proposals',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  // color: Color.fromARGB(255, 255, 255, 255),
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 17),
+                    SizedBox(
+                      height: 45,
+                      width: 168,
+                      child: ElevatedButton(
+                        onPressed: () {},
+                        style: ElevatedButton.styleFrom(
+                          minimumSize: Size.zero, // Set this
+                          padding: EdgeInsets.zero, // and this
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
+                            side: const BorderSide(color: Colors.black),
+                          ),
+                          backgroundColor: Colors.white,
+                        ),
+                        child: const Padding(
+                          padding: EdgeInsets.only(left: 10),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.message_outlined,
+                                size: 22,
+                                color: Colors.black,
+                              ),
+                              SizedBox(width: 5),
+                              Text(
+                                'View messages',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 17),
+                    SizedBox(
+                      height: 45,
+                      width: 168,
+                      child: ElevatedButton(
+                        onPressed: () {},
+                        style: ElevatedButton.styleFrom(
+                          minimumSize: Size.zero, // Set this
+                          padding: EdgeInsets.zero, // and this
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
+                            side: const BorderSide(color: Colors.black),
+                          ),
+                          backgroundColor: Colors.white,
+                        ),
+                        child: const Padding(
+                          padding: EdgeInsets.only(left: 10),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.person_3,
+                                size: 22,
+                                color: Colors.black,
+                              ),
+                              SizedBox(width: 5),
+                              Text(
+                                'View hired',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(
+                      height: 45,
+                      width: 168,
+                      child: ElevatedButton(
+                        onPressed: () {},
+                        style: ElevatedButton.styleFrom(
+                          minimumSize: Size.zero, // Set this
+                          padding: EdgeInsets.zero, // and this
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
+                            side: const BorderSide(color: Colors.black),
+                          ),
+                          backgroundColor: Colors.white,
+                        ),
+                        child: const Padding(
+                          padding: EdgeInsets.only(left: 10),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.list_alt_outlined,
+                                size: 22,
+                                color: Colors.black,
+                              ),
+                              SizedBox(width: 5),
+                              Text(
+                                'View job posting',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  // color: Color.fromARGB(255, 255, 255, 255),
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 17),
+                    SizedBox(
+                      height: 45,
+                      width: 168,
+                      child: ElevatedButton(
+                        onPressed: () {},
+                        style: ElevatedButton.styleFrom(
+                          minimumSize: Size.zero, // Set this
+                          padding: EdgeInsets.zero, // and this
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
+                            side: const BorderSide(color: Colors.black),
+                          ),
+                          backgroundColor: Colors.white,
+                        ),
+                        child: const Padding(
+                          padding: EdgeInsets.only(left: 10),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.edit_calendar_outlined,
+                                size: 22,
+                                color: Colors.black,
+                              ),
+                              SizedBox(width: 5),
+                              Text(
+                                'Edit posting',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 17),
+                    SizedBox(
+                      height: 45,
+                      width: 168,
+                      child: ElevatedButton(
+                        onPressed: () {},
+                        style: ElevatedButton.styleFrom(
+                          minimumSize: Size.zero, // Set this
+                          padding: EdgeInsets.zero, // and this
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          backgroundColor: Colors.black,
+                        ),
+                        child: const Padding(
+                          padding: EdgeInsets.only(left: 10),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.remove_circle_outline,
+                                size: 22,
+                                color: Colors.white,
+                              ),
+                              SizedBox(width: 5),
+                              Text(
+                                'Remove posting',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -20,7 +292,7 @@ class _AllProjectsState extends ConsumerState<AllProjects> {
         Container(
           decoration: const BoxDecoration(
             color: Color.fromARGB(255, 232, 233, 237),
-            borderRadius: BorderRadius.all(Radius.circular(8)),
+            borderRadius: BorderRadius.all(Radius.circular(15)),
           ),
           child: Padding(
             padding: const EdgeInsets.symmetric(
@@ -48,8 +320,8 @@ class _AllProjectsState extends ConsumerState<AllProjects> {
                     ),
                     const Spacer(),
                     InkWell(
-                      onTap: () {},
-                      child: const Icon(Icons.more_horiz),
+                      onTap: openMoreOverlay,
+                      child: const Icon(Icons.more_vert),
                     ),
                   ],
                 ),
@@ -183,7 +455,7 @@ class _AllProjectsState extends ConsumerState<AllProjects> {
         Container(
           decoration: const BoxDecoration(
             color: Color.fromARGB(255, 232, 233, 237),
-            borderRadius: BorderRadius.all(Radius.circular(8)),
+            borderRadius: BorderRadius.all(Radius.circular(15)),
           ),
           child: Padding(
             padding: const EdgeInsets.symmetric(
@@ -212,7 +484,7 @@ class _AllProjectsState extends ConsumerState<AllProjects> {
                     const Spacer(),
                     InkWell(
                       onTap: () {},
-                      child: const Icon(Icons.more_horiz),
+                      child: const Icon(Icons.more_vert),
                     ),
                   ],
                 ),
