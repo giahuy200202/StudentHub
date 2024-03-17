@@ -112,7 +112,7 @@ class _ProjectPostStep4WidgetState
                             ),
                           ),
                         ),
-                        const SizedBox(height: 10),
+                        const SizedBox(height: 15),
                         Container(
                           decoration: BoxDecoration(
                             border: Border.all(
@@ -122,7 +122,7 @@ class _ProjectPostStep4WidgetState
                             ),
                           ),
                         ),
-                        const SizedBox(height: 10),
+                        const SizedBox(height: 15),
                         Align(
                           alignment: Alignment.topLeft,
                           child: Text(
@@ -134,7 +134,7 @@ class _ProjectPostStep4WidgetState
                             ),
                           ),
                         ),
-                        const SizedBox(height: 10),
+                        const SizedBox(height: 15),
                         Container(
                           decoration: BoxDecoration(
                             border: Border.all(
