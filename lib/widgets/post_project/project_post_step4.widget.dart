@@ -103,7 +103,7 @@ class _ProjectPostStep4WidgetState
                           child: SizedBox(
                             width: 340,
                             child: Text(
-                              'Created 3 days ago',
+                              'Created 1 minute ago',
                               style: TextStyle(
                                 color: Color.fromARGB(255, 94, 94, 94),
                                 overflow: TextOverflow.ellipsis,
@@ -144,7 +144,7 @@ class _ProjectPostStep4WidgetState
                             ),
                           ),
                         ),
-                        const SizedBox(height: 30),
+                        const SizedBox(height: 20),
                         Column(
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.center,
