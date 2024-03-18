@@ -292,7 +292,7 @@ class _AllProjectsState extends ConsumerState<AllProjects> {
         Container(
           decoration: const BoxDecoration(
             color: Color.fromARGB(255, 232, 233, 237),
-            borderRadius: BorderRadius.all(Radius.circular(15)),
+            borderRadius: BorderRadius.all(Radius.circular(12)),
           ),
           child: Padding(
             padding: const EdgeInsets.symmetric(
@@ -336,6 +336,21 @@ class _AllProjectsState extends ConsumerState<AllProjects> {
                         color: Color.fromARGB(255, 94, 94, 94),
                         overflow: TextOverflow.ellipsis,
                         fontSize: 13,
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 5),
+                const Align(
+                  alignment: Alignment.topLeft,
+                  child: SizedBox(
+                    width: 340,
+                    child: Text(
+                      'Time: 1-3 months, 6 students needed',
+                      style: TextStyle(
+                        color: Colors.black,
+                        overflow: TextOverflow.ellipsis,
+                        fontSize: 16,
                       ),
                     ),
                   ),
@@ -455,7 +470,7 @@ class _AllProjectsState extends ConsumerState<AllProjects> {
         Container(
           decoration: const BoxDecoration(
             color: Color.fromARGB(255, 232, 233, 237),
-            borderRadius: BorderRadius.all(Radius.circular(15)),
+            borderRadius: BorderRadius.all(Radius.circular(12)),
           ),
           child: Padding(
             padding: const EdgeInsets.symmetric(
@@ -503,7 +518,22 @@ class _AllProjectsState extends ConsumerState<AllProjects> {
                     ),
                   ),
                 ),
-                const SizedBox(height: 10),
+                const SizedBox(height: 5),
+                const Align(
+                  alignment: Alignment.topLeft,
+                  child: SizedBox(
+                    width: 340,
+                    child: Text(
+                      'Time: 1-3 months, 6 students needed',
+                      style: TextStyle(
+                        color: Colors.black,
+                        overflow: TextOverflow.ellipsis,
+                        fontSize: 16,
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 15),
                 Container(
                   decoration: BoxDecoration(
                     border: Border.all(
