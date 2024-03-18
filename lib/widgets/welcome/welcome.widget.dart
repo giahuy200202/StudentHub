@@ -16,72 +16,93 @@ class _WelcomeWidget extends ConsumerState<WelcomeWidget> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20),
-          child: Center(
+          physics: const NeverScrollableScrollPhysics(),
+          child: Container(
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height,
+            padding: const EdgeInsets.all(20),
+            decoration: const BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage("assets/images/black.jpg"),
+                fit: BoxFit.cover,
+              ),
+            ),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                const SizedBox(height: 70),
-                const Icon(
-                  Icons.linked_camera,
-                  color: Color.fromARGB(255, 0, 0, 0),
-                  size: 50,
-                  semanticLabel: 'Text to announce in accessibility modes',
-                ),
-                const SizedBox(height: 30),
-                const Text(
-                  'Welcome Hai!',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 16,
-                    //fontWeight: FontWeight.bold,
-                  ),
-                ),
-                const Text(
-                  "Let's start with your frist project post  ",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 16,
-                    //fontWeight: FontWeight.bold,
-                  ),
-                ),
-                const SizedBox(height: 30),
-                Container(
-                  alignment: Alignment.center,
+                // const Icon(
+                //   Icons.cast_for_education,
+                //   size: 200,
+                //   color: Color.fromARGB(255, 144, 134, 134),
+                // ),
+                const SizedBox(height: 400),
+                const Align(
+                  alignment: Alignment.topLeft,
                   child: SizedBox(
-                    height: 50,
-                    width: 145,
-                    child: ElevatedButton(
-                      onPressed: () {
-                        ref
-                            .read(optionsProvider.notifier)
-                            .setWidgetOption('Dashboard');
-                      },
-                      style: ElevatedButton.styleFrom(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8),
-                          side: const BorderSide(color: Colors.black),
-                        ),
-                        backgroundColor: const Color.fromARGB(255, 0, 0, 0),
+                    width: 400,
+                    child: Text(
+                      'Welcome, ',
+                      style: TextStyle(
+                          fontSize: 35,
+                          color: Colors.white,
+                          fontWeight: FontWeight.w800),
+                    ),
+                  ),
+                ),
+                const Align(
+                  alignment: Alignment.topLeft,
+                  child: SizedBox(
+                    width: 400,
+                    child: Text(
+                      'Pham Vo Cuong',
+                      style: TextStyle(
+                          fontSize: 48,
+                          overflow: TextOverflow.ellipsis,
+                          color: Colors.white,
+                          fontWeight: FontWeight.w800),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 30),
+                const Align(
+                  alignment: Alignment.topLeft,
+                  child: Text(
+                    'Get ready to optimize your academic journey with Student Hub, the ultimate mobile app for students. Seamlessly manage schedules, assignments, and connect with peers effortlessly. Start maximizing your academic success today',
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 100),
+                SizedBox(
+                  height: 50,
+                  width: MediaQuery.of(context).size.width,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      ref
+                          .read(optionsProvider.notifier)
+                          .setWidgetOption('Dashboard');
+                    },
+                    style: ElevatedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
+                        // side: const BorderSide(color: Colors.black),
                       ),
-                      child: const Text(
-                        'Get started!',
-                        style: TextStyle(
-                          fontSize: 18,
-                          color: Color.fromARGB(255, 255, 255, 255),
-                          fontWeight: FontWeight.w500,
-                        ),
+                      backgroundColor: Colors.white,
+                    ),
+                    child: const Text(
+                      'Get started',
+                      style: TextStyle(
+                        fontSize: 18,
+                        color: Colors.black,
+                        fontWeight: FontWeight.w500,
                       ),
                     ),
                   ),
                 ),
               ],
             ),
-          ),
-        ),
-      ),
+          )),
     );
   }
 }
