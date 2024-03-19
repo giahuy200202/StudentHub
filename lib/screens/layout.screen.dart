@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:studenthub/providers/options_provider.dart';
 import 'package:studenthub/screens/authentication/signup_step1.screen.dart';
 import 'package:studenthub/screens/authentication/signup_step2.screen.dart';
+import 'package:studenthub/screens/dashboard/send_hire_offer.screen.dart';
 import 'package:studenthub/screens/homepage/homepage.screen.dart';
 import 'package:studenthub/screens/authentication/login.screen.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -109,6 +110,11 @@ class _LayoutScreenState extends ConsumerState<LayoutScreen> {
         _selectedPageIndex = 0;
       });
       return const SavedProjectsScreen();
+    } else if (widgetOption == 'SendHireOffer') {
+      setState(() {
+        _selectedPageIndex = 0;
+      });
+      return const SendHireOfferScreen();
     }
 
     return const HomepageScreen();

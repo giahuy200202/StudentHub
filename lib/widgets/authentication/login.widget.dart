@@ -113,7 +113,7 @@ class _LoginWidgetState extends ConsumerState<LoginWidget> {
                   ),
                   const SizedBox(height: 18),
                   SizedBox(
-                    height: 52,
+                    height: 53,
                     width: MediaQuery.of(context).size.width,
                     child: ElevatedButton(
                       onPressed: enable ? () {} : null,

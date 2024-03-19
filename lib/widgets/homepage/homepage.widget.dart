@@ -88,7 +88,7 @@ class HomepageWidget extends ConsumerWidget {
                     color: Colors.white,
                   ),
                 ),
-                const SizedBox(height: 50),
+                const SizedBox(height: 70),
                 SizedBox(
                   height: 50,
                   width: MediaQuery.of(context).size.width,
@@ -115,7 +115,7 @@ class HomepageWidget extends ConsumerWidget {
                     ),
                   ),
                 ),
-                const SizedBox(height: 20),
+                const SizedBox(height: 15),
                 SizedBox(
                   height: 50,
                   width: MediaQuery.of(context).size.width,
