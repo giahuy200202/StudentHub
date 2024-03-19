@@ -2,17 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:studenthub/providers/options_provider.dart';
 import 'package:studenthub/screens/authentication/signup_step1.screen.dart';
 import 'package:studenthub/screens/authentication/signup_step2.screen.dart';
-import 'package:studenthub/screens/homepage.screen.dart';
+import 'package:studenthub/screens/homepage/homepage.screen.dart';
 import 'package:studenthub/screens/authentication/login.screen.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:studenthub/screens/post_project/project_post_step1.screen.dart';
 import 'package:studenthub/screens/post_project/project_post_step2.screen.dart';
 import 'package:studenthub/screens/post_project/project_post_step3.screen.dart';
 import 'package:studenthub/screens/post_project/project_post_step4.screen.dart';
-import 'package:studenthub/screens/profile/dashboard.screen.dart';
+import 'package:studenthub/screens/dashboard/dashboard.screen.dart';
 import 'package:studenthub/screens/profile/profile_input.screen.dart';
 import 'package:studenthub/screens/profile/switch_account.screen.dart';
-import 'package:studenthub/screens/profile/welcome.screen.dart';
+import 'package:studenthub/screens/projects/project_details.screen.dart';
+import 'package:studenthub/screens/projects/projects.screen.dart';
+import 'package:studenthub/screens/welcome/welcome.screen.dart';
 import 'package:studenthub/widgets/navbar/top_navbar.widget.dart';
 import 'package:studenthub/screens/profile/profileInput_2.sceen.dart';
 import 'package:studenthub/screens/profile/profileinputStudent_step1.screen.dart';
@@ -37,7 +39,7 @@ class _LayoutScreenState extends ConsumerState<LayoutScreen> {
     });
 
     if (index == 0) {
-      ref.read(optionsProvider.notifier).setWidgetOption('');
+      ref.read(optionsProvider.notifier).setWidgetOption('Projects');
     } else if (index == 1) {
       ref.read(optionsProvider.notifier).setWidgetOption('Dashboard');
     } else if (index == 2) {
@@ -91,21 +93,17 @@ class _LayoutScreenState extends ConsumerState<LayoutScreen> {
         _selectedPageIndex = 1;
       });
       return const ProjectPostStep4Screen();
+    } else if (widgetOption == 'Projects') {
+      setState(() {
+        _selectedPageIndex = 0;
+      });
+      return const ProjectScreen();
+    } else if (widgetOption == 'ProjectDetails') {
+      setState(() {
+        _selectedPageIndex = 0;
+      });
+      return const ProjectDetailsScreen();
     }
-
-    // if (_selectedPageIndex == 0) {
-    //   return const HomepageScreen();
-    // } else if (_selectedPageIndex == 1) {
-    //   if (widgetOption == 'Dashboard') {
-    //     return const DashboardScreen();
-    //   } else if (widgetOption == 'ProjectPostStep1') {
-    //     return const ProjectPostStep1Screen();
-    //   }
-    // } else if (_selectedPageIndex == 2) {
-    //   return const HomepageScreen();
-    // } else if (_selectedPageIndex == 3) {
-    //   return const HomepageScreen();
-    // }
 
     return const HomepageScreen();
   }
@@ -130,7 +128,10 @@ class _LayoutScreenState extends ConsumerState<LayoutScreen> {
         ),
         body: currentScreen,
         bottomNavigationBar: !isLogin ||
-                options[Option.widgetOption] == 'Dashboard'
+                options[Option.widgetOption] == 'Dashboard' ||
+                options[Option.widgetOption] == 'Projects' ||
+                options[Option.widgetOption] == 'Message' ||
+                options[Option.widgetOption] == 'Alert'
             ? BottomNavigationBar(
                 onTap: _selectPage,
                 currentIndex: _selectedPageIndex,
@@ -142,28 +143,28 @@ class _LayoutScreenState extends ConsumerState<LayoutScreen> {
                 items: const [
                   BottomNavigationBarItem(
                     icon: Padding(
-                      padding: EdgeInsets.only(top: 5),
+                      padding: EdgeInsets.only(top: 6),
                       child: Icon(Icons.list_alt_outlined, size: 30),
                     ),
                     label: 'Projects',
                   ),
                   BottomNavigationBarItem(
                     icon: Padding(
-                      padding: EdgeInsets.only(top: 5),
+                      padding: EdgeInsets.only(top: 6),
                       child: Icon(Icons.dashboard_customize_outlined, size: 30),
                     ),
                     label: 'Dashboard',
                   ),
                   BottomNavigationBarItem(
                     icon: Padding(
-                      padding: EdgeInsets.only(top: 5),
+                      padding: EdgeInsets.only(top: 6),
                       child: Icon(Icons.message_outlined, size: 30),
                     ),
                     label: 'Message',
                   ),
                   BottomNavigationBarItem(
                     icon: Padding(
-                      padding: EdgeInsets.only(top: 5),
+                      padding: EdgeInsets.only(top: 6),
                       child: Icon(Icons.notifications_active, size: 30),
                     ),
                     label: 'Alert',

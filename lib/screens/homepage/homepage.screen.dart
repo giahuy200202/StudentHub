@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:studenthub/widgets/homepage.widget.dart';
+import 'package:studenthub/widgets/homepage/homepage.widget.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class HomepageScreen extends ConsumerWidget {

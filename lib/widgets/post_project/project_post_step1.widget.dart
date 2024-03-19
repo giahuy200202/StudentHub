@@ -113,23 +113,53 @@ class _ProjectPostStep1WidgetState
                 const SizedBox(height: 20),
                 const Padding(
                   padding: EdgeInsets.only(left: 20),
-                  child: Text(
-                    '1.  Build responsive WordPress site with booking/payment functionality',
-                    textAlign: TextAlign.left,
-                    style: TextStyle(
-                      fontSize: 16,
-                    ),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        '- ',
+                        textAlign: TextAlign.left,
+                        style: TextStyle(
+                          fontSize: 16,
+                        ),
+                      ),
+                      SizedBox(width: 10),
+                      Flexible(
+                        child: Text(
+                          'Build responsive WordPress site with booking/payment functionality',
+                          textAlign: TextAlign.left,
+                          style: TextStyle(
+                            fontSize: 16,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-                const SizedBox(height: 20),
+                const SizedBox(height: 15),
                 const Padding(
                   padding: EdgeInsets.only(left: 20),
-                  child: Text(
-                    '2.  Facebook ad specialist need for product launch',
-                    textAlign: TextAlign.left,
-                    style: TextStyle(
-                      fontSize: 16,
-                    ),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        '- ',
+                        textAlign: TextAlign.left,
+                        style: TextStyle(
+                          fontSize: 16,
+                        ),
+                      ),
+                      SizedBox(width: 10),
+                      Flexible(
+                        child: Text(
+                          'Facebook ad specialist need for product launch',
+                          textAlign: TextAlign.left,
+                          style: TextStyle(
+                            fontSize: 16,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
                 const SizedBox(height: 30),
