@@ -14,6 +14,7 @@ import 'package:studenthub/screens/profile/profile_input.screen.dart';
 import 'package:studenthub/screens/profile/switch_account.screen.dart';
 import 'package:studenthub/screens/projects/project_details.screen.dart';
 import 'package:studenthub/screens/projects/projects.screen.dart';
+import 'package:studenthub/screens/projects/saved_projects.screen.dart';
 import 'package:studenthub/screens/welcome/welcome.screen.dart';
 import 'package:studenthub/widgets/navbar/top_navbar.widget.dart';
 import 'package:studenthub/screens/profile/profileInput_2.sceen.dart';
@@ -103,6 +104,11 @@ class _LayoutScreenState extends ConsumerState<LayoutScreen> {
         _selectedPageIndex = 0;
       });
       return const ProjectDetailsScreen();
+    } else if (widgetOption == 'SavedProjects') {
+      setState(() {
+        _selectedPageIndex = 0;
+      });
+      return const SavedProjectsScreen();
     }
 
     return const HomepageScreen();
@@ -115,17 +121,21 @@ class _LayoutScreenState extends ConsumerState<LayoutScreen> {
     Widget currentScreen = getCurrentScreen(options[Option.widgetOption]!);
 
     return Scaffold(
-        appBar: PreferredSize(
-          preferredSize: const Size.fromHeight(60),
-          child: Container(
-            decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                colors: [Colors.black, Color.fromARGB(255, 73, 80, 87)],
+        appBar: options[Option.widgetOption] == "" ||
+                options[Option.widgetOption] == "Homepage" ||
+                options[Option.widgetOption] == "Welcome"
+            ? null
+            : PreferredSize(
+                preferredSize: const Size.fromHeight(60),
+                child: Container(
+                  decoration: const BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [Colors.black, Color.fromARGB(255, 73, 80, 87)],
+                    ),
+                  ),
+                  child: const TopNavbar(),
+                ),
               ),
-            ),
-            child: const TopNavbar(),
-          ),
-        ),
         body: currentScreen,
         bottomNavigationBar: !isLogin ||
                 options[Option.widgetOption] == 'Dashboard' ||

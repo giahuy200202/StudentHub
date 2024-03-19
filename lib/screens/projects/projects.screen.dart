@@ -67,10 +67,17 @@ class _ProjectScreenState extends ConsumerState<ProjectScreen> {
                       ),
                     ),
                     const Spacer(),
-                    const Icon(
-                      Icons.favorite_rounded,
-                      size: 35,
-                      color: Colors.black,
+                    InkWell(
+                      onTap: () {
+                        ref
+                            .read(optionsProvider.notifier)
+                            .setWidgetOption('SavedProjects');
+                      },
+                      child: const Icon(
+                        Icons.favorite_rounded,
+                        size: 35,
+                        color: Colors.black,
+                      ),
                     ),
                   ],
                 ),

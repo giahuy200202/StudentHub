@@ -96,7 +96,7 @@ class _ProjectDetailsWidgetState extends ConsumerState<ProjectDetailsWidget> {
                             const Spacer(),
                             InkWell(
                               onTap: () {},
-                              child: const Icon(Icons.more_horiz),
+                              child: const Icon(Icons.favorite_outline),
                             ),
                           ],
                         ),

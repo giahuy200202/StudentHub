@@ -2,6 +2,29 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:studenthub/providers/options_provider.dart';
 
+class GradientText extends StatelessWidget {
+  const GradientText(
+    this.text, {
+    required this.gradient,
+    this.style,
+  });
+
+  final String text;
+  final TextStyle? style;
+  final Gradient gradient;
+
+  @override
+  Widget build(BuildContext context) {
+    return ShaderMask(
+      blendMode: BlendMode.srcIn,
+      shaderCallback: (bounds) => gradient.createShader(
+        Rect.fromLTWH(0, 0, bounds.width, bounds.height),
+      ),
+      child: Text(text, style: style),
+    );
+  }
+}
+
 class HomepageWidget extends ConsumerWidget {
   const HomepageWidget({
     super.key,
@@ -13,94 +36,113 @@ class HomepageWidget extends ConsumerWidget {
     return Scaffold(
       body: SingleChildScrollView(
           physics: const NeverScrollableScrollPhysics(),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: Center(
-              child: Column(
-                children: [
-                  const SizedBox(height: 50),
-                  const Text(
-                    'Build your product with high-skilled student',
-                    style: TextStyle(
-                      fontSize: 18,
-                      color: Colors.black,
-                      fontWeight: FontWeight.w500,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                  const SizedBox(height: 40),
-                  const Text(
-                    'Find and onboard best-skilled student for your product. Student works to gain experience & skills from real-world projects',
-                    style: TextStyle(
-                      fontSize: 16,
-                      color: Colors.black,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                  const SizedBox(height: 40),
-                  SizedBox(
-                    height: 46,
-                    width: 130,
-                    child: ElevatedButton(
-                      onPressed: () {
-                        ref
-                            .read(optionsProvider.notifier)
-                            .setWidgetOption('Login');
-                      },
-                      style: ElevatedButton.styleFrom(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(6),
-                          side: const BorderSide(color: Colors.black),
-                        ),
-                        backgroundColor: Colors.white,
-                      ),
-                      child: const Text(
-                        'Company',
-                        style: TextStyle(
-                          fontSize: 18,
-                          color: Colors.black,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-                  SizedBox(
-                    height: 46,
-                    width: 130,
-                    child: ElevatedButton(
-                      onPressed: () {
-                        ref
-                            .read(optionsProvider.notifier)
-                            .setWidgetOption('Login');
-                      },
-                      style: ElevatedButton.styleFrom(
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(6),
-                            side: const BorderSide(color: Colors.black)),
-                        backgroundColor: Colors.white,
-                      ),
-                      child: const Text(
-                        'Student',
-                        style: TextStyle(
-                          fontSize: 18,
-                          color: Colors.black,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 40),
-                  const Text(
-                    'StudentHub is university market place to connect high-skilled student and company on a real-world project',
-                    style: TextStyle(
-                      fontSize: 16,
-                      color: Colors.black,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                ],
+          child: Container(
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height,
+            padding: const EdgeInsets.all(20),
+            decoration: const BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage("assets/images/black.jpg"),
+                fit: BoxFit.cover,
               ),
+            ),
+            child: Column(
+              children: [
+                // const Icon(
+                //   Icons.cast_for_education,
+                //   size: 200,
+                //   color: Color.fromARGB(255, 144, 134, 134),
+                // ),
+                const SizedBox(height: 350),
+                Align(
+                  alignment: Alignment.topLeft,
+                  child: SizedBox(
+                      width: 300,
+                      child: RichText(
+                        text: const TextSpan(
+                          text: 'Build your product with ',
+                          style: TextStyle(
+                            fontSize: 35,
+                            color: Colors.white,
+                            fontWeight: FontWeight.w800,
+                          ),
+                          children: [
+                            TextSpan(
+                              text: 'high-skilled',
+                              style: TextStyle(
+                                fontSize: 35,
+                                color: Colors.blue,
+                                fontWeight: FontWeight.w800,
+                              ),
+                            ),
+                            TextSpan(text: ' student'),
+                          ],
+                        ),
+                      )),
+                ),
+                const SizedBox(height: 30),
+                const Text(
+                  'Find and onboard best-skilled student for your product. Student works to gain experience & skills from real-world projects. StudentHub is university market place to connect high-skilled student and company on a real-world project',
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: Colors.white,
+                  ),
+                ),
+                const SizedBox(height: 50),
+                SizedBox(
+                  height: 50,
+                  width: MediaQuery.of(context).size.width,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      ref
+                          .read(optionsProvider.notifier)
+                          .setWidgetOption('Login');
+                    },
+                    style: ElevatedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
+                        // side: const BorderSide(color: Colors.black),
+                      ),
+                      backgroundColor: Colors.white,
+                    ),
+                    child: const Text(
+                      'Company',
+                      style: TextStyle(
+                        fontSize: 18,
+                        color: Colors.black,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 20),
+                SizedBox(
+                  height: 50,
+                  width: MediaQuery.of(context).size.width,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      ref
+                          .read(optionsProvider.notifier)
+                          .setWidgetOption('Login');
+                    },
+                    style: ElevatedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
+                        // side: const BorderSide(color: Colors.black),
+                      ),
+                      backgroundColor: Colors.white,
+                    ),
+                    child: const Text(
+                      'Student',
+                      style: TextStyle(
+                        fontSize: 18,
+                        color: Colors.black,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
           )),
     );

@@ -16,41 +16,67 @@ class _WelcomeWidget extends ConsumerState<WelcomeWidget> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const SizedBox(height: 70),
-              Image.asset(
-                'assets/img/123.jpg',
-                width: 360,
-                height: 200,
+          physics: const NeverScrollableScrollPhysics(),
+          child: Container(
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height,
+            padding: const EdgeInsets.all(20),
+            decoration: const BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage("assets/images/black.jpg"),
+                fit: BoxFit.cover,
               ),
-              const SizedBox(height: 30),
-              const Text(
-                'Welcome Huy!',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 20,
-                  //fontWeight: FontWeight.bold,
+            ),
+            child: Column(
+              children: [
+                // const Icon(
+                //   Icons.cast_for_education,
+                //   size: 200,
+                //   color: Color.fromARGB(255, 144, 134, 134),
+                // ),
+                const SizedBox(height: 400),
+                const Align(
+                  alignment: Alignment.topLeft,
+                  child: SizedBox(
+                    width: 400,
+                    child: Text(
+                      'Welcome, ',
+                      style: TextStyle(
+                          fontSize: 35,
+                          color: Colors.white,
+                          fontWeight: FontWeight.w800),
+                    ),
+                  ),
                 ),
-              ),
-              const Text(
-                "Let's start with your frist project post  ",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 20,
-                  //fontWeight: FontWeight.bold,
+                const Align(
+                  alignment: Alignment.topLeft,
+                  child: SizedBox(
+                    width: 400,
+                    child: Text(
+                      'Pham Vo Cuong',
+                      style: TextStyle(
+                          fontSize: 48,
+                          overflow: TextOverflow.ellipsis,
+                          color: Colors.white,
+                          fontWeight: FontWeight.w800),
+                    ),
+                  ),
                 ),
-              ),
-              const SizedBox(height: 30),
-              Container(
-                alignment: Alignment.center,
-                child: SizedBox(
+                const SizedBox(height: 30),
+                const Align(
+                  alignment: Alignment.topLeft,
+                  child: Text(
+                    'Get ready to optimize your academic journey with Student Hub, the ultimate mobile app for students. Seamlessly manage schedules, assignments, and connect with peers effortlessly. Start maximizing your academic success today',
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 100),
+                SizedBox(
                   height: 50,
-                  width: 145,
+                  width: MediaQuery.of(context).size.width,
                   child: ElevatedButton(
                     onPressed: () {
                       ref
@@ -60,25 +86,23 @@ class _WelcomeWidget extends ConsumerState<WelcomeWidget> {
                     style: ElevatedButton.styleFrom(
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8),
-                        side: const BorderSide(color: Colors.black),
+                        // side: const BorderSide(color: Colors.black),
                       ),
-                      backgroundColor: const Color.fromARGB(255, 0, 0, 0),
+                      backgroundColor: Colors.white,
                     ),
                     child: const Text(
-                      'Get started!',
+                      'Get started',
                       style: TextStyle(
                         fontSize: 18,
-                        color: Color.fromARGB(255, 255, 255, 255),
+                        color: Colors.black,
                         fontWeight: FontWeight.w500,
                       ),
                     ),
                   ),
                 ),
-              ),
-            ],
-          ),
-        ),
-      ),
+              ],
+            ),
+          )),
     );
   }
 }
