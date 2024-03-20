@@ -57,28 +57,29 @@ class HomepageWidget extends ConsumerWidget {
                 Align(
                   alignment: Alignment.topLeft,
                   child: SizedBox(
-                      width: 300,
-                      child: RichText(
-                        text: const TextSpan(
-                          text: 'Build your product with ',
-                          style: TextStyle(
-                            fontSize: 35,
-                            color: Colors.white,
-                            fontWeight: FontWeight.w800,
-                          ),
-                          children: [
-                            TextSpan(
-                              text: 'high-skilled',
-                              style: TextStyle(
-                                fontSize: 35,
-                                color: Colors.blue,
-                                fontWeight: FontWeight.w800,
-                              ),
-                            ),
-                            TextSpan(text: ' student'),
-                          ],
+                    width: 300,
+                    child: RichText(
+                      text: const TextSpan(
+                        text: 'Build your product with ',
+                        style: TextStyle(
+                          fontSize: 35,
+                          color: Colors.white,
+                          fontWeight: FontWeight.w800,
                         ),
-                      )),
+                        children: [
+                          TextSpan(
+                            text: 'high-skilled',
+                            style: TextStyle(
+                              fontSize: 35,
+                              color: Colors.blue,
+                              fontWeight: FontWeight.w800,
+                            ),
+                          ),
+                          TextSpan(text: ' student'),
+                        ],
+                      ),
+                    ),
+                  ),
                 ),
                 const SizedBox(height: 30),
                 const Text(

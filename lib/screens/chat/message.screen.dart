@@ -16,18 +16,21 @@ class _MessageScreenState extends ConsumerState<MessageScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: SingleChildScrollView(
-            child: Padding(
-                padding: const EdgeInsets.only(left: 20, right: 20, bottom: 30),
-                child: Center(
-                    child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
+        body: Padding(
+            padding: const EdgeInsets.only(left: 20, right: 20),
+            child: Center(
+                child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                const SizedBox(height: 10),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    const SizedBox(height: 10),
                     SizedBox(
                       height: 45,
-                      width: 360,
+                      width: 370,
                       child: TextField(
                         style: const TextStyle(
                           fontSize: 17,
@@ -62,9 +65,11 @@ class _MessageScreenState extends ConsumerState<MessageScreen> {
                         ),
                       ),
                     ),
-                    const SizedBox(height: 30),
-                    Message()
                   ],
-                )))));
+                ),
+                const SizedBox(height: 30),
+                const Message()
+              ],
+            ))));
   }
 }
