@@ -3,16 +3,16 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../providers/options_provider.dart';
 
-class Archieved extends ConsumerStatefulWidget {
-  const Archieved({super.key});
+class ArchievedWidget extends ConsumerStatefulWidget {
+  const ArchievedWidget({super.key});
 
   @override
-  ConsumerState<Archieved> createState() {
-    return _ArchievedState();
+  ConsumerState<ArchievedWidget> createState() {
+    return _ArchievedWidgetState();
   }
 }
 
-class _ArchievedState extends ConsumerState<Archieved> {
+class _ArchievedWidgetState extends ConsumerState<ArchievedWidget> {
   @override
   Widget build(BuildContext context) {
     return const Text('Archieved');
