@@ -21,6 +21,7 @@ import 'package:studenthub/widgets/navbar/top_navbar.widget.dart';
 import 'package:studenthub/screens/profile/profileInput_2.sceen.dart';
 import 'package:studenthub/screens/profile/profileinputStudent_step1.screen.dart';
 import 'package:studenthub/screens/profile/profileinputStudent_step3.screen.dart';
+import 'package:studenthub/screens/dashboard/message.screen.dart';
 
 class LayoutScreen extends ConsumerStatefulWidget {
   const LayoutScreen({super.key});
@@ -45,7 +46,7 @@ class _LayoutScreenState extends ConsumerState<LayoutScreen> {
     } else if (index == 1) {
       ref.read(optionsProvider.notifier).setWidgetOption('Dashboard');
     } else if (index == 2) {
-      ref.read(optionsProvider.notifier).setWidgetOption('');
+      ref.read(optionsProvider.notifier).setWidgetOption('Message');
     } else if (index == 3) {
       ref.read(optionsProvider.notifier).setWidgetOption('');
     }
@@ -115,6 +116,11 @@ class _LayoutScreenState extends ConsumerState<LayoutScreen> {
         _selectedPageIndex = 0;
       });
       return const SendHireOfferScreen();
+    } else if (widgetOption == 'Message') {
+      setState(() {
+        _selectedPageIndex = 2;
+      });
+      return const MessageScreen();
     }
 
     return const HomepageScreen();
@@ -144,8 +150,8 @@ class _LayoutScreenState extends ConsumerState<LayoutScreen> {
               ),
         body: currentScreen,
         bottomNavigationBar: !isLogin ||
-                options[Option.widgetOption] == 'Dashboard' ||
                 options[Option.widgetOption] == 'Projects' ||
+                options[Option.widgetOption] == 'Dashboard' ||
                 options[Option.widgetOption] == 'Message' ||
                 options[Option.widgetOption] == 'Alert'
             ? BottomNavigationBar(

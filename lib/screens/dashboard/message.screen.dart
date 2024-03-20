@@ -1,0 +1,70 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:studenthub/widgets/message/list_message.widget.dart';
+//import '../../providers/options_provider.dart';
+
+class MessageScreen extends ConsumerStatefulWidget {
+  const MessageScreen({super.key});
+
+  @override
+  ConsumerState<MessageScreen> createState() {
+    return _MessageScreenState();
+  }
+}
+
+class _MessageScreenState extends ConsumerState<MessageScreen> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        body: SingleChildScrollView(
+            child: Padding(
+                padding: const EdgeInsets.only(left: 20, right: 20, bottom: 30),
+                child: Center(
+                    child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    const SizedBox(height: 10),
+                    SizedBox(
+                      height: 45,
+                      width: 360,
+                      child: TextField(
+                        style: const TextStyle(
+                          fontSize: 17,
+                          color: Color.fromARGB(255, 114, 111, 111),
+                          fontWeight: FontWeight.w500,
+                        ),
+                        // controller: searchController,
+                        textInputAction: TextInputAction.search,
+                        onSubmitted: (value) {},
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            borderSide: const BorderSide(color: Colors.black),
+                          ),
+                          contentPadding: const EdgeInsets.symmetric(
+                            vertical: 8,
+                            horizontal: 15,
+                          ),
+                          prefixIcon: const Icon(Icons.search),
+                          suffixIcon: InkWell(
+                            onTap: () {},
+                            child: const Icon(Icons.clear),
+                          ),
+                          hintText: 'Search for message',
+                          hintStyle: const TextStyle(
+                            color: Color.fromARGB(255, 114, 111, 111),
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 30),
+                    Message()
+                  ],
+                )))));
+  }
+}
