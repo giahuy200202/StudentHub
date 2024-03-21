@@ -59,7 +59,7 @@ class _SavedProjectsWidgetState extends ConsumerState<SavedProjectsWidget> {
                     children: [
                       Container(
                         decoration: const BoxDecoration(
-                          color: Color.fromARGB(255, 230, 231, 235),
+                          color: Color.fromARGB(255, 233, 235, 240),
                           borderRadius: BorderRadius.all(Radius.circular(12)),
                         ),
                         child: Padding(
@@ -185,7 +185,7 @@ class _SavedProjectsWidgetState extends ConsumerState<SavedProjectsWidget> {
                       const SizedBox(height: 30),
                       Container(
                         decoration: const BoxDecoration(
-                          color: Color.fromARGB(255, 230, 231, 235),
+                          color: Color.fromARGB(255, 233, 235, 240),
                           borderRadius: BorderRadius.all(Radius.circular(12)),
                         ),
                         child: Padding(

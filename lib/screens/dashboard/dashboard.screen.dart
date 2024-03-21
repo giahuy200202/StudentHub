@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:studenthub/providers/authentication_provider.dart';
 import 'package:studenthub/widgets/dashboard/all_projects.widget.dart';
+import 'package:studenthub/widgets/dashboard/all_projects_student.widget.dart';
 import 'package:studenthub/widgets/dashboard/archieved.widget.dart';
 import 'package:studenthub/widgets/dashboard/working.widget.dart';
+import 'package:studenthub/widgets/dashboard/working_student.widget.dart';
 import '../../providers/options_provider.dart';
 
 class DashboardScreen extends ConsumerStatefulWidget {
@@ -25,7 +28,8 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    final user = ref.watch(userProvider);
+    Widget dashboardCompany = Scaffold(
       body: Padding(
         padding: const EdgeInsets.only(left: 20, right: 20),
         child: Center(
@@ -207,14 +211,165 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
               ),
               const SizedBox(height: 25),
               tabWidget == 1
-                  ? AllProjects()
+                  ? AllProjectsWidget()
                   : tabWidget == 2
-                      ? Working()
+                      ? WorkingWidget()
                       : ArchievedWidget()
             ],
           ),
         ),
       ),
     );
+
+    Widget dashboardStudent = Scaffold(
+      body: Padding(
+        padding: const EdgeInsets.only(left: 20, right: 20),
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              const SizedBox(height: 25),
+              // const Align(
+              //   alignment: Alignment.topLeft,
+              //   child: Text(
+              //     'Your projects',
+              //     textAlign: TextAlign.left,
+              //     style: TextStyle(
+              //       fontSize: 22,
+              //       fontWeight: FontWeight.w700,
+              //     ),
+              //   ),
+              // ),
+              // const SizedBox(height: 20),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  TextButton(
+                    style: TextButton.styleFrom(
+                      padding: EdgeInsets.zero,
+                      alignment: Alignment.centerLeft,
+                      minimumSize: const Size(50, 30),
+                      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                    ),
+                    onPressed: () {
+                      setTabWidget(1);
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.only(
+                        bottom: 1,
+                      ),
+                      decoration: tabWidget == 1
+                          ? const BoxDecoration(
+                              border: Border(
+                                bottom: BorderSide(
+                                  color: Colors.black,
+                                  width: 1,
+                                ),
+                              ),
+                            )
+                          : null,
+                      child: Text(
+                        "All projects",
+                        style: TextStyle(
+                          fontSize: 18,
+                          color: Colors.black,
+                          fontWeight: tabWidget == 1
+                              ? FontWeight.w600
+                              : FontWeight.w400,
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 40),
+                  TextButton(
+                    style: TextButton.styleFrom(
+                      padding: EdgeInsets.zero,
+                      alignment: Alignment.centerLeft,
+                      minimumSize: const Size(50, 30),
+                      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                    ),
+                    onPressed: () {
+                      setTabWidget(2);
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.only(
+                        bottom: 1,
+                      ),
+                      decoration: tabWidget == 2
+                          ? const BoxDecoration(
+                              border: Border(
+                                bottom: BorderSide(
+                                  color: Colors.black,
+                                  width: 1,
+                                ),
+                              ),
+                            )
+                          : null,
+                      child: Text(
+                        "Working",
+                        style: TextStyle(
+                          fontSize: 18,
+                          color: Colors.black,
+                          fontWeight: tabWidget == 2
+                              ? FontWeight.w600
+                              : FontWeight.w400,
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 40),
+                  TextButton(
+                    style: TextButton.styleFrom(
+                      padding: EdgeInsets.zero,
+                      alignment: Alignment.centerLeft,
+                      minimumSize: const Size(50, 30),
+                      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                    ),
+                    onPressed: () {
+                      setTabWidget(3);
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.only(
+                        bottom: 1,
+                      ),
+                      decoration: tabWidget == 3
+                          ? const BoxDecoration(
+                              border: Border(
+                                bottom: BorderSide(
+                                  color: Colors.black,
+                                  width: 1,
+                                ),
+                              ),
+                            )
+                          : null,
+                      child: Text(
+                        "Archieved",
+                        style: TextStyle(
+                          fontSize: 18,
+                          color: Colors.black,
+                          fontWeight: tabWidget == 3
+                              ? FontWeight.w600
+                              : FontWeight.w400,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 25),
+              tabWidget == 1
+                  ? AllProjectsStudentWidget()
+                  : tabWidget == 2
+                      ? WorkingStudentWidget()
+                      : ArchievedWidget()
+            ],
+          ),
+        ),
+      ),
+    );
+
+    return user.role == 'company' ? dashboardCompany : dashboardStudent;
   }
 }

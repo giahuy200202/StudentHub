@@ -3,16 +3,16 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../providers/options_provider.dart';
 
-class AllProjects extends ConsumerStatefulWidget {
-  const AllProjects({super.key});
+class AllProjectsWidget extends ConsumerStatefulWidget {
+  const AllProjectsWidget({super.key});
 
   @override
-  ConsumerState<AllProjects> createState() {
-    return _AllProjectsState();
+  ConsumerState<AllProjectsWidget> createState() {
+    return _AllProjectsWidgetState();
   }
 }
 
-class _AllProjectsState extends ConsumerState<AllProjects> {
+class _AllProjectsWidgetState extends ConsumerState<AllProjectsWidget> {
   void openMoreOverlay() {
     showModalBottomSheet(
       context: context,
@@ -339,7 +339,7 @@ class _AllProjectsState extends ConsumerState<AllProjects> {
               },
               child: Container(
                 decoration: const BoxDecoration(
-                  color: Color.fromARGB(255, 230, 231, 235),
+                  color: Color.fromARGB(255, 233, 235, 240),
                   borderRadius: BorderRadius.all(Radius.circular(12)),
                 ),
                 child: Padding(
@@ -524,7 +524,7 @@ class _AllProjectsState extends ConsumerState<AllProjects> {
               },
               child: Container(
                 decoration: const BoxDecoration(
-                  color: Color.fromARGB(255, 230, 231, 235),
+                  color: Color.fromARGB(255, 233, 235, 240),
                   borderRadius: BorderRadius.all(Radius.circular(12)),
                 ),
                 child: Padding(

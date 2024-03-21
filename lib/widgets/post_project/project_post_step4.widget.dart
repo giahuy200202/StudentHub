@@ -63,7 +63,7 @@ class _ProjectPostStep4WidgetState
                 const SizedBox(height: 30),
                 Container(
                   decoration: const BoxDecoration(
-                    color: Color.fromARGB(255, 230, 231, 235),
+                    color: Color.fromARGB(255, 233, 235, 240),
                     borderRadius: BorderRadius.all(Radius.circular(15)),
                   ),
                   child: Padding(

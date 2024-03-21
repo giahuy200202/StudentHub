@@ -22,7 +22,7 @@ class _HiredWidgetState extends ConsumerState<HiredWidget> {
           children: [
             Container(
               decoration: const BoxDecoration(
-                color: Color.fromARGB(255, 230, 231, 235),
+                color: Color.fromARGB(255, 233, 235, 240),
                 borderRadius: BorderRadius.all(Radius.circular(12)),
               ),
               child: Padding(
@@ -159,7 +159,7 @@ class _HiredWidgetState extends ConsumerState<HiredWidget> {
             const SizedBox(height: 25),
             Container(
               decoration: const BoxDecoration(
-                color: Color.fromARGB(255, 230, 231, 235),
+                color: Color.fromARGB(255, 233, 235, 240),
                 borderRadius: BorderRadius.all(Radius.circular(12)),
               ),
               child: Padding(
@@ -296,7 +296,7 @@ class _HiredWidgetState extends ConsumerState<HiredWidget> {
             const SizedBox(height: 25),
             Container(
               decoration: const BoxDecoration(
-                color: Color.fromARGB(255, 230, 231, 235),
+                color: Color.fromARGB(255, 233, 235, 240),
                 borderRadius: BorderRadius.all(Radius.circular(12)),
               ),
               child: Padding(

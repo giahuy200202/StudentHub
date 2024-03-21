@@ -24,7 +24,7 @@ class _DetailWidgetState extends ConsumerState<DetailWidget> {
       children: [
         Container(
           decoration: const BoxDecoration(
-            color: Color.fromARGB(255, 230, 231, 235),
+            color: Color.fromARGB(255, 233, 235, 240),
             borderRadius: BorderRadius.all(Radius.circular(15)),
           ),
           child: Padding(
