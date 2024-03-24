@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:studenthub/providers/search_filter_provider.dart';
 import 'package:studenthub/widgets/projects/list_projects.widget.dart';
 import '../../providers/options_provider.dart';
 // import 'package:keyboard_visibility/keyboard_visibility.dart';
@@ -74,6 +75,10 @@ class _ProjectScreenState extends ConsumerState<ProjectScreen> {
                       ref
                           .read(optionsProvider.notifier)
                           .setWidgetOption('ProjectSearch');
+
+                      ref
+                          .read(searchFilterProvider.notifier)
+                          .setSearch(searchController.text);
                     },
                     decoration: InputDecoration(
                       border: OutlineInputBorder(
@@ -93,6 +98,7 @@ class _ProjectScreenState extends ConsumerState<ProjectScreen> {
                           setState(() {
                             searchController.text = '';
                           });
+                          ref.read(searchFilterProvider.notifier).setSearch('');
                         },
                         child: const Icon(Icons.clear),
                       ),

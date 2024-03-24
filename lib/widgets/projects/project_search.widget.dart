@@ -1,8 +1,46 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:studenthub/providers/options_provider.dart';
+import 'package:studenthub/providers/search_filter_provider.dart';
 import '../../providers/project_posting_provider.dart';
 // import '../../providers/options_provider.dart';
+
+class LabeledRadio<T> extends StatelessWidget {
+  const LabeledRadio({
+    Key? key,
+    required this.label,
+    required this.value,
+    required this.groupValue,
+    required this.onChanged,
+  }) : super(key: key);
+
+  final String label;
+  final T value;
+  final T? groupValue;
+  final ValueChanged<T?> onChanged;
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: () {
+        onChanged(value);
+      },
+      child: Row(
+        children: <Widget>[
+          Radio<T>(
+            value: value,
+            groupValue: groupValue,
+            onChanged: onChanged,
+          ),
+          DefaultTextStyle(
+            style: const TextStyle(color: Colors.black, fontSize: 16),
+            child: Text(label),
+          ),
+        ],
+      ),
+    );
+  }
+}
 
 class ProjectSearchWidget extends ConsumerStatefulWidget {
   const ProjectSearchWidget({super.key});
@@ -15,6 +53,9 @@ class ProjectSearchWidget extends ConsumerStatefulWidget {
 
 class _ProjectSearchWidgetState extends ConsumerState<ProjectSearchWidget> {
   var searchController = TextEditingController();
+  var numOfStudentsController = TextEditingController();
+  var proposalsController = TextEditingController();
+  bool enable = false;
 
   // @override
   // void dispose() {
@@ -72,6 +113,10 @@ class _ProjectSearchWidgetState extends ConsumerState<ProjectSearchWidget> {
                       ref
                           .read(optionsProvider.notifier)
                           .setWidgetOption('ProjectSearch');
+
+                      ref
+                          .read(searchFilterProvider.notifier)
+                          .setSearch(searchController.text);
                     },
                     decoration: InputDecoration(
                       border: OutlineInputBorder(
@@ -91,6 +136,7 @@ class _ProjectSearchWidgetState extends ConsumerState<ProjectSearchWidget> {
                           setState(() {
                             searchController.text = '';
                           });
+                          ref.read(searchFilterProvider.notifier).setSearch('');
                         },
                         child: const Icon(Icons.clear),
                       ),
@@ -435,7 +481,10 @@ class _ProjectSearchWidgetState extends ConsumerState<ProjectSearchWidget> {
 
   @override
   Widget build(BuildContext context) {
-    final projectPosting = ref.watch(projectPostingProvider);
+    var searchFilter = ref.watch(searchFilterProvider);
+    int projectLength = 0;
+
+    searchController.text = searchFilter.search!;
 
     return Scaffold(
       body: SingleChildScrollView(
@@ -500,6 +549,10 @@ class _ProjectSearchWidgetState extends ConsumerState<ProjectSearchWidget> {
                               ref
                                   .read(optionsProvider.notifier)
                                   .setWidgetOption('ProjectSearch');
+
+                              ref
+                                  .read(searchFilterProvider.notifier)
+                                  .setSearch(searchController.text);
                             },
                             decoration: InputDecoration(
                               border: OutlineInputBorder(
@@ -532,9 +585,434 @@ class _ProjectSearchWidgetState extends ConsumerState<ProjectSearchWidget> {
                     const Spacer(),
                     InkWell(
                       onTap: () {
-                        ref
-                            .read(optionsProvider.notifier)
-                            .setWidgetOption('SavedProjects');
+                        showModalBottomSheet(
+                          isScrollControlled: true,
+                          context: context,
+                          backgroundColor: Colors.white,
+                          builder: (ctx) {
+                            return StatefulBuilder(builder: (BuildContext
+                                    context,
+                                StateSetter setState /*You can rename this!*/) {
+                              return Padding(
+                                padding: EdgeInsets.only(
+                                    bottom: MediaQuery.of(context)
+                                        .viewInsets
+                                        .bottom),
+                                child: SingleChildScrollView(
+                                  // physics: const NeverScrollableScrollPhysics(),
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(
+                                        left: 20, right: 20),
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        const SizedBox(height: 40),
+                                        const Align(
+                                          alignment: Alignment.topLeft,
+                                          child: Text(
+                                            "Filter by",
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 25,
+                                            ),
+                                          ),
+                                        ),
+                                        const SizedBox(height: 15),
+                                        Container(
+                                          decoration: BoxDecoration(
+                                            border: Border.all(
+                                              color: Colors
+                                                  .black, //                   <--- border color
+                                              width: 0.3,
+                                            ),
+                                          ),
+                                        ),
+                                        const SizedBox(height: 20),
+                                        SizedBox(
+                                          height: 580,
+                                          child: Column(
+                                            children: [
+                                              const Align(
+                                                alignment: Alignment.topLeft,
+                                                child: Text(
+                                                  "Project length",
+                                                  style: TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 16,
+                                                  ),
+                                                ),
+                                              ),
+
+                                              const SizedBox(height: 15),
+
+                                              Column(
+                                                children: [
+                                                  SizedBox(
+                                                    height: 30,
+                                                    width:
+                                                        MediaQuery.of(context)
+                                                            .size
+                                                            .width,
+                                                    child: LabeledRadio(
+                                                      label:
+                                                          'Less than one month',
+                                                      value: 1,
+                                                      groupValue: projectLength,
+                                                      onChanged: (value) {
+                                                        ref
+                                                            .read(
+                                                                searchFilterProvider
+                                                                    .notifier)
+                                                            .setProjectLength(
+                                                                value as int);
+                                                        setState(() {
+                                                          projectLength = value;
+                                                        });
+                                                        if (projectLength ==
+                                                                0 ||
+                                                            numOfStudentsController
+                                                                .text.isEmpty ||
+                                                            proposalsController
+                                                                .text.isEmpty) {
+                                                          enable = false;
+                                                        } else {
+                                                          enable = true;
+                                                        }
+                                                        setState(() {});
+                                                      },
+                                                    ),
+                                                  ),
+                                                  SizedBox(
+                                                    height: 30,
+                                                    width:
+                                                        MediaQuery.of(context)
+                                                            .size
+                                                            .width,
+                                                    child: LabeledRadio(
+                                                      label: '1 to 3 months',
+                                                      value: 2,
+                                                      groupValue: projectLength,
+                                                      onChanged: (value) {
+                                                        ref
+                                                            .read(
+                                                                searchFilterProvider
+                                                                    .notifier)
+                                                            .setProjectLength(
+                                                                value as int);
+                                                        setState(() {
+                                                          projectLength = value;
+                                                        });
+                                                        if (projectLength ==
+                                                                0 ||
+                                                            numOfStudentsController
+                                                                .text.isEmpty ||
+                                                            proposalsController
+                                                                .text.isEmpty) {
+                                                          enable = false;
+                                                        } else {
+                                                          enable = true;
+                                                        }
+                                                        setState(() {});
+                                                      },
+                                                    ),
+                                                  ),
+                                                  SizedBox(
+                                                    height: 30,
+                                                    width:
+                                                        MediaQuery.of(context)
+                                                            .size
+                                                            .width,
+                                                    child: LabeledRadio(
+                                                      label: '3 to 6 months',
+                                                      value: 3,
+                                                      groupValue: projectLength,
+                                                      onChanged: (value) {
+                                                        ref
+                                                            .read(
+                                                                searchFilterProvider
+                                                                    .notifier)
+                                                            .setProjectLength(
+                                                                value as int);
+                                                        setState(() {
+                                                          projectLength = value;
+                                                        });
+                                                        if (projectLength ==
+                                                                0 ||
+                                                            numOfStudentsController
+                                                                .text.isEmpty ||
+                                                            proposalsController
+                                                                .text.isEmpty) {
+                                                          enable = false;
+                                                        } else {
+                                                          enable = true;
+                                                        }
+                                                        setState(() {});
+                                                      },
+                                                    ),
+                                                  ),
+                                                  SizedBox(
+                                                    height: 30,
+                                                    width:
+                                                        MediaQuery.of(context)
+                                                            .size
+                                                            .width,
+                                                    child: LabeledRadio(
+                                                      label:
+                                                          'More than 6 months',
+                                                      value: 4,
+                                                      groupValue: projectLength,
+                                                      onChanged: (value) {
+                                                        ref
+                                                            .read(
+                                                                searchFilterProvider
+                                                                    .notifier)
+                                                            .setProjectLength(
+                                                                value as int);
+                                                        setState(() {
+                                                          projectLength = value;
+                                                        });
+                                                        if (projectLength ==
+                                                                0 ||
+                                                            numOfStudentsController
+                                                                .text.isEmpty ||
+                                                            proposalsController
+                                                                .text.isEmpty) {
+                                                          enable = false;
+                                                        } else {
+                                                          enable = true;
+                                                        }
+                                                        setState(() {});
+                                                      },
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                              // const SizedBox(width: 5),
+
+                                              const SizedBox(height: 20),
+
+                                              const Align(
+                                                alignment: Alignment.topLeft,
+                                                child: Text(
+                                                  "Students needed",
+                                                  style: TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 16,
+                                                  ),
+                                                ),
+                                              ),
+
+                                              const SizedBox(height: 15),
+
+                                              SizedBox(
+                                                child: TextField(
+                                                  controller:
+                                                      numOfStudentsController,
+                                                  onChanged: (data) {
+                                                    if (projectLength == 0 ||
+                                                        numOfStudentsController
+                                                            .text.isEmpty ||
+                                                        proposalsController
+                                                            .text.isEmpty) {
+                                                      enable = false;
+                                                    } else {
+                                                      enable = true;
+                                                    }
+                                                    setState(() {});
+                                                  },
+                                                  style: const TextStyle(
+                                                    fontSize: 16,
+                                                  ),
+                                                  decoration: InputDecoration(
+                                                    // labelText: 'Number of students',
+                                                    border: OutlineInputBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              9),
+                                                    ),
+                                                    focusedBorder:
+                                                        OutlineInputBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              9),
+                                                      borderSide:
+                                                          const BorderSide(
+                                                              color:
+                                                                  Colors.black),
+                                                    ),
+                                                    contentPadding:
+                                                        const EdgeInsets
+                                                            .symmetric(
+                                                      vertical: 14,
+                                                      horizontal: 15,
+                                                    ),
+                                                    hintText:
+                                                        'Number of students',
+                                                  ),
+                                                ),
+                                              ),
+
+                                              const SizedBox(height: 20),
+                                              const Align(
+                                                alignment: Alignment.topLeft,
+                                                child: Text(
+                                                  "Proposals less than",
+                                                  style: TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 16,
+                                                  ),
+                                                ),
+                                              ),
+
+                                              const SizedBox(height: 15),
+
+                                              SizedBox(
+                                                child: TextField(
+                                                  controller:
+                                                      proposalsController,
+                                                  onChanged: (data) {
+                                                    if (projectLength == 0 ||
+                                                        numOfStudentsController
+                                                            .text.isEmpty ||
+                                                        proposalsController
+                                                            .text.isEmpty) {
+                                                      enable = false;
+                                                    } else {
+                                                      enable = true;
+                                                    }
+                                                    setState(() {});
+                                                  },
+                                                  style: const TextStyle(
+                                                    fontSize: 16,
+                                                  ),
+                                                  decoration: InputDecoration(
+                                                    // labelText: 'Number of students',
+                                                    border: OutlineInputBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              9),
+                                                    ),
+                                                    focusedBorder:
+                                                        OutlineInputBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              9),
+                                                      borderSide:
+                                                          const BorderSide(
+                                                              color:
+                                                                  Colors.black),
+                                                    ),
+                                                    contentPadding:
+                                                        const EdgeInsets
+                                                            .symmetric(
+                                                      vertical: 14,
+                                                      horizontal: 15,
+                                                    ),
+                                                    hintText:
+                                                        'Number of students',
+                                                  ),
+                                                ),
+                                              ),
+                                              const SizedBox(height: 120),
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  SizedBox(
+                                                    height: 46,
+                                                    width: 175,
+                                                    child: ElevatedButton(
+                                                      onPressed: () {
+                                                        numOfStudentsController
+                                                            .text = '';
+                                                        proposalsController
+                                                            .text = '';
+                                                        setState(() {
+                                                          projectLength = 0;
+                                                          enable = false;
+                                                        });
+                                                      },
+                                                      style: ElevatedButton
+                                                          .styleFrom(
+                                                        minimumSize: Size
+                                                            .zero, // Set this
+                                                        padding: EdgeInsets
+                                                            .zero, // and this
+                                                        shape:
+                                                            RoundedRectangleBorder(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(8),
+                                                          side:
+                                                              const BorderSide(
+                                                                  color: Colors
+                                                                      .black),
+                                                        ),
+                                                        backgroundColor:
+                                                            Colors.white,
+                                                      ),
+                                                      child: const Text(
+                                                        'Clear filters',
+                                                        style: TextStyle(
+                                                          fontSize: 18,
+                                                          color: Colors.black,
+                                                          fontWeight:
+                                                              FontWeight.w500,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  const SizedBox(width: 15),
+                                                  SizedBox(
+                                                    height: 46,
+                                                    width: 175,
+                                                    child: ElevatedButton(
+                                                      onPressed:
+                                                          enable ? () {} : null,
+                                                      style: ElevatedButton
+                                                          .styleFrom(
+                                                        minimumSize: Size
+                                                            .zero, // Set this
+                                                        padding: EdgeInsets
+                                                            .zero, // and this
+                                                        shape:
+                                                            RoundedRectangleBorder(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(8),
+                                                        ),
+                                                        backgroundColor:
+                                                            Colors.black,
+                                                      ),
+                                                      child: const Text(
+                                                        'Apply',
+                                                        style: TextStyle(
+                                                          fontSize: 18,
+                                                          color: Color.fromARGB(
+                                                              255,
+                                                              255,
+                                                              255,
+                                                              255),
+                                                          fontWeight:
+                                                              FontWeight.w500,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              )
+                                            ],
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              );
+                            });
+                          },
+                        );
                       },
                       child: const Icon(
                         Icons.filter_list_sharp,
@@ -543,6 +1021,287 @@ class _ProjectSearchWidgetState extends ConsumerState<ProjectSearchWidget> {
                       ),
                     ),
                   ],
+                ),
+                const SizedBox(height: 30),
+                SizedBox(
+                  height: 610,
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            ref
+                                .read(optionsProvider.notifier)
+                                .setWidgetOption('ProjectDetails');
+                          },
+                          child: Container(
+                            decoration: const BoxDecoration(
+                              color: Color.fromARGB(255, 233, 235, 240),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(12)),
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                vertical: 20,
+                                horizontal: 20,
+                              ),
+                              child: Column(
+                                children: [
+                                  Row(
+                                    children: [
+                                      const Align(
+                                        alignment: Alignment.topLeft,
+                                        child: SizedBox(
+                                          width: 300,
+                                          child: Text(
+                                            'Senior frontend developer (Fintech)',
+                                            overflow: TextOverflow.ellipsis,
+                                            style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.w600,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      const Spacer(),
+                                      InkWell(
+                                        onTap: () {},
+                                        child: const Icon(
+                                          Icons.favorite_border,
+                                          size: 28,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  const SizedBox(height: 2),
+                                  const Align(
+                                    alignment: Alignment.topLeft,
+                                    child: SizedBox(
+                                      width: 340,
+                                      child: Text(
+                                        'Created 3 days ago',
+                                        style: TextStyle(
+                                          color:
+                                              Color.fromARGB(255, 94, 94, 94),
+                                          overflow: TextOverflow.ellipsis,
+                                          fontSize: 13,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(height: 5),
+                                  const Align(
+                                    alignment: Alignment.topLeft,
+                                    child: SizedBox(
+                                      width: 340,
+                                      child: Text(
+                                        'Time: 1-3 months, 6 students needed',
+                                        style: TextStyle(
+                                          color: Colors.black,
+                                          overflow: TextOverflow.ellipsis,
+                                          fontSize: 16,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(height: 15),
+                                  Container(
+                                    decoration: BoxDecoration(
+                                      border: Border.all(
+                                        color: Colors
+                                            .black, //                   <--- border color
+                                        width: 0.3,
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(height: 15),
+                                  const Align(
+                                    alignment: Alignment.topLeft,
+                                    child: Text(
+                                      'This practice lesson consists of short paragraphs about interesting subjects. Find fun keyboard typing practice—and learn something new! Our paragraph practice is great typing practice for writing essays, reports, emails, and more for school and work.',
+                                      style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(height: 15),
+                                  Container(
+                                    decoration: BoxDecoration(
+                                      border: Border.all(
+                                        color: Colors
+                                            .black, //                   <--- border color
+                                        width: 0.3,
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(height: 15),
+                                  const Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      Icon(
+                                        Icons.format_indent_increase_rounded,
+                                        size: 22,
+                                        color: Colors.black,
+                                      ),
+                                      SizedBox(width: 5),
+                                      Text(
+                                        'Proposals: Less than 5',
+                                        style: TextStyle(
+                                          fontSize: 16,
+                                          color: Colors.black,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 30),
+                        GestureDetector(
+                          onTap: () {
+                            ref
+                                .read(optionsProvider.notifier)
+                                .setWidgetOption('ProjectDetails');
+                          },
+                          child: Container(
+                            decoration: const BoxDecoration(
+                              color: Color.fromARGB(255, 233, 235, 240),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(12)),
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                vertical: 20,
+                                horizontal: 20,
+                              ),
+                              child: Column(
+                                children: [
+                                  Row(
+                                    children: [
+                                      const Align(
+                                        alignment: Alignment.topLeft,
+                                        child: SizedBox(
+                                          width: 300,
+                                          child: Text(
+                                            'Senior frontend developer (Fintech)',
+                                            overflow: TextOverflow.ellipsis,
+                                            style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.w600,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      const Spacer(),
+                                      InkWell(
+                                        onTap: () {},
+                                        child: const Icon(
+                                          Icons.favorite_border,
+                                          size: 28,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  const SizedBox(height: 2),
+                                  const Align(
+                                    alignment: Alignment.topLeft,
+                                    child: SizedBox(
+                                      width: 340,
+                                      child: Text(
+                                        'Created 3 days ago',
+                                        style: TextStyle(
+                                          color:
+                                              Color.fromARGB(255, 94, 94, 94),
+                                          overflow: TextOverflow.ellipsis,
+                                          fontSize: 13,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(height: 5),
+                                  const Align(
+                                    alignment: Alignment.topLeft,
+                                    child: SizedBox(
+                                      width: 340,
+                                      child: Text(
+                                        'Time: 1-3 months, 6 students needed',
+                                        style: TextStyle(
+                                          color: Colors.black,
+                                          overflow: TextOverflow.ellipsis,
+                                          fontSize: 16,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(height: 15),
+                                  Container(
+                                    decoration: BoxDecoration(
+                                      border: Border.all(
+                                        color: Colors
+                                            .black, //                   <--- border color
+                                        width: 0.3,
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(height: 15),
+                                  const Align(
+                                    alignment: Alignment.topLeft,
+                                    child: Text(
+                                      'This practice lesson consists of short paragraphs about interesting subjects. Find fun keyboard typing practice—and learn something new! Our paragraph practice is great typing practice for writing essays, reports, emails, and more for school and work.',
+                                      style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(height: 15),
+                                  Container(
+                                    decoration: BoxDecoration(
+                                      border: Border.all(
+                                        color: Colors
+                                            .black, //                   <--- border color
+                                        width: 0.3,
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(height: 15),
+                                  const Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      Icon(
+                                        Icons.format_indent_increase_rounded,
+                                        size: 22,
+                                        color: Colors.black,
+                                      ),
+                                      SizedBox(width: 5),
+                                      Text(
+                                        'Proposals: Less than 5',
+                                        style: TextStyle(
+                                          fontSize: 16,
+                                          color: Colors.black,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
               ],
             ),
