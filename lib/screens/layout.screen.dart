@@ -14,6 +14,7 @@ import 'package:studenthub/screens/dashboard/dashboard.screen.dart';
 import 'package:studenthub/screens/profile/profile_input.screen.dart';
 import 'package:studenthub/screens/profile/switch_account.screen.dart';
 import 'package:studenthub/screens/projects/project_details.screen.dart';
+import 'package:studenthub/screens/projects/project_search.screen.dart';
 import 'package:studenthub/screens/projects/projects.screen.dart';
 import 'package:studenthub/screens/projects/saved_projects.screen.dart';
 import 'package:studenthub/screens/projects/submit_proposal.screen.dart';
@@ -133,6 +134,11 @@ class _LayoutScreenState extends ConsumerState<LayoutScreen> {
         _selectedPageIndex = 1;
       });
       return const SubmitProposalScreen();
+    } else if (widgetOption == 'ProjectSearch') {
+      setState(() {
+        _selectedPageIndex = 0;
+      });
+      return const ProjectSearchScreen();
     }
 
     return const HomepageScreen();

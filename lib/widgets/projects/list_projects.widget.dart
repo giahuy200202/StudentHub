@@ -3,16 +3,16 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../providers/options_provider.dart';
 
-class ListProjects extends ConsumerStatefulWidget {
-  const ListProjects({super.key});
+class ListProjectsWidget extends ConsumerStatefulWidget {
+  const ListProjectsWidget({super.key});
 
   @override
-  ConsumerState<ListProjects> createState() {
-    return _ListProjectsState();
+  ConsumerState<ListProjectsWidget> createState() {
+    return _ListProjectsWidgetState();
   }
 }
 
-class _ListProjectsState extends ConsumerState<ListProjects> {
+class _ListProjectsWidgetState extends ConsumerState<ListProjectsWidget> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(

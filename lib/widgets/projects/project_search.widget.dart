@@ -1,26 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:studenthub/widgets/projects/list_projects.widget.dart';
-import '../../providers/options_provider.dart';
-// import 'package:keyboard_visibility/keyboard_visibility.dart';
+import 'package:studenthub/providers/options_provider.dart';
+import '../../providers/project_posting_provider.dart';
+// import '../../providers/options_provider.dart';
 
-class ProjectScreen extends ConsumerStatefulWidget {
-  const ProjectScreen({super.key});
+class ProjectSearchWidget extends ConsumerStatefulWidget {
+  const ProjectSearchWidget({super.key});
 
   @override
-  ConsumerState<ProjectScreen> createState() {
-    return _ProjectScreenState();
+  ConsumerState<ProjectSearchWidget> createState() {
+    return _ProjectSearchWidgetState();
   }
 }
 
-class _ProjectScreenState extends ConsumerState<ProjectScreen> {
+class _ProjectSearchWidgetState extends ConsumerState<ProjectSearchWidget> {
   var searchController = TextEditingController();
-  var tempController = TextEditingController();
 
   // @override
   // void dispose() {
   //   searchController.dispose();
-  //   tempController.dispose();
   //   super.dispose();
   // }
 
@@ -437,16 +435,46 @@ class _ProjectScreenState extends ConsumerState<ProjectScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final projectPosting = ref.watch(projectPostingProvider);
+
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.only(left: 20, right: 20),
+          padding: const EdgeInsets.symmetric(horizontal: 20),
           child: Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const SizedBox(height: 30),
+                const SizedBox(height: 25),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    const SizedBox(height: 30),
+                    InkWell(
+                      onTap: () {
+                        ref
+                            .read(optionsProvider.notifier)
+                            .setWidgetOption('Projects');
+                      },
+                      child: const Icon(
+                        Icons.arrow_back_ios,
+                        size: 18,
+                      ),
+                    ),
+                    const SizedBox(width: 10),
+                    const Text(
+                      'Project search',
+                      textAlign: TextAlign.left,
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 20),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -465,9 +493,14 @@ class _ProjectScreenState extends ConsumerState<ProjectScreen> {
                               color: Color.fromARGB(255, 114, 111, 111),
                               fontWeight: FontWeight.w500,
                             ),
-                            controller: tempController,
+                            controller: searchController,
                             textInputAction: TextInputAction.search,
-                            onSubmitted: (value) {},
+                            onSubmitted: (value) {
+                              Navigator.pop(context);
+                              ref
+                                  .read(optionsProvider.notifier)
+                                  .setWidgetOption('ProjectSearch');
+                            },
                             decoration: InputDecoration(
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(10),
@@ -504,15 +537,13 @@ class _ProjectScreenState extends ConsumerState<ProjectScreen> {
                             .setWidgetOption('SavedProjects');
                       },
                       child: const Icon(
-                        Icons.favorite_rounded,
+                        Icons.filter_list_sharp,
                         size: 35,
                         color: Colors.black,
                       ),
                     ),
                   ],
                 ),
-                const SizedBox(height: 30),
-                const ListProjectsWidget(),
               ],
             ),
           ),

@@ -17,7 +17,7 @@ class UserNotifier extends StateNotifier<User> {
       : super(User(
           id: '1',
           name: 'Pham Vo Cuong',
-          role: 'student',
+          role: 'company',
         ));
 
   // void setRole(String value) {
