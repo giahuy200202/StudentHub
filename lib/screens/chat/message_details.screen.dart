@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
 import 'package:studenthub/widgets/message/message_details.widget.dart';
 import 'package:studenthub/widgets/message/body_message.widget.dart';
 import 'package:studenthub/providers/options_provider.dart';
+import 'package:studenthub/widgets/message/BottomSheet.widget.dart';
 
 class MessageDetailsScreen extends ConsumerStatefulWidget {
   const MessageDetailsScreen({super.key});
@@ -18,41 +20,8 @@ class _MessageDetailsScreen extends ConsumerState<MessageDetailsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: PreferredSize(
-            preferredSize: const Size.fromHeight(50),
-            child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: Center(
-                    child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                      const SizedBox(height: 20),
-                      Row(
-                        children: [
-                          const SizedBox(height: 30),
-                          InkWell(
-                            onTap: () {
-                              ref
-                                  .read(optionsProvider.notifier)
-                                  .setWidgetOption('Message');
-                            },
-                            child: const Icon(
-                              Icons.arrow_back_ios,
-                              size: 18,
-                            ),
-                          ),
-                          const SizedBox(width: 10),
-                          const Text(
-                            'Luis Pham',
-                            textAlign: TextAlign.left,
-                            style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.w700,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ])))),
+            preferredSize: Size.fromHeight(100),
+            child: ShowbottomSheduleWidget()),
         body: const Column(
           children: [
             Expanded(child: ChatMessageDetailsWidget()),

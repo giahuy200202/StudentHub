@@ -16,7 +16,7 @@ class _MessageState extends ConsumerState<Message> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-        height: 610,
+        height: 590,
         child: SingleChildScrollView(
           child: Column(
             children: [
@@ -38,41 +38,56 @@ class _MessageState extends ConsumerState<Message> {
                     ),
                     child: Column(
                       children: [
-                        const Row(
+                        Row(
                           children: [
-                            Align(
-                              alignment: Alignment.topLeft,
-                              child: SizedBox(
-                                width: 250,
-                                child: Text(
-                                  'Luis Pham',
-                                  overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.w600,
-                                  ),
+                            Container(
+                              width: 70,
+                              height: 70,
+                              padding: const EdgeInsets.all(20),
+                              decoration: const BoxDecoration(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(10)),
+                                image: DecorationImage(
+                                  image: AssetImage("assets/images/avatar.jpg"),
+                                  fit: BoxFit.cover,
                                 ),
                               ),
                             ),
-                            Spacer(),
-                            Text('6/6/2024')
-                          ],
-                        ),
-                        const SizedBox(height: 2),
-                        const Align(
-                          alignment: Alignment.topLeft,
-                          child: SizedBox(
-                            width: 340,
-                            child: Text(
-                              'Senior frontend developer (Fintech)',
-                              style: TextStyle(
-                                color: Colors.black,
-                                overflow: TextOverflow.ellipsis,
-                                fontSize: 16,
-                              ),
+                            const Column(
+                              children: [
+                                Align(
+                                  alignment: Alignment.topLeft,
+                                  child: SizedBox(
+                                    width: 240,
+                                    child: Text(
+                                      'Luis Pham',
+                                      overflow: TextOverflow.ellipsis,
+                                      style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(height: 2),
+                                Align(
+                                  alignment: Alignment.topLeft,
+                                  child: SizedBox(
+                                    width: 260,
+                                    child: Text(
+                                      'Senior frontend developer (Fintech)',
+                                      style: TextStyle(
+                                        color: Colors.black,
+                                        overflow: TextOverflow.ellipsis,
+                                        fontSize: 16,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
-                          ),
+                          ],
                         ),
                         const SizedBox(height: 15),
                         Container(

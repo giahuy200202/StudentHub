@@ -24,6 +24,7 @@ import 'package:studenthub/screens/profile/profileinputStudent_step1.screen.dart
 import 'package:studenthub/screens/profile/profileinputStudent_step3.screen.dart';
 import 'package:studenthub/screens/chat/message.screen.dart';
 import 'package:studenthub/screens/chat/message_details.screen.dart';
+import 'package:studenthub/widgets/message/videocalll.widget.dart';
 
 class LayoutScreen extends ConsumerStatefulWidget {
   const LayoutScreen({super.key});
@@ -133,6 +134,11 @@ class _LayoutScreenState extends ConsumerState<LayoutScreen> {
         _selectedPageIndex = 1;
       });
       return const SubmitProposalScreen();
+    } else if (widgetOption == 'Videocall') {
+      setState(() {
+        _selectedPageIndex = 2;
+      });
+      return const VideocallWidget();
     }
 
     return const HomepageScreen();
