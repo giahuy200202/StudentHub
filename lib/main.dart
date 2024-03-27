@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:studenthub/notifications/local_notification.dart';
 import 'package:studenthub/screens/layout.screen.dart';
 import 'package:timezone/data/latest.dart' as tz;
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   LocalNotifications.init();
   tz.initializeTimeZones();
-
+  await dotenv.load(fileName: ".env");
   runApp(
     const ProviderScope(
       child: App(),
