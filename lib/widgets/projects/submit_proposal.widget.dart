@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:studenthub/providers/authentication_provider.dart';
 
 import '../../providers/options_provider.dart';
 
@@ -24,6 +25,7 @@ class _SubmitProposalWidgetState extends ConsumerState<SubmitProposalWidget> {
 
   @override
   Widget build(BuildContext context) {
+    final user = ref.watch(userProvider);
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(
@@ -43,7 +45,7 @@ class _SubmitProposalWidgetState extends ConsumerState<SubmitProposalWidget> {
                       onTap: () {
                         ref
                             .read(optionsProvider.notifier)
-                            .setWidgetOption('ProjectDetails');
+                            .setWidgetOption('ProjectDetails', user.role!);
                       },
                       child: const Icon(
                         Icons.arrow_back_ios,

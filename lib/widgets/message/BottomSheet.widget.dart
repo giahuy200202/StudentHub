@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
+import 'package:studenthub/providers/authentication_provider.dart';
 import 'package:studenthub/providers/options_provider.dart';
 
 class ShowbottomSheduleWidget extends ConsumerStatefulWidget {
@@ -393,6 +394,7 @@ class _ShowbottomSheduleWidget extends ConsumerState<ShowbottomSheduleWidget> {
 
   @override
   Widget build(BuildContext context) {
+    final user = ref.watch(userProvider);
     return Scaffold(
         appBar: PreferredSize(
             preferredSize: const Size.fromHeight(69),
@@ -411,7 +413,7 @@ class _ShowbottomSheduleWidget extends ConsumerState<ShowbottomSheduleWidget> {
                             onTap: () {
                               ref
                                   .read(optionsProvider.notifier)
-                                  .setWidgetOption('Message');
+                                  .setWidgetOption('Message', user.role!);
                             },
                             child: const SizedBox(
                               height: 20,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:studenthub/providers/authentication_provider.dart';
 import 'package:studenthub/providers/options_provider.dart';
 import 'package:studenthub/screens/authentication/signup_step1.screen.dart';
 import 'package:studenthub/screens/authentication/signup_step2.screen.dart';
@@ -40,21 +41,21 @@ class _LayoutScreenState extends ConsumerState<LayoutScreen> {
   int _selectedPageIndex = 1;
   bool isLogin = true;
 
-  void _selectPage(int index) {
-    setState(() {
-      _selectedPageIndex = index;
-    });
+  // void _selectPage(int index) {
+  //   setState(() {
+  //     _selectedPageIndex = index;
+  //   });
 
-    if (index == 0) {
-      ref.read(optionsProvider.notifier).setWidgetOption('Projects');
-    } else if (index == 1) {
-      ref.read(optionsProvider.notifier).setWidgetOption('Dashboard');
-    } else if (index == 2) {
-      ref.read(optionsProvider.notifier).setWidgetOption('Message');
-    } else if (index == 3) {
-      ref.read(optionsProvider.notifier).setWidgetOption('');
-    }
-  }
+  //   if (index == 0) {
+  //     ref.read(optionsProvider.notifier).setWidgetOption('Projects');
+  //   } else if (index == 1) {
+  //     ref.read(optionsProvider.notifier).setWidgetOption('Dashboard');
+  //   } else if (index == 2) {
+  //     ref.read(optionsProvider.notifier).setWidgetOption('Message');
+  //   } else if (index == 3) {
+  //     ref.read(optionsProvider.notifier).setWidgetOption('');
+  //   }
+  // }
 
   Widget getCurrentScreen(String widgetOption) {
     if (widgetOption == '' || widgetOption == 'Homepage') {
@@ -153,6 +154,18 @@ class _LayoutScreenState extends ConsumerState<LayoutScreen> {
   @override
   Widget build(BuildContext context) {
     final options = ref.watch(optionsProvider);
+    final user = ref.watch(userProvider);
+    print(options);
+    print(user.role);
+    // Widget currentScreen;
+    // currentScreen = user.role == ''
+    //     ? const LoginScreen()
+    //     : getCurrentScreen(options[Option.widgetOption]!);
+
+    // if (options[Option.widgetOption] == '' ||
+    //     options[Option.widgetOption] == 'Homepage') {
+    //   currentScreen = const HomepageScreen();
+    // }
 
     Widget currentScreen = getCurrentScreen(options[Option.widgetOption]!);
 
@@ -173,13 +186,34 @@ class _LayoutScreenState extends ConsumerState<LayoutScreen> {
                 ),
               ),
         body: currentScreen,
-        bottomNavigationBar: !isLogin ||
-                options[Option.widgetOption] == 'Projects' ||
+        bottomNavigationBar: options[Option.widgetOption] == 'Projects' ||
                 options[Option.widgetOption] == 'Dashboard' ||
                 options[Option.widgetOption] == 'Message' ||
                 options[Option.widgetOption] == 'Alert'
             ? BottomNavigationBar(
-                onTap: _selectPage,
+                onTap: (int index) {
+                  setState(() {
+                    _selectedPageIndex = index;
+                  });
+
+                  if (index == 0) {
+                    ref
+                        .read(optionsProvider.notifier)
+                        .setWidgetOption('Projects', user.role!);
+                  } else if (index == 1) {
+                    ref
+                        .read(optionsProvider.notifier)
+                        .setWidgetOption('Dashboard', user.role!);
+                  } else if (index == 2) {
+                    ref
+                        .read(optionsProvider.notifier)
+                        .setWidgetOption('Message', user.role!);
+                  } else if (index == 3) {
+                    ref
+                        .read(optionsProvider.notifier)
+                        .setWidgetOption('Alert', user.role!);
+                  }
+                },
                 currentIndex: _selectedPageIndex,
                 backgroundColor: Colors.black,
                 elevation: 0.0,

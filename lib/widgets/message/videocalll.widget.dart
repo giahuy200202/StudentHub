@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:studenthub/providers/authentication_provider.dart';
 import 'package:studenthub/providers/options_provider.dart';
 
 class VideocallWidget extends ConsumerStatefulWidget {
@@ -14,9 +15,10 @@ class VideocallWidget extends ConsumerStatefulWidget {
 class _VideocallWidget extends ConsumerState<VideocallWidget> {
   @override
   Widget build(BuildContext context) {
+    final user = ref.watch(userProvider);
     return Scaffold(
         appBar: PreferredSize(
-          preferredSize: Size.fromHeight(80),
+          preferredSize: const Size.fromHeight(80),
           child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Center(
@@ -30,7 +32,7 @@ class _VideocallWidget extends ConsumerState<VideocallWidget> {
                         onTap: () {
                           ref
                               .read(optionsProvider.notifier)
-                              .setWidgetOption('MessageDetails');
+                              .setWidgetOption('MessageDetails', user.role!);
                         },
                         child: const SizedBox(
                           height: 20,
@@ -56,7 +58,7 @@ class _VideocallWidget extends ConsumerState<VideocallWidget> {
         ),
         body: SingleChildScrollView(
             child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20),
+                padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -118,7 +120,7 @@ class _VideocallWidget extends ConsumerState<VideocallWidget> {
                                 ),
                               ),
                             ),
-                            SizedBox(width: 20),
+                            const SizedBox(width: 20),
                             InkWell(
                               onTap: () {},
                               child: const SizedBox(
@@ -130,12 +132,13 @@ class _VideocallWidget extends ConsumerState<VideocallWidget> {
                                 ),
                               ),
                             ),
-                            SizedBox(width: 20),
+                            const SizedBox(width: 20),
                             InkWell(
                               onTap: () {
                                 ref
                                     .read(optionsProvider.notifier)
-                                    .setWidgetOption('MessageDetails');
+                                    .setWidgetOption(
+                                        'MessageDetails', user.role!);
                               },
                               child: const SizedBox(
                                 height: 20,

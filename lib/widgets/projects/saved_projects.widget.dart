@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:studenthub/providers/authentication_provider.dart';
 
 import '../../providers/options_provider.dart';
 
@@ -15,6 +16,7 @@ class SavedProjectsWidget extends ConsumerStatefulWidget {
 class _SavedProjectsWidgetState extends ConsumerState<SavedProjectsWidget> {
   @override
   Widget build(BuildContext context) {
+    final user = ref.watch(userProvider);
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -33,7 +35,7 @@ class _SavedProjectsWidgetState extends ConsumerState<SavedProjectsWidget> {
                     onTap: () {
                       ref
                           .read(optionsProvider.notifier)
-                          .setWidgetOption('Projects');
+                          .setWidgetOption('Projects', user.role!);
                     },
                     child: const Icon(
                       Icons.arrow_back_ios,

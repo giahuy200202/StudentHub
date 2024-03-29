@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:studenthub/providers/authentication_provider.dart';
 import 'package:studenthub/widgets/dashboard/archieved.widget.dart';
 import 'package:studenthub/widgets/dashboard/detail.widget.dart';
 import 'package:studenthub/widgets/dashboard/hired.widget.dart';
@@ -28,6 +29,7 @@ class _SendHireOfferScreenState extends ConsumerState<SendHireOfferScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final user = ref.watch(userProvider);
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.only(left: 20, right: 20),
@@ -46,7 +48,7 @@ class _SendHireOfferScreenState extends ConsumerState<SendHireOfferScreen> {
                     onTap: () {
                       ref
                           .read(optionsProvider.notifier)
-                          .setWidgetOption('Dashboard');
+                          .setWidgetOption('Dashboard', user.role!);
                     },
                     child: const Icon(
                       Icons.arrow_back_ios,

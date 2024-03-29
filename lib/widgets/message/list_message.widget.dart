@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:studenthub/providers/authentication_provider.dart';
 
 import '../../providers/options_provider.dart';
 
@@ -15,6 +16,7 @@ class Message extends ConsumerStatefulWidget {
 class _MessageState extends ConsumerState<Message> {
   @override
   Widget build(BuildContext context) {
+    final user = ref.watch(userProvider);
     return SizedBox(
         height: 590,
         child: SingleChildScrollView(
@@ -24,7 +26,7 @@ class _MessageState extends ConsumerState<Message> {
                 onTap: () {
                   ref
                       .read(optionsProvider.notifier)
-                      .setWidgetOption('MessageDetails');
+                      .setWidgetOption('MessageDetails', user.role!);
                 },
                 child: Container(
                   decoration: const BoxDecoration(

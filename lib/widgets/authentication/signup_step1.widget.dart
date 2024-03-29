@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:studenthub/providers/authentication_provider.dart';
 import 'package:studenthub/providers/options_provider.dart';
+import 'package:studenthub/providers/signup_provider.dart';
 
 class SignupStep1 extends ConsumerStatefulWidget {
   const SignupStep1({super.key});
@@ -27,7 +29,7 @@ class _SignupStep1State extends ConsumerState<SignupStep1> {
 
   @override
   Widget build(BuildContext context) {
-    // final tasks = ref.watch(tasksProvider);
+    final user = ref.watch(userProvider);
 
     Icon iconCheckedCompany = isCompany
         ? const Icon(
@@ -113,6 +115,9 @@ class _SignupStep1State extends ConsumerState<SignupStep1> {
                                     isCompany = true;
                                     isStudent = false;
                                   });
+                                  ref
+                                      .read(userSignupProvider.notifier)
+                                      .setRole(1);
                                 },
                                 child: iconCheckedCompany,
                               ),
@@ -180,6 +185,9 @@ class _SignupStep1State extends ConsumerState<SignupStep1> {
                                     isCompany = false;
                                     isStudent = true;
                                   });
+                                  ref
+                                      .read(userSignupProvider.notifier)
+                                      .setRole(0);
                                 },
                                 child: iconCheckedStudent,
                               ),
@@ -215,7 +223,7 @@ class _SignupStep1State extends ConsumerState<SignupStep1> {
                           : () {
                               ref
                                   .read(optionsProvider.notifier)
-                                  .setWidgetOption('SignupStep2');
+                                  .setWidgetOption('SignupStep2', user.role!);
                             },
                       style: ElevatedButton.styleFrom(
                         shape: RoundedRectangleBorder(
@@ -256,7 +264,7 @@ class _SignupStep1State extends ConsumerState<SignupStep1> {
                         onPressed: () {
                           ref
                               .read(optionsProvider.notifier)
-                              .setWidgetOption('Login');
+                              .setWidgetOption('Login', user.role!);
                         },
                         child: Container(
                           padding: const EdgeInsets.only(

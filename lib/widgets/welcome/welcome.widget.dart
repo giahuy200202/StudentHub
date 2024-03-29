@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:studenthub/providers/authentication_provider.dart';
 import 'package:studenthub/providers/options_provider.dart';
 
 class WelcomeWidget extends ConsumerStatefulWidget {
@@ -14,6 +15,7 @@ class WelcomeWidget extends ConsumerStatefulWidget {
 class _WelcomeWidget extends ConsumerState<WelcomeWidget> {
   @override
   Widget build(BuildContext context) {
+    final user = ref.watch(userProvider);
     return Scaffold(
       body: SingleChildScrollView(
           physics: const NeverScrollableScrollPhysics(),
@@ -81,7 +83,7 @@ class _WelcomeWidget extends ConsumerState<WelcomeWidget> {
                     onPressed: () {
                       ref
                           .read(optionsProvider.notifier)
-                          .setWidgetOption('Dashboard');
+                          .setWidgetOption('Dashboard', user.role!);
                     },
                     style: ElevatedButton.styleFrom(
                       shape: RoundedRectangleBorder(

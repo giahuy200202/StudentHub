@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:studenthub/providers/authentication_provider.dart';
 
 import '../../providers/options_provider.dart';
 
@@ -15,6 +16,7 @@ class ListProjectsWidget extends ConsumerStatefulWidget {
 class _ListProjectsWidgetState extends ConsumerState<ListProjectsWidget> {
   @override
   Widget build(BuildContext context) {
+    final user = ref.watch(userProvider);
     return SizedBox(
       height: 590,
       child: SingleChildScrollView(
@@ -24,7 +26,7 @@ class _ListProjectsWidgetState extends ConsumerState<ListProjectsWidget> {
               onTap: () {
                 ref
                     .read(optionsProvider.notifier)
-                    .setWidgetOption('ProjectDetails');
+                    .setWidgetOption('ProjectDetails', user.role!);
               },
               child: Container(
                 decoration: const BoxDecoration(

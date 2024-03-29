@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:studenthub/providers/authentication_provider.dart';
 
 import '../../providers/options_provider.dart';
 
@@ -326,6 +327,7 @@ class _AllProjectsWidgetState extends ConsumerState<AllProjectsWidget> {
 
   @override
   Widget build(BuildContext context) {
+    final user = ref.watch(userProvider);
     return SizedBox(
       height: 545,
       child: SingleChildScrollView(
@@ -335,7 +337,7 @@ class _AllProjectsWidgetState extends ConsumerState<AllProjectsWidget> {
               onTap: () {
                 ref
                     .read(optionsProvider.notifier)
-                    .setWidgetOption('SendHireOffer');
+                    .setWidgetOption('SendHireOffer', user.role!);
               },
               child: Container(
                 decoration: const BoxDecoration(
@@ -520,7 +522,7 @@ class _AllProjectsWidgetState extends ConsumerState<AllProjectsWidget> {
               onTap: () {
                 ref
                     .read(optionsProvider.notifier)
-                    .setWidgetOption('SendHireOffer');
+                    .setWidgetOption('SendHireOffer', user.role!);
               },
               child: Container(
                 decoration: const BoxDecoration(

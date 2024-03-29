@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:studenthub/providers/authentication_provider.dart';
 import 'package:studenthub/providers/options_provider.dart';
 
 class SwitchAccountWidget extends ConsumerStatefulWidget {
@@ -17,6 +18,7 @@ class _SwitchAccountWidgetState extends ConsumerState<SwitchAccountWidget> {
   @override
   Widget build(BuildContext context) {
     // final tasks = ref.watch(tasksProvider);
+    final user = ref.watch(userProvider);
 
     Icon icon = isChecked
         ? const Icon(Icons.keyboard_arrow_up_outlined,
@@ -245,7 +247,7 @@ class _SwitchAccountWidgetState extends ConsumerState<SwitchAccountWidget> {
                             onTap: () {
                               ref
                                   .read(optionsProvider.notifier)
-                                  .setWidgetOption('ProfileInput');
+                                  .setWidgetOption('ProfileInput', user.role!);
                             },
                             child: const Padding(
                               padding: EdgeInsets.symmetric(
@@ -335,44 +337,55 @@ class _SwitchAccountWidgetState extends ConsumerState<SwitchAccountWidget> {
                         ),
                       ],
                     ),
-                    const TableRow(
+                    TableRow(
                       children: [
                         TableCell(
                           verticalAlignment: TableCellVerticalAlignment.middle,
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 10, vertical: 20),
-                            child: SizedBox(
-                              // width: 250,
-                              child: Padding(
-                                padding: EdgeInsets.only(left: 8),
-                                child: Row(
-                                  children: [
-                                    Icon(
-                                      Icons.logout,
-                                      size: 40,
-                                      color: Color.fromARGB(255, 121, 123, 125),
-                                    ),
-                                    SizedBox(width: 10),
-                                    Padding(
-                                      padding: EdgeInsets.only(left: 2),
-                                      child: Align(
-                                        alignment: Alignment.topLeft,
-                                        child: SizedBox(
-                                          width: 240,
-                                          child: Text(
-                                            'Logout',
-                                            overflow: TextOverflow.ellipsis,
-                                            style: TextStyle(
-                                              color: Color.fromARGB(
-                                                  255, 73, 80, 87),
-                                              fontSize: 16,
+                          child: InkWell(
+                            onTap: () {
+                              ref
+                                  .read(userProvider.notifier)
+                                  .setUserData(0, '', '', '', 0);
+                              ref
+                                  .read(optionsProvider.notifier)
+                                  .setWidgetOption('', user.role!);
+                            },
+                            child: const Padding(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 10, vertical: 20),
+                              child: SizedBox(
+                                // width: 250,
+                                child: Padding(
+                                  padding: EdgeInsets.only(left: 8),
+                                  child: Row(
+                                    children: [
+                                      Icon(
+                                        Icons.logout,
+                                        size: 40,
+                                        color:
+                                            Color.fromARGB(255, 121, 123, 125),
+                                      ),
+                                      SizedBox(width: 10),
+                                      Padding(
+                                        padding: EdgeInsets.only(left: 2),
+                                        child: Align(
+                                          alignment: Alignment.topLeft,
+                                          child: SizedBox(
+                                            width: 240,
+                                            child: Text(
+                                              'Logout',
+                                              overflow: TextOverflow.ellipsis,
+                                              style: TextStyle(
+                                                color: Color.fromARGB(
+                                                    255, 73, 80, 87),
+                                                fontSize: 16,
+                                              ),
                                             ),
                                           ),
                                         ),
                                       ),
-                                    ),
-                                  ],
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:studenthub/providers/authentication_provider.dart';
 import 'package:studenthub/providers/options_provider.dart';
 import 'package:studenthub/providers/profiles_provider.dart';
 
@@ -69,6 +70,7 @@ class _ProfileInputWidgetState extends ConsumerState<ProfileInputWidget> {
     ref.watch(TextCompanyEmployeeProvider);
     ref.watch(TextWebsiteEmpoyleeProvider);
     ref.watch(TextDescriptionEmpoyleeProvider);
+    final user = ref.watch(userProvider);
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(
@@ -311,7 +313,7 @@ class _ProfileInputWidgetState extends ConsumerState<ProfileInputWidget> {
                         ? () {
                             ref
                                 .read(optionsProvider.notifier)
-                                .setWidgetOption('Welcome');
+                                .setWidgetOption('Welcome', user.role!);
                           }
                         : null,
                     style: ElevatedButton.styleFrom(

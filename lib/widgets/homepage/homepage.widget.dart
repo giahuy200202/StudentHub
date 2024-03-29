@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:studenthub/providers/authentication_provider.dart';
 import 'package:studenthub/providers/options_provider.dart';
 
 class GradientText extends StatelessWidget {
@@ -33,6 +34,7 @@ class HomepageWidget extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     // final tasks = ref.watch(tasksProvider);
+    final user = ref.watch(userProvider);
     return Scaffold(
       body: SingleChildScrollView(
           physics: const NeverScrollableScrollPhysics(),
@@ -97,7 +99,7 @@ class HomepageWidget extends ConsumerWidget {
                     onPressed: () {
                       ref
                           .read(optionsProvider.notifier)
-                          .setWidgetOption('Login');
+                          .setWidgetOption('Login', user.role!);
                     },
                     style: ElevatedButton.styleFrom(
                       shape: RoundedRectangleBorder(
@@ -124,7 +126,7 @@ class HomepageWidget extends ConsumerWidget {
                     onPressed: () {
                       ref
                           .read(optionsProvider.notifier)
-                          .setWidgetOption('Login');
+                          .setWidgetOption('Login', user.role!);
                     },
                     style: ElevatedButton.styleFrom(
                       shape: RoundedRectangleBorder(

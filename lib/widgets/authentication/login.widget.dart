@@ -1,6 +1,11 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:motion_toast/motion_toast.dart';
+import 'package:studenthub/helpers/alert_toast.dart';
+import 'package:studenthub/providers/authentication_provider.dart';
 import 'package:studenthub/providers/options_provider.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -27,42 +32,62 @@ class _LoginWidgetState extends ConsumerState<LoginWidget> {
     super.dispose();
   }
 
-  void handleLogin() async {
-    setState(() {
-      isSending = true;
-    });
-    final url =
-        Uri.parse('http://${dotenv.env['IP_ADDRESS']}:4400/auth/sign-in');
-    final response = await http.post(url,
-        headers: {'Content-Type': 'application/json'},
-        body: json.encode(
-          {
-            "email": usernameController.text,
-            "password": passwordController.text
-          },
-        ));
+  void showErrorToast(title, description) {
+    MotionToast(
+      icon: Icons.clear,
+      primaryColor: Colors.red,
+      title: Text(
+        title,
+        style: const TextStyle(
+          fontSize: 16,
+          color: Colors.black,
+          fontWeight: FontWeight.w700,
+        ),
+      ),
+      description: Text(
+        description,
+        style: const TextStyle(
+          fontSize: 16,
+          // overflow: TextOverflow.ellipsis,
+          color: Colors.black,
+          fontWeight: FontWeight.w400,
+        ),
+      ),
+      width: 500,
+      height: 80,
+    ).show(context);
+  }
 
-    // final url = Uri.parse('http://${dotenv.env['IP_ADDRESS']}:4400/auth/me');
-    // final response = await http.get(
-    //   url,
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //     'Authorization':
-    //         'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJnaWFodXkyMDAyMDJAZ21haWwuY29tIiwicm9sZXMiOlsiVVNFUiIsInN0dWRlbnQiXSwiaWF0IjoxNzExNTEwNjU0LCJleHAiOjE3MTI3MjAyNTR9.cgddUEweovamU80M4XOHvxgLp1Un1QVIYgmVQ7IP6BA',
-    //   },
-    // );
-
-    setState(() {
-      isSending = false;
-    });
-    print(json.decode(response.body));
-    // print(json.decode(response.body)["result"]["token"]);
+  void showSuccessToast(title, description) {
+    MotionToast(
+      icon: Icons.check,
+      primaryColor: Colors.green,
+      title: Text(
+        title,
+        style: const TextStyle(
+          fontSize: 16,
+          color: Colors.black,
+          fontWeight: FontWeight.w700,
+        ),
+      ),
+      description: Text(
+        description,
+        style: const TextStyle(
+          fontSize: 16,
+          color: Colors.black,
+          fontWeight: FontWeight.w400,
+        ),
+      ),
+      width: 500,
+      height: 80,
+    ).show(context);
   }
 
   @override
   Widget build(BuildContext context) {
-    // final tasks = ref.watch(tasksProvider);
+    final user = ref.watch(userProvider);
 
+    // print(user.name);
     return Scaffold(
       body: SingleChildScrollView(
           physics: const NeverScrollableScrollPhysics(),
@@ -111,6 +136,7 @@ class _LoginWidgetState extends ConsumerState<LoginWidget> {
                           vertical: 17,
                           horizontal: 15,
                         ),
+                        prefixIcon: const Icon(Icons.email_outlined),
                       ),
                     ),
                   ),
@@ -118,6 +144,7 @@ class _LoginWidgetState extends ConsumerState<LoginWidget> {
                   SizedBox(
                     height: 80,
                     child: TextField(
+                      obscureText: true,
                       controller: passwordController,
                       onChanged: (data) {
                         if (usernameController.text.isEmpty ||
@@ -144,6 +171,7 @@ class _LoginWidgetState extends ConsumerState<LoginWidget> {
                           vertical: 17,
                           horizontal: 15,
                         ),
+                        prefixIcon: const Icon(Icons.key),
                       ),
                     ),
                   ),
@@ -152,7 +180,65 @@ class _LoginWidgetState extends ConsumerState<LoginWidget> {
                     height: 53,
                     width: MediaQuery.of(context).size.width,
                     child: ElevatedButton(
-                      onPressed: enable || !isSending ? handleLogin : null,
+                      onPressed: enable && !isSending
+                          ? () async {
+                              setState(() {
+                                isSending = true;
+                              });
+                              final urlLogin = Uri.parse(
+                                  'http://${dotenv.env['IP_ADDRESS']}/api/auth/sign-in');
+                              final responseLogin = await http.post(urlLogin,
+                                  headers: {'Content-Type': 'application/json'},
+                                  body: json.encode(
+                                    {
+                                      "email": usernameController.text,
+                                      "password": passwordController.text
+                                    },
+                                  ));
+
+                              if (json
+                                  .decode(responseLogin.body)
+                                  .containsKey('errorDetails')) {
+                                showErrorToast(
+                                    'Error',
+                                    json.decode(
+                                        responseLogin.body)['errorDetails'][0]);
+                              } else {
+                                final urlAuthMe = Uri.parse(
+                                    'http://${dotenv.env['IP_ADDRESS']}/api/auth/me');
+                                final responseAuthMe = await http.get(
+                                  urlAuthMe,
+                                  headers: {
+                                    'Content-Type': 'application/json',
+                                    'Authorization':
+                                        'Bearer ${json.decode(responseLogin.body)["result"]["token"]}',
+                                  },
+                                );
+                                final responeAuthMeData =
+                                    json.decode(responseAuthMe.body);
+                                ref.read(userProvider.notifier).setUserData(
+                                    responeAuthMeData["result"]["id"],
+                                    responeAuthMeData["result"]["student"]
+                                        ["fullname"],
+                                    responeAuthMeData["result"]["roles"][0],
+                                    json.decode(responseLogin.body)["result"]
+                                        ["token"],
+                                    responeAuthMeData["result"]["student"]
+                                        ["userId"]);
+
+                                showSuccessToast(
+                                    'Success', 'Login succesfully');
+                                Timer(const Duration(seconds: 3), () {
+                                  ref
+                                      .read(optionsProvider.notifier)
+                                      .setWidgetOption('Dashboard', user.role!);
+                                });
+                              }
+                              setState(() {
+                                isSending = false;
+                              });
+                            }
+                          : null,
                       style: ElevatedButton.styleFrom(
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8),
@@ -196,7 +282,7 @@ class _LoginWidgetState extends ConsumerState<LoginWidget> {
                       onPressed: () {
                         ref
                             .read(optionsProvider.notifier)
-                            .setWidgetOption('SignupStep1');
+                            .setWidgetOption('SignupStep1', user.role!);
                       },
                       style: ElevatedButton.styleFrom(
                         shape: RoundedRectangleBorder(

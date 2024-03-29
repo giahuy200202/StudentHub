@@ -1,5 +1,14 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:motion_toast/motion_toast.dart';
+import 'package:studenthub/providers/authentication_provider.dart';
+import 'package:studenthub/providers/options_provider.dart';
+import 'package:studenthub/providers/signup_provider.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class SignupStep2 extends ConsumerStatefulWidget {
   const SignupStep2({super.key});
@@ -16,6 +25,7 @@ class _SignupStep2State extends ConsumerState<SignupStep2> {
   var passwordController = TextEditingController();
   bool isConfirm = false;
   bool enable = false;
+  bool isSending = false;
 
   @override
   void dispose() {
@@ -25,9 +35,61 @@ class _SignupStep2State extends ConsumerState<SignupStep2> {
     super.dispose();
   }
 
+  void showSuccessToast(title, description) {
+    MotionToast(
+      icon: Icons.check,
+      primaryColor: Colors.green,
+      title: Text(
+        title,
+        style: const TextStyle(
+          fontSize: 16,
+          color: Colors.black,
+          fontWeight: FontWeight.w700,
+        ),
+      ),
+      description: Text(
+        description,
+        style: const TextStyle(
+          fontSize: 16,
+          color: Colors.black,
+          fontWeight: FontWeight.w400,
+        ),
+      ),
+      width: 500,
+      height: 80,
+    ).show(context);
+  }
+
+  void showErrorToast(title, description) {
+    MotionToast(
+      icon: Icons.clear,
+      primaryColor: Colors.red,
+      title: Text(
+        title,
+        style: const TextStyle(
+          fontSize: 16,
+          color: Colors.black,
+          fontWeight: FontWeight.w700,
+        ),
+      ),
+      description: Text(
+        description,
+        style: const TextStyle(
+          fontSize: 16,
+          // overflow: TextOverflow.ellipsis,
+          color: Colors.black,
+          fontWeight: FontWeight.w400,
+        ),
+      ),
+      width: 500,
+      height: 80,
+    ).show(context);
+  }
+
   @override
   Widget build(BuildContext context) {
-    // final tasks = ref.watch(tasksProvider);
+    final userSignup = ref.watch(userSignupProvider);
+    final user = ref.watch(userProvider);
 
     Icon iconCheckedConfirm = isConfirm
         ? const Icon(
@@ -90,6 +152,7 @@ class _SignupStep2State extends ConsumerState<SignupStep2> {
                           vertical: 17,
                           horizontal: 15,
                         ),
+                        prefixIcon: const Icon(Icons.person),
                       ),
                     ),
                   ),
@@ -124,6 +187,7 @@ class _SignupStep2State extends ConsumerState<SignupStep2> {
                           vertical: 17,
                           horizontal: 15,
                         ),
+                        prefixIcon: const Icon(Icons.email_outlined),
                       ),
                     ),
                   ),
@@ -131,6 +195,7 @@ class _SignupStep2State extends ConsumerState<SignupStep2> {
                   SizedBox(
                     height: 80,
                     child: TextField(
+                      obscureText: true,
                       controller: passwordController,
                       onChanged: (data) {
                         if (fullnameController.text.isEmpty ||
@@ -158,6 +223,7 @@ class _SignupStep2State extends ConsumerState<SignupStep2> {
                           vertical: 17,
                           horizontal: 15,
                         ),
+                        prefixIcon: const Icon(Icons.key),
                       ),
                     ),
                   ),
@@ -186,21 +252,78 @@ class _SignupStep2State extends ConsumerState<SignupStep2> {
                     height: 52,
                     width: MediaQuery.of(context).size.width,
                     child: ElevatedButton(
-                      onPressed: enable && isConfirm ? () {} : null,
+                      onPressed: enable && isConfirm && !isSending
+                          ? () async {
+                              setState(() {
+                                isSending = true;
+                              });
+                              final url = Uri.parse(
+                                  'http://${dotenv.env['IP_ADDRESS']}/api/auth/sign-up');
+                              final response = await http.post(url,
+                                  headers: {'Content-Type': 'application/json'},
+                                  body: json.encode(
+                                    {
+                                      "fullName": fullnameController.text,
+                                      "email": emailController.text,
+                                      "password": passwordController.text,
+                                      "role": userSignup.role
+                                    },
+                                  ));
+
+                              setState(() {
+                                isSending = false;
+                              });
+
+                              if (json
+                                  .decode(response.body)
+                                  .containsKey('result')) {
+                                showErrorToast(
+                                    'Error',
+                                    json.decode(response.body)['errorDetails']
+                                        [0]);
+                              } else {
+                                showSuccessToast(
+                                    'Success', 'Register succesfully');
+                                Timer(const Duration(seconds: 3), () {
+                                  ref
+                                      .read(optionsProvider.notifier)
+                                      .setWidgetOption('Login', user.role!);
+                                });
+                              }
+
+                              print(json
+                                  .decode(response.body)
+                                  .containsKey('result'));
+
+                              print('------------');
+
+                              print(json.decode(response.body));
+                            }
+                          : null,
                       style: ElevatedButton.styleFrom(
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8),
                         ),
                         backgroundColor: Colors.black,
                       ),
-                      child: const Text(
-                        'Create my account',
-                        style: TextStyle(
-                          fontSize: 18,
-                          color: Colors.white,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
+                      child: isSending
+                          ? const SizedBox(
+                              height: 17,
+                              width: 17,
+                              child: CircularProgressIndicator(
+                                valueColor: AlwaysStoppedAnimation<Color>(
+                                  Colors.white,
+                                ),
+                              ),
+                            )
+                          : const Text(
+                              'Create my account',
+                              style: TextStyle(
+                                fontSize: 18,
+                                color: Colors.white,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
                     ),
                   ),
                   const SizedBox(height: 25),

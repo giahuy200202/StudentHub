@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:studenthub/providers/authentication_provider.dart';
 import '../../widgets/message/BottomSheet.widget.dart';
 import 'package:intl/intl.dart';
 
@@ -382,6 +383,7 @@ class _ShowscheduleWidget extends ConsumerState<ShowscheduleWidget> {
 
   @override
   Widget build(BuildContext context) {
+    final user = ref.watch(userProvider);
     return SizedBox(
       height: 300,
       child: SingleChildScrollView(
@@ -468,7 +470,7 @@ class _ShowscheduleWidget extends ConsumerState<ShowscheduleWidget> {
                                 onPressed: () {
                                   ref
                                       .read(optionsProvider.notifier)
-                                      .setWidgetOption('Videocall');
+                                      .setWidgetOption('Videocall', user.role!);
                                 },
                                 style: ElevatedButton.styleFrom(
                                   shape: RoundedRectangleBorder(

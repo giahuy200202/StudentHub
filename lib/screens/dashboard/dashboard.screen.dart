@@ -29,6 +29,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
   @override
   Widget build(BuildContext context) {
     final user = ref.watch(userProvider);
+
     Widget dashboardCompany = Scaffold(
       body: Padding(
         padding: const EdgeInsets.only(left: 20, right: 20),
@@ -59,7 +60,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                       onPressed: () {
                         ref
                             .read(optionsProvider.notifier)
-                            .setWidgetOption('ProjectPostStep1');
+                            .setWidgetOption('ProjectPostStep1', user.role!);
                       },
                       style: ElevatedButton.styleFrom(
                         minimumSize: Size.zero, // Set this
@@ -370,6 +371,6 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
       ),
     );
 
-    return user.role == 'company' ? dashboardCompany : dashboardStudent;
+    return user.role == "1" ? dashboardCompany : dashboardStudent;
   }
 }

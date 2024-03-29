@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:studenthub/providers/authentication_provider.dart';
 import '../../providers/project_posting_provider.dart';
 import '../../providers/options_provider.dart';
 
@@ -62,7 +63,7 @@ class _ProjectPostStep2WidgetState
   @override
   Widget build(BuildContext context) {
     final projectPosting = ref.watch(projectPostingProvider);
-
+    final user = ref.watch(userProvider);
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(
@@ -206,7 +207,8 @@ class _ProjectPostStep2WidgetState
 
                               ref
                                   .read(optionsProvider.notifier)
-                                  .setWidgetOption('ProjectPostStep3');
+                                  .setWidgetOption(
+                                      'ProjectPostStep3', user.role!);
                             }
                           : null,
                       style: ElevatedButton.styleFrom(

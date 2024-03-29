@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:studenthub/providers/authentication_provider.dart';
 import 'package:studenthub/providers/options_provider.dart';
 import '../../providers/project_posting_provider.dart';
 // import '../../providers/options_provider.dart';
@@ -25,6 +26,7 @@ class _ProjectDetailsWidgetState extends ConsumerState<ProjectDetailsWidget> {
   @override
   Widget build(BuildContext context) {
     final projectPosting = ref.watch(projectPostingProvider);
+    final user = ref.watch(userProvider);
 
     return Scaffold(
       body: SingleChildScrollView(
@@ -45,7 +47,7 @@ class _ProjectDetailsWidgetState extends ConsumerState<ProjectDetailsWidget> {
                       onTap: () {
                         ref
                             .read(optionsProvider.notifier)
-                            .setWidgetOption('Projects');
+                            .setWidgetOption('Projects', user.role!);
                       },
                       child: const Icon(
                         Icons.arrow_back_ios,
@@ -232,7 +234,7 @@ class _ProjectDetailsWidgetState extends ConsumerState<ProjectDetailsWidget> {
                         onPressed: () {
                           ref
                               .read(optionsProvider.notifier)
-                              .setWidgetOption('SubmitProposal');
+                              .setWidgetOption('SubmitProposal', user.role!);
                         },
                         style: ElevatedButton.styleFrom(
                           minimumSize: Size.zero, // Set this
@@ -261,7 +263,7 @@ class _ProjectDetailsWidgetState extends ConsumerState<ProjectDetailsWidget> {
                         onPressed: () {
                           ref
                               .read(optionsProvider.notifier)
-                              .setWidgetOption('ProjectPostStep1');
+                              .setWidgetOption('ProjectPostStep1', user.role!);
                         },
                         style: ElevatedButton.styleFrom(
                           minimumSize: Size.zero, // Set this
