@@ -134,7 +134,7 @@ class ViewProfileWidget extends ConsumerWidget {
           child: Center(
             child: Column(
               children: [
-                const SizedBox(height: 45),
+                const SizedBox(height: 30),
                 const Text(
                   'Welcome to Student Hub',
                   textAlign: TextAlign.center,
@@ -144,18 +144,20 @@ class ViewProfileWidget extends ConsumerWidget {
                   ),
                 ),
                 /////////////
-                const SizedBox(height: 30),
+                const SizedBox(height: 20),
                 Container(
+                  height: 25,
                   alignment: Alignment.centerLeft,
                   child: const Text(
                     'Company name',
-                    style: TextStyle(fontSize: 16),
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
                   ),
                 ),
-                const SizedBox(height: 20),
+                const SizedBox(height: 15),
                 SizedBox(
                   height: 60,
                   child: TextField(
+                    maxLines: 2,
                     controller: textCompany,
                     style: const TextStyle(
                       fontSize: 16,
@@ -177,10 +179,11 @@ class ViewProfileWidget extends ConsumerWidget {
                 ),
                 ////////////////
                 Container(
+                  height: 25,
                   alignment: Alignment.centerLeft,
                   child: const Text(
                     'Website',
-                    style: TextStyle(fontSize: 16),
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
                   ),
                 ),
                 const SizedBox(height: 15),
@@ -188,6 +191,7 @@ class ViewProfileWidget extends ConsumerWidget {
                   height: 60,
                   child: TextField(
                     controller: textWebsite,
+                    maxLines: 2,
                     style: const TextStyle(
                       fontSize: 16,
                     ),
@@ -208,10 +212,11 @@ class ViewProfileWidget extends ConsumerWidget {
                 ),
                 //////
                 Container(
+                  height: 25,
                   alignment: Alignment.centerLeft,
                   child: const Text(
                     'Description',
-                    style: TextStyle(fontSize: 16),
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
                   ),
                 ),
                 const SizedBox(height: 15),
@@ -238,12 +243,13 @@ class ViewProfileWidget extends ConsumerWidget {
                     ),
                   ),
                 ),
-                const SizedBox(height: 20),
+                const SizedBox(height: 15),
                 Container(
+                  height: 25,
                   alignment: Alignment.centerLeft,
                   child: const Text(
                     'How many people in company?',
-                    style: TextStyle(fontSize: 16),
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
                   ),
                 ),
                 ///////////////
@@ -266,7 +272,7 @@ class ViewProfileWidget extends ConsumerWidget {
                     ),
                   ],
                 ),
-                const SizedBox(height: 150),
+                const SizedBox(height: 200),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [

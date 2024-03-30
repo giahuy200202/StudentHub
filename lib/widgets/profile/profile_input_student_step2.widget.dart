@@ -49,7 +49,7 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentStep2Widget> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const SizedBox(height: 30),
+              const SizedBox(height: 10),
               const Center(
                 child: Text(
                   'Experiences',
@@ -60,19 +60,19 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentStep2Widget> {
                   ),
                 ),
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 10),
               const Text(
                 'Tell us about your self and you will be your way connect with real-world project',
                 style: TextStyle(fontSize: 16),
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 10),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   const Text(
                     'Projects',
                     style: TextStyle(
-                      fontSize: 16,
+                      fontSize: 18,
                       fontWeight: FontWeight.w500,
                     ),
                   ),
@@ -86,7 +86,7 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentStep2Widget> {
                   ),
                 ],
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 10),
               Column(
                 children: [
                   Row(
@@ -125,7 +125,7 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentStep2Widget> {
                       ]),
                     ],
                   ),
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 10),
                   const Text(
                     'It is the developer of a super-app for ride-halling, food delivery, and digital payments services on mobile devices that operates in Singapore, Malaysia, ..',
                     style: TextStyle(
@@ -134,15 +134,15 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentStep2Widget> {
                   ),
                 ],
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 10),
               const Text(
                 'Skillset',
                 style: TextStyle(
-                  fontSize: 16,
+                  fontSize: 18,
                   fontWeight: FontWeight.w500,
                 ),
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 10),
               MultiSelectBottomSheet(
                 items: selectCountryItem, // required for Item list
                 width: 360,
@@ -161,14 +161,14 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentStep2Widget> {
                 unSelectTextStyle:
                     const TextStyle(color: Colors.black, fontSize: 17),
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 10),
               const Divider(
-                height: 20,
-                thickness: 2,
+                height: 10,
+                thickness: 1,
                 endIndent: 0,
-                color: Colors.black,
+                color: Colors.grey,
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 10),
               Column(
                 children: [
                   Row(
@@ -207,7 +207,7 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentStep2Widget> {
                       ]),
                     ],
                   ),
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 10),
                   const Text(
                     'It is the developer of a super-app for ride-halling, food delivery, and digital payments services on mobile devices that operates in Singapore, Malaysia, ..',
                     style: TextStyle(
@@ -216,7 +216,7 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentStep2Widget> {
                   ),
                 ],
               ),
-              const SizedBox(height: 15),
+              const SizedBox(height: 90),
               Container(
                 alignment: Alignment.centerRight,
                 child: SizedBox(

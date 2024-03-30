@@ -397,67 +397,59 @@ class _ShowbottomSheduleWidget extends ConsumerState<ShowbottomSheduleWidget> {
     final user = ref.watch(userProvider);
     return Scaffold(
         appBar: PreferredSize(
-            preferredSize: const Size.fromHeight(69),
+            preferredSize: const Size.fromHeight(80),
             child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: Center(
-                    child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                      const SizedBox(height: 20),
-                      Row(
-                        children: [
-                          const SizedBox(height: 30),
-                          InkWell(
-                            onTap: () {
-                              ref
-                                  .read(optionsProvider.notifier)
-                                  .setWidgetOption('Message', user.role!);
-                            },
-                            child: const SizedBox(
-                              height: 20,
-                              width: 20,
-                              child: Icon(
-                                Icons.arrow_back_ios,
-                                size: 20,
-                              ),
-                            ),
-                          ),
-                          const SizedBox(width: 10),
-                          const Text(
-                            'Luis Pham',
-                            textAlign: TextAlign.left,
-                            style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.w700,
-                            ),
-                          ),
-                          const Spacer(),
-                          PopupMenuButton<int>(
-                            onSelected: (item) => handleClick(item),
-                            itemBuilder: (context) => [
-                              const PopupMenuItem<int>(
-                                  value: 0,
-                                  child: Text(
-                                    'Schedule an interview',
-                                    style: TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w400),
-                                  )),
-                              const PopupMenuItem<int>(
-                                value: 1,
-                                child: Text(
-                                  'Cancel',
-                                  style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w400),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
+                padding: const EdgeInsets.only(
+                    left: 20, right: 15, top: 20, bottom: 0),
+                child: Row(
+                  children: [
+                    const SizedBox(height: 30),
+                    InkWell(
+                      onTap: () {
+                        ref
+                            .read(optionsProvider.notifier)
+                            .setWidgetOption('Message', user.role!);
+                      },
+                      child: const SizedBox(
+                        height: 20,
+                        width: 20,
+                        child: Icon(
+                          Icons.arrow_back_ios,
+                          size: 20,
+                        ),
                       ),
-                    ])))));
+                    ),
+                    const SizedBox(width: 10),
+                    const Text(
+                      'Luis Pham',
+                      textAlign: TextAlign.left,
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                    const Spacer(),
+                    PopupMenuButton<int>(
+                      onSelected: (item) => handleClick(item),
+                      itemBuilder: (context) => [
+                        const PopupMenuItem<int>(
+                            value: 0,
+                            child: Text(
+                              'Schedule an interview',
+                              style: TextStyle(
+                                  fontSize: 16, fontWeight: FontWeight.w400),
+                            )),
+                        const PopupMenuItem<int>(
+                          value: 1,
+                          child: Text(
+                            'Cancel',
+                            style: TextStyle(
+                                fontSize: 16, fontWeight: FontWeight.w400),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ))));
   }
 }
