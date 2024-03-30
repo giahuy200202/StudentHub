@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:studenthub/providers/authentication_provider.dart';
-import 'package:studenthub/providers/options_provider.dart';
+import 'package:studenthub/providers/authentication/authentication.provider.dart';
+import 'package:studenthub/providers/options.provider.dart';
 import 'package:studenthub/screens/authentication/signup_step1.screen.dart';
 import 'package:studenthub/screens/authentication/signup_step2.screen.dart';
 import 'package:studenthub/screens/dashboard/send_hire_offer.screen.dart';
@@ -13,6 +13,7 @@ import 'package:studenthub/screens/post_project/project_post_step3.screen.dart';
 import 'package:studenthub/screens/post_project/project_post_step4.screen.dart';
 import 'package:studenthub/screens/dashboard/dashboard.screen.dart';
 import 'package:studenthub/screens/profile/profile_input.screen.dart';
+import 'package:studenthub/screens/profile/profileinputStudent_step2.screen.dart';
 import 'package:studenthub/screens/profile/switch_account.screen.dart';
 import 'package:studenthub/screens/projects/project_details.screen.dart';
 import 'package:studenthub/screens/projects/project_search.screen.dart';
@@ -70,6 +71,12 @@ class _LayoutScreenState extends ConsumerState<LayoutScreen> {
       return const SwitchAccountScreen();
     } else if (widgetOption == 'ProfileInput') {
       return const ProfileInputScreen();
+    } else if (widgetOption == 'ProfileInputStudent') {
+      return const ProfileIputStudentScreen();
+    } else if (widgetOption == 'ProfileInputStudentStep2') {
+      return const ProfileIputStudentStep2Screen();
+    } else if (widgetOption == 'ProfileInputStudentStep3') {
+      return const ProfileIputStudentStep3Screen();
     } else if (widgetOption == 'Welcome') {
       return const WelcomeScreen();
     } else if (widgetOption == 'ViewProfile') {

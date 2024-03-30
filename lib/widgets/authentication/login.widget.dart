@@ -5,10 +5,14 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:motion_toast/motion_toast.dart';
 import 'package:studenthub/helpers/alert_toast.dart';
-import 'package:studenthub/providers/authentication_provider.dart';
-import 'package:studenthub/providers/options_provider.dart';
+import 'package:studenthub/providers/authentication/authentication.provider.dart';
+import 'package:studenthub/providers/authentication/login.provider.dart';
+import 'package:studenthub/providers/options.provider.dart';
 import 'package:http/http.dart' as http;
+import 'package:studenthub/providers/profile/company.provider.dart';
 import 'dart:convert';
+
+import 'package:studenthub/providers/profile/student.provider.dart';
 
 class LoginWidget extends ConsumerStatefulWidget {
   const LoginWidget({super.key});
@@ -86,6 +90,8 @@ class _LoginWidgetState extends ConsumerState<LoginWidget> {
   @override
   Widget build(BuildContext context) {
     final user = ref.watch(userProvider);
+    final userLoginRole = ref.watch(userLoginProvider);
+    final company = ref.watch(companyProvider);
 
     // print(user.name);
     return Scaffold(
@@ -199,10 +205,19 @@ class _LoginWidgetState extends ConsumerState<LoginWidget> {
                               if (json
                                   .decode(responseLogin.body)
                                   .containsKey('errorDetails')) {
-                                showErrorToast(
-                                    'Error',
-                                    json.decode(
-                                        responseLogin.body)['errorDetails'][0]);
+                                if (json.decode(
+                                        responseLogin.body)['errorDetails']
+                                    is String) {
+                                  showErrorToast(
+                                      'Error',
+                                      json.decode(
+                                          responseLogin.body)['errorDetails']);
+                                } else {
+                                  showErrorToast(
+                                      'Error',
+                                      json.decode(responseLogin.body)[
+                                          'errorDetails'][0]);
+                                }
                               } else {
                                 final urlAuthMe = Uri.parse(
                                     'http://${dotenv.env['IP_ADDRESS']}/api/auth/me');
@@ -216,22 +231,81 @@ class _LoginWidgetState extends ConsumerState<LoginWidget> {
                                 );
                                 final responeAuthMeData =
                                     json.decode(responseAuthMe.body);
+
+                                //Set authentication data
                                 ref.read(userProvider.notifier).setUserData(
-                                    responeAuthMeData["result"]["id"],
-                                    responeAuthMeData["result"]["student"]
-                                        ["fullname"],
-                                    responeAuthMeData["result"]["roles"][0],
-                                    json.decode(responseLogin.body)["result"]
-                                        ["token"],
-                                    responeAuthMeData["result"]["student"]
-                                        ["userId"]);
+                                      responeAuthMeData["result"]["id"],
+                                      userLoginRole,
+                                      json.decode(responseLogin.body)["result"]
+                                          ["token"],
+                                    );
+
+                                print(user.token);
 
                                 showSuccessToast(
                                     'Success', 'Login succesfully');
+
+                                print(responeAuthMeData);
+
+                                //Set student data
+                                if (responeAuthMeData["result"]["student"] !=
+                                    null) {
+                                  ref
+                                      .read(studentProvider.notifier)
+                                      .setStudentData(
+                                        responeAuthMeData["result"]["student"]
+                                            ["id"],
+                                        responeAuthMeData["result"]["student"]
+                                            ["fullname"],
+                                        responeAuthMeData["result"]["student"]
+                                            ["techStackId"],
+                                        responeAuthMeData["result"]["student"]
+                                            ["skillSets"],
+                                      );
+
+                                  Timer(const Duration(seconds: 3), () {
+                                    ref
+                                        .read(optionsProvider.notifier)
+                                        .setWidgetOption(
+                                            'Projects', user.role!);
+                                  });
+                                }
+
+                                // //Set company data
+                                if (responeAuthMeData["result"]["company"] !=
+                                    null) {
+                                  ref
+                                      .read(companyProvider.notifier)
+                                      .setCompanyData(
+                                        responeAuthMeData["result"]["company"]
+                                            ["id"],
+                                        responeAuthMeData["result"]["company"]
+                                            ["companyName"],
+                                        responeAuthMeData["result"]["company"]
+                                            ["website"],
+                                        responeAuthMeData["result"]["company"]
+                                            ["description"],
+                                        responeAuthMeData["result"]["company"]
+                                            ["size"],
+                                      );
+                                  Timer(const Duration(seconds: 3), () {
+                                    ref
+                                        .read(optionsProvider.notifier)
+                                        .setWidgetOption(
+                                            'Dashboard', user.role!);
+                                  });
+                                }
+
                                 Timer(const Duration(seconds: 3), () {
                                   ref
                                       .read(optionsProvider.notifier)
-                                      .setWidgetOption('Dashboard', user.role!);
+                                      .setWidgetOption(
+                                          user.role == '0'
+                                              ? 'ProfileInputStudent'
+                                              : (company.id == 0
+                                                  ? 'ProfileInput'
+                                                  : 'Dashboard'),
+                                          user.role!);
                                 });
                               }
                               setState(() {

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:studenthub/providers/authentication_provider.dart';
-import 'package:studenthub/providers/options_provider.dart';
+import 'package:studenthub/providers/authentication/authentication.provider.dart';
+import 'package:studenthub/providers/options.provider.dart';
 
 class WelcomeWidget extends ConsumerStatefulWidget {
   const WelcomeWidget({super.key});
@@ -81,9 +81,9 @@ class _WelcomeWidget extends ConsumerState<WelcomeWidget> {
                   width: MediaQuery.of(context).size.width,
                   child: ElevatedButton(
                     onPressed: () {
-                      ref
-                          .read(optionsProvider.notifier)
-                          .setWidgetOption('Dashboard', user.role!);
+                      ref.read(optionsProvider.notifier).setWidgetOption(
+                          user.role == '0' ? 'Projects' : 'Dashboard',
+                          user.role!);
                     },
                     style: ElevatedButton.styleFrom(
                       shape: RoundedRectangleBorder(

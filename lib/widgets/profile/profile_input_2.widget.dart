@@ -1,6 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:studenthub/providers/profiles_provider.dart';
+import 'package:motion_toast/motion_toast.dart';
+import 'package:studenthub/providers/authentication/authentication.provider.dart';
+import 'package:studenthub/providers/options.provider.dart';
+import 'package:studenthub/providers/profile/company.provider.dart';
+import 'package:studenthub/providers/profile/profiles.provider.dart';
+import 'package:http/http.dart' as http;
+import 'dart:async';
+import 'dart:convert';
 
 class LabeledRadio<T> extends StatelessWidget {
   const LabeledRadio({
@@ -46,6 +54,77 @@ class ViewProfileWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    void showErrorToast(title, description) {
+      MotionToast(
+        icon: Icons.clear,
+        primaryColor: Colors.red,
+        title: Text(
+          title,
+          style: const TextStyle(
+            fontSize: 16,
+            color: Colors.black,
+            fontWeight: FontWeight.w700,
+          ),
+        ),
+        description: Text(
+          description,
+          style: const TextStyle(
+            fontSize: 16,
+            // overflow: TextOverflow.ellipsis,
+            color: Colors.black,
+            fontWeight: FontWeight.w400,
+          ),
+        ),
+        width: 500,
+        height: 80,
+      ).show(context);
+    }
+
+    void showSuccessToast(title, description) {
+      MotionToast(
+        icon: Icons.check,
+        primaryColor: Colors.green,
+        title: Text(
+          title,
+          style: const TextStyle(
+            fontSize: 16,
+            color: Colors.black,
+            fontWeight: FontWeight.w700,
+          ),
+        ),
+        description: Text(
+          description,
+          style: const TextStyle(
+            fontSize: 16,
+            color: Colors.black,
+            fontWeight: FontWeight.w400,
+          ),
+        ),
+        width: 500,
+        height: 80,
+      ).show(context);
+    }
+
+    final textCompany = TextEditingController();
+    final textWebsite = TextEditingController();
+    final textDescription = TextEditingController();
+    final company = ref.watch(companyProvider);
+    final user = ref.watch(userProvider);
+
+    textCompany.text = company.companyName!;
+    textWebsite.text = company.website!;
+    textDescription.text = company.description!;
+
+    final numOfPeople = company.size == 1
+        ? 'It\'s just me'
+        : company.size == 2
+            ? ' 2-9 employees'
+            : company.size == 3
+                ? '10-99 employees'
+                : company.size == 4
+                    ? '100-1000 employees'
+                    : 'More than 1000 employees';
+
     var selectedEmployee = ref.watch(selectedEmployeeProvider);
 
     return Scaffold(
@@ -55,12 +134,12 @@ class ViewProfileWidget extends ConsumerWidget {
           child: Center(
             child: Column(
               children: [
-                const SizedBox(height: 50),
+                const SizedBox(height: 45),
                 const Text(
                   'Welcome to Student Hub',
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    fontSize: 20,
+                    fontSize: 22,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -77,6 +156,7 @@ class ViewProfileWidget extends ConsumerWidget {
                 SizedBox(
                   height: 60,
                   child: TextField(
+                    controller: textCompany,
                     style: const TextStyle(
                       fontSize: 16,
                     ),
@@ -107,6 +187,7 @@ class ViewProfileWidget extends ConsumerWidget {
                 SizedBox(
                   height: 60,
                   child: TextField(
+                    controller: textWebsite,
                     style: const TextStyle(
                       fontSize: 16,
                     ),
@@ -137,9 +218,10 @@ class ViewProfileWidget extends ConsumerWidget {
                 SizedBox(
                   height: 100,
                   child: TextField(
+                    controller: textDescription,
                     maxLines: 4,
                     style: const TextStyle(
-                      fontSize: 13.5,
+                      fontSize: 16,
                     ),
                     decoration: InputDecoration(
                       border: OutlineInputBorder(
@@ -172,9 +254,9 @@ class ViewProfileWidget extends ConsumerWidget {
                       height: 30,
                       width: MediaQuery.of(context).size.width,
                       child: LabeledRadio(
-                        label: 'It\'s just me',
+                        label: numOfPeople,
                         value: 1,
-                        groupValue: selectedEmployee,
+                        groupValue: 1,
                         onChanged: (value) {
                           ref
                               .read(selectedEmployeeProvider.notifier)
@@ -218,7 +300,56 @@ class ViewProfileWidget extends ConsumerWidget {
                       height: 46,
                       width: 110,
                       child: ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () async {
+                          final url = Uri.parse(
+                              'http://${dotenv.env['IP_ADDRESS']}/api/profile/company/${company.id}');
+
+                          final response = await http.put(url,
+                              headers: {
+                                'Content-Type': 'application/json',
+                                'Authorization': 'Bearer ${user.token}',
+                              },
+                              body: json.encode(
+                                {
+                                  // "fullname": textCompany.text,
+                                  "companyName": textCompany.text,
+                                  "size": selectedEmployee,
+                                  "website": textWebsite.text,
+                                  "description": textDescription.text
+                                },
+                              ));
+                          print(json.decode(response.body));
+                          if (json
+                              .decode(response.body)
+                              .containsKey('errorDetails')) {
+                            if (json.decode(response.body)['errorDetails']
+                                is String) {
+                              showErrorToast('Error',
+                                  json.decode(response.body)['errorDetails']);
+                            } else {
+                              showErrorToast(
+                                  'Error',
+                                  json.decode(response.body)['errorDetails']
+                                      [0]);
+                            }
+                          } else {
+                            showSuccessToast('Success', 'Create succesfully');
+                            ref.read(companyProvider.notifier).setCompanyData(
+                                // json.decode(response.body)["result"]["id"],
+                                // json.decode(response.body)["result"]
+                                //     ["companyName"],
+                                // json.decode(response.body)["result"]
+                                //     ["website"],
+                                // json.decode(response.body)["result"]
+                                //     ["description"],
+                                // json.decode(response.body)["result"]["size"],
+                                company.id!,
+                                textCompany.text,
+                                textWebsite.text,
+                                textDescription.text,
+                                selectedEmployee);
+                          }
+                        },
                         style: ElevatedButton.styleFrom(
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(8),

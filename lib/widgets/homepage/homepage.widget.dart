@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:studenthub/providers/authentication_provider.dart';
-import 'package:studenthub/providers/options_provider.dart';
+import 'package:studenthub/providers/authentication/authentication.provider.dart';
+import 'package:studenthub/providers/authentication/login.provider.dart';
+import 'package:studenthub/providers/options.provider.dart';
 
 class GradientText extends StatelessWidget {
   const GradientText(
@@ -97,6 +98,7 @@ class HomepageWidget extends ConsumerWidget {
                   width: MediaQuery.of(context).size.width,
                   child: ElevatedButton(
                     onPressed: () {
+                      ref.read(userLoginProvider.notifier).setRole('1');
                       ref
                           .read(optionsProvider.notifier)
                           .setWidgetOption('Login', user.role!);
@@ -124,6 +126,7 @@ class HomepageWidget extends ConsumerWidget {
                   width: MediaQuery.of(context).size.width,
                   child: ElevatedButton(
                     onPressed: () {
+                      ref.read(userLoginProvider.notifier).setRole('0');
                       ref
                           .read(optionsProvider.notifier)
                           .setWidgetOption('Login', user.role!);

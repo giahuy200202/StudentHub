@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:studenthub/providers/authentication_provider.dart';
-import 'package:studenthub/providers/options_provider.dart';
-import 'package:studenthub/providers/search_filter_provider.dart';
-import '../../providers/project_posting_provider.dart';
+import 'package:studenthub/providers/authentication/authentication.provider.dart';
+import 'package:studenthub/providers/options.provider.dart';
+import 'package:studenthub/providers/search_filter.provider.dart';
+import '../../providers/project_posting.provider.dart';
 // import '../../providers/options_provider.dart';
 
 class LabeledRadio<T> extends StatelessWidget {

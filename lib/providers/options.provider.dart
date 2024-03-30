@@ -1,5 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:studenthub/providers/authentication_provider.dart';
+import 'package:studenthub/providers/authentication/authentication.provider.dart';
 // import 'package:todo/models/option.dart';
 
 enum Option { widgetOption }
@@ -19,13 +19,14 @@ class OptionsNotifier extends StateNotifier<Map<Option, String>> {
           Option.widgetOption: option,
         };
       } else {
-        print('--------------');
+        print('home');
         state = {
           ...state,
           Option.widgetOption: '',
         };
       }
     } else {
+      print('bth');
       state = {
         ...state,
         Option.widgetOption: option,

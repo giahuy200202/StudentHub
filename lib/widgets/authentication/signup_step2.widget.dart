@@ -4,9 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:motion_toast/motion_toast.dart';
-import 'package:studenthub/providers/authentication_provider.dart';
-import 'package:studenthub/providers/options_provider.dart';
-import 'package:studenthub/providers/signup_provider.dart';
+import 'package:studenthub/providers/authentication/authentication.provider.dart';
+import 'package:studenthub/providers/authentication/login.provider.dart';
+import 'package:studenthub/providers/options.provider.dart';
+import 'package:studenthub/providers/authentication/signup.provider.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
@@ -257,13 +258,14 @@ class _SignupStep2State extends ConsumerState<SignupStep2> {
                               setState(() {
                                 isSending = true;
                               });
+
                               final url = Uri.parse(
                                   'http://${dotenv.env['IP_ADDRESS']}/api/auth/sign-up');
                               final response = await http.post(url,
                                   headers: {'Content-Type': 'application/json'},
                                   body: json.encode(
                                     {
-                                      "fullName": fullnameController.text,
+                                      "fullname": fullnameController.text,
                                       "email": emailController.text,
                                       "password": passwordController.text,
                                       "role": userSignup.role
@@ -276,12 +278,25 @@ class _SignupStep2State extends ConsumerState<SignupStep2> {
 
                               if (json
                                   .decode(response.body)
-                                  .containsKey('result')) {
-                                showErrorToast(
-                                    'Error',
-                                    json.decode(response.body)['errorDetails']
-                                        [0]);
+                                  .containsKey('errorDetails')) {
+                                if (json.decode(response.body)['errorDetails']
+                                    is String) {
+                                  showErrorToast(
+                                      'Error',
+                                      json.decode(
+                                          response.body)['errorDetails']);
+                                } else {
+                                  showErrorToast(
+                                      'Error',
+                                      json.decode(response.body)['errorDetails']
+                                          [0]);
+                                }
                               } else {
+                                // print(json.decode(response.body));
+                                ref
+                                    .read(userLoginProvider.notifier)
+                                    .setRole('${userSignup.role}');
+
                                 showSuccessToast(
                                     'Success', 'Register succesfully');
                                 Timer(const Duration(seconds: 3), () {
@@ -297,7 +312,7 @@ class _SignupStep2State extends ConsumerState<SignupStep2> {
 
                               print('------------');
 
-                              print(json.decode(response.body));
+                              // print(json.decode(response.body));
                             }
                           : null,
                       style: ElevatedButton.styleFrom(

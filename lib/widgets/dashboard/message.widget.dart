@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../providers/options_provider.dart';
+import '../../providers/options.provider.dart';
 
 class MessageWidget extends ConsumerStatefulWidget {
   const MessageWidget({super.key});

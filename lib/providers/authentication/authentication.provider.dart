@@ -17,21 +17,25 @@ class User {
 }
 
 class UserNotifier extends StateNotifier<User> {
-  UserNotifier() : super(User(id: 0, name: '', role: '', token: '', roleId: 0));
+  UserNotifier() : super(User(id: 0, role: '', token: ''));
 
-  void setUserData(int id, String name, String role, String token, int roleId) {
+  void setUserData(int id, String role, String token) {
     User temp = User(
       id: state.id,
-      name: state.name,
       role: state.role,
       token: state.token,
-      roleId: state.roleId,
     );
     temp.id = id;
-    temp.name = name;
     temp.role = role;
     temp.token = token;
-    temp.roleId = roleId;
+    state = temp;
+  }
+
+  void setRole(String role) {
+    User temp = User(
+      role: state.role,
+    );
+    temp.role = role;
     state = temp;
   }
 }

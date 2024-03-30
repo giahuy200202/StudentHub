@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:studenthub/providers/options_provider.dart';
+import 'package:studenthub/providers/options.provider.dart';
 import 'package:studenthub/widgets/message/schedule.widget.dart';
 
 class ChatMessageDetailsWidget extends ConsumerStatefulWidget {

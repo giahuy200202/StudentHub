@@ -1,24 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:studenthub/providers/authentication/authentication.provider.dart';
+import 'package:studenthub/providers/options.provider.dart';
 import 'package:studenthub/widgets/profile/image_input.dart';
 
-class ProfileIStudent_step3Widget extends ConsumerStatefulWidget {
-  const ProfileIStudent_step3Widget({super.key});
+class ProfileIStudentStep3Widget extends ConsumerStatefulWidget {
+  const ProfileIStudentStep3Widget({super.key});
 
   @override
-  ConsumerState<ProfileIStudent_step3Widget> createState() {
+  ConsumerState<ProfileIStudentStep3Widget> createState() {
     return _ProfileIStudentWidget();
   }
 }
 
-class _ProfileIStudentWidget
-    extends ConsumerState<ProfileIStudent_step3Widget> {
+class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentStep3Widget> {
   @override
   Widget build(BuildContext context) {
+    final user = ref.watch(userProvider);
+
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 20),
+          padding: const EdgeInsets.symmetric(horizontal: 20),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -41,11 +44,11 @@ class _ProfileIStudentWidget
               const SizedBox(height: 20),
               const Text('Resume/CV(*)', style: TextStyle(fontSize: 16)),
               const SizedBox(height: 20),
-              ImageInput(),
+              const ImageInput(),
               const SizedBox(height: 20),
               const Text('Transcript(*)', style: TextStyle(fontSize: 16)),
               const SizedBox(height: 20),
-              ImageInput(),
+              const ImageInput(),
               const SizedBox(height: 60),
               Container(
                 alignment: Alignment.centerRight,
@@ -53,7 +56,11 @@ class _ProfileIStudentWidget
                   height: 46,
                   width: 130,
                   child: ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      ref
+                          .read(optionsProvider.notifier)
+                          .setWidgetOption('Welcome', user.role!);
+                    },
                     style: ElevatedButton.styleFrom(
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8),

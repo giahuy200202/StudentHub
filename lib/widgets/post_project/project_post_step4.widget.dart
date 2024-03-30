@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../providers/project_posting_provider.dart';
-import '../../providers/options_provider.dart';
+import '../../providers/project_posting.provider.dart';
+import '../../providers/options.provider.dart';
 
 class ProjectPostStep4Widget extends ConsumerStatefulWidget {
   const ProjectPostStep4Widget({super.key});

@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:studenthub/providers/authentication_provider.dart';
+import 'package:studenthub/providers/authentication/authentication.provider.dart';
 import 'package:studenthub/widgets/dashboard/archieved.widget.dart';
 import 'package:studenthub/widgets/dashboard/detail.widget.dart';
 import 'package:studenthub/widgets/dashboard/hired.widget.dart';
 import 'package:studenthub/widgets/dashboard/message.widget.dart';
 import 'package:studenthub/widgets/dashboard/proposals.widget.dart';
 import 'package:studenthub/widgets/dashboard/working.widget.dart';
-import '../../providers/options_provider.dart';
+import '../../providers/options.provider.dart';
 
 class SendHireOfferScreen extends ConsumerStatefulWidget {
   const SendHireOfferScreen({super.key});

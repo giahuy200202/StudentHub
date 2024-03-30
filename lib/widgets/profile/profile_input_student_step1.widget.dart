@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:studenthub/providers/authentication/authentication.provider.dart';
+import 'package:studenthub/providers/options.provider.dart';
 import 'package:studenthub/utils/multiselect_bottom_sheet_model.dart';
 import 'package:studenthub/utils/multiselect_bottom_sheet.dart';
 
@@ -38,10 +40,11 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentWidget> {
 
   @override
   Widget build(BuildContext context) {
+    final user = ref.watch(userProvider);
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 20),
+          padding: const EdgeInsets.symmetric(horizontal: 20),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -248,7 +251,10 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentWidget> {
                   height: 46,
                   width: 130,
                   child: ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      ref.read(optionsProvider.notifier).setWidgetOption(
+                          'ProfileInputStudentStep2', user.role!);
+                    },
                     style: ElevatedButton.styleFrom(
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8),

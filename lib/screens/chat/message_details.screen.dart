@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:studenthub/widgets/message/message_details.widget.dart';
 import 'package:studenthub/widgets/message/body_message.widget.dart';
-import 'package:studenthub/providers/options_provider.dart';
+import 'package:studenthub/providers/options.provider.dart';
 import 'package:studenthub/widgets/message/BottomSheet.widget.dart';
 
 class MessageDetailsScreen extends ConsumerStatefulWidget {

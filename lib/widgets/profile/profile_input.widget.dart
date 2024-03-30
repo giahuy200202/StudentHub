@@ -1,8 +1,15 @@
+import 'dart:async';
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:studenthub/providers/authentication_provider.dart';
-import 'package:studenthub/providers/options_provider.dart';
-import 'package:studenthub/providers/profiles_provider.dart';
+import 'package:motion_toast/motion_toast.dart';
+import 'package:studenthub/providers/authentication/authentication.provider.dart';
+import 'package:studenthub/providers/options.provider.dart';
+import 'package:studenthub/providers/profile/company.provider.dart';
+import 'package:studenthub/providers/profile/profiles.provider.dart';
+import 'package:http/http.dart' as http;
 
 class LabeledRadio<T> extends StatelessWidget {
   const LabeledRadio({
@@ -62,6 +69,57 @@ class _ProfileInputWidgetState extends ConsumerState<ProfileInputWidget> {
     textWebsite.dispose();
     textDescription.dispose();
     super.dispose();
+  }
+
+  void showErrorToast(title, description) {
+    MotionToast(
+      icon: Icons.clear,
+      primaryColor: Colors.red,
+      title: Text(
+        title,
+        style: const TextStyle(
+          fontSize: 16,
+          color: Colors.black,
+          fontWeight: FontWeight.w700,
+        ),
+      ),
+      description: Text(
+        description,
+        style: const TextStyle(
+          fontSize: 16,
+          // overflow: TextOverflow.ellipsis,
+          color: Colors.black,
+          fontWeight: FontWeight.w400,
+        ),
+      ),
+      width: 500,
+      height: 80,
+    ).show(context);
+  }
+
+  void showSuccessToast(title, description) {
+    MotionToast(
+      icon: Icons.check,
+      primaryColor: Colors.green,
+      title: Text(
+        title,
+        style: const TextStyle(
+          fontSize: 16,
+          color: Colors.black,
+          fontWeight: FontWeight.w700,
+        ),
+      ),
+      description: Text(
+        description,
+        style: const TextStyle(
+          fontSize: 16,
+          color: Colors.black,
+          fontWeight: FontWeight.w400,
+        ),
+      ),
+      width: 500,
+      height: 80,
+    ).show(context);
   }
 
   @override
@@ -189,7 +247,9 @@ class _ProfileInputWidgetState extends ConsumerState<ProfileInputWidget> {
                 child: TextField(
                   controller: textCompany,
                   onChanged: (data) {
-                    if (textCompany.text.isEmpty || textCompany.text.isEmpty) {
+                    if (textCompany.text.isEmpty ||
+                        textWebsite.text.isEmpty ||
+                        textDescription.text.isEmpty) {
                       enable = false;
                     } else {
                       enable = true;
@@ -228,7 +288,9 @@ class _ProfileInputWidgetState extends ConsumerState<ProfileInputWidget> {
                 child: TextField(
                   controller: textWebsite,
                   onChanged: (data) {
-                    if (textWebsite.text.isEmpty || textWebsite.text.isEmpty) {
+                    if (textCompany.text.isEmpty ||
+                        textWebsite.text.isEmpty ||
+                        textDescription.text.isEmpty) {
                       enable = false;
                     } else {
                       enable = true;
@@ -271,7 +333,8 @@ class _ProfileInputWidgetState extends ConsumerState<ProfileInputWidget> {
                   maxLines: 4,
                   controller: textDescription,
                   onChanged: (data) {
-                    if (textDescription.text.isEmpty ||
+                    if (textCompany.text.isEmpty ||
+                        textWebsite.text.isEmpty ||
                         textDescription.text.isEmpty) {
                       enable = false;
                     } else {
@@ -310,10 +373,58 @@ class _ProfileInputWidgetState extends ConsumerState<ProfileInputWidget> {
                   width: 130,
                   child: ElevatedButton(
                     onPressed: enable
-                        ? () {
-                            ref
-                                .read(optionsProvider.notifier)
-                                .setWidgetOption('Welcome', user.role!);
+                        ? () async {
+                            final url = Uri.parse(
+                                'http://${dotenv.env['IP_ADDRESS']}/api/profile/company');
+
+                            final response = await http.post(url,
+                                headers: {
+                                  'Content-Type': 'application/json',
+                                  'Authorization': 'Bearer ${user.token}',
+                                },
+                                body: json.encode(
+                                  {
+                                    "fullname": textCompany.text,
+                                    "companyName": textCompany.text,
+                                    "size": selectedEmployee,
+                                    "website": textWebsite.text,
+                                    "description": textDescription.text
+                                  },
+                                ));
+                            print(json.decode(response.body)['result']);
+                            if (json
+                                .decode(response.body)
+                                .containsKey('errorDetails')) {
+                              if (json.decode(response.body)['errorDetails']
+                                  is String) {
+                                showErrorToast('Error',
+                                    json.decode(response.body)['errorDetails']);
+                              } else {
+                                showErrorToast(
+                                    'Error',
+                                    json.decode(response.body)['errorDetails']
+                                        [0]);
+                              }
+                            } else {
+                              showSuccessToast('Success', 'Create succesfully');
+                              ref.read(companyProvider.notifier).setCompanyData(
+                                    json.decode(response.body)["result"]["id"],
+                                    json.decode(response.body)["result"]
+                                        ["companyName"],
+                                    json.decode(response.body)["result"]
+                                        ["website"],
+                                    json.decode(response.body)["result"]
+                                        ["description"],
+                                    json.decode(response.body)["result"]
+                                        ["size"],
+                                  );
+
+                              Timer(const Duration(seconds: 3), () {
+                                ref
+                                    .read(optionsProvider.notifier)
+                                    .setWidgetOption('Welcome', user.role!);
+                              });
+                            }
                           }
                         : null,
                     style: ElevatedButton.styleFrom(
