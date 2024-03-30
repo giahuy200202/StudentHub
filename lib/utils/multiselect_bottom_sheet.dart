@@ -5,10 +5,10 @@ import 'package:studenthub/utils/colors.dart';
 class MultiSelectBottomSheet extends StatefulWidget {
   final List<MultiSelectBottomSheetModel> items;
   final double width;
+
   final double bottomSheetHeight;
   final double? searchTextFieldWidth;
   final String? hint;
-  final String? searchHint;
   final String cancelText;
   final String confirmText;
   final String clearAll;
@@ -32,10 +32,9 @@ class MultiSelectBottomSheet extends StatefulWidget {
     required this.searchIcon,
     required this.controller,
     this.searchTextFieldWidth,
-    this.searchHint = "search here..",
-    this.cancelText = 'cancel',
-    this.confirmText = 'confirm',
-    this.clearAll = 'clear All',
+    this.cancelText = 'Cancel',
+    this.confirmText = 'Confirm',
+    this.clearAll = 'Clear All',
     this.hintColor = Colors.black,
     this.textColor = Colors.black54,
     this.borderColor = Colors.black12,
@@ -84,213 +83,252 @@ class _MultiSelectBottomSheetState extends State<MultiSelectBottomSheet> {
           builder: (context) {
             return StatefulBuilder(
                 builder: (BuildContext context, StateSetter setState) {
-              return SizedBox(
-                height: widget.bottomSheetHeight,
-                width: width,
-                child: Column(
-                  children: [
-                    SizedBox(height: height * 0.01),
-                    Container(
-                      width: widget.searchTextFieldWidth,
-                      decoration: BoxDecoration(
-                          border: Border.all(color: borderColor),
-                          color: Colors.red),
-                      child: Stack(
-                        alignment: Alignment.centerRight,
-                        children: [
-                          widget.controller.text.isEmpty
-                              ? Container()
-                              : InkWell(
+              return Padding(
+                padding: const EdgeInsets.all(15.0),
+                child: SizedBox(
+                  height: 450,
+                  width: width,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(
+                        width: 365,
+                        child: TextField(
+                          style: const TextStyle(
+                            fontSize: 16,
+                            color: Color.fromARGB(255, 114, 111, 111),
+                            fontWeight: FontWeight.w500,
+                          ),
+                          // controller: searchController,
+                          textInputAction: TextInputAction.search,
+                          onSubmitted: (value) {
+                            setState(() {
+                              filterList = widget.items
+                                  .where((element) => element.name
+                                      .toLowerCase()
+                                      .contains(value.toLowerCase()))
+                                  .toList();
+                            });
+                          },
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                              borderSide: const BorderSide(color: Colors.black),
+                            ),
+                            contentPadding: const EdgeInsets.symmetric(
+                              vertical: 8,
+                              horizontal: 15,
+                            ),
+                            prefixIcon: const Icon(Icons.search),
+                            suffixIcon: InkWell(
+                              onTap: () {},
+                              child: const Icon(Icons.clear),
+                            ),
+                            hintText: 'Search for skillset',
+                            hintStyle: const TextStyle(
+                              color: Color.fromARGB(255, 114, 111, 111),
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: height * 0.01),
+                      const Text(
+                        'Skillset',
+                        style: (TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w800,
+                        )),
+                      ),
+                      SizedBox(height: height * 0.01),
+                      Expanded(
+                        child: SingleChildScrollView(
+                          child: Container(
+                            width: width,
+                            padding:
+                                EdgeInsets.symmetric(horizontal: width * 0.02),
+                            child: Wrap(
+                              spacing: 10,
+                              runSpacing: width * 0.01,
+                              crossAxisAlignment: WrapCrossAlignment.start,
+                              alignment: WrapAlignment.start,
+                              children: filterList.map((e) {
+                                return GestureDetector(
                                   onTap: () {
                                     setState(() {
-                                      widget.controller.text = "";
-                                      filterList = widget.items;
+                                      e.isSelected = !e.isSelected;
+
+                                      if (e.id == widget.items[0].id) {
+                                      } else {
+                                        if (filterList[0].id !=
+                                            widget.items[0].id) {
+                                          filterList[0].isSelected = false;
+                                        }
+                                      }
+                                      defaultList
+                                          .where(
+                                              (element) => element.id == e.id)
+                                          .first
+                                          .isSelected = e.isSelected;
                                     });
                                   },
                                   child: Container(
                                     padding: EdgeInsets.symmetric(
-                                        horizontal: width * 0.02),
-                                    child: const Icon(
-                                      Icons.close,
-                                      color: iconColor,
-                                      size: 20,
+                                        horizontal: width * 0.02,
+                                        vertical: width * 0.01),
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(8),
+                                      color: e.isSelected
+                                          ? widget.selectedBackgroundColor
+                                          : widget.unSelectedBackgroundColor,
+                                      border: Border.all(
+                                          color:
+                                              widget.suggestionListBorderColor),
+                                    ),
+                                    child: Text(
+                                      e.name,
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: e.isSelected
+                                          ? widget.selectTextStyle
+                                          : widget.unSelectTextStyle,
                                     ),
                                   ),
-                                )
-                        ],
-                      ),
-                    ),
-                    SizedBox(height: height * 0.01),
-                    const Divider(thickness: 1, height: 1, color: dividerColor),
-                    SizedBox(height: height * 0.01),
-                    Expanded(
-                      child: SingleChildScrollView(
-                        child: Container(
-                          width: width,
-                          padding:
-                              EdgeInsets.symmetric(horizontal: width * 0.02),
-                          child: Wrap(
-                            spacing: width * 0.01,
-                            runSpacing: width * 0.01,
-                            crossAxisAlignment: WrapCrossAlignment.start,
-                            alignment: WrapAlignment.start,
-                            children: filterList.map((e) {
-                              return GestureDetector(
-                                onTap: () {
-                                  setState(() {
-                                    e.isSelected = !e.isSelected;
-
-                                    if (e.id == widget.items[0].id) {
-                                    } else {
-                                      if (filterList[0].id !=
-                                          widget.items[0].id) {
-                                        filterList[0].isSelected = false;
-                                      }
-                                    }
-                                    defaultList
-                                        .where((element) => element.id == e.id)
-                                        .first
-                                        .isSelected = e.isSelected;
-                                  });
-                                },
-                                child: Container(
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: width * 0.02,
-                                      vertical: width * 0.01),
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(20),
-                                    color: e.isSelected
-                                        ? widget.selectedBackgroundColor
-                                        : widget.unSelectedBackgroundColor,
-                                    border: Border.all(
-                                        color:
-                                            widget.suggestionListBorderColor),
-                                  ),
-                                  child: Text(
-                                    e.name,
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: e.isSelected
-                                        ? widget.selectTextStyle
-                                        : widget.unSelectTextStyle,
-                                  ),
-                                ),
-                              );
-                            }).toList(),
+                                );
+                              }).toList(),
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                    SizedBox(height: height * 0.01),
-                    const Divider(thickness: 1, height: 1, color: dividerColor),
-                    Container(
-                      width: width * 100,
-                      decoration: const BoxDecoration(
-                          border: Border(top: BorderSide(color: borderColor))),
-                      padding: EdgeInsets.symmetric(vertical: height * 0.01),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          defaultList
-                                  .where((element) => element.isSelected)
-                                  .isEmpty
-                              ? Container()
-                              : DecoratedBox(
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(5),
-                                    color: const Color.fromARGB(255, 0, 0, 0),
+                      Container(
+                        width: width * 100,
+                        padding: EdgeInsets.symmetric(vertical: height * 0.01),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            const SizedBox(width: 10),
+                            defaultList
+                                    .where((element) => element.isSelected)
+                                    .isEmpty
+                                ? Container()
+                                : SizedBox(
+                                    height: 40,
+                                    width: 100,
+                                    child: DecoratedBox(
+                                      decoration: BoxDecoration(
+                                        border: Border.all(color: Colors.black),
+                                        borderRadius: BorderRadius.circular(8),
+                                        color:
+                                            Color.fromARGB(255, 255, 255, 255),
+                                      ),
+                                      child: GestureDetector(
+                                        onTap: () {
+                                          setState(() {
+                                            for (var item in defaultList) {
+                                              item.isSelected = false;
+                                            }
+                                            filterList = defaultList;
+                                          });
+                                        },
+                                        child: Container(
+                                          alignment: Alignment.center,
+                                          padding: EdgeInsets.symmetric(
+                                              horizontal: width * 0.02,
+                                              vertical: height * 0.01),
+                                          child: Text(
+                                            widget.clearAll,
+                                            style: const TextStyle(
+                                                color: Color.fromARGB(
+                                                    255, 0, 0, 0),
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 16),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
                                   ),
-                                  child: GestureDetector(
-                                    onTap: () {
-                                      setState(() {
-                                        for (var item in defaultList) {
-                                          item.isSelected = false;
-                                        }
-                                        filterList = defaultList;
-                                      });
-                                    },
-                                    child: Container(
-                                      alignment: Alignment.center,
-                                      padding: EdgeInsets.symmetric(
-                                          horizontal: width * 0.02,
-                                          vertical: height * 0.01),
-                                      child: Text(
-                                        widget.clearAll,
-                                        style: const TextStyle(
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.normal,
-                                            fontSize: 17),
+                            const Spacer(),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                SizedBox(
+                                  height: 40,
+                                  width: 100,
+                                  child: DecoratedBox(
+                                    decoration: BoxDecoration(
+                                      border: Border.all(color: Colors.black),
+                                      borderRadius: BorderRadius.circular(8),
+                                      color: Color.fromARGB(255, 255, 255, 255),
+                                    ),
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        Navigator.pop(context);
+                                      },
+                                      child: Container(
+                                        alignment: Alignment.center,
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: width * 0.02,
+                                            vertical: height * 0.01),
+                                        child: Text(
+                                          widget.cancelText,
+                                          style: const TextStyle(
+                                              color:
+                                                  Color.fromARGB(255, 0, 0, 0),
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 16),
+                                        ),
                                       ),
                                     ),
                                   ),
                                 ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              DecoratedBox(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(5),
-                                  color: const Color.fromARGB(255, 0, 0, 0),
+                                const SizedBox(
+                                  width: 10,
                                 ),
-                                child: GestureDetector(
-                                  onTap: () {
-                                    Navigator.pop(context);
-                                  },
-                                  child: Container(
-                                    alignment: Alignment.center,
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: width * 0.02,
-                                        vertical: height * 0.01),
-                                    child: Text(
-                                      widget.cancelText,
-                                      style: const TextStyle(
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.normal,
-                                          fontSize: 17),
+                                SizedBox(
+                                  height: 40,
+                                  width: 100,
+                                  child: DecoratedBox(
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(8),
+                                      color: const Color.fromARGB(255, 0, 0, 0),
+                                    ),
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        setState(() {
+                                          widget.items.clear();
+                                          widget.items.addAll(defaultList);
+                                        });
+                                        Navigator.pop(context);
+                                      },
+                                      child: Container(
+                                        alignment: Alignment.center,
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: width * 0.02,
+                                            vertical: height * 0.01),
+                                        child: Text(
+                                          widget.confirmText,
+                                          style: const TextStyle(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 16),
+                                        ),
+                                      ),
                                     ),
                                   ),
                                 ),
-                              ),
-                              SizedBox(
-                                width: width * 0.01,
-                              ),
-                              DecoratedBox(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(5),
-                                  color: const Color.fromARGB(255, 0, 0, 0),
-                                ),
-                                child: GestureDetector(
-                                  onTap: () {
-                                    setState(() {
-                                      widget.items.clear();
-                                      widget.items.addAll(defaultList);
-                                    });
-                                    Navigator.pop(context);
-                                  },
-                                  child: Container(
-                                    alignment: Alignment.center,
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: width * 0.02,
-                                        vertical: height * 0.01),
-                                    child: Text(
-                                      widget.confirmText,
-                                      style: const TextStyle(
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.normal,
-                                          fontSize: 17),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              SizedBox(
-                                width: width * 0.01,
-                              )
-                            ],
-                          ),
-                        ],
+                                const SizedBox(
+                                  width: 10,
+                                )
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               );
             });
@@ -302,8 +340,9 @@ class _MultiSelectBottomSheetState extends State<MultiSelectBottomSheet> {
       child: Container(
         decoration: BoxDecoration(
             border: Border.all(
-              color: widget.borderColor,
+              color: Colors.black,
             ),
+            borderRadius: BorderRadius.circular(9),
             color: whiteColor),
         padding: EdgeInsets.symmetric(
             horizontal: 2,
@@ -312,42 +351,48 @@ class _MultiSelectBottomSheetState extends State<MultiSelectBottomSheet> {
                     ? height * 0.02
                     : height * 0.01),
         width: widget.width,
-        alignment: Alignment.centerLeft,
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
             widget.items.where((element) => element.isSelected).isEmpty
-                ? Text(
-                    "${widget.hint}",
-                    maxLines: 10,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                        color: widget.hintColor,
-                        fontWeight: FontWeight.w500,
-                        fontSize: 17),
+                ? Padding(
+                    padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
+                    child: Text(
+                      "${widget.hint}",
+                      maxLines: 5,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                          color: widget.hintColor,
+                          fontWeight: FontWeight.normal,
+                          fontSize: 16),
+                    ),
                   )
-                : Wrap(
-                    spacing: width * 0.01,
-                    runSpacing: width * 0.01,
-                    children: widget.items
-                        .where((element) => element.isSelected)
-                        .map((e) {
-                      String separator = e.id ==
-                              widget.items
-                                  .where((element) => element.isSelected)
-                                  .last
-                                  .id
-                          ? ""
-                          : ", ";
-                      return Text(
-                        "${e.name}$separator",
-                        maxLines: 10,
-                        overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.w500,
-                            fontSize: 17),
-                      );
-                    }).toList(),
+                : Padding(
+                    padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
+                    child: Wrap(
+                      spacing: width * 0.01,
+                      runSpacing: width * 0.01,
+                      children: widget.items
+                          .where((element) => element.isSelected)
+                          .map((e) {
+                        String separator = e.id ==
+                                widget.items
+                                    .where((element) => element.isSelected)
+                                    .last
+                                    .id
+                            ? ""
+                            : ", ";
+                        return Text(
+                          "${e.name}$separator",
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.normal,
+                              fontSize: 16),
+                        );
+                      }).toList(),
+                    ),
                   ),
           ],
         ),

@@ -59,6 +59,7 @@ class ProfileInputWidget extends ConsumerStatefulWidget {
 
 class _ProfileInputWidgetState extends ConsumerState<ProfileInputWidget> {
   var enable = false;
+  var isClick = false;
   final textCompany = TextEditingController();
   final textWebsite = TextEditingController();
   final textDescription = TextEditingController();
@@ -155,7 +156,7 @@ class _ProfileInputWidgetState extends ConsumerState<ProfileInputWidget> {
               const SizedBox(height: 20),
               const Text(
                 'How many people in company?',
-                style: TextStyle(fontSize: 16),
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
               ),
 
               ////////////////////////////////////////
@@ -170,6 +171,7 @@ class _ProfileInputWidgetState extends ConsumerState<ProfileInputWidget> {
                       value: 1,
                       groupValue: selectedEmployee,
                       onChanged: (value) {
+                        isClick = true;
                         ref
                             .read(selectedEmployeeProvider.notifier)
                             .selectEmployee(value!);
@@ -184,6 +186,7 @@ class _ProfileInputWidgetState extends ConsumerState<ProfileInputWidget> {
                       value: 2,
                       groupValue: selectedEmployee,
                       onChanged: (value) {
+                        isClick = true;
                         ref
                             .read(selectedEmployeeProvider.notifier)
                             .selectEmployee(value!);
@@ -198,6 +201,7 @@ class _ProfileInputWidgetState extends ConsumerState<ProfileInputWidget> {
                       value: 3,
                       groupValue: selectedEmployee,
                       onChanged: (value) {
+                        isClick = true;
                         ref
                             .read(selectedEmployeeProvider.notifier)
                             .selectEmployee(value!);
@@ -212,6 +216,7 @@ class _ProfileInputWidgetState extends ConsumerState<ProfileInputWidget> {
                       value: 4,
                       groupValue: selectedEmployee,
                       onChanged: (value) {
+                        isClick = true;
                         ref
                             .read(selectedEmployeeProvider.notifier)
                             .selectEmployee(value!);
@@ -226,6 +231,7 @@ class _ProfileInputWidgetState extends ConsumerState<ProfileInputWidget> {
                       value: 5,
                       groupValue: selectedEmployee,
                       onChanged: (value) {
+                        isClick = true;
                         ref
                             .read(selectedEmployeeProvider.notifier)
                             .selectEmployee(value!);
@@ -239,7 +245,7 @@ class _ProfileInputWidgetState extends ConsumerState<ProfileInputWidget> {
               const SizedBox(height: 15),
               const Text(
                 'Company name',
-                style: TextStyle(fontSize: 16),
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
               ),
               const SizedBox(height: 15),
               SizedBox(
@@ -280,7 +286,7 @@ class _ProfileInputWidgetState extends ConsumerState<ProfileInputWidget> {
               //////
               const Text(
                 'Website',
-                style: TextStyle(fontSize: 16),
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
               ),
               const SizedBox(height: 15),
               SizedBox(
@@ -323,7 +329,7 @@ class _ProfileInputWidgetState extends ConsumerState<ProfileInputWidget> {
                 alignment: Alignment.centerLeft,
                 child: const Text(
                   'Description',
-                  style: TextStyle(fontSize: 16),
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
                 ),
               ),
               const SizedBox(height: 15),
@@ -365,14 +371,14 @@ class _ProfileInputWidgetState extends ConsumerState<ProfileInputWidget> {
               ),
 
               ///
-              const SizedBox(height: 25),
+              const SizedBox(height: 20),
               Container(
                 alignment: Alignment.centerRight,
                 child: SizedBox(
                   height: 46,
                   width: 130,
                   child: ElevatedButton(
-                    onPressed: enable
+                    onPressed: enable && isClick
                         ? () async {
                             final url = Uri.parse(
                                 'http://${dotenv.env['IP_ADDRESS']}/api/profile/company');

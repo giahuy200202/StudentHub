@@ -28,6 +28,7 @@ import 'package:studenthub/screens/profile/profileinputStudent_step3.screen.dart
 import 'package:studenthub/screens/chat/message.screen.dart';
 import 'package:studenthub/screens/chat/message_details.screen.dart';
 import 'package:studenthub/widgets/message/videocalll.widget.dart';
+import 'package:studenthub/screens/alerts/alerts.screen.dart';
 
 class LayoutScreen extends ConsumerStatefulWidget {
   const LayoutScreen({super.key});
@@ -153,6 +154,11 @@ class _LayoutScreenState extends ConsumerState<LayoutScreen> {
         _selectedPageIndex = 2;
       });
       return const VideocallWidget();
+    } else if (widgetOption == 'Alert') {
+      setState(() {
+        _selectedPageIndex = 2;
+      });
+      return const AlertsScreen();
     }
 
     return const HomepageScreen();

@@ -19,6 +19,7 @@ class _MessageState extends ConsumerState<Message> {
     final user = ref.watch(userProvider);
     return SizedBox(
         height: 590,
+        width: 380,
         child: SingleChildScrollView(
           child: Column(
             children: [
@@ -43,8 +44,8 @@ class _MessageState extends ConsumerState<Message> {
                         Row(
                           children: [
                             Container(
-                              width: 70,
-                              height: 70,
+                              width: 60,
+                              height: 60,
                               padding: const EdgeInsets.all(20),
                               decoration: const BoxDecoration(
                                 borderRadius:
@@ -56,34 +57,37 @@ class _MessageState extends ConsumerState<Message> {
                               ),
                             ),
                             const Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Align(
-                                  alignment: Alignment.topLeft,
-                                  child: SizedBox(
-                                    width: 240,
-                                    child: Text(
-                                      'Luis Pham',
-                                      overflow: TextOverflow.ellipsis,
-                                      style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.w600,
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    SizedBox(width: 8),
+                                    SizedBox(
+                                      width: 190,
+                                      child: Text(
+                                        textAlign: TextAlign.start,
+                                        'Luis Pham',
+                                        overflow: TextOverflow.ellipsis,
+                                        style: TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.w600,
+                                        ),
                                       ),
                                     ),
-                                  ),
+                                    Text('6/6/2024'),
+                                  ],
                                 ),
-                                SizedBox(height: 2),
-                                Align(
-                                  alignment: Alignment.topLeft,
-                                  child: SizedBox(
-                                    width: 260,
-                                    child: Text(
-                                      'Senior frontend developer (Fintech)',
-                                      style: TextStyle(
-                                        color: Colors.black,
-                                        overflow: TextOverflow.ellipsis,
-                                        fontSize: 16,
-                                      ),
+                                Padding(
+                                  padding: EdgeInsets.all(8.0),
+                                  child: Text(
+                                    'Senior frontend developer (Fintech)',
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                      overflow: TextOverflow.ellipsis,
+                                      fontSize: 14,
                                     ),
                                   ),
                                 ),

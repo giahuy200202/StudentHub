@@ -68,37 +68,46 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentWidget> {
               const Text(
                 'Techstack',
                 style: TextStyle(
-                  fontSize: 16,
+                  fontSize: 18,
                   fontWeight: FontWeight.w500,
                 ),
               ),
               const SizedBox(height: 20),
-              DropdownMenu<String>(
-                width: 360,
-                initialSelection: list.first,
-                onSelected: (String? value) {
-                  // This is called when the user selects an item.
+              DropdownButtonFormField<String>(
+                decoration: InputDecoration(
+                  contentPadding: EdgeInsets.fromLTRB(20, 5.5, 10, 5),
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8)),
+                ),
+                value: dropdownValue,
+                onChanged: (String? value) {
                   setState(() {
                     dropdownValue = value!;
                   });
                 },
-                dropdownMenuEntries:
-                    list.map<DropdownMenuEntry<String>>((String value) {
-                  return DropdownMenuEntry<String>(value: value, label: value);
+                items: list.map<DropdownMenuItem<String>>((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(
+                      value,
+                      style: const TextStyle(
+                          fontSize: 16, fontWeight: FontWeight.normal),
+                    ),
+                  );
                 }).toList(),
               ),
               const SizedBox(height: 20),
               const Text(
                 'Skillset',
                 style: TextStyle(
-                  fontSize: 16,
+                  fontSize: 18,
                   fontWeight: FontWeight.w500,
                 ),
               ),
               const SizedBox(height: 20),
               MultiSelectBottomSheet(
                 items: selectCountryItem, // required for Item list
-                width: 360,
+                width: 370,
                 bottomSheetHeight:
                     500 * 0.7, // required for min/max height of bottomSheet
                 hint: "Select Skillset",
@@ -121,7 +130,7 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentWidget> {
                   const Text(
                     'Languages',
                     style: TextStyle(
-                      fontSize: 16,
+                      fontSize: 18,
                       fontWeight: FontWeight.w500,
                     ),
                   ),
@@ -157,7 +166,7 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentWidget> {
                   const Text(
                     'Education',
                     style: TextStyle(
-                      fontSize: 16,
+                      fontSize: 18,
                       fontWeight: FontWeight.w500,
                     ),
                   ),
