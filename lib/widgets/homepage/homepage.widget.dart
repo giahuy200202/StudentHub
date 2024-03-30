@@ -99,6 +99,7 @@ class HomepageWidget extends ConsumerWidget {
                   child: ElevatedButton(
                     onPressed: () {
                       ref.read(userLoginProvider.notifier).setRole('1');
+
                       ref
                           .read(optionsProvider.notifier)
                           .setWidgetOption('Login', user.role!);

@@ -2,17 +2,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class User {
   int? id;
-  String? name;
   String? role;
   String? token;
-  int? roleId;
 
   User({
     this.id,
-    this.name,
     this.role,
     this.token,
-    this.roleId,
   });
 }
 

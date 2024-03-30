@@ -1,5 +1,4 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:studenthub/providers/authentication/authentication.provider.dart';
 // import 'package:todo/models/option.dart';
 
 enum Option { widgetOption }
@@ -8,9 +7,9 @@ class OptionsNotifier extends StateNotifier<Map<Option, String>> {
   OptionsNotifier() : super({Option.widgetOption: ''});
 
   bool setWidgetOption(String option, String role) {
+    print(role);
     if (role == '') {
-      if (option == 'SwitchAccount' ||
-          option == 'Login' ||
+      if (option == 'Login' ||
           option == 'Dashboard' ||
           option == 'SignupStep1' ||
           option == 'SignupStep2') {
@@ -19,14 +18,12 @@ class OptionsNotifier extends StateNotifier<Map<Option, String>> {
           Option.widgetOption: option,
         };
       } else {
-        print('home');
         state = {
           ...state,
           Option.widgetOption: '',
         };
       }
     } else {
-      print('bth');
       state = {
         ...state,
         Option.widgetOption: option,

@@ -240,12 +240,8 @@ class _LoginWidgetState extends ConsumerState<LoginWidget> {
                                           ["token"],
                                     );
 
-                                print(user.token);
-
                                 showSuccessToast(
                                     'Success', 'Login succesfully');
-
-                                print(responeAuthMeData);
 
                                 //Set student data
                                 if (responeAuthMeData["result"]["student"] !=
@@ -292,7 +288,7 @@ class _LoginWidgetState extends ConsumerState<LoginWidget> {
                                     ref
                                         .read(optionsProvider.notifier)
                                         .setWidgetOption(
-                                            'Dashboard', user.role!);
+                                            'Dashboard', userLoginRole);
                                   });
                                 }
 
@@ -300,12 +296,12 @@ class _LoginWidgetState extends ConsumerState<LoginWidget> {
                                   ref
                                       .read(optionsProvider.notifier)
                                       .setWidgetOption(
-                                          user.role == '0'
+                                          userLoginRole == '0'
                                               ? 'ProfileInputStudent'
                                               : (company.id == 0
                                                   ? 'ProfileInput'
                                                   : 'Dashboard'),
-                                          user.role!);
+                                          userLoginRole);
                                 });
                               }
                               setState(() {
