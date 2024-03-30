@@ -150,14 +150,17 @@ class ViewProfileWidget extends ConsumerWidget {
                   alignment: Alignment.centerLeft,
                   child: const Text(
                     'Company name',
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                 ),
                 const SizedBox(height: 15),
                 SizedBox(
                   height: 60,
                   child: TextField(
-                    maxLines: 2,
+                    // maxLines: 1,
                     controller: textCompany,
                     style: const TextStyle(
                       fontSize: 16,
@@ -178,12 +181,16 @@ class ViewProfileWidget extends ConsumerWidget {
                   ),
                 ),
                 ////////////////
+                const SizedBox(height: 5),
                 Container(
                   height: 25,
                   alignment: Alignment.centerLeft,
                   child: const Text(
                     'Website',
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                 ),
                 const SizedBox(height: 15),
@@ -191,7 +198,7 @@ class ViewProfileWidget extends ConsumerWidget {
                   height: 60,
                   child: TextField(
                     controller: textWebsite,
-                    maxLines: 2,
+                    // maxLines: 2,
                     style: const TextStyle(
                       fontSize: 16,
                     ),
@@ -211,12 +218,16 @@ class ViewProfileWidget extends ConsumerWidget {
                   ),
                 ),
                 //////
+                const SizedBox(height: 5),
                 Container(
                   height: 25,
                   alignment: Alignment.centerLeft,
                   child: const Text(
                     'Description',
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                 ),
                 const SizedBox(height: 15),
@@ -243,17 +254,20 @@ class ViewProfileWidget extends ConsumerWidget {
                     ),
                   ),
                 ),
-                const SizedBox(height: 15),
+                const SizedBox(height: 25),
                 Container(
                   height: 25,
                   alignment: Alignment.centerLeft,
                   child: const Text(
                     'How many people in company?',
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                 ),
                 ///////////////
-                const SizedBox(height: 15),
+                const SizedBox(height: 10),
                 Column(
                   children: [
                     SizedBox(
@@ -272,7 +286,7 @@ class ViewProfileWidget extends ConsumerWidget {
                     ),
                   ],
                 ),
-                const SizedBox(height: 200),
+                const SizedBox(height: 175),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
@@ -339,7 +353,7 @@ class ViewProfileWidget extends ConsumerWidget {
                                       [0]);
                             }
                           } else {
-                            showSuccessToast('Success', 'Create succesfully');
+                            showSuccessToast('Success', 'Edit successfully');
                             ref.read(companyProvider.notifier).setCompanyData(
                                 // json.decode(response.body)["result"]["id"],
                                 // json.decode(response.body)["result"]

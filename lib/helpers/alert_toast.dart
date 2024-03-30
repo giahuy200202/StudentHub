@@ -18,7 +18,7 @@ class AlertToastHelper {
         ),
       ),
       description: const Text(
-        "Login succesfully",
+        "Login successfully",
         style: TextStyle(
           fontSize: 16,
           color: Colors.black,

@@ -239,9 +239,12 @@ class _LoginWidgetState extends ConsumerState<LoginWidget> {
                                       json.decode(responseLogin.body)["result"]
                                           ["token"],
                                     );
-
+                                print('--------user----------');
+                                print(user.id);
+                                print(user.role);
+                                print(user.token);
                                 showSuccessToast(
-                                    'Success', 'Login succesfully');
+                                    'Success', 'Login successfully');
 
                                 //Set student data
                                 if (responeAuthMeData["result"]["student"] !=

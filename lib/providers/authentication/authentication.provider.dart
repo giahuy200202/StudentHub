@@ -29,7 +29,9 @@ class UserNotifier extends StateNotifier<User> {
 
   void setRole(String role) {
     User temp = User(
+      id: state.id,
       role: state.role,
+      token: state.token,
     );
     temp.role = role;
     state = temp;

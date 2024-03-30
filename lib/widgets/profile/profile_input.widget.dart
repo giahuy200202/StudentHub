@@ -130,6 +130,7 @@ class _ProfileInputWidgetState extends ConsumerState<ProfileInputWidget> {
     ref.watch(TextWebsiteEmpoyleeProvider);
     ref.watch(TextDescriptionEmpoyleeProvider);
     final user = ref.watch(userProvider);
+
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(
@@ -156,11 +157,14 @@ class _ProfileInputWidgetState extends ConsumerState<ProfileInputWidget> {
               const SizedBox(height: 20),
               const Text(
                 'How many people in company?',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                ),
               ),
 
               ////////////////////////////////////////
-              const SizedBox(height: 15),
+              const SizedBox(height: 10),
               Column(
                 children: [
                   SizedBox(
@@ -245,7 +249,10 @@ class _ProfileInputWidgetState extends ConsumerState<ProfileInputWidget> {
               const SizedBox(height: 15),
               const Text(
                 'Company name',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                ),
               ),
               const SizedBox(height: 15),
               SizedBox(
@@ -286,7 +293,10 @@ class _ProfileInputWidgetState extends ConsumerState<ProfileInputWidget> {
               //////
               const Text(
                 'Website',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                ),
               ),
               const SizedBox(height: 15),
               SizedBox(
@@ -329,7 +339,7 @@ class _ProfileInputWidgetState extends ConsumerState<ProfileInputWidget> {
                 alignment: Alignment.centerLeft,
                 child: const Text(
                   'Description',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
                 ),
               ),
               const SizedBox(height: 15),
@@ -382,7 +392,8 @@ class _ProfileInputWidgetState extends ConsumerState<ProfileInputWidget> {
                         ? () async {
                             final url = Uri.parse(
                                 'http://${dotenv.env['IP_ADDRESS']}/api/profile/company');
-
+                            print('---------token-----------');
+                            print(user.token);
                             final response = await http.post(url,
                                 headers: {
                                   'Content-Type': 'application/json',
@@ -412,7 +423,8 @@ class _ProfileInputWidgetState extends ConsumerState<ProfileInputWidget> {
                                         [0]);
                               }
                             } else {
-                              showSuccessToast('Success', 'Create succesfully');
+                              showSuccessToast(
+                                  'Success', 'Create successfully');
                               ref.read(companyProvider.notifier).setCompanyData(
                                     json.decode(response.body)["result"]["id"],
                                     json.decode(response.body)["result"]

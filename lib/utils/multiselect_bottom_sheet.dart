@@ -84,15 +84,16 @@ class _MultiSelectBottomSheetState extends State<MultiSelectBottomSheet> {
             return StatefulBuilder(
                 builder: (BuildContext context, StateSetter setState) {
               return Padding(
-                padding: const EdgeInsets.all(15.0),
+                padding: const EdgeInsets.all(20),
                 child: SizedBox(
                   height: 450,
                   width: width,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      const SizedBox(height: 10),
                       SizedBox(
-                        width: 365,
+                        width: MediaQuery.of(context).size.width,
                         child: TextField(
                           style: const TextStyle(
                             fontSize: 16,
@@ -135,23 +136,21 @@ class _MultiSelectBottomSheetState extends State<MultiSelectBottomSheet> {
                           ),
                         ),
                       ),
-                      SizedBox(height: height * 0.01),
+                      const SizedBox(height: 20),
                       const Text(
                         'Skillset',
                         style: (TextStyle(
                           fontSize: 18,
-                          fontWeight: FontWeight.w800,
+                          fontWeight: FontWeight.w600,
                         )),
                       ),
-                      SizedBox(height: height * 0.01),
+                      const SizedBox(height: 10),
                       Expanded(
                         child: SingleChildScrollView(
                           child: Container(
                             width: width,
-                            padding:
-                                EdgeInsets.symmetric(horizontal: width * 0.02),
                             child: Wrap(
-                              spacing: 10,
+                              spacing: 12,
                               runSpacing: width * 0.01,
                               crossAxisAlignment: WrapCrossAlignment.start,
                               alignment: WrapAlignment.start,
@@ -177,10 +176,10 @@ class _MultiSelectBottomSheetState extends State<MultiSelectBottomSheet> {
                                   },
                                   child: Container(
                                     padding: EdgeInsets.symmetric(
-                                        horizontal: width * 0.02,
-                                        vertical: width * 0.01),
+                                        horizontal: width * 0.025,
+                                        vertical: width * 0.015),
                                     decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(8),
+                                      borderRadius: BorderRadius.circular(7),
                                       color: e.isSelected
                                           ? widget.selectedBackgroundColor
                                           : widget.unSelectedBackgroundColor,
@@ -345,11 +344,11 @@ class _MultiSelectBottomSheetState extends State<MultiSelectBottomSheet> {
             borderRadius: BorderRadius.circular(9),
             color: whiteColor),
         padding: EdgeInsets.symmetric(
-            horizontal: 2,
+            horizontal: 0,
             vertical:
                 widget.items.where((element) => element.isSelected).isEmpty
-                    ? height * 0.02
-                    : height * 0.01),
+                    ? 15
+                    : height * 0.015),
         width: widget.width,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -357,7 +356,7 @@ class _MultiSelectBottomSheetState extends State<MultiSelectBottomSheet> {
           children: [
             widget.items.where((element) => element.isSelected).isEmpty
                 ? Padding(
-                    padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
+                    padding: const EdgeInsets.fromLTRB(15, 0, 0, 0),
                     child: Text(
                       "${widget.hint}",
                       maxLines: 5,
@@ -369,7 +368,7 @@ class _MultiSelectBottomSheetState extends State<MultiSelectBottomSheet> {
                     ),
                   )
                 : Padding(
-                    padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
+                    padding: const EdgeInsets.fromLTRB(15, 0, 0, 0),
                     child: Wrap(
                       spacing: width * 0.01,
                       runSpacing: width * 0.01,

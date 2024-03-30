@@ -75,7 +75,8 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentWidget> {
               const SizedBox(height: 20),
               DropdownButtonFormField<String>(
                 decoration: InputDecoration(
-                  contentPadding: EdgeInsets.fromLTRB(20, 5.5, 10, 5),
+                  contentPadding:
+                      const EdgeInsets.symmetric(horizontal: 17, vertical: 15),
                   border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8)),
                 ),
@@ -123,7 +124,7 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentWidget> {
                 unSelectTextStyle:
                     const TextStyle(color: Colors.black, fontSize: 17),
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 15),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -154,7 +155,7 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentWidget> {
                   ]),
                 ],
               ),
-              const SizedBox(height: 15),
+              const SizedBox(height: 5),
               const Text(
                 'English: Native or Bilingual',
                 style: TextStyle(fontSize: 16),
@@ -180,41 +181,49 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentWidget> {
                   ),
                 ],
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Le Hong Phong High School',
-                        style: TextStyle(fontSize: 16),
-                      ),
-                      Text(
-                        '2008-2010',
-                        style: TextStyle(fontSize: 16),
-                      ),
-                    ],
-                  ),
-                  Row(children: [
-                    IconButton(
-                      icon: const Icon(
-                        Icons.edit,
-                        color: Colors.black,
-                      ),
-                      iconSize: 25,
-                      onPressed: () {},
+              // const SizedBox(height: 10),
+
+              Container(
+                decoration: const BoxDecoration(
+                  color: Color.fromARGB(255, 233, 235, 240),
+                  borderRadius: BorderRadius.all(Radius.circular(12)),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Le Hong Phong High School',
+                          style: TextStyle(fontSize: 16),
+                        ),
+                        Text(
+                          '2008-2010',
+                          style: TextStyle(fontSize: 16),
+                        ),
+                      ],
                     ),
-                    IconButton(
-                      icon: const Icon(
-                        Icons.restore_from_trash,
-                        color: Colors.black,
+                    Row(children: [
+                      IconButton(
+                        icon: const Icon(
+                          Icons.edit,
+                          color: Colors.black,
+                        ),
+                        iconSize: 25,
+                        onPressed: () {},
                       ),
-                      iconSize: 25,
-                      onPressed: () {},
-                    ),
-                  ]),
-                ],
+                      IconButton(
+                        icon: const Icon(
+                          Icons.restore_from_trash,
+                          color: Colors.black,
+                        ),
+                        iconSize: 25,
+                        onPressed: () {},
+                      ),
+                    ]),
+                  ],
+                ),
               ),
               const SizedBox(height: 20),
               Row(
@@ -253,7 +262,7 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentWidget> {
                   ]),
                 ],
               ),
-              const SizedBox(height: 50),
+              const SizedBox(height: 30),
               Container(
                 alignment: Alignment.centerRight,
                 child: SizedBox(

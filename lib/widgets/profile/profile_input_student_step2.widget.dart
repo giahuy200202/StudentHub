@@ -49,7 +49,7 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentStep2Widget> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const SizedBox(height: 10),
+              const SizedBox(height: 30),
               const Center(
                 child: Text(
                   'Experiences',
@@ -60,7 +60,7 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentStep2Widget> {
                   ),
                 ),
               ),
-              const SizedBox(height: 10),
+              const SizedBox(height: 15),
               const Text(
                 'Tell us about your self and you will be your way connect with real-world project',
                 style: TextStyle(fontSize: 16),
@@ -73,7 +73,7 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentStep2Widget> {
                     'Projects',
                     style: TextStyle(
                       fontSize: 18,
-                      fontWeight: FontWeight.w500,
+                      fontWeight: FontWeight.w600,
                     ),
                   ),
                   IconButton(
@@ -86,7 +86,7 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentStep2Widget> {
                   ),
                 ],
               ),
-              const SizedBox(height: 10),
+              // const SizedBox(height: ),
               Column(
                 children: [
                   Row(
@@ -134,7 +134,7 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentStep2Widget> {
                   ),
                 ],
               ),
-              const SizedBox(height: 10),
+              const SizedBox(height: 15),
               const Text(
                 'Skillset',
                 style: TextStyle(
@@ -161,14 +161,14 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentStep2Widget> {
                 unSelectTextStyle:
                     const TextStyle(color: Colors.black, fontSize: 17),
               ),
-              const SizedBox(height: 10),
+              const SizedBox(height: 20),
               const Divider(
                 height: 10,
                 thickness: 1,
                 endIndent: 0,
                 color: Colors.grey,
               ),
-              const SizedBox(height: 10),
+              const SizedBox(height: 15),
               Column(
                 children: [
                   Row(
@@ -216,7 +216,7 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentStep2Widget> {
                   ),
                 ],
               ),
-              const SizedBox(height: 90),
+              const SizedBox(height: 65),
               Container(
                 alignment: Alignment.centerRight,
                 child: SizedBox(

@@ -298,7 +298,7 @@ class _SignupStep2State extends ConsumerState<SignupStep2> {
                                     .setRole('${userSignup.role}');
 
                                 showSuccessToast(
-                                    'Success', 'Register succesfully');
+                                    'Success', 'Register successfully');
                                 Timer(const Duration(seconds: 3), () {
                                   ref
                                       .read(optionsProvider.notifier)
