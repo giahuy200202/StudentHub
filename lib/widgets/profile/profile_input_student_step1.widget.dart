@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:studenthub/providers/authentication/authentication.provider.dart';
 import 'package:studenthub/providers/options.provider.dart';
 import 'package:studenthub/utils/multiselect_bottom_sheet_model.dart';
 import 'package:studenthub/utils/multiselect_bottom_sheet.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 const List<String> list = <String>[
   'Fullstack Engineer',
@@ -37,6 +40,27 @@ class ProfileIStudentWidget extends ConsumerStatefulWidget {
 
 class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentWidget> {
   String dropdownValue = list.first;
+
+  void getTechStack(String token) async {
+    final url = Uri.parse(
+        'http://${dotenv.env['IP_ADDRESS']}/api/techstack/getAllTechStack');
+    final response = await http.get(
+      url,
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $token'
+      },
+    );
+    final techStackData = json.decode(response.body)['result'];
+    print(techStackData);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    final user = ref.read(userProvider);
+    getTechStack(user.token!); // 42
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -72,14 +96,21 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentWidget> {
                   fontWeight: FontWeight.w500,
                 ),
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 10),
               DropdownButtonFormField<String>(
                 decoration: InputDecoration(
-                  contentPadding:
-                      const EdgeInsets.symmetric(horizontal: 17, vertical: 15),
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8)),
-                ),
+                    filled: true,
+                    fillColor: Colors.white,
+                    contentPadding: const EdgeInsets.symmetric(
+                        horizontal: 17, vertical: 13.5),
+                    border: OutlineInputBorder(
+                      borderSide: const BorderSide(color: Colors.grey),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: const BorderSide(color: Colors.grey),
+                      borderRadius: BorderRadius.circular(8),
+                    )),
                 value: dropdownValue,
                 onChanged: (String? value) {
                   setState(() {
@@ -105,7 +136,7 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentWidget> {
                   fontWeight: FontWeight.w500,
                 ),
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 10),
               MultiSelectBottomSheet(
                 items: selectCountryItem, // required for Item list
                 width: 370,
@@ -117,14 +148,14 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentWidget> {
                 searchIcon: const Icon(
                     // required for searchIcon
                     Icons.search,
-                    color: Colors.black87,
+                    color: Colors.black,
                     size: 22),
                 selectTextStyle:
                     const TextStyle(color: Colors.white, fontSize: 17),
                 unSelectTextStyle:
                     const TextStyle(color: Colors.black, fontSize: 17),
               ),
-              const SizedBox(height: 15),
+              const SizedBox(height: 20),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -135,32 +166,66 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentWidget> {
                       fontWeight: FontWeight.w500,
                     ),
                   ),
-                  Row(children: [
-                    IconButton(
-                      icon: const Icon(
-                        Icons.add_circle,
-                        color: Colors.black,
-                      ),
-                      iconSize: 25,
-                      onPressed: () {},
+                  InkWell(
+                    onTap: () {},
+                    child: const Icon(
+                      Icons.add_circle,
+                      color: Colors.black,
+                      size: 25,
                     ),
-                    IconButton(
-                      icon: const Icon(
-                        Icons.edit,
-                        color: Colors.black,
-                      ),
-                      iconSize: 25,
-                      onPressed: () {},
-                    ),
-                  ]),
+                  ),
                 ],
               ),
-              const SizedBox(height: 5),
-              const Text(
-                'English: Native or Bilingual',
-                style: TextStyle(fontSize: 16),
+              const SizedBox(height: 15),
+              SizedBox(
+                height: 60,
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      Container(
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          border: Border.all(color: Colors.grey),
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(8)),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(14),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              const Text(
+                                'English: Native or Bilingual',
+                                style: TextStyle(fontSize: 16),
+                              ),
+                              Row(children: [
+                                InkWell(
+                                  onTap: () {},
+                                  child: const Icon(
+                                    Icons.edit_calendar,
+                                    color: Colors.orange,
+                                    size: 25,
+                                  ),
+                                ),
+                                const SizedBox(width: 10),
+                                InkWell(
+                                  onTap: () {},
+                                  child: const Icon(
+                                    Icons.delete_forever,
+                                    color: Colors.red,
+                                    size: 25,
+                                  ),
+                                ),
+                              ]),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
               ),
-              const SizedBox(height: 10),
+              const SizedBox(height: 20),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -171,98 +236,130 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentWidget> {
                       fontWeight: FontWeight.w500,
                     ),
                   ),
-                  IconButton(
-                    icon: const Icon(
+                  InkWell(
+                    onTap: () {},
+                    child: const Icon(
                       Icons.add_circle,
                       color: Colors.black,
+                      size: 25,
                     ),
-                    iconSize: 25,
-                    onPressed: () {},
                   ),
                 ],
               ),
-              // const SizedBox(height: 10),
-
-              Container(
-                decoration: const BoxDecoration(
-                  color: Color.fromARGB(255, 233, 235, 240),
-                  borderRadius: BorderRadius.all(Radius.circular(12)),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Le Hong Phong High School',
-                          style: TextStyle(fontSize: 16),
-                        ),
-                        Text(
-                          '2008-2010',
-                          style: TextStyle(fontSize: 16),
-                        ),
-                      ],
-                    ),
-                    Row(children: [
-                      IconButton(
-                        icon: const Icon(
-                          Icons.edit,
-                          color: Colors.black,
-                        ),
-                        iconSize: 25,
-                        onPressed: () {},
-                      ),
-                      IconButton(
-                        icon: const Icon(
-                          Icons.restore_from_trash,
-                          color: Colors.black,
-                        ),
-                        iconSize: 25,
-                        onPressed: () {},
-                      ),
-                    ]),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 20),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+              const SizedBox(height: 15),
+              SizedBox(
+                height: 165,
+                child: SingleChildScrollView(
+                  child: Column(
                     children: [
-                      Text(
-                        'Ho Chi Minh University of Sciences',
-                        style: TextStyle(fontSize: 16),
+                      Container(
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          border: Border.all(color: Colors.grey),
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(8)),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(14),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              const Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Le Hong Phong High School',
+                                    style: TextStyle(fontSize: 16),
+                                  ),
+                                  Text(
+                                    '2008-2010',
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                      color: Color.fromARGB(255, 94, 94, 94),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              Row(children: [
+                                InkWell(
+                                  onTap: () {},
+                                  child: const Icon(
+                                    Icons.edit_calendar,
+                                    color: Colors.orange,
+                                    size: 25,
+                                  ),
+                                ),
+                                const SizedBox(width: 10),
+                                InkWell(
+                                  onTap: () {},
+                                  child: const Icon(
+                                    Icons.delete_forever,
+                                    color: Colors.red,
+                                    size: 25,
+                                  ),
+                                ),
+                              ]),
+                            ],
+                          ),
+                        ),
                       ),
-                      Text(
-                        '2010-2014',
-                        style: TextStyle(fontSize: 16),
+                      const SizedBox(height: 15),
+                      Container(
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          border: Border.all(color: Colors.grey),
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(8)),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(15),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              const Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Le Hong Phong High School',
+                                    style: TextStyle(fontSize: 16),
+                                  ),
+                                  Text(
+                                    '2008-2010',
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                      color: Color.fromARGB(255, 94, 94, 94),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              Row(children: [
+                                InkWell(
+                                  onTap: () {},
+                                  child: const Icon(
+                                    Icons.edit_calendar,
+                                    color: Colors.orange,
+                                    size: 25,
+                                  ),
+                                ),
+                                const SizedBox(width: 10),
+                                InkWell(
+                                  onTap: () {},
+                                  child: const Icon(
+                                    Icons.delete_forever,
+                                    color: Colors.red,
+                                    size: 25,
+                                  ),
+                                ),
+                              ]),
+                            ],
+                          ),
+                        ),
                       ),
                     ],
                   ),
-                  Row(children: [
-                    IconButton(
-                      icon: const Icon(
-                        Icons.edit,
-                        color: Colors.black,
-                      ),
-                      iconSize: 25,
-                      onPressed: () {},
-                    ),
-                    IconButton(
-                      icon: const Icon(
-                        Icons.restore_from_trash,
-                        color: Colors.black,
-                      ),
-                      iconSize: 25,
-                      onPressed: () {},
-                    ),
-                  ]),
-                ],
+                ),
               ),
-              const SizedBox(height: 30),
+              const SizedBox(height: 20),
               Container(
                 alignment: Alignment.centerRight,
                 child: SizedBox(

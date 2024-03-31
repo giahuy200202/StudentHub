@@ -7,7 +7,6 @@ class OptionsNotifier extends StateNotifier<Map<Option, String>> {
   OptionsNotifier() : super({Option.widgetOption: ''});
 
   bool setWidgetOption(String option, String role) {
-    print(role);
     if (role == '') {
       if (option == 'Login' ||
           option == 'Dashboard' ||

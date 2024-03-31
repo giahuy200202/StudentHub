@@ -239,10 +239,7 @@ class _LoginWidgetState extends ConsumerState<LoginWidget> {
                                       json.decode(responseLogin.body)["result"]
                                           ["token"],
                                     );
-                                print('--------user----------');
-                                print(user.id);
-                                print(user.role);
-                                print(user.token);
+
                                 showSuccessToast(
                                     'Success', 'Login successfully');
 
@@ -301,7 +298,9 @@ class _LoginWidgetState extends ConsumerState<LoginWidget> {
                                       .setWidgetOption(
                                           userLoginRole == '0'
                                               ? 'ProfileInputStudent'
-                                              : (company.id == 0
+                                              : (responeAuthMeData["result"]
+                                                          ["company"]["id"] ==
+                                                      0
                                                   ? 'ProfileInput'
                                                   : 'Dashboard'),
                                           userLoginRole);

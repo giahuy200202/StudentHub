@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:studenthub/providers/authentication/authentication.provider.dart';
@@ -65,7 +67,7 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentStep2Widget> {
                 'Tell us about your self and you will be your way connect with real-world project',
                 style: TextStyle(fontSize: 16),
               ),
-              const SizedBox(height: 10),
+              const SizedBox(height: 20),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -76,63 +78,80 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentStep2Widget> {
                       fontWeight: FontWeight.w600,
                     ),
                   ),
-                  IconButton(
-                    icon: const Icon(
+                  InkWell(
+                    onTap: () {},
+                    child: const Icon(
                       Icons.add_circle,
                       color: Colors.black,
+                      size: 25,
                     ),
-                    iconSize: 25,
-                    onPressed: () {},
                   ),
                 ],
               ),
-              // const SizedBox(height: ),
-              Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              const SizedBox(height: 15),
+              Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  border: Border.all(color: Colors.grey),
+                  borderRadius: const BorderRadius.all(Radius.circular(10)),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(14),
+                  child: Column(
                     children: [
-                      const Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(
-                            'Intelligent Taxi Dispatching system',
-                            style: TextStyle(fontSize: 16),
+                          const Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Intelligent Taxi Dispatching system',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                              Text(
+                                '9/2020 - 12/2020, 4 months',
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  color: Color.fromARGB(255, 94, 94, 94),
+                                ),
+                              ),
+                            ],
                           ),
-                          Text(
-                            '9/2020 - 12/2020, 4 months',
-                            style: TextStyle(fontSize: 16),
-                          ),
+                          Row(children: [
+                            InkWell(
+                              onTap: () {},
+                              child: const Icon(
+                                Icons.edit_calendar,
+                                color: Colors.orange,
+                                size: 25,
+                              ),
+                            ),
+                            const SizedBox(width: 10),
+                            InkWell(
+                              onTap: () {},
+                              child: const Icon(
+                                Icons.delete_forever,
+                                color: Colors.red,
+                                size: 25,
+                              ),
+                            ),
+                          ]),
                         ],
                       ),
-                      Row(children: [
-                        IconButton(
-                          icon: const Icon(
-                            Icons.edit,
-                            color: Colors.black,
-                          ),
-                          iconSize: 25,
-                          onPressed: () {},
+                      const SizedBox(height: 10),
+                      const Text(
+                        'It is the developer of a super-app for ride-halling, food delivery, and digital payments services on mobile devices that operates in Singapore, Malaysia, ..',
+                        style: TextStyle(
+                          fontSize: 16,
                         ),
-                        IconButton(
-                          icon: const Icon(
-                            Icons.restore_from_trash,
-                            color: Colors.black,
-                          ),
-                          iconSize: 25,
-                          onPressed: () {},
-                        ),
-                      ]),
+                      ),
                     ],
                   ),
-                  const SizedBox(height: 10),
-                  const Text(
-                    'It is the developer of a super-app for ride-halling, food delivery, and digital payments services on mobile devices that operates in Singapore, Malaysia, ..',
-                    style: TextStyle(
-                      fontSize: 16,
-                    ),
-                  ),
-                ],
+                ),
               ),
               const SizedBox(height: 15),
               const Text(
@@ -162,61 +181,13 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentStep2Widget> {
                     const TextStyle(color: Colors.black, fontSize: 17),
               ),
               const SizedBox(height: 20),
-              const Divider(
-                height: 10,
-                thickness: 1,
-                endIndent: 0,
-                color: Colors.grey,
-              ),
-              const SizedBox(height: 15),
-              Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Intelligent Taxi Dispatching system',
-                            style: TextStyle(fontSize: 16),
-                          ),
-                          Text(
-                            '9/2020 - 12/2020, 4 months',
-                            style: TextStyle(fontSize: 16),
-                          ),
-                        ],
-                      ),
-                      Row(children: [
-                        IconButton(
-                          icon: const Icon(
-                            Icons.edit,
-                            color: Colors.black,
-                          ),
-                          iconSize: 25,
-                          onPressed: () {},
-                        ),
-                        IconButton(
-                          icon: const Icon(
-                            Icons.restore_from_trash,
-                            color: Colors.black,
-                          ),
-                          iconSize: 25,
-                          onPressed: () {},
-                        ),
-                      ]),
-                    ],
-                  ),
-                  const SizedBox(height: 10),
-                  const Text(
-                    'It is the developer of a super-app for ride-halling, food delivery, and digital payments services on mobile devices that operates in Singapore, Malaysia, ..',
-                    style: TextStyle(
-                      fontSize: 16,
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 65),
+              // const Divider(
+              //   height: 10,
+              //   thickness: 1,
+              //   endIndent: 0,
+              //   color: Colors.grey,
+              // ),
+              const SizedBox(height: 220),
               Container(
                 alignment: Alignment.centerRight,
                 child: SizedBox(

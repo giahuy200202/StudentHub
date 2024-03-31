@@ -30,7 +30,7 @@ class _AppState extends ConsumerState<App> {
     return MaterialApp(
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
-          seedColor: Colors.black,
+          seedColor: Colors.white,
           primary: const Color.fromARGB(255, 86, 85, 85),
           secondary: Colors.black,
         ),

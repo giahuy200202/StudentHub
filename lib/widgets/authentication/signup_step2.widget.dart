@@ -306,12 +306,6 @@ class _SignupStep2State extends ConsumerState<SignupStep2> {
                                 });
                               }
 
-                              print(json
-                                  .decode(response.body)
-                                  .containsKey('result'));
-
-                              print('------------');
-
                               // print(json.decode(response.body));
                             }
                           : null,

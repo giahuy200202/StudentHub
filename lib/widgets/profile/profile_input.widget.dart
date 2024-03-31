@@ -392,8 +392,7 @@ class _ProfileInputWidgetState extends ConsumerState<ProfileInputWidget> {
                         ? () async {
                             final url = Uri.parse(
                                 'http://${dotenv.env['IP_ADDRESS']}/api/profile/company');
-                            print('---------token-----------');
-                            print(user.token);
+
                             final response = await http.post(url,
                                 headers: {
                                   'Content-Type': 'application/json',
@@ -408,7 +407,7 @@ class _ProfileInputWidgetState extends ConsumerState<ProfileInputWidget> {
                                     "description": textDescription.text
                                   },
                                 ));
-                            print(json.decode(response.body)['result']);
+
                             if (json
                                 .decode(response.body)
                                 .containsKey('errorDetails')) {

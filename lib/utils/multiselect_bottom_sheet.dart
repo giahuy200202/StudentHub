@@ -218,7 +218,7 @@ class _MultiSelectBottomSheetState extends State<MultiSelectBottomSheet> {
                                     width: 100,
                                     child: DecoratedBox(
                                       decoration: BoxDecoration(
-                                        border: Border.all(color: Colors.black),
+                                        border: Border.all(color: Colors.grey),
                                         borderRadius: BorderRadius.circular(8),
                                         color:
                                             Color.fromARGB(255, 255, 255, 255),
@@ -258,9 +258,10 @@ class _MultiSelectBottomSheetState extends State<MultiSelectBottomSheet> {
                                   width: 100,
                                   child: DecoratedBox(
                                     decoration: BoxDecoration(
-                                      border: Border.all(color: Colors.black),
+                                      border: Border.all(color: Colors.grey),
                                       borderRadius: BorderRadius.circular(8),
-                                      color: Color.fromARGB(255, 255, 255, 255),
+                                      color: const Color.fromARGB(
+                                          255, 255, 255, 255),
                                     ),
                                     child: GestureDetector(
                                       onTap: () {
@@ -339,7 +340,7 @@ class _MultiSelectBottomSheetState extends State<MultiSelectBottomSheet> {
       child: Container(
         decoration: BoxDecoration(
             border: Border.all(
-              color: Colors.black,
+              color: Colors.grey,
             ),
             borderRadius: BorderRadius.circular(9),
             color: whiteColor),

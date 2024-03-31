@@ -168,8 +168,7 @@ class _LayoutScreenState extends ConsumerState<LayoutScreen> {
   Widget build(BuildContext context) {
     final options = ref.watch(optionsProvider);
     final user = ref.watch(userProvider);
-    print(options);
-    print(user.role);
+
     // Widget currentScreen;
     // currentScreen = user.role == ''
     //     ? const LoginScreen()

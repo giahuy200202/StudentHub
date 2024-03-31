@@ -338,7 +338,7 @@ class ViewProfileWidget extends ConsumerWidget {
                                   "description": textDescription.text
                                 },
                               ));
-                          print(json.decode(response.body));
+
                           if (json
                               .decode(response.body)
                               .containsKey('errorDetails')) {
