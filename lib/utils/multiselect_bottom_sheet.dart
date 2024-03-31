@@ -297,6 +297,14 @@ class _MultiSelectBottomSheetState extends State<MultiSelectBottomSheet> {
                                     ),
                                     child: GestureDetector(
                                       onTap: () {
+                                        for (var item in filterList) {
+                                          if (item.isSelected) {
+                                            print('---------------');
+                                            print(filterList.indexOf(item));
+                                            print(item.name);
+                                            print('---------------');
+                                          }
+                                        }
                                         setState(() {
                                           widget.items.clear();
                                           widget.items.addAll(defaultList);
