@@ -64,7 +64,7 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentStep3Widget> {
                     style: ElevatedButton.styleFrom(
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8),
-                        side: const BorderSide(color: Colors.black),
+                        side: const BorderSide(color: Colors.grey),
                       ),
                       backgroundColor: const Color.fromARGB(255, 0, 0, 0),
                     ),

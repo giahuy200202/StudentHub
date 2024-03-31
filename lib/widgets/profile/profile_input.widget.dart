@@ -281,7 +281,7 @@ class _ProfileInputWidgetState extends ConsumerState<ProfileInputWidget> {
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(9),
-                      borderSide: const BorderSide(color: Colors.black),
+                      borderSide: const BorderSide(color: Colors.grey),
                     ),
                     contentPadding: const EdgeInsets.symmetric(
                       vertical: 0,
@@ -325,7 +325,7 @@ class _ProfileInputWidgetState extends ConsumerState<ProfileInputWidget> {
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(9),
-                      borderSide: const BorderSide(color: Colors.black),
+                      borderSide: const BorderSide(color: Colors.grey),
                     ),
                     contentPadding: const EdgeInsets.symmetric(
                       vertical: 0,
@@ -370,7 +370,7 @@ class _ProfileInputWidgetState extends ConsumerState<ProfileInputWidget> {
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(9),
-                      borderSide: const BorderSide(color: Colors.black),
+                      borderSide: const BorderSide(color: Colors.grey),
                     ),
                     contentPadding: const EdgeInsets.symmetric(
                       vertical: 10,
@@ -447,7 +447,7 @@ class _ProfileInputWidgetState extends ConsumerState<ProfileInputWidget> {
                     style: ElevatedButton.styleFrom(
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8),
-                        // side: const BorderSide(color: Colors.black),
+                        // side: const BorderSide(color: Colors.grey),
                       ),
                       backgroundColor: const Color.fromARGB(255, 0, 0, 0),
                     ),

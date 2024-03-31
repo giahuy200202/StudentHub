@@ -96,8 +96,8 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentWidget> {
               const Text(
                 'Techstack',
                 style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w500,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
                 ),
               ),
               const SizedBox(height: 10),
@@ -136,8 +136,8 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentWidget> {
               const Text(
                 'Skillset',
                 style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w500,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
                 ),
               ),
               const SizedBox(height: 10),
@@ -166,8 +166,8 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentWidget> {
                   const Text(
                     'Languages',
                     style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w500,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
                     ),
                   ),
                   InkWell(
@@ -207,7 +207,7 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentWidget> {
                                   onTap: () {},
                                   child: const Icon(
                                     Icons.edit_calendar,
-                                    color: Colors.orange,
+                                    color: Colors.black,
                                     size: 25,
                                   ),
                                 ),
@@ -236,8 +236,8 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentWidget> {
                   const Text(
                     'Education',
                     style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w500,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
                     ),
                   ),
                   InkWell(
@@ -289,7 +289,7 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentWidget> {
                                   onTap: () {},
                                   child: const Icon(
                                     Icons.edit_calendar,
-                                    color: Colors.orange,
+                                    color: Colors.black,
                                     size: 25,
                                   ),
                                 ),
@@ -341,7 +341,7 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentWidget> {
                                   onTap: () {},
                                   child: const Icon(
                                     Icons.edit_calendar,
-                                    color: Colors.orange,
+                                    color: Colors.black,
                                     size: 25,
                                   ),
                                 ),
@@ -377,7 +377,7 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentWidget> {
                     style: ElevatedButton.styleFrom(
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8),
-                        side: const BorderSide(color: Colors.black),
+                        side: const BorderSide(color: Colors.grey),
                       ),
                       backgroundColor: const Color.fromARGB(255, 0, 0, 0),
                     ),

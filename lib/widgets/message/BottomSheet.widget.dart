@@ -53,7 +53,7 @@ class _ShowbottomSheduleWidget extends ConsumerState<ShowbottomSheduleWidget> {
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(9),
-                      borderSide: const BorderSide(color: Colors.black),
+                      borderSide: const BorderSide(color: Colors.grey),
                     ),
                     contentPadding: const EdgeInsets.symmetric(
                       vertical: 0,
@@ -256,7 +256,7 @@ class _ShowbottomSheduleWidget extends ConsumerState<ShowbottomSheduleWidget> {
                         padding: EdgeInsets.zero, // and this
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8),
-                          side: const BorderSide(color: Colors.black),
+                          side: const BorderSide(color: Colors.grey),
                         ),
                         backgroundColor: Colors.white,
                       ),

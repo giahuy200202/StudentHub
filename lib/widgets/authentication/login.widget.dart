@@ -136,7 +136,7 @@ class _LoginWidgetState extends ConsumerState<LoginWidget> {
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(9),
-                          borderSide: const BorderSide(color: Colors.black),
+                          borderSide: const BorderSide(color: Colors.grey),
                         ),
                         contentPadding: const EdgeInsets.symmetric(
                           vertical: 17,
@@ -171,7 +171,7 @@ class _LoginWidgetState extends ConsumerState<LoginWidget> {
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(9),
-                          borderSide: const BorderSide(color: Colors.black),
+                          borderSide: const BorderSide(color: Colors.grey),
                         ),
                         contentPadding: const EdgeInsets.symmetric(
                           vertical: 17,

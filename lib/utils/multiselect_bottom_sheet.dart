@@ -117,7 +117,7 @@ class _MultiSelectBottomSheetState extends State<MultiSelectBottomSheet> {
                             ),
                             focusedBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10),
-                              borderSide: const BorderSide(color: Colors.black),
+                              borderSide: const BorderSide(color: Colors.grey),
                             ),
                             contentPadding: const EdgeInsets.symmetric(
                               vertical: 8,
