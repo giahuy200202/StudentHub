@@ -40,6 +40,7 @@ class ProfileIStudentWidget extends ConsumerStatefulWidget {
 
 class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentWidget> {
   String dropdownValue = list.first;
+  var techStackData = [];
 
   void getTechStack(String token) async {
     final url = Uri.parse(
@@ -51,7 +52,9 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentWidget> {
         'Authorization': 'Bearer $token'
       },
     );
-    final techStackData = json.decode(response.body)['result'];
+    setState(() {
+      techStackData = json.decode(response.body)['result'];
+    });
     print(techStackData);
   }
 
@@ -59,7 +62,8 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentWidget> {
   void initState() {
     super.initState();
     final user = ref.read(userProvider);
-    getTechStack(user.token!); // 42
+    getTechStack(user.token!);
+    // 42
   }
 
   @override
