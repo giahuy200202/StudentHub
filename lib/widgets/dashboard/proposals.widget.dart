@@ -209,7 +209,7 @@ class _ProposalsWidgetState extends ConsumerState<ProposalsWidget> {
                                               side: const BorderSide(
                                                   color: Colors.black),
                                             ),
-                                            backgroundColor: Colors.white,
+                                            // backgroundColor: Colors.white,
                                           ),
                                           child: const Text(
                                             'Cancel',
@@ -466,7 +466,7 @@ class _ProposalsWidgetState extends ConsumerState<ProposalsWidget> {
                                               side: const BorderSide(
                                                   color: Colors.black),
                                             ),
-                                            backgroundColor: Colors.white,
+                                            // backgroundColor: Colors.white,
                                           ),
                                           child: const Text(
                                             'Cancel',
