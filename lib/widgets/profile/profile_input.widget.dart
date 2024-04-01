@@ -130,6 +130,7 @@ class _ProfileInputWidgetState extends ConsumerState<ProfileInputWidget> {
     ref.watch(TextWebsiteEmpoyleeProvider);
     ref.watch(TextDescriptionEmpoyleeProvider);
     final user = ref.watch(userProvider);
+    final company = ref.watch(companyProvider);
 
     return Scaffold(
       body: SingleChildScrollView(
@@ -432,6 +433,7 @@ class _ProfileInputWidgetState extends ConsumerState<ProfileInputWidget> {
                                         ["website"],
                                     json.decode(response.body)["result"]
                                         ["description"],
+                                    company.email!,
                                     json.decode(response.body)["result"]
                                         ["size"],
                                   );

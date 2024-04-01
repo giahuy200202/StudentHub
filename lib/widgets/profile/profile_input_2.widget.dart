@@ -367,6 +367,7 @@ class ViewProfileWidget extends ConsumerWidget {
                                 textCompany.text,
                                 textWebsite.text,
                                 textDescription.text,
+                                company.email!,
                                 selectedEmployee);
                           }
                         },

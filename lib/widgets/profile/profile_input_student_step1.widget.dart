@@ -73,7 +73,7 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentWidget> {
     final List<MultiSelectBottomSheetModel> temp = [];
     for (var item in skillSetData) {
       temp.add(MultiSelectBottomSheetModel(
-          id: item['id'], name: item['name'], isSelected: false));
+          id: item['id'], name: item['name'], isSelected: true));
     }
 
     setState(() {
@@ -189,30 +189,6 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentWidget> {
                       ),
                     ),
                     const SizedBox(height: 10),
-                    // FutureBuilder<List<MultiSelectBottomSheetModel>>(
-                    //     future: selectSkillSetItem,
-                    //     builder: (BuildContext context,
-                    //         AsyncSnapshot<List<MultiSelectBottomSheetModel>>
-                    //             snapshot) {
-                    //       return MultiSelectBottomSheet(
-                    //         items: snapshot.data!, // required for Item list
-                    //         width: 370,
-                    //         bottomSheetHeight: 500 *
-                    //             0.7, // required for min/max height of bottomSheet
-                    //         hint: "Select Skillset",
-                    //         controller: controller,
-                    //         searchTextFieldWidth: 300 * 0.96,
-                    //         searchIcon: const Icon(
-                    //             // required for searchIcon
-                    //             Icons.search,
-                    //             color: Colors.black,
-                    //             size: 22),
-                    //         selectTextStyle:
-                    //             const TextStyle(color: Colors.white, fontSize: 17),
-                    //         unSelectTextStyle:
-                    //             const TextStyle(color: Colors.black, fontSize: 17),
-                    //       );
-                    //     }),
                     MultiSelectBottomSheet(
                       items: selectSkillSetItem, // required for Item list
                       width: 370,
