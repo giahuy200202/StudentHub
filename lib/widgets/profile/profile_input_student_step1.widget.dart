@@ -34,8 +34,8 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentWidget> {
   List<String> techStackName = [];
   // late Future<List<MultiSelectBottomSheetModel>> selectSkillSetItem;
   List<MultiSelectBottomSheetModel> selectSkillSetItem = [];
-  String dropdownValue = 'Fullstack Engineer';
-
+  String dropdownValue = '';
+  // techStackName.indexOf(dropdownValue) + 1;
   void getTechStack(String token) async {
     final url = Uri.parse(
         'http://${dotenv.env['IP_ADDRESS']}/api/techstack/getAllTechStack');
@@ -53,13 +53,14 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentWidget> {
       techStackName.add(item['name']);
     }
     setState(() {
-      dropdownValue = techStackName[2];
+      dropdownValue = techStackName[0];
     });
   }
 
   void getSkillSet(String token) async {
     final url = Uri.parse(
         'http://${dotenv.env['IP_ADDRESS']}/api/skillset/getAllSkillSet');
+
     final response = await http.get(
       url,
       headers: {
@@ -73,7 +74,7 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentWidget> {
     final List<MultiSelectBottomSheetModel> temp = [];
     for (var item in skillSetData) {
       temp.add(MultiSelectBottomSheetModel(
-          id: item['id'], name: item['name'], isSelected: true));
+          id: item['id'], name: item['name'], isSelected: false));
     }
 
     setState(() {
