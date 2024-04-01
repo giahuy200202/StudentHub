@@ -375,8 +375,8 @@ class _LoginWidgetState extends ConsumerState<LoginWidget> {
                                           userLoginRole == '0'
                                               ? 'ProfileInputStudent'
                                               : (responeAuthMeData["result"]
-                                                          ["company"]["id"] ==
-                                                      0
+                                                          ["company"] ==
+                                                      null
                                                   ? 'ProfileInput'
                                                   : 'Dashboard'),
                                           userLoginRole);
