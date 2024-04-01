@@ -14,19 +14,35 @@ import 'dart:convert';
 TextEditingController controller = TextEditingController();
 
 class LanguageCreate {
-  // int? id;
   String languageName;
   String level;
 
   LanguageCreate(this.languageName, this.level);
 }
 
-class LanguageEdit {
+class LanguageFetch {
   int? id;
   String languageName;
   String level;
 
-  LanguageEdit(this.id, this.languageName, this.level);
+  LanguageFetch(this.id, this.languageName, this.level);
+}
+
+class EducationCreate {
+  String schoolName;
+  String startYear;
+  String endYear;
+
+  EducationCreate(this.schoolName, this.startYear, this.endYear);
+}
+
+class EducationFetch {
+  int? id;
+  String schoolName;
+  String startYear;
+  String endYear;
+
+  EducationFetch(this.schoolName, this.startYear, this.endYear);
 }
 
 class ProfileIStudentWidget extends ConsumerStatefulWidget {
@@ -44,17 +60,27 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentWidget> {
   List<MultiSelectBottomSheetModel> selectSkillSetItem = [];
   //List<LanguageData> languages = [];
 
-  List<LanguageEdit> fetchLanguages = [];
+  List<LanguageFetch> fetchLanguages = [];
+  List<EducationFetch> fetchEducation = [];
 
   String dropdownValue = 'Fullstack Engineer';
+
   final createLanguagesController = TextEditingController();
   final createLanguageLevelController = TextEditingController();
+
   final editLanguagesController = TextEditingController();
   final editLanguageLevelController = TextEditingController();
+
   final createHighschoolController = TextEditingController();
-  final createHighschoolTimeController = TextEditingController();
+  final createHighschoolStartYearController = TextEditingController();
+  final createHighschoolEndYearController = TextEditingController();
+
   final editHighschoolController = TextEditingController();
-  final editHighschoolTimeController = TextEditingController();
+  final editHighschoolStartYearController = TextEditingController();
+  final editHighschoolEndYearController = TextEditingController();
+
+  bool isFetchLanguage = false;
+  bool isFetchEducation = false;
 
   bool enableCreate = false;
   bool enableEducation = false;
@@ -98,16 +124,61 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentWidget> {
     // print(selectSkillSetItem);
   }
 
-  // void getLanguage(String token) async {
-  //   final url = Uri.parse(
-  //       'http://${dotenv.env['IP_ADDRESS']}/api/language/getByStudentId/${student.id}');
-  //   final response = await http.get(url, headers: {
-  //     'Content-Type': 'application/json',
-  //     'Authorization': 'Bearer $token'
-  //   });
+  void getLanguage(String token) async {
+    setState(() {
+      isFetchLanguage = true;
+    });
+    final url = Uri.parse('http://${dotenv.env['IP_ADDRESS']}/api/language/getByStudentId/1');
+    final response = await http.get(
+      url,
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $token',
+      },
+    );
 
-  //   var LanguageData = [...json.decode(response.body)['result']];
-  // }
+    final responseLanguages = [...json.decode(response.body)['result']];
+
+    for (final item in responseLanguages) {
+      fetchLanguages.add(
+        LanguageFetch(item['id'], item['languageName'], item['level']),
+      );
+    }
+
+    ref.read(studentInputProvider.notifier).setStudentInputLanguague(fetchLanguages);
+
+    setState(() {
+      isFetchLanguage = false;
+    });
+  }
+
+  void getEducation(String token) async {
+    setState(() {
+      isFetchLanguage = true;
+    });
+    final url = Uri.parse('http://${dotenv.env['IP_ADDRESS']}/api/education/getByStudentId/1');
+    final response = await http.get(
+      url,
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $token',
+      },
+    );
+
+    final responseLanguages = [...json.decode(response.body)['result']];
+
+    for (final item in responseLanguages) {
+      fetchLanguages.add(
+        LanguageFetch(item['id'], item['languageName'], item['level']),
+      );
+    }
+
+    ref.read(studentInputProvider.notifier).setStudentInputLanguague(fetchLanguages);
+
+    setState(() {
+      isFetchLanguage = false;
+    });
+  }
 
   @override
   void initState() {
@@ -116,6 +187,10 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentWidget> {
     final student = ref.read(studentProvider);
     getTechStack(user.token!);
     getSkillSet(user.token!);
+    if (student.id != 0) {
+      getLanguage(user.token!);
+      getEducation(user.token!);
+    }
     // dropdownValue = techStackName[0];
     // 42
   }
@@ -129,7 +204,7 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentWidget> {
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),
-          child: selectSkillSetItem.isEmpty || techStackName.isEmpty
+          child: selectSkillSetItem.isEmpty || techStackName.isEmpty || isFetchLanguage
               ? const Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -413,8 +488,9 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentWidget> {
                                                             child: ElevatedButton(
                                                               onPressed: enableCreate
                                                                   ? () {
-                                                                      ref.read(studentInputProvider.notifier).addStudentInputLanguague(LanguageCreate(createLanguagesController.text, createLanguageLevelController.text));
-
+                                                                      ref.read(studentInputProvider.notifier).addStudentInputLanguague(
+                                                                            LanguageCreate(createLanguagesController.text, createLanguageLevelController.text),
+                                                                          );
                                                                       Navigator.pop(context);
                                                                     }
                                                                   : null,
@@ -737,6 +813,10 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentWidget> {
                         ),
                         InkWell(
                           onTap: () {
+                            createHighschoolController.text = '';
+                            createHighschoolStartYearController.text = '';
+                            createHighschoolEndYearController.text = '';
+
                             showModalBottomSheet(
                               isScrollControlled: true,
                               context: context,
@@ -792,7 +872,7 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentWidget> {
                                                     child: TextField(
                                                       controller: createHighschoolController,
                                                       onChanged: (data) {
-                                                        if (createHighschoolController.text.isEmpty) {
+                                                        if (createHighschoolController.text.isEmpty || createHighschoolStartYearController.text.isEmpty || createHighschoolEndYearController.text.isEmpty) {
                                                           enableEducation = false;
                                                         } else {
                                                           enableEducation = true;
@@ -823,7 +903,7 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentWidget> {
                                                   const Align(
                                                     alignment: Alignment.topLeft,
                                                     child: Text(
-                                                      "School year",
+                                                      "Start school year",
                                                       style: TextStyle(
                                                         fontWeight: FontWeight.bold,
                                                         fontSize: 16,
@@ -833,9 +913,9 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentWidget> {
                                                   const SizedBox(height: 15),
                                                   SizedBox(
                                                     child: TextField(
-                                                      controller: createHighschoolTimeController,
+                                                      controller: createHighschoolStartYearController,
                                                       onChanged: (data) {
-                                                        if (createHighschoolTimeController.text.isEmpty) {
+                                                        if (createHighschoolController.text.isEmpty || createHighschoolStartYearController.text.isEmpty || createHighschoolEndYearController.text.isEmpty) {
                                                           enableEducation = false;
                                                         } else {
                                                           enableEducation = true;
@@ -858,11 +938,54 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentWidget> {
                                                           vertical: 14,
                                                           horizontal: 15,
                                                         ),
-                                                        hintText: 'Endter your school year',
+                                                        hintText: 'Endter your start school year',
                                                       ),
                                                     ),
                                                   ),
-                                                  const SizedBox(height: 300),
+                                                  const SizedBox(height: 15),
+                                                  const Align(
+                                                    alignment: Alignment.topLeft,
+                                                    child: Text(
+                                                      "End school year",
+                                                      style: TextStyle(
+                                                        fontWeight: FontWeight.bold,
+                                                        fontSize: 16,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  const SizedBox(height: 15),
+                                                  SizedBox(
+                                                    child: TextField(
+                                                      controller: createHighschoolEndYearController,
+                                                      onChanged: (data) {
+                                                        if (createHighschoolController.text.isEmpty || createHighschoolStartYearController.text.isEmpty || createHighschoolEndYearController.text.isEmpty) {
+                                                          enableEducation = false;
+                                                        } else {
+                                                          enableEducation = true;
+                                                        }
+                                                        setState(() {});
+                                                      },
+                                                      style: const TextStyle(
+                                                        fontSize: 16,
+                                                      ),
+                                                      decoration: InputDecoration(
+                                                        // labelText: 'Number of students',
+                                                        border: OutlineInputBorder(
+                                                          borderRadius: BorderRadius.circular(9),
+                                                        ),
+                                                        focusedBorder: OutlineInputBorder(
+                                                          borderRadius: BorderRadius.circular(9),
+                                                          borderSide: const BorderSide(color: Colors.black),
+                                                        ),
+                                                        contentPadding: const EdgeInsets.symmetric(
+                                                          vertical: 14,
+                                                          horizontal: 15,
+                                                        ),
+                                                        hintText: 'Endter your end school year',
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  const SizedBox(height: 200),
                                                   Row(
                                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                     children: [
@@ -871,8 +994,9 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentWidget> {
                                                         width: 175,
                                                         child: ElevatedButton(
                                                           onPressed: () {
-                                                            editHighschoolController.text = '';
-                                                            editHighschoolTimeController.text = '';
+                                                            createHighschoolController.text = '';
+                                                            createHighschoolStartYearController.text = '';
+                                                            createHighschoolEndYearController.text = '';
                                                             Navigator.pop(context);
                                                           },
                                                           style: ElevatedButton.styleFrom(
@@ -900,6 +1024,13 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentWidget> {
                                                         width: 175,
                                                         child: ElevatedButton(
                                                           onPressed: () {
+                                                            ref.read(studentInputProvider.notifier).addStudentInputEducation(
+                                                                  EducationCreate(
+                                                                    createHighschoolController.text,
+                                                                    createHighschoolStartYearController.text,
+                                                                    createHighschoolEndYearController.text,
+                                                                  ),
+                                                                );
                                                             Navigator.pop(context);
                                                           },
                                                           style: ElevatedButton.styleFrom(
@@ -945,56 +1076,310 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentWidget> {
 
                     const SizedBox(height: 15),
 
-                    Container(
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        border: Border.all(color: Colors.grey),
-                        borderRadius: const BorderRadius.all(Radius.circular(8)),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(15),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            const Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  'Le Hong Phong High School',
-                                  style: TextStyle(fontSize: 16),
-                                ),
-                                Text(
-                                  '2008-2010',
-                                  style: TextStyle(
-                                    fontSize: 14,
-                                    color: Color.fromARGB(255, 94, 94, 94),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            Row(children: [
-                              InkWell(
-                                onTap: () {},
-                                child: const Icon(
-                                  Icons.edit_calendar,
-                                  color: Colors.black,
-                                  size: 25,
-                                ),
+                    studentInput.educations!.isEmpty
+                        ? const Column(
+                            children: [
+                              Text(
+                                'Empty',
+                                style: TextStyle(fontSize: 16),
                               ),
-                              const SizedBox(width: 10),
-                              InkWell(
-                                onTap: () {},
-                                child: const Icon(
-                                  Icons.delete_forever,
-                                  color: Colors.red,
-                                  size: 25,
-                                ),
-                              ),
-                            ]),
-                          ],
-                        ),
-                      ),
-                    ),
+                              SizedBox(height: 20),
+                            ],
+                          )
+                        : Column(
+                            children: [
+                              ...studentInput.educations!.map((el) {
+                                return Column(
+                                  children: [
+                                    Container(
+                                      decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        border: Border.all(color: Colors.grey),
+                                        borderRadius: const BorderRadius.all(Radius.circular(8)),
+                                      ),
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(15),
+                                        child: Row(
+                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Column(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  el.schoolName,
+                                                  style: const TextStyle(fontSize: 16),
+                                                ),
+                                                Text(
+                                                  '${el.startYear} - ${el.endYear}',
+                                                  style: const TextStyle(
+                                                    fontSize: 14,
+                                                    color: Color.fromARGB(255, 94, 94, 94),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            Row(children: [
+                                              InkWell(
+                                                onTap: () {
+                                                  editHighschoolController.text = el.schoolName;
+                                                  editHighschoolStartYearController.text = el.startYear;
+                                                  editHighschoolEndYearController.text = el.endYear;
+                                                  showModalBottomSheet(
+                                                    isScrollControlled: true,
+                                                    context: context,
+                                                    backgroundColor: Colors.white,
+                                                    builder: (ctx) {
+                                                      return StatefulBuilder(builder: (BuildContext context, StateSetter setState /*You can rename this!*/) {
+                                                        return Padding(
+                                                          padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+                                                          child: SingleChildScrollView(
+                                                            // physics: const NeverScrollableScrollPhysics(),
+                                                            child: Padding(
+                                                              padding: const EdgeInsets.only(left: 20, right: 20),
+                                                              child: Column(
+                                                                mainAxisSize: MainAxisSize.min,
+                                                                children: [
+                                                                  const SizedBox(height: 40),
+                                                                  const Align(
+                                                                    alignment: Alignment.topLeft,
+                                                                    child: Text(
+                                                                      "Edit education",
+                                                                      style: TextStyle(
+                                                                        fontWeight: FontWeight.bold,
+                                                                        fontSize: 25,
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                  const SizedBox(height: 15),
+                                                                  Container(
+                                                                    decoration: BoxDecoration(
+                                                                      border: Border.all(
+                                                                        color: Colors.black, //                   <--- border color
+                                                                        width: 0.3,
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                  const SizedBox(height: 20),
+                                                                  SizedBox(
+                                                                    height: 580,
+                                                                    child: Column(
+                                                                      children: [
+                                                                        const Align(
+                                                                          alignment: Alignment.topLeft,
+                                                                          child: Text(
+                                                                            "School name",
+                                                                            style: TextStyle(
+                                                                              fontWeight: FontWeight.bold,
+                                                                              fontSize: 16,
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                        const SizedBox(height: 15),
+                                                                        SizedBox(
+                                                                          child: TextField(
+                                                                            controller: editHighschoolController,
+                                                                            onChanged: (data) {},
+                                                                            style: const TextStyle(
+                                                                              fontSize: 16,
+                                                                            ),
+                                                                            decoration: InputDecoration(
+                                                                              // labelText: 'Number of students',
+                                                                              border: OutlineInputBorder(
+                                                                                borderRadius: BorderRadius.circular(9),
+                                                                              ),
+                                                                              focusedBorder: OutlineInputBorder(
+                                                                                borderRadius: BorderRadius.circular(9),
+                                                                                borderSide: const BorderSide(color: Colors.black),
+                                                                              ),
+                                                                              contentPadding: const EdgeInsets.symmetric(
+                                                                                vertical: 14,
+                                                                                horizontal: 15,
+                                                                              ),
+                                                                              hintText: 'Enter your school name',
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                        const SizedBox(height: 15),
+                                                                        const Align(
+                                                                          alignment: Alignment.topLeft,
+                                                                          child: Text(
+                                                                            "Start school year",
+                                                                            style: TextStyle(
+                                                                              fontWeight: FontWeight.bold,
+                                                                              fontSize: 16,
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                        const SizedBox(height: 15),
+                                                                        SizedBox(
+                                                                          child: TextField(
+                                                                            controller: editHighschoolStartYearController,
+                                                                            onChanged: (data) {},
+                                                                            style: const TextStyle(
+                                                                              fontSize: 16,
+                                                                            ),
+                                                                            decoration: InputDecoration(
+                                                                              // labelText: 'Number of students',
+                                                                              border: OutlineInputBorder(
+                                                                                borderRadius: BorderRadius.circular(9),
+                                                                              ),
+                                                                              focusedBorder: OutlineInputBorder(
+                                                                                borderRadius: BorderRadius.circular(9),
+                                                                                borderSide: const BorderSide(color: Colors.black),
+                                                                              ),
+                                                                              contentPadding: const EdgeInsets.symmetric(
+                                                                                vertical: 14,
+                                                                                horizontal: 15,
+                                                                              ),
+                                                                              hintText: 'Endter your start school year',
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                        const SizedBox(height: 15),
+                                                                        const Align(
+                                                                          alignment: Alignment.topLeft,
+                                                                          child: Text(
+                                                                            "End school year",
+                                                                            style: TextStyle(
+                                                                              fontWeight: FontWeight.bold,
+                                                                              fontSize: 16,
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                        const SizedBox(height: 15),
+                                                                        SizedBox(
+                                                                          child: TextField(
+                                                                            controller: editHighschoolEndYearController,
+                                                                            onChanged: (data) {},
+                                                                            style: const TextStyle(
+                                                                              fontSize: 16,
+                                                                            ),
+                                                                            decoration: InputDecoration(
+                                                                              // labelText: 'Number of students',
+                                                                              border: OutlineInputBorder(
+                                                                                borderRadius: BorderRadius.circular(9),
+                                                                              ),
+                                                                              focusedBorder: OutlineInputBorder(
+                                                                                borderRadius: BorderRadius.circular(9),
+                                                                                borderSide: const BorderSide(color: Colors.black),
+                                                                              ),
+                                                                              contentPadding: const EdgeInsets.symmetric(
+                                                                                vertical: 14,
+                                                                                horizontal: 15,
+                                                                              ),
+                                                                              hintText: 'Endter your end school year',
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                        const SizedBox(height: 200),
+                                                                        Row(
+                                                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                          children: [
+                                                                            SizedBox(
+                                                                              height: 46,
+                                                                              width: 175,
+                                                                              child: ElevatedButton(
+                                                                                onPressed: () {
+                                                                                  editHighschoolController.text = '';
+                                                                                  editHighschoolStartYearController.text = '';
+                                                                                  editHighschoolEndYearController.text = '';
+                                                                                  Navigator.pop(context);
+                                                                                },
+                                                                                style: ElevatedButton.styleFrom(
+                                                                                  minimumSize: Size.zero, // Set this
+                                                                                  padding: EdgeInsets.zero, // and this
+                                                                                  shape: RoundedRectangleBorder(
+                                                                                    borderRadius: BorderRadius.circular(8),
+                                                                                    side: const BorderSide(color: Colors.black),
+                                                                                  ),
+                                                                                  backgroundColor: Colors.white,
+                                                                                ),
+                                                                                child: const Text(
+                                                                                  'Cancel',
+                                                                                  style: TextStyle(
+                                                                                    fontSize: 18,
+                                                                                    color: Colors.black,
+                                                                                    fontWeight: FontWeight.w500,
+                                                                                  ),
+                                                                                ),
+                                                                              ),
+                                                                            ),
+                                                                            const SizedBox(width: 15),
+                                                                            SizedBox(
+                                                                              height: 46,
+                                                                              width: 175,
+                                                                              child: ElevatedButton(
+                                                                                onPressed: () {
+                                                                                  ref.read(studentInputProvider.notifier).updateStudentInputEducation(
+                                                                                        editHighschoolController.text,
+                                                                                        editHighschoolStartYearController.text,
+                                                                                        editHighschoolEndYearController.text,
+                                                                                        studentInput.educations!.indexOf(el),
+                                                                                      );
+                                                                                  Navigator.pop(context);
+                                                                                },
+                                                                                style: ElevatedButton.styleFrom(
+                                                                                  minimumSize: Size.zero, // Set this
+                                                                                  padding: EdgeInsets.zero, // and this
+                                                                                  shape: RoundedRectangleBorder(
+                                                                                    borderRadius: BorderRadius.circular(8),
+                                                                                  ),
+                                                                                  backgroundColor: Colors.black,
+                                                                                ),
+                                                                                child: const Text(
+                                                                                  'Save',
+                                                                                  style: TextStyle(
+                                                                                    fontSize: 18,
+                                                                                    color: Color.fromARGB(255, 255, 255, 255),
+                                                                                    fontWeight: FontWeight.w500,
+                                                                                  ),
+                                                                                ),
+                                                                              ),
+                                                                            ),
+                                                                          ],
+                                                                        ),
+                                                                      ],
+                                                                    ),
+                                                                  )
+                                                                ],
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        );
+                                                      });
+                                                    },
+                                                  );
+                                                },
+                                                child: const Icon(
+                                                  Icons.edit_calendar,
+                                                  color: Colors.black,
+                                                  size: 25,
+                                                ),
+                                              ),
+                                              const SizedBox(width: 10),
+                                              InkWell(
+                                                onTap: () {
+                                                  ref.read(studentInputProvider.notifier).deleteStudentInputEducation(
+                                                        studentInput.educations!.indexOf(el),
+                                                      );
+                                                },
+                                                child: const Icon(
+                                                  Icons.delete_forever,
+                                                  color: Colors.red,
+                                                  size: 25,
+                                                ),
+                                              ),
+                                            ]),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                    const SizedBox(height: 20),
+                                  ],
+                                );
+                              }),
+                            ],
+                          ),
 
                     const SizedBox(height: 30),
                     Container(
