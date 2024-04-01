@@ -3,8 +3,10 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:studenthub/providers/authentication/authentication.provider.dart';
 import 'package:studenthub/providers/options.provider.dart';
+import 'package:studenthub/providers/profile/student.provider.dart';
 import 'package:studenthub/utils/multiselect_bottom_sheet_model.dart';
 import 'package:studenthub/utils/multiselect_bottom_sheet.dart';
+import 'package:studenthub/utils/Languages.data.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
@@ -34,8 +36,15 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentWidget> {
   List<String> techStackName = [];
   // late Future<List<MultiSelectBottomSheetModel>> selectSkillSetItem;
   List<MultiSelectBottomSheetModel> selectSkillSetItem = [];
-  String dropdownValue = '';
-  // techStackName.indexOf(dropdownValue) + 1;
+  //List<LanguageData> languages = [];
+  String dropdownValue = 'Fullstack Engineer';
+  final createLanguagesController = TextEditingController();
+  final editLanguagesController = TextEditingController();
+  final createHighschoolController = TextEditingController();
+  final createHighschoolTimeController = TextEditingController();
+  final editHighschoolController = TextEditingController();
+  final editHighschoolTimeController = TextEditingController();
+
   void getTechStack(String token) async {
     final url = Uri.parse(
         'http://${dotenv.env['IP_ADDRESS']}/api/techstack/getAllTechStack');
@@ -84,10 +93,22 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentWidget> {
     // print(selectSkillSetItem);
   }
 
+  // void getLanguage(String token) async {
+  //   final url = Uri.parse(
+  //       'http://${dotenv.env['IP_ADDRESS']}/api/language/getByStudentId/${student.id}');
+  //   final response = await http.get(url, headers: {
+  //     'Content-Type': 'application/json',
+  //     'Authorization': 'Bearer $token'
+  //   });
+
+  //   var LanguageData = [...json.decode(response.body)['result']];
+  // }
+
   @override
   void initState() {
     super.initState();
     final user = ref.read(userProvider);
+    final student = ref.read(studentProvider);
     getTechStack(user.token!);
     getSkillSet(user.token!);
     // dropdownValue = techStackName[0];
@@ -220,7 +241,229 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentWidget> {
                           ),
                         ),
                         InkWell(
-                          onTap: () {},
+                          onTap: () {
+                            showModalBottomSheet(
+                              isScrollControlled: true,
+                              context: context,
+                              backgroundColor: Colors.white,
+                              builder: (ctx) {
+                                return StatefulBuilder(builder:
+                                    (BuildContext context,
+                                        StateSetter
+                                            setState /*You can rename this!*/) {
+                                  bool enable = false;
+                                  return Padding(
+                                    padding: EdgeInsets.only(
+                                        bottom: MediaQuery.of(context)
+                                            .viewInsets
+                                            .bottom),
+                                    child: SingleChildScrollView(
+                                      // physics: const NeverScrollableScrollPhysics(),
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(
+                                            left: 20, right: 20),
+                                        child: Column(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            const SizedBox(height: 40),
+                                            const Align(
+                                              alignment: Alignment.topLeft,
+                                              child: Text(
+                                                "Create languages",
+                                                style: TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 25,
+                                                ),
+                                              ),
+                                            ),
+                                            const SizedBox(height: 15),
+                                            Container(
+                                              decoration: BoxDecoration(
+                                                border: Border.all(
+                                                  color: Colors
+                                                      .black, //                   <--- border color
+                                                  width: 0.3,
+                                                ),
+                                              ),
+                                            ),
+                                            const SizedBox(height: 20),
+                                            SizedBox(
+                                              height: 580,
+                                              child: Column(
+                                                children: [
+                                                  const Align(
+                                                    alignment:
+                                                        Alignment.topLeft,
+                                                    child: Text(
+                                                      "Languages",
+                                                      style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        fontSize: 16,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  const SizedBox(height: 15),
+                                                  SizedBox(
+                                                    child: TextField(
+                                                      controller:
+                                                          createLanguagesController,
+                                                      onChanged: (data) {
+                                                        if (createLanguagesController
+                                                            .text.isEmpty) {
+                                                          enable = false;
+                                                        } else {
+                                                          enable = true;
+                                                        }
+                                                        setState(() {});
+                                                      },
+                                                      style: const TextStyle(
+                                                        fontSize: 16,
+                                                      ),
+                                                      decoration:
+                                                          InputDecoration(
+                                                        // labelText: 'Number of students',
+                                                        border:
+                                                            OutlineInputBorder(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(9),
+                                                        ),
+                                                        focusedBorder:
+                                                            OutlineInputBorder(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(9),
+                                                          borderSide:
+                                                              const BorderSide(
+                                                                  color: Colors
+                                                                      .black),
+                                                        ),
+                                                        contentPadding:
+                                                            const EdgeInsets
+                                                                .symmetric(
+                                                          vertical: 14,
+                                                          horizontal: 15,
+                                                        ),
+                                                        hintText:
+                                                            'Enter your languages',
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  const SizedBox(height: 410),
+                                                  Column(
+                                                    children: [
+                                                      Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceBetween,
+                                                        children: [
+                                                          SizedBox(
+                                                            height: 46,
+                                                            width: 175,
+                                                            child:
+                                                                ElevatedButton(
+                                                              onPressed: () {
+                                                                editHighschoolController
+                                                                    .text = '';
+                                                                Navigator.pop(
+                                                                    context);
+                                                              },
+                                                              style:
+                                                                  ElevatedButton
+                                                                      .styleFrom(
+                                                                minimumSize: Size
+                                                                    .zero, // Set this
+                                                                padding: EdgeInsets
+                                                                    .zero, // and this
+                                                                shape:
+                                                                    RoundedRectangleBorder(
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              8),
+                                                                  side: const BorderSide(
+                                                                      color: Colors
+                                                                          .black),
+                                                                ),
+                                                                backgroundColor:
+                                                                    Colors
+                                                                        .white,
+                                                              ),
+                                                              child: const Text(
+                                                                'Cancel',
+                                                                style:
+                                                                    TextStyle(
+                                                                  fontSize: 18,
+                                                                  color: Colors
+                                                                      .black,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w500,
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          const SizedBox(
+                                                              width: 15),
+                                                          SizedBox(
+                                                            height: 46,
+                                                            width: 175,
+                                                            child:
+                                                                ElevatedButton(
+                                                              onPressed: () {},
+                                                              style:
+                                                                  ElevatedButton
+                                                                      .styleFrom(
+                                                                minimumSize: Size
+                                                                    .zero, // Set this
+                                                                padding: EdgeInsets
+                                                                    .zero, // and this
+                                                                shape:
+                                                                    RoundedRectangleBorder(
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              8),
+                                                                ),
+                                                                backgroundColor:
+                                                                    Colors
+                                                                        .black,
+                                                              ),
+                                                              child: const Text(
+                                                                'Save',
+                                                                style:
+                                                                    TextStyle(
+                                                                  fontSize: 18,
+                                                                  color: Color
+                                                                      .fromARGB(
+                                                                          255,
+                                                                          255,
+                                                                          255,
+                                                                          255),
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w500,
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      )
+                                                    ],
+                                                  ),
+                                                ],
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                });
+                              },
+                            );
+                          },
                           child: const Icon(
                             Icons.add_circle,
                             color: Colors.black,
@@ -254,7 +497,229 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentWidget> {
                                     ),
                                     Row(children: [
                                       InkWell(
-                                        onTap: () {},
+                                        onTap: () {
+                                          showModalBottomSheet(
+                                            isScrollControlled: true,
+                                            context: context,
+                                            backgroundColor: Colors.white,
+                                            builder: (ctx) {
+                                              return StatefulBuilder(builder:
+                                                  (BuildContext context,
+                                                      StateSetter
+                                                          setState /*You can rename this!*/) {
+                                                bool enable = false;
+                                                return Padding(
+                                                  padding: EdgeInsets.only(
+                                                      bottom:
+                                                          MediaQuery.of(context)
+                                                              .viewInsets
+                                                              .bottom),
+                                                  child: SingleChildScrollView(
+                                                    // physics: const NeverScrollableScrollPhysics(),
+                                                    child: Padding(
+                                                      padding:
+                                                          const EdgeInsets.only(
+                                                              left: 20,
+                                                              right: 20),
+                                                      child: Column(
+                                                        mainAxisSize:
+                                                            MainAxisSize.min,
+                                                        children: [
+                                                          const SizedBox(
+                                                              height: 40),
+                                                          const Align(
+                                                            alignment: Alignment
+                                                                .topLeft,
+                                                            child: Text(
+                                                              "Edit languages",
+                                                              style: TextStyle(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold,
+                                                                fontSize: 25,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          const SizedBox(
+                                                              height: 15),
+                                                          Container(
+                                                            decoration:
+                                                                BoxDecoration(
+                                                              border:
+                                                                  Border.all(
+                                                                color: Colors
+                                                                    .black, //                   <--- border color
+                                                                width: 0.3,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          const SizedBox(
+                                                              height: 20),
+                                                          SizedBox(
+                                                            height: 580,
+                                                            child: Column(
+                                                              children: [
+                                                                const Align(
+                                                                  alignment:
+                                                                      Alignment
+                                                                          .topLeft,
+                                                                  child: Text(
+                                                                    "Languages",
+                                                                    style:
+                                                                        TextStyle(
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .bold,
+                                                                      fontSize:
+                                                                          16,
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                                const SizedBox(
+                                                                    height: 15),
+                                                                SizedBox(
+                                                                  child:
+                                                                      TextField(
+                                                                    controller:
+                                                                        editLanguagesController,
+                                                                    onChanged:
+                                                                        (data) {
+                                                                      if (editLanguagesController
+                                                                          .text
+                                                                          .isEmpty) {
+                                                                        enable =
+                                                                            false;
+                                                                      } else {
+                                                                        enable =
+                                                                            true;
+                                                                      }
+                                                                      setState(
+                                                                          () {});
+                                                                    },
+                                                                    style:
+                                                                        const TextStyle(
+                                                                      fontSize:
+                                                                          16,
+                                                                    ),
+                                                                    decoration:
+                                                                        InputDecoration(
+                                                                      // labelText: 'Number of students',
+                                                                      border:
+                                                                          OutlineInputBorder(
+                                                                        borderRadius:
+                                                                            BorderRadius.circular(9),
+                                                                      ),
+                                                                      focusedBorder:
+                                                                          OutlineInputBorder(
+                                                                        borderRadius:
+                                                                            BorderRadius.circular(9),
+                                                                        borderSide:
+                                                                            const BorderSide(color: Colors.black),
+                                                                      ),
+                                                                      contentPadding:
+                                                                          const EdgeInsets
+                                                                              .symmetric(
+                                                                        vertical:
+                                                                            14,
+                                                                        horizontal:
+                                                                            15,
+                                                                      ),
+                                                                      hintText:
+                                                                          'Enter your languages',
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                                const SizedBox(
+                                                                    height:
+                                                                        410),
+                                                                Column(
+                                                                  children: [
+                                                                    Row(
+                                                                      mainAxisAlignment:
+                                                                          MainAxisAlignment
+                                                                              .spaceBetween,
+                                                                      children: [
+                                                                        SizedBox(
+                                                                          height:
+                                                                              46,
+                                                                          width:
+                                                                              175,
+                                                                          child:
+                                                                              ElevatedButton(
+                                                                            onPressed:
+                                                                                () {
+                                                                              editHighschoolController.text = '';
+                                                                              Navigator.pop(context);
+                                                                            },
+                                                                            style:
+                                                                                ElevatedButton.styleFrom(
+                                                                              minimumSize: Size.zero, // Set this
+                                                                              padding: EdgeInsets.zero, // and this
+                                                                              shape: RoundedRectangleBorder(
+                                                                                borderRadius: BorderRadius.circular(8),
+                                                                                side: const BorderSide(color: Colors.black),
+                                                                              ),
+                                                                              backgroundColor: Colors.white,
+                                                                            ),
+                                                                            child:
+                                                                                const Text(
+                                                                              'Cancel',
+                                                                              style: TextStyle(
+                                                                                fontSize: 18,
+                                                                                color: Colors.black,
+                                                                                fontWeight: FontWeight.w500,
+                                                                              ),
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                        const SizedBox(
+                                                                            width:
+                                                                                15),
+                                                                        SizedBox(
+                                                                          height:
+                                                                              46,
+                                                                          width:
+                                                                              175,
+                                                                          child:
+                                                                              ElevatedButton(
+                                                                            onPressed:
+                                                                                () {},
+                                                                            style:
+                                                                                ElevatedButton.styleFrom(
+                                                                              minimumSize: Size.zero, // Set this
+                                                                              padding: EdgeInsets.zero, // and this
+                                                                              shape: RoundedRectangleBorder(
+                                                                                borderRadius: BorderRadius.circular(8),
+                                                                              ),
+                                                                              backgroundColor: Colors.black,
+                                                                            ),
+                                                                            child:
+                                                                                const Text(
+                                                                              'Save',
+                                                                              style: TextStyle(
+                                                                                fontSize: 18,
+                                                                                color: Color.fromARGB(255, 255, 255, 255),
+                                                                                fontWeight: FontWeight.w500,
+                                                                              ),
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                      ],
+                                                                    )
+                                                                  ],
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          )
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ),
+                                                );
+                                              });
+                                            },
+                                          );
+                                        },
                                         child: const Icon(
                                           Icons.edit_calendar,
                                           color: Colors.black,
@@ -291,7 +756,276 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentWidget> {
                           ),
                         ),
                         InkWell(
-                          onTap: () {},
+                          onTap: () {
+                            showModalBottomSheet(
+                              isScrollControlled: true,
+                              context: context,
+                              backgroundColor: Colors.white,
+                              builder: (ctx) {
+                                return StatefulBuilder(builder:
+                                    (BuildContext context,
+                                        StateSetter
+                                            setState /*You can rename this!*/) {
+                                  bool enable = false;
+                                  return Padding(
+                                    padding: EdgeInsets.only(
+                                        bottom: MediaQuery.of(context)
+                                            .viewInsets
+                                            .bottom),
+                                    child: SingleChildScrollView(
+                                      // physics: const NeverScrollableScrollPhysics(),
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(
+                                            left: 20, right: 20),
+                                        child: Column(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            const SizedBox(height: 40),
+                                            const Align(
+                                              alignment: Alignment.topLeft,
+                                              child: Text(
+                                                "Create education",
+                                                style: TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 25,
+                                                ),
+                                              ),
+                                            ),
+                                            const SizedBox(height: 15),
+                                            Container(
+                                              decoration: BoxDecoration(
+                                                border: Border.all(
+                                                  color: Colors
+                                                      .black, //                   <--- border color
+                                                  width: 0.3,
+                                                ),
+                                              ),
+                                            ),
+                                            const SizedBox(height: 20),
+                                            SizedBox(
+                                              height: 580,
+                                              child: Column(
+                                                children: [
+                                                  const Align(
+                                                    alignment:
+                                                        Alignment.topLeft,
+                                                    child: Text(
+                                                      "School name",
+                                                      style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        fontSize: 16,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  const SizedBox(height: 15),
+                                                  SizedBox(
+                                                    child: TextField(
+                                                      controller:
+                                                          createHighschoolController,
+                                                      onChanged: (data) {
+                                                        if (createHighschoolController
+                                                            .text.isEmpty) {
+                                                          enable = false;
+                                                        } else {
+                                                          enable = true;
+                                                        }
+                                                        setState(() {});
+                                                      },
+                                                      style: const TextStyle(
+                                                        fontSize: 16,
+                                                      ),
+                                                      decoration:
+                                                          InputDecoration(
+                                                        // labelText: 'Number of students',
+                                                        border:
+                                                            OutlineInputBorder(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(9),
+                                                        ),
+                                                        focusedBorder:
+                                                            OutlineInputBorder(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(9),
+                                                          borderSide:
+                                                              const BorderSide(
+                                                                  color: Colors
+                                                                      .black),
+                                                        ),
+                                                        contentPadding:
+                                                            const EdgeInsets
+                                                                .symmetric(
+                                                          vertical: 14,
+                                                          horizontal: 15,
+                                                        ),
+                                                        hintText:
+                                                            'Enter your school name',
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  const SizedBox(height: 15),
+                                                  const Align(
+                                                    alignment:
+                                                        Alignment.topLeft,
+                                                    child: Text(
+                                                      "School year",
+                                                      style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        fontSize: 16,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  const SizedBox(height: 15),
+                                                  SizedBox(
+                                                    child: TextField(
+                                                      controller:
+                                                          createHighschoolTimeController,
+                                                      onChanged: (data) {
+                                                        if (createHighschoolTimeController
+                                                            .text.isEmpty) {
+                                                          enable = false;
+                                                        } else {
+                                                          enable = true;
+                                                        }
+                                                        setState(() {});
+                                                      },
+                                                      style: const TextStyle(
+                                                        fontSize: 16,
+                                                      ),
+                                                      decoration:
+                                                          InputDecoration(
+                                                        // labelText: 'Number of students',
+                                                        border:
+                                                            OutlineInputBorder(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(9),
+                                                        ),
+                                                        focusedBorder:
+                                                            OutlineInputBorder(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(9),
+                                                          borderSide:
+                                                              const BorderSide(
+                                                                  color: Colors
+                                                                      .black),
+                                                        ),
+                                                        contentPadding:
+                                                            const EdgeInsets
+                                                                .symmetric(
+                                                          vertical: 14,
+                                                          horizontal: 15,
+                                                        ),
+                                                        hintText:
+                                                            'Endter your school year',
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  const SizedBox(height: 300),
+                                                  Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceBetween,
+                                                    children: [
+                                                      SizedBox(
+                                                        height: 46,
+                                                        width: 175,
+                                                        child: ElevatedButton(
+                                                          onPressed: () {
+                                                            editHighschoolController
+                                                                .text = '';
+                                                            Navigator.pop(
+                                                                context);
+                                                          },
+                                                          style: ElevatedButton
+                                                              .styleFrom(
+                                                            minimumSize: Size
+                                                                .zero, // Set this
+                                                            padding: EdgeInsets
+                                                                .zero, // and this
+                                                            shape:
+                                                                RoundedRectangleBorder(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          8),
+                                                              side: const BorderSide(
+                                                                  color: Colors
+                                                                      .black),
+                                                            ),
+                                                            backgroundColor:
+                                                                Colors.white,
+                                                          ),
+                                                          child: const Text(
+                                                            'Cancel',
+                                                            style: TextStyle(
+                                                              fontSize: 18,
+                                                              color:
+                                                                  Colors.black,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w500,
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      const SizedBox(width: 15),
+                                                      SizedBox(
+                                                        height: 46,
+                                                        width: 175,
+                                                        child: ElevatedButton(
+                                                          onPressed: () {},
+                                                          style: ElevatedButton
+                                                              .styleFrom(
+                                                            minimumSize: Size
+                                                                .zero, // Set this
+                                                            padding: EdgeInsets
+                                                                .zero, // and this
+                                                            shape:
+                                                                RoundedRectangleBorder(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          8),
+                                                            ),
+                                                            backgroundColor:
+                                                                Colors.black,
+                                                          ),
+                                                          child: const Text(
+                                                            'Save',
+                                                            style: TextStyle(
+                                                              fontSize: 18,
+                                                              color: Color
+                                                                  .fromARGB(
+                                                                      255,
+                                                                      255,
+                                                                      255,
+                                                                      255),
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w500,
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ],
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                });
+                              },
+                            );
+                          },
                           child: const Icon(
                             Icons.add_circle,
                             color: Colors.black,
@@ -339,7 +1073,321 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentWidget> {
                                     ),
                                     Row(children: [
                                       InkWell(
-                                        onTap: () {},
+                                        onTap: () {
+                                          showModalBottomSheet(
+                                            isScrollControlled: true,
+                                            context: context,
+                                            backgroundColor: Colors.white,
+                                            builder: (ctx) {
+                                              return StatefulBuilder(builder:
+                                                  (BuildContext context,
+                                                      StateSetter
+                                                          setState /*You can rename this!*/) {
+                                                bool enable = false;
+                                                return Padding(
+                                                  padding: EdgeInsets.only(
+                                                      bottom:
+                                                          MediaQuery.of(context)
+                                                              .viewInsets
+                                                              .bottom),
+                                                  child: SingleChildScrollView(
+                                                    // physics: const NeverScrollableScrollPhysics(),
+                                                    child: Padding(
+                                                      padding:
+                                                          const EdgeInsets.only(
+                                                              left: 20,
+                                                              right: 20),
+                                                      child: Column(
+                                                        mainAxisSize:
+                                                            MainAxisSize.min,
+                                                        children: [
+                                                          const SizedBox(
+                                                              height: 40),
+                                                          const Align(
+                                                            alignment: Alignment
+                                                                .topLeft,
+                                                            child: Text(
+                                                              "Edit education",
+                                                              style: TextStyle(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold,
+                                                                fontSize: 25,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          const SizedBox(
+                                                              height: 15),
+                                                          Container(
+                                                            decoration:
+                                                                BoxDecoration(
+                                                              border:
+                                                                  Border.all(
+                                                                color: Colors
+                                                                    .black, //                   <--- border color
+                                                                width: 0.3,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          const SizedBox(
+                                                              height: 20),
+                                                          SizedBox(
+                                                            height: 580,
+                                                            child: Column(
+                                                              children: [
+                                                                const Align(
+                                                                  alignment:
+                                                                      Alignment
+                                                                          .topLeft,
+                                                                  child: Text(
+                                                                    "School name",
+                                                                    style:
+                                                                        TextStyle(
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .bold,
+                                                                      fontSize:
+                                                                          16,
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                                const SizedBox(
+                                                                    height: 15),
+                                                                SizedBox(
+                                                                  child:
+                                                                      TextField(
+                                                                    controller:
+                                                                        editHighschoolController,
+                                                                    onChanged:
+                                                                        (data) {
+                                                                      if (editHighschoolController
+                                                                          .text
+                                                                          .isEmpty) {
+                                                                        enable =
+                                                                            false;
+                                                                      } else {
+                                                                        enable =
+                                                                            true;
+                                                                      }
+                                                                      setState(
+                                                                          () {});
+                                                                    },
+                                                                    style:
+                                                                        const TextStyle(
+                                                                      fontSize:
+                                                                          16,
+                                                                    ),
+                                                                    decoration:
+                                                                        InputDecoration(
+                                                                      // labelText: 'Number of students',
+                                                                      border:
+                                                                          OutlineInputBorder(
+                                                                        borderRadius:
+                                                                            BorderRadius.circular(9),
+                                                                      ),
+                                                                      focusedBorder:
+                                                                          OutlineInputBorder(
+                                                                        borderRadius:
+                                                                            BorderRadius.circular(9),
+                                                                        borderSide:
+                                                                            const BorderSide(color: Colors.black),
+                                                                      ),
+                                                                      contentPadding:
+                                                                          const EdgeInsets
+                                                                              .symmetric(
+                                                                        vertical:
+                                                                            14,
+                                                                        horizontal:
+                                                                            15,
+                                                                      ),
+                                                                      hintText:
+                                                                          'Enter your school name',
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                                const SizedBox(
+                                                                    height: 15),
+                                                                const Align(
+                                                                  alignment:
+                                                                      Alignment
+                                                                          .topLeft,
+                                                                  child: Text(
+                                                                    "School year",
+                                                                    style:
+                                                                        TextStyle(
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .bold,
+                                                                      fontSize:
+                                                                          16,
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                                const SizedBox(
+                                                                    height: 15),
+                                                                SizedBox(
+                                                                  child:
+                                                                      TextField(
+                                                                    controller:
+                                                                        editHighschoolTimeController,
+                                                                    onChanged:
+                                                                        (data) {
+                                                                      if (editHighschoolTimeController
+                                                                          .text
+                                                                          .isEmpty) {
+                                                                        enable =
+                                                                            false;
+                                                                      } else {
+                                                                        enable =
+                                                                            true;
+                                                                      }
+                                                                      setState(
+                                                                          () {});
+                                                                    },
+                                                                    style:
+                                                                        const TextStyle(
+                                                                      fontSize:
+                                                                          16,
+                                                                    ),
+                                                                    decoration:
+                                                                        InputDecoration(
+                                                                      // labelText: 'Number of students',
+                                                                      border:
+                                                                          OutlineInputBorder(
+                                                                        borderRadius:
+                                                                            BorderRadius.circular(9),
+                                                                      ),
+                                                                      focusedBorder:
+                                                                          OutlineInputBorder(
+                                                                        borderRadius:
+                                                                            BorderRadius.circular(9),
+                                                                        borderSide:
+                                                                            const BorderSide(color: Colors.black),
+                                                                      ),
+                                                                      contentPadding:
+                                                                          const EdgeInsets
+                                                                              .symmetric(
+                                                                        vertical:
+                                                                            14,
+                                                                        horizontal:
+                                                                            15,
+                                                                      ),
+                                                                      hintText:
+                                                                          'Endter your school year',
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                                const SizedBox(
+                                                                    height:
+                                                                        300),
+                                                                Row(
+                                                                  mainAxisAlignment:
+                                                                      MainAxisAlignment
+                                                                          .spaceBetween,
+                                                                  children: [
+                                                                    SizedBox(
+                                                                      height:
+                                                                          46,
+                                                                      width:
+                                                                          175,
+                                                                      child:
+                                                                          ElevatedButton(
+                                                                        onPressed:
+                                                                            () {
+                                                                          editHighschoolController.text =
+                                                                              '';
+                                                                          Navigator.pop(
+                                                                              context);
+                                                                        },
+                                                                        style: ElevatedButton
+                                                                            .styleFrom(
+                                                                          minimumSize:
+                                                                              Size.zero, // Set this
+                                                                          padding:
+                                                                              EdgeInsets.zero, // and this
+                                                                          shape:
+                                                                              RoundedRectangleBorder(
+                                                                            borderRadius:
+                                                                                BorderRadius.circular(8),
+                                                                            side:
+                                                                                const BorderSide(color: Colors.black),
+                                                                          ),
+                                                                          backgroundColor:
+                                                                              Colors.white,
+                                                                        ),
+                                                                        child:
+                                                                            const Text(
+                                                                          'Cancel',
+                                                                          style:
+                                                                              TextStyle(
+                                                                            fontSize:
+                                                                                18,
+                                                                            color:
+                                                                                Colors.black,
+                                                                            fontWeight:
+                                                                                FontWeight.w500,
+                                                                          ),
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                    const SizedBox(
+                                                                        width:
+                                                                            15),
+                                                                    SizedBox(
+                                                                      height:
+                                                                          46,
+                                                                      width:
+                                                                          175,
+                                                                      child:
+                                                                          ElevatedButton(
+                                                                        onPressed:
+                                                                            () {},
+                                                                        style: ElevatedButton
+                                                                            .styleFrom(
+                                                                          minimumSize:
+                                                                              Size.zero, // Set this
+                                                                          padding:
+                                                                              EdgeInsets.zero, // and this
+                                                                          shape:
+                                                                              RoundedRectangleBorder(
+                                                                            borderRadius:
+                                                                                BorderRadius.circular(8),
+                                                                          ),
+                                                                          backgroundColor:
+                                                                              Colors.black,
+                                                                        ),
+                                                                        child:
+                                                                            const Text(
+                                                                          'Save',
+                                                                          style:
+                                                                              TextStyle(
+                                                                            fontSize:
+                                                                                18,
+                                                                            color: Color.fromARGB(
+                                                                                255,
+                                                                                255,
+                                                                                255,
+                                                                                255),
+                                                                            fontWeight:
+                                                                                FontWeight.w500,
+                                                                          ),
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          )
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ),
+                                                );
+                                              });
+                                            },
+                                          );
+                                        },
                                         child: const Icon(
                                           Icons.edit_calendar,
                                           color: Colors.black,
