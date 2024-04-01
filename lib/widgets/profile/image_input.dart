@@ -16,8 +16,7 @@ class _ImageInputState extends State<ImageInput> {
   File? _seclectedImage;
   void _takePicture() async {
     final imgaepicker = ImagePicker();
-    final pickedImage =
-        await imgaepicker.pickImage(source: ImageSource.gallery, maxWidth: 600);
+    final pickedImage = await imgaepicker.pickImage(source: ImageSource.gallery, maxWidth: 600);
 
     if (pickedImage == null) {
       return;
@@ -41,11 +40,7 @@ class _ImageInputState extends State<ImageInput> {
       borderType: BorderType.RRect,
       radius: Radius.circular(12),
       padding: EdgeInsets.all(6),
-      child: Container(
-          height: 180,
-          width: double.infinity,
-          alignment: Alignment.center,
-          child: content),
+      child: Container(height: 180, width: double.infinity, alignment: Alignment.center, child: content),
     );
   }
 }

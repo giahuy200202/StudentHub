@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:studenthub/providers/profile/student_input.provider.dart';
 import 'package:studenthub/utils/multiselect_bottom_sheet_model.dart';
 import 'package:studenthub/utils/colors.dart';
 
-class MultiSelectBottomSheet extends StatefulWidget {
+class MultiSelectBottomSheet extends ConsumerStatefulWidget {
   final List<MultiSelectBottomSheetModel> items;
   final double width;
 
@@ -48,10 +50,12 @@ class MultiSelectBottomSheet extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _MultiSelectBottomSheetState createState() => _MultiSelectBottomSheetState();
+  ConsumerState<MultiSelectBottomSheet> createState() =>
+      _MultiSelectBottomSheetState();
 }
 
-class _MultiSelectBottomSheetState extends State<MultiSelectBottomSheet> {
+class _MultiSelectBottomSheetState
+    extends ConsumerState<MultiSelectBottomSheet> {
   TextEditingController controller = TextEditingController();
   List<MultiSelectBottomSheetModel> filterList = [];
   List<MultiSelectBottomSheetModel> defaultList = [];
@@ -297,14 +301,21 @@ class _MultiSelectBottomSheetState extends State<MultiSelectBottomSheet> {
                                     ),
                                     child: GestureDetector(
                                       onTap: () {
-                                        for (var item in filterList) {
-                                          if (item.isSelected) {
-                                            print('---------------');
-                                            print(filterList.indexOf(item));
-                                            print(item.name);
-                                            print('---------------');
-                                          }
+                                        final isSelectedList = filterList
+                                            .where((el) => el.isSelected)
+                                            .toList();
+
+                                        final List<int> isSelectedIdList = [];
+
+                                        for (var item in isSelectedList) {
+                                          isSelectedIdList.add(item.id);
                                         }
+
+                                        ref
+                                            .read(studentInputProvider.notifier)
+                                            .setStudentInputSkillSet(
+                                                isSelectedIdList);
+
                                         setState(() {
                                           widget.items.clear();
                                           widget.items.addAll(defaultList);

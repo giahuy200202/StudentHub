@@ -21,26 +21,98 @@ class StudentInputNotifier extends StateNotifier<StudentInput> {
 
   void setStudentInputData(
     int techStackId,
-    List<int> skillSets,
     List<dynamic> languages,
     List<dynamic> educations,
   ) {
     StudentInput temp = StudentInput(
       techStackId: state.techStackId,
-      skillSets: [...state.skillSets!],
+      skillSets: state.skillSets,
       languages: [...state.languages!],
       educations: [...state.educations!],
     );
 
     temp.techStackId = techStackId;
-    temp.skillSets = [...skillSets];
+
     temp.languages = [...languages];
     temp.educations = [...educations];
 
     state = temp;
   }
+
+  void setStudentInputSkillSet(
+    List<int> skillSets,
+  ) {
+    StudentInput temp = StudentInput(
+      techStackId: state.techStackId,
+      skillSets: state.skillSets,
+      languages: [...state.languages!],
+      educations: [...state.educations!],
+    );
+
+    temp.skillSets = [...skillSets];
+
+    state = temp;
+  }
+
+  void setStudentInputLanguague(
+    List<dynamic> languages,
+  ) {
+    StudentInput temp = StudentInput(
+      techStackId: state.techStackId,
+      skillSets: state.skillSets,
+      languages: [...state.languages!],
+      educations: [...state.educations!],
+    );
+
+    temp.languages = [...languages];
+
+    state = temp;
+  }
+
+  void addStudentInputLanguague(
+    dynamic language,
+  ) {
+    StudentInput temp = StudentInput(
+      techStackId: state.techStackId,
+      skillSets: state.skillSets,
+      languages: [...state.languages!],
+      educations: [...state.educations!],
+    );
+
+    temp.languages = [...temp.languages!, language];
+
+    state = temp;
+  }
+
+  void updateStudentInputLanguague(
+      String languageName, String level, int index) {
+    StudentInput temp = StudentInput(
+      techStackId: state.techStackId,
+      skillSets: state.skillSets,
+      languages: [...state.languages!],
+      educations: [...state.educations!],
+    );
+
+    temp.languages![index].languageName = languageName;
+    temp.languages![index].level = level;
+
+    state = temp;
+  }
+
+  void deleteStudentInputLanguague(int index) {
+    StudentInput temp = StudentInput(
+      techStackId: state.techStackId,
+      skillSets: state.skillSets,
+      languages: [...state.languages!],
+      educations: [...state.educations!],
+    );
+
+    temp.languages!.removeAt(index);
+
+    state = temp;
+  }
 }
 
-final StudentInputProvider =
+final studentInputProvider =
     StateNotifierProvider<StudentInputNotifier, StudentInput>(
         (ref) => StudentInputNotifier());

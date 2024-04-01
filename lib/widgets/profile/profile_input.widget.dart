@@ -177,9 +177,7 @@ class _ProfileInputWidgetState extends ConsumerState<ProfileInputWidget> {
                       groupValue: selectedEmployee,
                       onChanged: (value) {
                         isClick = true;
-                        ref
-                            .read(selectedEmployeeProvider.notifier)
-                            .selectEmployee(value!);
+                        ref.read(selectedEmployeeProvider.notifier).selectEmployee(value!);
                       },
                     ),
                   ),
@@ -192,9 +190,7 @@ class _ProfileInputWidgetState extends ConsumerState<ProfileInputWidget> {
                       groupValue: selectedEmployee,
                       onChanged: (value) {
                         isClick = true;
-                        ref
-                            .read(selectedEmployeeProvider.notifier)
-                            .selectEmployee(value!);
+                        ref.read(selectedEmployeeProvider.notifier).selectEmployee(value!);
                       },
                     ),
                   ),
@@ -207,9 +203,7 @@ class _ProfileInputWidgetState extends ConsumerState<ProfileInputWidget> {
                       groupValue: selectedEmployee,
                       onChanged: (value) {
                         isClick = true;
-                        ref
-                            .read(selectedEmployeeProvider.notifier)
-                            .selectEmployee(value!);
+                        ref.read(selectedEmployeeProvider.notifier).selectEmployee(value!);
                       },
                     ),
                   ),
@@ -222,9 +216,7 @@ class _ProfileInputWidgetState extends ConsumerState<ProfileInputWidget> {
                       groupValue: selectedEmployee,
                       onChanged: (value) {
                         isClick = true;
-                        ref
-                            .read(selectedEmployeeProvider.notifier)
-                            .selectEmployee(value!);
+                        ref.read(selectedEmployeeProvider.notifier).selectEmployee(value!);
                       },
                     ),
                   ),
@@ -237,9 +229,7 @@ class _ProfileInputWidgetState extends ConsumerState<ProfileInputWidget> {
                       groupValue: selectedEmployee,
                       onChanged: (value) {
                         isClick = true;
-                        ref
-                            .read(selectedEmployeeProvider.notifier)
-                            .selectEmployee(value!);
+                        ref.read(selectedEmployeeProvider.notifier).selectEmployee(value!);
                       },
                     ),
                   ),
@@ -261,15 +251,11 @@ class _ProfileInputWidgetState extends ConsumerState<ProfileInputWidget> {
                 child: TextField(
                   controller: textCompany,
                   onChanged: (data) {
-                    if (textCompany.text.isEmpty ||
-                        textWebsite.text.isEmpty ||
-                        textDescription.text.isEmpty) {
+                    if (textCompany.text.isEmpty || textWebsite.text.isEmpty || textDescription.text.isEmpty) {
                       enable = false;
                     } else {
                       enable = true;
-                      ref
-                          .read(TextCompanyEmployeeProvider.notifier)
-                          .TextCompanye(data);
+                      ref.read(TextCompanyEmployeeProvider.notifier).TextCompanye(data);
                     }
                     setState(() {});
                   },
@@ -305,15 +291,11 @@ class _ProfileInputWidgetState extends ConsumerState<ProfileInputWidget> {
                 child: TextField(
                   controller: textWebsite,
                   onChanged: (data) {
-                    if (textCompany.text.isEmpty ||
-                        textWebsite.text.isEmpty ||
-                        textDescription.text.isEmpty) {
+                    if (textCompany.text.isEmpty || textWebsite.text.isEmpty || textDescription.text.isEmpty) {
                       enable = false;
                     } else {
                       enable = true;
-                      ref
-                          .read(TextWebsiteEmpoyleeProvider.notifier)
-                          .TextWebsitee(data);
+                      ref.read(TextWebsiteEmpoyleeProvider.notifier).TextWebsitee(data);
                     }
                     setState(() {});
                   },
@@ -350,14 +332,10 @@ class _ProfileInputWidgetState extends ConsumerState<ProfileInputWidget> {
                   maxLines: 4,
                   controller: textDescription,
                   onChanged: (data) {
-                    if (textCompany.text.isEmpty ||
-                        textWebsite.text.isEmpty ||
-                        textDescription.text.isEmpty) {
+                    if (textCompany.text.isEmpty || textWebsite.text.isEmpty || textDescription.text.isEmpty) {
                       enable = false;
                     } else {
-                      ref
-                          .read(TextDescriptionEmpoyleeProvider.notifier)
-                          .TextDescriptione(data);
+                      ref.read(TextDescriptionEmpoyleeProvider.notifier).TextDescriptione(data);
                       enable = true;
                     }
                     setState(() {});
@@ -391,8 +369,7 @@ class _ProfileInputWidgetState extends ConsumerState<ProfileInputWidget> {
                   child: ElevatedButton(
                     onPressed: enable && isClick
                         ? () async {
-                            final url = Uri.parse(
-                                'http://${dotenv.env['IP_ADDRESS']}/api/profile/company');
+                            final url = Uri.parse('http://${dotenv.env['IP_ADDRESS']}/api/profile/company');
 
                             final response = await http.post(url,
                                 headers: {
@@ -405,43 +382,29 @@ class _ProfileInputWidgetState extends ConsumerState<ProfileInputWidget> {
                                     "companyName": textCompany.text,
                                     "size": selectedEmployee,
                                     "website": textWebsite.text,
-                                    "description": textDescription.text
+                                    "description": textDescription.text,
                                   },
                                 ));
 
-                            if (json
-                                .decode(response.body)
-                                .containsKey('errorDetails')) {
-                              if (json.decode(response.body)['errorDetails']
-                                  is String) {
-                                showErrorToast('Error',
-                                    json.decode(response.body)['errorDetails']);
+                            if (json.decode(response.body).containsKey('errorDetails')) {
+                              if (json.decode(response.body)['errorDetails'] is String) {
+                                showErrorToast('Error', json.decode(response.body)['errorDetails']);
                               } else {
-                                showErrorToast(
-                                    'Error',
-                                    json.decode(response.body)['errorDetails']
-                                        [0]);
+                                showErrorToast('Error', json.decode(response.body)['errorDetails'][0]);
                               }
                             } else {
-                              showSuccessToast(
-                                  'Success', 'Create successfully');
+                              showSuccessToast('Success', 'Create successfully');
                               ref.read(companyProvider.notifier).setCompanyData(
                                     json.decode(response.body)["result"]["id"],
-                                    json.decode(response.body)["result"]
-                                        ["companyName"],
-                                    json.decode(response.body)["result"]
-                                        ["website"],
-                                    json.decode(response.body)["result"]
-                                        ["description"],
+                                    json.decode(response.body)["result"]["companyName"],
+                                    json.decode(response.body)["result"]["website"],
+                                    json.decode(response.body)["result"]["description"],
                                     company.email!,
-                                    json.decode(response.body)["result"]
-                                        ["size"],
+                                    json.decode(response.body)["result"]["size"],
                                   );
 
                               Timer(const Duration(seconds: 3), () {
-                                ref
-                                    .read(optionsProvider.notifier)
-                                    .setWidgetOption('Welcome', user.role!);
+                                ref.read(optionsProvider.notifier).setWidgetOption('Welcome', user.role!);
                               });
                             }
                           }
