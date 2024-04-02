@@ -4,7 +4,7 @@
 # documentation.
 
 name: ci_cd
-
+# liên kết branche bạn muốn push và pull_request 
 on:
   push:
     branches: [ "ci_cd" ]
@@ -13,6 +13,7 @@ on:
 
 jobs:
   build:
+    #sử dụng máy ảo chạy cicd, github action hỗ trợ 
     runs-on: ubuntu-latest
 
     steps:
@@ -23,11 +24,6 @@ jobs:
       - run: flutter pub get
       - run: flutter test
       - run: flutter build apk
-      - name : upload a Build Artifact
-        uses : actions/upload-artifact@v3.1.3
-        with:
-           name: StudentHub.apk
-           part: build/app/outputs/flutter-apk/app-release.apk
       - run: flutter build appbundle
  
     
