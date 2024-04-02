@@ -156,7 +156,7 @@ class _LayoutScreenState extends ConsumerState<LayoutScreen> {
       return const VideocallWidget();
     } else if (widgetOption == 'Alert') {
       setState(() {
-        _selectedPageIndex = 2;
+        _selectedPageIndex = 3;
       });
       return const AlertsScreen();
     }

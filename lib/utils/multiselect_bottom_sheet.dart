@@ -117,7 +117,7 @@ class _MultiSelectBottomSheetState extends State<MultiSelectBottomSheet> {
                             ),
                             focusedBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10),
-                              borderSide: const BorderSide(color: Colors.black),
+                              borderSide: const BorderSide(color: Colors.grey),
                             ),
                             contentPadding: const EdgeInsets.symmetric(
                               vertical: 8,
@@ -297,6 +297,14 @@ class _MultiSelectBottomSheetState extends State<MultiSelectBottomSheet> {
                                     ),
                                     child: GestureDetector(
                                       onTap: () {
+                                        for (var item in filterList) {
+                                          if (item.isSelected) {
+                                            print('---------------');
+                                            print(filterList.indexOf(item));
+                                            print(item.name);
+                                            print('---------------');
+                                          }
+                                        }
                                         setState(() {
                                           widget.items.clear();
                                           widget.items.addAll(defaultList);

@@ -43,7 +43,7 @@ class _AllProjectsWidgetState extends ConsumerState<AllProjectsWidget> {
                               padding: EdgeInsets.zero, // and this
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(8),
-                                side: const BorderSide(color: Colors.black),
+                                side: const BorderSide(color: Colors.grey),
                               ),
                               backgroundColor: Colors.white,
                             ),
@@ -84,7 +84,7 @@ class _AllProjectsWidgetState extends ConsumerState<AllProjectsWidget> {
                               padding: EdgeInsets.zero, // and this
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(8),
-                                side: const BorderSide(color: Colors.black),
+                                side: const BorderSide(color: Colors.grey),
                               ),
                               backgroundColor: Colors.white,
                             ),
@@ -124,7 +124,7 @@ class _AllProjectsWidgetState extends ConsumerState<AllProjectsWidget> {
                               padding: EdgeInsets.zero, // and this
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(8),
-                                side: const BorderSide(color: Colors.black),
+                                side: const BorderSide(color: Colors.grey),
                               ),
                               backgroundColor: Colors.white,
                             ),
@@ -169,7 +169,7 @@ class _AllProjectsWidgetState extends ConsumerState<AllProjectsWidget> {
                               padding: EdgeInsets.zero, // and this
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(8),
-                                side: const BorderSide(color: Colors.black),
+                                side: const BorderSide(color: Colors.grey),
                               ),
                               backgroundColor: Colors.white,
                             ),
@@ -210,7 +210,7 @@ class _AllProjectsWidgetState extends ConsumerState<AllProjectsWidget> {
                               padding: EdgeInsets.zero, // and this
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(8),
-                                side: const BorderSide(color: Colors.black),
+                                side: const BorderSide(color: Colors.grey),
                               ),
                               backgroundColor: Colors.white,
                             ),
@@ -250,7 +250,7 @@ class _AllProjectsWidgetState extends ConsumerState<AllProjectsWidget> {
                               padding: EdgeInsets.zero, // and this
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(8),
-                                side: const BorderSide(color: Colors.black),
+                                side: const BorderSide(color: Colors.grey),
                               ),
                               backgroundColor: Colors.white,
                             ),
@@ -261,16 +261,16 @@ class _AllProjectsWidgetState extends ConsumerState<AllProjectsWidget> {
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
                                   Icon(
-                                    Icons.remove_circle_outline,
+                                    Icons.delete_forever,
                                     size: 22,
-                                    color: Colors.black,
+                                    color: Colors.red,
                                   ),
                                   SizedBox(width: 5),
                                   Text(
                                     'Remove posting',
                                     style: TextStyle(
                                       fontSize: 16,
-                                      color: Colors.black,
+                                      color: Colors.red,
                                       fontWeight: FontWeight.w500,
                                     ),
                                   ),
@@ -294,7 +294,7 @@ class _AllProjectsWidgetState extends ConsumerState<AllProjectsWidget> {
                       padding: EdgeInsets.zero, // and this
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8),
-                        side: const BorderSide(color: Colors.black),
+                        side: const BorderSide(color: Colors.grey),
                       ),
                       backgroundColor: Colors.black,
                     ),
@@ -340,9 +340,10 @@ class _AllProjectsWidgetState extends ConsumerState<AllProjectsWidget> {
                     .setWidgetOption('SendHireOffer', user.role!);
               },
               child: Container(
-                decoration: const BoxDecoration(
-                  color: Color.fromARGB(255, 233, 235, 240),
-                  borderRadius: BorderRadius.all(Radius.circular(12)),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  border: Border.all(color: Colors.grey),
+                  borderRadius: const BorderRadius.all(Radius.circular(12)),
                 ),
                 child: Padding(
                   padding: const EdgeInsets.symmetric(
@@ -525,9 +526,10 @@ class _AllProjectsWidgetState extends ConsumerState<AllProjectsWidget> {
                     .setWidgetOption('SendHireOffer', user.role!);
               },
               child: Container(
-                decoration: const BoxDecoration(
-                  color: Color.fromARGB(255, 233, 235, 240),
-                  borderRadius: BorderRadius.all(Radius.circular(12)),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  border: Border.all(color: Colors.grey),
+                  borderRadius: const BorderRadius.all(Radius.circular(12)),
                 ),
                 child: Padding(
                   padding: const EdgeInsets.symmetric(

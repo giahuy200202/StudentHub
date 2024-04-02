@@ -107,7 +107,7 @@ class HomepageWidget extends ConsumerWidget {
                     style: ElevatedButton.styleFrom(
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8),
-                        // side: const BorderSide(color: Colors.black),
+                        // side: const BorderSide(color: Colors.grey),
                       ),
                       backgroundColor: Colors.white,
                     ),
@@ -135,7 +135,7 @@ class HomepageWidget extends ConsumerWidget {
                     style: ElevatedButton.styleFrom(
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8),
-                        // side: const BorderSide(color: Colors.black),
+                        // side: const BorderSide(color: Colors.grey),
                       ),
                       backgroundColor: Colors.white,
                     ),

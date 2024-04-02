@@ -136,7 +136,7 @@ class _LoginWidgetState extends ConsumerState<LoginWidget> {
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(9),
-                          borderSide: const BorderSide(color: Colors.black),
+                          borderSide: const BorderSide(color: Colors.grey),
                         ),
                         contentPadding: const EdgeInsets.symmetric(
                           vertical: 17,
@@ -171,7 +171,7 @@ class _LoginWidgetState extends ConsumerState<LoginWidget> {
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(9),
-                          borderSide: const BorderSide(color: Colors.black),
+                          borderSide: const BorderSide(color: Colors.grey),
                         ),
                         contentPadding: const EdgeInsets.symmetric(
                           vertical: 17,
@@ -249,15 +249,58 @@ class _LoginWidgetState extends ConsumerState<LoginWidget> {
                                   ref
                                       .read(studentProvider.notifier)
                                       .setStudentData(
-                                        responeAuthMeData["result"]["student"]
-                                            ["id"],
-                                        responeAuthMeData["result"]["student"]
-                                            ["fullname"],
-                                        responeAuthMeData["result"]["student"]
-                                            ["techStackId"],
-                                        responeAuthMeData["result"]["student"]
-                                            ["skillSets"],
-                                      );
+                                    responeAuthMeData["result"]["student"]
+                                        ["id"],
+                                    responeAuthMeData["result"]["student"]
+                                        ["fullname"],
+                                    '',
+                                    0,
+                                    [],
+                                    [],
+                                    [],
+                                    [],
+                                  );
+
+                                  final urlLogin = Uri.parse(
+                                      'http://${dotenv.env['IP_ADDRESS']}/api/profile/student/${responeAuthMeData["result"]["student"]["id"]}');
+
+                                  final responseStudent = await http.get(
+                                    urlLogin,
+                                    headers: {
+                                      'Content-Type': 'application/json',
+                                      'Authorization':
+                                          'Bearer ${json.decode(responseLogin.body)["result"]["token"]}',
+                                    },
+                                  );
+
+                                  final responseStudentData =
+                                      json.decode(responseStudent.body);
+
+                                  if (responseStudentData['result'] != null) {
+                                    ref
+                                        .read(studentProvider.notifier)
+                                        .setStudentData(
+                                          responeAuthMeData["result"]["student"]
+                                              ["id"],
+                                          responeAuthMeData["result"]["student"]
+                                              ["fullname"],
+                                          responseStudentData["result"]
+                                              ["email"],
+                                          responseStudentData["result"]
+                                              ["techStack"]["id"],
+                                          responseStudentData["result"]
+                                              ["skillSets"],
+                                          responseStudentData["result"]
+                                              ["educations"],
+                                          responseStudentData["result"]
+                                              ["experiences"],
+                                          responseStudentData["result"]
+                                              ["languages"],
+                                        );
+                                  }
+                                  print('-----student------');
+                                  print(responseStudentData['result']);
+                                  print('-----------');
 
                                   Timer(const Duration(seconds: 3), () {
                                     ref
@@ -277,13 +320,46 @@ class _LoginWidgetState extends ConsumerState<LoginWidget> {
                                             ["id"],
                                         responeAuthMeData["result"]["company"]
                                             ["companyName"],
-                                        responeAuthMeData["result"]["company"]
-                                            ["website"],
+                                        '',
                                         responeAuthMeData["result"]["company"]
                                             ["description"],
-                                        responeAuthMeData["result"]["company"]
-                                            ["size"],
+                                        '',
+                                        0,
                                       );
+
+                                  final urlLogin = Uri.parse(
+                                      'http://${dotenv.env['IP_ADDRESS']}/api/profile/company/${responeAuthMeData["result"]["company"]["id"]}');
+
+                                  final responseCompany = await http.get(
+                                    urlLogin,
+                                    headers: {
+                                      'Content-Type': 'application/json',
+                                      'Authorization':
+                                          'Bearer ${json.decode(responseLogin.body)["result"]["token"]}',
+                                    },
+                                  );
+
+                                  final responseCompanyData =
+                                      json.decode(responseCompany.body);
+
+                                  if (responseCompanyData['result'] != null) {
+                                    ref
+                                        .read(companyProvider.notifier)
+                                        .setCompanyData(
+                                          responeAuthMeData["result"]["company"]
+                                              ["id"],
+                                          responeAuthMeData["result"]["company"]
+                                              ["companyName"],
+                                          responseCompanyData["result"]
+                                              ["website"],
+                                          responeAuthMeData["result"]["company"]
+                                              ["description"],
+                                          responseCompanyData["result"]
+                                              ["email"],
+                                          responseCompanyData["result"]["size"],
+                                        );
+                                  }
+
                                   Timer(const Duration(seconds: 3), () {
                                     ref
                                         .read(optionsProvider.notifier)
@@ -299,8 +375,8 @@ class _LoginWidgetState extends ConsumerState<LoginWidget> {
                                           userLoginRole == '0'
                                               ? 'ProfileInputStudent'
                                               : (responeAuthMeData["result"]
-                                                          ["company"]["id"] ==
-                                                      0
+                                                          ["company"] ==
+                                                      null
                                                   ? 'ProfileInput'
                                                   : 'Dashboard'),
                                           userLoginRole);

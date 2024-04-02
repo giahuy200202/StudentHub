@@ -96,8 +96,10 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentStep2Widget> {
                   borderRadius: const BorderRadius.all(Radius.circular(10)),
                 ),
                 child: Padding(
-                  padding: const EdgeInsets.all(14),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -126,7 +128,7 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentStep2Widget> {
                               onTap: () {},
                               child: const Icon(
                                 Icons.edit_calendar,
-                                color: Colors.orange,
+                                color: Colors.black,
                                 size: 25,
                               ),
                             ),
@@ -149,37 +151,38 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentStep2Widget> {
                           fontSize: 16,
                         ),
                       ),
+                      const SizedBox(height: 15),
+                      const Text(
+                        'Skillset',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      const SizedBox(height: 10),
+                      MultiSelectBottomSheet(
+                        items: selectCountryItem, // required for Item list
+                        width: MediaQuery.of(context).size.width,
+                        bottomSheetHeight: 500 *
+                            0.7, // required for min/max height of bottomSheet
+                        hint: "Select Skillset",
+                        controller: controller,
+                        searchTextFieldWidth: 300 * 0.96,
+                        searchIcon: const Icon(
+                            // required for searchIcon
+                            Icons.search,
+                            color: Colors.black87,
+                            size: 22),
+                        selectTextStyle:
+                            const TextStyle(color: Colors.white, fontSize: 17),
+                        unSelectTextStyle:
+                            const TextStyle(color: Colors.black, fontSize: 17),
+                      ),
                     ],
                   ),
                 ),
               ),
-              const SizedBox(height: 15),
-              const Text(
-                'Skillset',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-              const SizedBox(height: 10),
-              MultiSelectBottomSheet(
-                items: selectCountryItem, // required for Item list
-                width: 360,
-                bottomSheetHeight:
-                    500 * 0.7, // required for min/max height of bottomSheet
-                hint: "Select Skillset",
-                controller: controller,
-                searchTextFieldWidth: 300 * 0.96,
-                searchIcon: const Icon(
-                    // required for searchIcon
-                    Icons.search,
-                    color: Colors.black87,
-                    size: 22),
-                selectTextStyle:
-                    const TextStyle(color: Colors.white, fontSize: 17),
-                unSelectTextStyle:
-                    const TextStyle(color: Colors.black, fontSize: 17),
-              ),
+
               const SizedBox(height: 20),
               // const Divider(
               //   height: 10,
@@ -187,7 +190,7 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentStep2Widget> {
               //   endIndent: 0,
               //   color: Colors.grey,
               // ),
-              const SizedBox(height: 220),
+              const SizedBox(height: 180),
               Container(
                 alignment: Alignment.centerRight,
                 child: SizedBox(
@@ -201,7 +204,7 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentStep2Widget> {
                     style: ElevatedButton.styleFrom(
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8),
-                        side: const BorderSide(color: Colors.black),
+                        side: const BorderSide(color: Colors.grey),
                       ),
                       backgroundColor: const Color.fromARGB(255, 0, 0, 0),
                     ),

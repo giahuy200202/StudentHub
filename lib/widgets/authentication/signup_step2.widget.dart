@@ -147,7 +147,7 @@ class _SignupStep2State extends ConsumerState<SignupStep2> {
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(9),
-                          borderSide: const BorderSide(color: Colors.black),
+                          borderSide: const BorderSide(color: Colors.grey),
                         ),
                         contentPadding: const EdgeInsets.symmetric(
                           vertical: 17,
@@ -182,7 +182,7 @@ class _SignupStep2State extends ConsumerState<SignupStep2> {
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(9),
-                          borderSide: const BorderSide(color: Colors.black),
+                          borderSide: const BorderSide(color: Colors.grey),
                         ),
                         contentPadding: const EdgeInsets.symmetric(
                           vertical: 17,
@@ -218,7 +218,7 @@ class _SignupStep2State extends ConsumerState<SignupStep2> {
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(9),
-                          borderSide: const BorderSide(color: Colors.black),
+                          borderSide: const BorderSide(color: Colors.grey),
                         ),
                         contentPadding: const EdgeInsets.symmetric(
                           vertical: 17,

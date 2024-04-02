@@ -23,9 +23,10 @@ class _WorkingStudentWidgetState extends ConsumerState<WorkingStudentWidget> {
         child: Column(
           children: [
             Container(
-              decoration: const BoxDecoration(
-                color: Color.fromARGB(255, 233, 235, 240),
-                borderRadius: BorderRadius.all(Radius.circular(12)),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                border: Border.all(color: Colors.grey),
+                borderRadius: const BorderRadius.all(Radius.circular(12)),
               ),
               child: Padding(
                 padding: const EdgeInsets.symmetric(
@@ -198,9 +199,10 @@ class _WorkingStudentWidgetState extends ConsumerState<WorkingStudentWidget> {
                     .setWidgetOption('SendHireOffer', user.role!);
               },
               child: Container(
-                decoration: const BoxDecoration(
-                  color: Color.fromARGB(255, 233, 235, 240),
-                  borderRadius: BorderRadius.all(Radius.circular(12)),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  border: Border.all(color: Colors.grey),
+                  borderRadius: const BorderRadius.all(Radius.circular(12)),
                 ),
                 child: Padding(
                   padding: const EdgeInsets.symmetric(

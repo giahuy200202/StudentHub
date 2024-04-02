@@ -23,6 +23,7 @@ class _MessageScreenState extends ConsumerState<MessageScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
+                const SizedBox(height: 15),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -45,7 +46,7 @@ class _MessageScreenState extends ConsumerState<MessageScreen> {
                           ),
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10),
-                            borderSide: const BorderSide(color: Colors.black),
+                            borderSide: const BorderSide(color: Colors.grey),
                           ),
                           contentPadding: const EdgeInsets.symmetric(
                             vertical: 8,

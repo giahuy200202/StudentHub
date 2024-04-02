@@ -276,11 +276,12 @@ class _ProjectScreenState extends ConsumerState<ProjectScreen> {
                                                 height: 15,
                                               ),
                                               Container(
-                                                decoration: const BoxDecoration(
-                                                  color: Color.fromARGB(
-                                                      255, 233, 235, 240),
+                                                decoration: BoxDecoration(
+                                                  // color: Colors.white,
+                                                  border: Border.all(
+                                                      color: Colors.grey),
                                                   borderRadius:
-                                                      BorderRadius.all(
+                                                      const BorderRadius.all(
                                                           Radius.circular(12)),
                                                 ),
                                                 child: Padding(
@@ -413,11 +414,11 @@ class _ProjectScreenState extends ConsumerState<ProjectScreen> {
                                               ),
                                               const SizedBox(height: 15),
                                               Container(
-                                                decoration: const BoxDecoration(
-                                                  color: Color.fromARGB(
-                                                      255, 233, 235, 240),
+                                                decoration: BoxDecoration(
+                                                  border: Border.all(
+                                                      color: Colors.grey),
                                                   borderRadius:
-                                                      BorderRadius.all(
+                                                      const BorderRadius.all(
                                                           Radius.circular(12)),
                                                 ),
                                                 child: Padding(

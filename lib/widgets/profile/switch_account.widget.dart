@@ -525,10 +525,10 @@ class _SwitchAccountWidgetState extends ConsumerState<SwitchAccountWidget> {
                                   .setUserData(0, '', '');
                               ref
                                   .read(companyProvider.notifier)
-                                  .setCompanyData(0, '', '', '', 0);
+                                  .setCompanyData(0, '', '', '', '', 0);
                               ref
                                   .read(studentProvider.notifier)
-                                  .setStudentData(0, '', 0, []);
+                                  .setStudentData(0, '', '', 0, [], [], [], []);
                               ref
                                   .read(optionsProvider.notifier)
                                   .setWidgetOption('', user.role!);
