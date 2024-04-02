@@ -13,14 +13,16 @@ on:
 
 jobs:
   build:
-    #sử dụng máy ảo chạy cicd, github action hỗ trợ 
+    # Sử dụng máy ảo chạy cicd, github action hỗ trợ tên hệ điều hành Linux, macOS, Windows
     runs-on: ubuntu-latest
-
+    # Các bước sẽ được thực hiện khi chạy git actions trên máy ảo 
     steps:
+      # cài đặt Flutter enviroment
       - uses: actions/checkout@v4
       - uses: subosito/flutter-action@v2
         with:
           flutter-version: '3.16.9'
+      # các lệnh cmd sẽ chạy trong quá trình thực hiện
       - run: flutter pub get
       - run: flutter test
       - run: flutter build apk
