@@ -20,19 +20,20 @@ class _AlertsWidget extends ConsumerState<AlertsWidget> {
             padding: const EdgeInsets.only(left: 20, right: 20),
             child: Center(
                 child: Column(children: [
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               SizedBox(
                 height: 600,
-                width: 400,
                 child: SingleChildScrollView(
                     child: Column(
                   children: [
                     GestureDetector(
                       onTap: () {},
                       child: Container(
-                        decoration: const BoxDecoration(
-                          color: Color.fromARGB(255, 232, 233, 237),
-                          borderRadius: BorderRadius.all(Radius.circular(12)),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          border: Border.all(color: Colors.grey),
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(12)),
                         ),
                         child: Padding(
                           padding: const EdgeInsets.symmetric(
@@ -46,8 +47,8 @@ class _AlertsWidget extends ConsumerState<AlertsWidget> {
                                 children: [
                                   Container(
                                     alignment: Alignment.topLeft,
-                                    width: 80,
-                                    height: 80,
+                                    width: 75,
+                                    height: 75,
                                     padding: const EdgeInsets.all(20),
                                     decoration: const BoxDecoration(
                                       borderRadius:
@@ -59,134 +60,29 @@ class _AlertsWidget extends ConsumerState<AlertsWidget> {
                                       ),
                                     ),
                                   ),
-                                  const SizedBox(width: 10),
-                                  SizedBox(
+                                  const SizedBox(width: 15),
+                                  const SizedBox(
                                     height: 90,
-                                    width: 240,
+                                    width: 239,
                                     child: Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       mainAxisAlignment:
                                           MainAxisAlignment.start,
                                       children: [
-                                        const Text(
+                                        Text(
                                           '6/6/2024',
                                           style: TextStyle(
                                               fontSize: 13, color: Colors.grey),
                                         ),
-                                        const SizedBox(height: 5),
-                                        const Align(
+                                        SizedBox(height: 5),
+                                        Align(
                                           alignment: Alignment.topLeft,
                                           child: SizedBox(
-                                            width: 300,
+                                            width: 260,
                                             child: Text(
-                                              ' You have submitted to join project "Javis - AI Compllot',
-                                              maxLines: 3,
-                                              overflow: TextOverflow.ellipsis,
-                                              style: TextStyle(
-                                                color: Colors.black,
-                                                fontSize: 13,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                        // const SizedBox(height: 20),
-                                        // Container(
-                                        //   alignment: Alignment.topRight,
-                                        //   child: SizedBox(
-                                        //     height: 40,
-                                        //     width: 130,
-                                        //     child: ElevatedButton(
-                                        //       onPressed: () {},
-                                        //       style: ElevatedButton.styleFrom(
-                                        //         shape: RoundedRectangleBorder(
-                                        //           borderRadius:
-                                        //               BorderRadius.circular(8),
-                                        //           side: const BorderSide(
-                                        //               color: Colors.black),
-                                        //         ),
-                                        //         backgroundColor:
-                                        //             const Color.fromARGB(
-                                        //                 255, 0, 0, 0),
-                                        //       ),
-                                        //       child: const Text(
-                                        //         'Join',
-                                        //         style: TextStyle(
-                                        //           fontSize: 18,
-                                        //           color: Color.fromARGB(
-                                        //               255, 255, 255, 255),
-                                        //           fontWeight: FontWeight.w500,
-                                        //         ),
-                                        //       ),
-                                        //     ),
-                                        //   ),
-                                        // ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 20),
-                    GestureDetector(
-                      onTap: () {},
-                      child: Container(
-                        decoration: const BoxDecoration(
-                          color: Color.fromARGB(255, 232, 233, 237),
-                          borderRadius: BorderRadius.all(Radius.circular(12)),
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                            vertical: 20,
-                            horizontal: 20,
-                          ),
-                          child: Column(
-                            children: [
-                              Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Container(
-                                    alignment: Alignment.topLeft,
-                                    width: 70,
-                                    height: 70,
-                                    padding: const EdgeInsets.all(20),
-                                    decoration: const BoxDecoration(
-                                      borderRadius:
-                                          BorderRadius.all(Radius.circular(10)),
-                                      image: DecorationImage(
-                                        image: AssetImage(
-                                            "assets/images/avatar.jpg"),
-                                        fit: BoxFit.cover,
-                                      ),
-                                    ),
-                                  ),
-                                  const SizedBox(width: 10),
-                                  SizedBox(
-                                    height: 160,
-                                    width: 240,
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      children: [
-                                        const Text(
-                                          '6/6/2024',
-                                          style: TextStyle(
-                                              fontSize: 13, color: Colors.grey),
-                                        ),
-                                        const SizedBox(height: 5),
-                                        const Align(
-                                          alignment: Alignment.topLeft,
-                                          child: SizedBox(
-                                            width: 300,
-                                            child: Text(
-                                              maxLines: 3,
-                                              'You have Invited to interview for project "Javis - AI Copllot at 14:00 March 20, Thrusday"',
+                                              'You have submitted to join project "Javis - AI Compllot',
+                                              maxLines: 2,
                                               overflow: TextOverflow.ellipsis,
                                               style: TextStyle(
                                                 color: Colors.black,
@@ -195,41 +91,38 @@ class _AlertsWidget extends ConsumerState<AlertsWidget> {
                                             ),
                                           ),
                                         ),
-                                        const SizedBox(height: 27),
-                                        Container(
-                                          alignment: Alignment.topRight,
-                                          child: SizedBox(
-                                            height: 40,
-                                            width: 130,
-                                            child: ElevatedButton(
-                                              onPressed: () {},
-                                              style: ElevatedButton.styleFrom(
-                                                shape: RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(8),
-                                                  side: const BorderSide(
-                                                      color: Colors.black),
-                                                ),
-                                                backgroundColor:
-                                                    const Color.fromARGB(
-                                                        255, 0, 0, 0),
-                                              ),
-                                              child: const Text(
-                                                'Join',
-                                                style: TextStyle(
-                                                  fontSize: 16,
-                                                  color: Color.fromARGB(
-                                                      255, 255, 255, 255),
-                                                  fontWeight: FontWeight.w500,
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        ),
                                       ],
                                     ),
                                   ),
                                 ],
+                              ),
+                              Container(
+                                alignment: Alignment.topRight,
+                                child: SizedBox(
+                                  height: 40,
+                                  width: 130,
+                                  child: ElevatedButton(
+                                    onPressed: () {},
+                                    style: ElevatedButton.styleFrom(
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(8),
+                                        side: const BorderSide(
+                                            color: Colors.black),
+                                      ),
+                                      backgroundColor:
+                                          const Color.fromARGB(255, 0, 0, 0),
+                                    ),
+                                    child: const Text(
+                                      'Join',
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        color:
+                                            Color.fromARGB(255, 255, 255, 255),
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                  ),
+                                ),
                               ),
                             ],
                           ),

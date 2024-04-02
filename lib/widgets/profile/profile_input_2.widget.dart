@@ -369,6 +369,12 @@ class ViewProfileWidget extends ConsumerWidget {
                                 textDescription.text,
                                 company.email!,
                                 selectedEmployee);
+
+                            Timer(const Duration(seconds: 3), () {
+                              ref
+                                  .read(optionsProvider.notifier)
+                                  .setWidgetOption('Dashboard', user.role!);
+                            });
                           }
                         },
                         style: ElevatedButton.styleFrom(
