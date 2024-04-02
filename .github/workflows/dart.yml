@@ -23,6 +23,11 @@ jobs:
       - run: flutter pub get
       - run: flutter test
       - run: flutter build apk
+      - name : upload a Build Artifact
+        uses : actions/upload-artifact@v3.1.3
+        with:
+           name: StudentHub.apk
+           part: build/app/outputs/flutter-apk/app-release.apk
       - run: flutter build appbundle
  
     
