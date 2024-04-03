@@ -38,6 +38,21 @@ class StudentInputNotifier extends StateNotifier<StudentInput> {
     state = temp;
   }
 
+  void setStudentInputTechstackId(
+    int id,
+  ) {
+    StudentInput temp = StudentInput(
+      techStackId: state.techStackId,
+      skillSets: state.skillSets,
+      languages: [...state.languages!],
+      educations: [...state.educations!],
+    );
+
+    temp.techStackId = id;
+
+    state = temp;
+  }
+
   void setStudentInputSkillSet(
     List<int> skillSets,
   ) {

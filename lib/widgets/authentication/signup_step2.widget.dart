@@ -128,9 +128,7 @@ class _SignupStep2State extends ConsumerState<SignupStep2> {
                     child: TextField(
                       controller: fullnameController,
                       onChanged: (data) {
-                        if (fullnameController.text.isEmpty ||
-                            emailController.text.isEmpty ||
-                            passwordController.text.isEmpty) {
+                        if (fullnameController.text.isEmpty || emailController.text.isEmpty || passwordController.text.isEmpty) {
                           enable = false;
                         } else {
                           enable = true;
@@ -163,9 +161,7 @@ class _SignupStep2State extends ConsumerState<SignupStep2> {
                     child: TextField(
                       controller: emailController,
                       onChanged: (data) {
-                        if (fullnameController.text.isEmpty ||
-                            emailController.text.isEmpty ||
-                            passwordController.text.isEmpty) {
+                        if (fullnameController.text.isEmpty || emailController.text.isEmpty || passwordController.text.isEmpty) {
                           enable = false;
                         } else {
                           enable = true;
@@ -199,9 +195,7 @@ class _SignupStep2State extends ConsumerState<SignupStep2> {
                       obscureText: true,
                       controller: passwordController,
                       onChanged: (data) {
-                        if (fullnameController.text.isEmpty ||
-                            emailController.text.isEmpty ||
-                            passwordController.text.isEmpty) {
+                        if (fullnameController.text.isEmpty || emailController.text.isEmpty || passwordController.text.isEmpty) {
                           enable = false;
                         } else {
                           enable = true;
@@ -259,50 +253,30 @@ class _SignupStep2State extends ConsumerState<SignupStep2> {
                                 isSending = true;
                               });
 
-                              final url = Uri.parse(
-                                  'http://${dotenv.env['IP_ADDRESS']}/api/auth/sign-up');
+                              final url = Uri.parse('http://${dotenv.env['IP_ADDRESS']}/api/auth/sign-up');
                               final response = await http.post(url,
                                   headers: {'Content-Type': 'application/json'},
                                   body: json.encode(
-                                    {
-                                      "fullname": fullnameController.text,
-                                      "email": emailController.text,
-                                      "password": passwordController.text,
-                                      "role": userSignup.role
-                                    },
+                                    {"fullname": fullnameController.text, "email": emailController.text, "password": passwordController.text, "role": userSignup.role},
                                   ));
 
                               setState(() {
                                 isSending = false;
                               });
 
-                              if (json
-                                  .decode(response.body)
-                                  .containsKey('errorDetails')) {
-                                if (json.decode(response.body)['errorDetails']
-                                    is String) {
-                                  showErrorToast(
-                                      'Error',
-                                      json.decode(
-                                          response.body)['errorDetails']);
+                              if (json.decode(response.body).containsKey('errorDetails')) {
+                                if (json.decode(response.body)['errorDetails'] is String) {
+                                  showErrorToast('Error', json.decode(response.body)['errorDetails']);
                                 } else {
-                                  showErrorToast(
-                                      'Error',
-                                      json.decode(response.body)['errorDetails']
-                                          [0]);
+                                  showErrorToast('Error', json.decode(response.body)['errorDetails'][0]);
                                 }
                               } else {
                                 // print(json.decode(response.body));
-                                ref
-                                    .read(userLoginProvider.notifier)
-                                    .setRole('${userSignup.role}');
+                                ref.read(userLoginProvider.notifier).setRole('${userSignup.role}');
 
-                                showSuccessToast(
-                                    'Success', 'Register successfully');
+                                showSuccessToast('Success', 'Create successfully');
                                 Timer(const Duration(seconds: 3), () {
-                                  ref
-                                      .read(optionsProvider.notifier)
-                                      .setWidgetOption('Login', user.role!);
+                                  ref.read(optionsProvider.notifier).setWidgetOption('Login', user.role!);
                                 });
                               }
 
@@ -337,8 +311,7 @@ class _SignupStep2State extends ConsumerState<SignupStep2> {
                   ),
                   const SizedBox(height: 25),
                   Row(
-                    mainAxisAlignment: MainAxisAlignment
-                        .center, //Center Column contents vertically,
+                    mainAxisAlignment: MainAxisAlignment.center, //Center Column contents vertically,
                     children: [
                       const Text(
                         'Looking for a project?',
@@ -368,10 +341,7 @@ class _SignupStep2State extends ConsumerState<SignupStep2> {
                           ))),
                           child: const Text(
                             "Apply as student",
-                            style: TextStyle(
-                                fontSize: 16,
-                                color: Colors.blue,
-                                fontWeight: FontWeight.w500),
+                            style: TextStyle(fontSize: 16, color: Colors.blue, fontWeight: FontWeight.w500),
                           ),
                         ),
                       ),

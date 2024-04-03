@@ -50,12 +50,10 @@ class MultiSelectBottomSheet extends ConsumerStatefulWidget {
   }) : super(key: key);
 
   @override
-  ConsumerState<MultiSelectBottomSheet> createState() =>
-      _MultiSelectBottomSheetState();
+  ConsumerState<MultiSelectBottomSheet> createState() => _MultiSelectBottomSheetState();
 }
 
-class _MultiSelectBottomSheetState
-    extends ConsumerState<MultiSelectBottomSheet> {
+class _MultiSelectBottomSheetState extends ConsumerState<MultiSelectBottomSheet> {
   TextEditingController controller = TextEditingController();
   List<MultiSelectBottomSheetModel> filterList = [];
   List<MultiSelectBottomSheetModel> defaultList = [];
@@ -66,10 +64,8 @@ class _MultiSelectBottomSheetState
     defaultList.clear();
     filterList.clear();
     for (var item in widget.items) {
-      defaultList.add(MultiSelectBottomSheetModel(
-          id: item.id, name: item.name, isSelected: item.isSelected));
-      filterList.add(MultiSelectBottomSheetModel(
-          id: item.id, name: item.name, isSelected: item.isSelected));
+      defaultList.add(MultiSelectBottomSheetModel(id: item.id, name: item.name, isSelected: item.isSelected));
+      filterList.add(MultiSelectBottomSheetModel(id: item.id, name: item.name, isSelected: item.isSelected));
     }
   }
 
@@ -85,8 +81,7 @@ class _MultiSelectBottomSheetState
           clipBehavior: Clip.antiAliasWithSaveLayer,
           context: context,
           builder: (context) {
-            return StatefulBuilder(
-                builder: (BuildContext context, StateSetter setState) {
+            return StatefulBuilder(builder: (BuildContext context, StateSetter setState) {
               return Padding(
                 padding: const EdgeInsets.all(20),
                 child: SizedBox(
@@ -108,11 +103,7 @@ class _MultiSelectBottomSheetState
                           textInputAction: TextInputAction.search,
                           onSubmitted: (value) {
                             setState(() {
-                              filterList = widget.items
-                                  .where((element) => element.name
-                                      .toLowerCase()
-                                      .contains(value.toLowerCase()))
-                                  .toList();
+                              filterList = widget.items.where((element) => element.name.toLowerCase().contains(value.toLowerCase())).toList();
                             });
                           },
                           decoration: InputDecoration(
@@ -166,38 +157,25 @@ class _MultiSelectBottomSheetState
 
                                       if (e.id == widget.items[0].id) {
                                       } else {
-                                        if (filterList[0].id !=
-                                            widget.items[0].id) {
+                                        if (filterList[0].id != widget.items[0].id) {
                                           filterList[0].isSelected = false;
                                         }
                                       }
-                                      defaultList
-                                          .where(
-                                              (element) => element.id == e.id)
-                                          .first
-                                          .isSelected = e.isSelected;
+                                      defaultList.where((element) => element.id == e.id).first.isSelected = e.isSelected;
                                     });
                                   },
                                   child: Container(
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: width * 0.025,
-                                        vertical: width * 0.015),
+                                    padding: EdgeInsets.symmetric(horizontal: width * 0.025, vertical: width * 0.015),
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(7),
-                                      color: e.isSelected
-                                          ? widget.selectedBackgroundColor
-                                          : widget.unSelectedBackgroundColor,
-                                      border: Border.all(
-                                          color:
-                                              widget.suggestionListBorderColor),
+                                      color: e.isSelected ? widget.selectedBackgroundColor : widget.unSelectedBackgroundColor,
+                                      border: Border.all(color: widget.suggestionListBorderColor),
                                     ),
                                     child: Text(
                                       e.name,
                                       maxLines: 1,
                                       overflow: TextOverflow.ellipsis,
-                                      style: e.isSelected
-                                          ? widget.selectTextStyle
-                                          : widget.unSelectTextStyle,
+                                      style: e.isSelected ? widget.selectTextStyle : widget.unSelectTextStyle,
                                     ),
                                   ),
                                 );
@@ -213,9 +191,7 @@ class _MultiSelectBottomSheetState
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             const SizedBox(width: 10),
-                            defaultList
-                                    .where((element) => element.isSelected)
-                                    .isEmpty
+                            defaultList.where((element) => element.isSelected).isEmpty
                                 ? Container()
                                 : SizedBox(
                                     height: 40,
@@ -224,8 +200,7 @@ class _MultiSelectBottomSheetState
                                       decoration: BoxDecoration(
                                         border: Border.all(color: Colors.grey),
                                         borderRadius: BorderRadius.circular(8),
-                                        color:
-                                            Color.fromARGB(255, 255, 255, 255),
+                                        color: Color.fromARGB(255, 255, 255, 255),
                                       ),
                                       child: GestureDetector(
                                         onTap: () {
@@ -238,16 +213,10 @@ class _MultiSelectBottomSheetState
                                         },
                                         child: Container(
                                           alignment: Alignment.center,
-                                          padding: EdgeInsets.symmetric(
-                                              horizontal: width * 0.02,
-                                              vertical: height * 0.01),
+                                          padding: EdgeInsets.symmetric(horizontal: width * 0.02, vertical: height * 0.01),
                                           child: Text(
                                             widget.clearAll,
-                                            style: const TextStyle(
-                                                color: Color.fromARGB(
-                                                    255, 0, 0, 0),
-                                                fontWeight: FontWeight.w500,
-                                                fontSize: 16),
+                                            style: const TextStyle(color: Color.fromARGB(255, 0, 0, 0), fontWeight: FontWeight.w500, fontSize: 16),
                                           ),
                                         ),
                                       ),
@@ -264,8 +233,7 @@ class _MultiSelectBottomSheetState
                                     decoration: BoxDecoration(
                                       border: Border.all(color: Colors.grey),
                                       borderRadius: BorderRadius.circular(8),
-                                      color: const Color.fromARGB(
-                                          255, 255, 255, 255),
+                                      color: const Color.fromARGB(255, 255, 255, 255),
                                     ),
                                     child: GestureDetector(
                                       onTap: () {
@@ -273,16 +241,10 @@ class _MultiSelectBottomSheetState
                                       },
                                       child: Container(
                                         alignment: Alignment.center,
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: width * 0.02,
-                                            vertical: height * 0.01),
+                                        padding: EdgeInsets.symmetric(horizontal: width * 0.02, vertical: height * 0.01),
                                         child: Text(
                                           widget.cancelText,
-                                          style: const TextStyle(
-                                              color:
-                                                  Color.fromARGB(255, 0, 0, 0),
-                                              fontWeight: FontWeight.w500,
-                                              fontSize: 16),
+                                          style: const TextStyle(color: Color.fromARGB(255, 0, 0, 0), fontWeight: FontWeight.w500, fontSize: 16),
                                         ),
                                       ),
                                     ),
@@ -301,9 +263,7 @@ class _MultiSelectBottomSheetState
                                     ),
                                     child: GestureDetector(
                                       onTap: () {
-                                        final isSelectedList = filterList
-                                            .where((el) => el.isSelected)
-                                            .toList();
+                                        final isSelectedList = filterList.where((el) => el.isSelected).toList();
 
                                         final List<int> isSelectedIdList = [];
 
@@ -311,10 +271,7 @@ class _MultiSelectBottomSheetState
                                           isSelectedIdList.add(item.id);
                                         }
 
-                                        ref
-                                            .read(studentInputProvider.notifier)
-                                            .setStudentInputSkillSet(
-                                                isSelectedIdList);
+                                        ref.read(studentInputProvider.notifier).setStudentInputSkillSet(isSelectedIdList);
 
                                         setState(() {
                                           widget.items.clear();
@@ -324,15 +281,10 @@ class _MultiSelectBottomSheetState
                                       },
                                       child: Container(
                                         alignment: Alignment.center,
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: width * 0.02,
-                                            vertical: height * 0.01),
+                                        padding: EdgeInsets.symmetric(horizontal: width * 0.02, vertical: height * 0.01),
                                         child: Text(
                                           widget.confirmText,
-                                          style: const TextStyle(
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.w500,
-                                              fontSize: 16),
+                                          style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w500, fontSize: 16),
                                         ),
                                       ),
                                     ),
@@ -363,12 +315,7 @@ class _MultiSelectBottomSheetState
             ),
             borderRadius: BorderRadius.circular(9),
             color: whiteColor),
-        padding: EdgeInsets.symmetric(
-            horizontal: 0,
-            vertical:
-                widget.items.where((element) => element.isSelected).isEmpty
-                    ? 15
-                    : height * 0.015),
+        padding: EdgeInsets.symmetric(horizontal: 0, vertical: widget.items.where((element) => element.isSelected).isEmpty ? 15 : height * 0.015),
         width: widget.width,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -381,10 +328,7 @@ class _MultiSelectBottomSheetState
                       "${widget.hint}",
                       maxLines: 5,
                       overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                          color: widget.hintColor,
-                          fontWeight: FontWeight.normal,
-                          fontSize: 16),
+                      style: TextStyle(color: widget.hintColor, fontWeight: FontWeight.normal, fontSize: 16),
                     ),
                   )
                 : Padding(
@@ -392,23 +336,12 @@ class _MultiSelectBottomSheetState
                     child: Wrap(
                       spacing: width * 0.01,
                       runSpacing: width * 0.01,
-                      children: widget.items
-                          .where((element) => element.isSelected)
-                          .map((e) {
-                        String separator = e.id ==
-                                widget.items
-                                    .where((element) => element.isSelected)
-                                    .last
-                                    .id
-                            ? ""
-                            : ", ";
+                      children: widget.items.where((element) => element.isSelected).map((e) {
+                        String separator = e.id == widget.items.where((element) => element.isSelected).last.id ? "" : ", ";
                         return Text(
                           "${e.name}$separator",
                           overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(
-                              color: Colors.black,
-                              fontWeight: FontWeight.normal,
-                              fontSize: 16),
+                          style: const TextStyle(color: Colors.black, fontWeight: FontWeight.normal, fontSize: 16),
                         );
                       }).toList(),
                     ),

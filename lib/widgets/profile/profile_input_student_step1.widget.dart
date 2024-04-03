@@ -269,6 +269,10 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentWidget> {
                         setState(() {
                           dropdownValue = value!;
                         });
+
+                        ref.read(studentInputProvider.notifier).setStudentInputTechstackId(
+                              techStackName.indexOf(dropdownValue) + 1,
+                            );
                       },
                       items: techStackName.map<DropdownMenuItem<String>>((String value) {
                         return DropdownMenuItem<String>(
@@ -1023,16 +1027,18 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentWidget> {
                                                         height: 46,
                                                         width: 175,
                                                         child: ElevatedButton(
-                                                          onPressed: () {
-                                                            ref.read(studentInputProvider.notifier).addStudentInputEducation(
-                                                                  EducationCreate(
-                                                                    createHighschoolController.text,
-                                                                    createHighschoolStartYearController.text,
-                                                                    createHighschoolEndYearController.text,
-                                                                  ),
-                                                                );
-                                                            Navigator.pop(context);
-                                                          },
+                                                          onPressed: enableEducation
+                                                              ? () {
+                                                                  ref.read(studentInputProvider.notifier).addStudentInputEducation(
+                                                                        EducationCreate(
+                                                                          createHighschoolController.text,
+                                                                          createHighschoolStartYearController.text,
+                                                                          createHighschoolEndYearController.text,
+                                                                        ),
+                                                                      );
+                                                                  Navigator.pop(context);
+                                                                }
+                                                              : null,
                                                           style: ElevatedButton.styleFrom(
                                                             minimumSize: Size.zero, // Set this
                                                             padding: EdgeInsets.zero, // and this
@@ -1381,34 +1387,46 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentWidget> {
                             ],
                           ),
 
-                    const SizedBox(height: 30),
-                    Container(
-                      alignment: Alignment.centerRight,
-                      child: SizedBox(
-                        height: 46,
-                        width: 130,
-                        child: ElevatedButton(
-                          onPressed: () {
-                            ref.read(optionsProvider.notifier).setWidgetOption('ProfileInputStudentStep2', user.role!);
-                          },
-                          style: ElevatedButton.styleFrom(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8),
-                              side: const BorderSide(color: Colors.grey),
+                    const SizedBox(height: 10),
+                    studentInput.techStackId != 0 && studentInput.skillSets!.isNotEmpty && studentInput.languages!.isNotEmpty && studentInput.educations!.isNotEmpty
+                        ? Container(
+                            alignment: Alignment.centerRight,
+                            child: SizedBox(
+                              height: 46,
+                              width: 130,
+                              child: ElevatedButton(
+                                onPressed: () {
+                                  print('----student input step 1----');
+                                  print(studentInput.techStackId);
+                                  print(studentInput.skillSets);
+                                  print(studentInput.languages);
+                                  print(studentInput.educations);
+                                  print('----student input step 1----');
+                                  ref.read(optionsProvider.notifier).setWidgetOption(
+                                        'ProfileInputStudentStep2',
+                                        user.role!,
+                                      );
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(8),
+                                    side: const BorderSide(color: Colors.grey),
+                                  ),
+                                  backgroundColor: const Color.fromARGB(255, 0, 0, 0),
+                                ),
+                                child: const Text(
+                                  'Next',
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    color: Color.fromARGB(255, 255, 255, 255),
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              ),
                             ),
-                            backgroundColor: const Color.fromARGB(255, 0, 0, 0),
-                          ),
-                          child: const Text(
-                            'Next',
-                            style: TextStyle(
-                              fontSize: 18,
-                              color: Color.fromARGB(255, 255, 255, 255),
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
+                          )
+                        : const SizedBox(),
+                    const SizedBox(height: 20),
                   ],
                 ),
         ),
