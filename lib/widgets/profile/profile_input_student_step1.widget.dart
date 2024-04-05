@@ -1480,19 +1480,19 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentWidget> {
                                   print(studentInput.educations);
                                   print('----student input step 1----');
 
-                                  // final url = Uri.parse('http://${dotenv.env['IP_ADDRESS']}/api/profile/student');
-                                  // final responseCreateStudent = await http.post(url,
-                                  //     headers: {
-                                  //       'Content-Type': 'application/json',
-                                  //       'Authorization': 'Bearer ${user.token}',
-                                  //     },
-                                  //     body: json.encode(
-                                  //       {
-                                  //         "fullname": studentInput.fullname,
-                                  //         "techStackId": studentInput.techStackId,
-                                  //         "skillSets": studentInput.skillSets,
-                                  //       },
-                                  //     ));
+                                  final url = Uri.parse('http://${dotenv.env['IP_ADDRESS']}/api/profile/student');
+                                  final responseCreateStudent = await http.post(url,
+                                      headers: {
+                                        'Content-Type': 'application/json',
+                                        'Authorization': 'Bearer ${user.token}',
+                                      },
+                                      body: json.encode(
+                                        {
+                                          "fullname": studentInput.fullname,
+                                          "techStackId": studentInput.techStackId,
+                                          "skillSets": studentInput.skillSets,
+                                        },
+                                      ));
 
                                   // var responseCreateStudentData = json.decode(responseCreateStudent.body);
                                   // print(responseCreateStudentData);

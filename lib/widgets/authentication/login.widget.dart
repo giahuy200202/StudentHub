@@ -222,11 +222,14 @@ class _LoginWidgetState extends ConsumerState<LoginWidget> {
 
                                 showSuccessToast('Success', 'Login successfully');
 
+                                print(responeAuthMeData);
+
                                 //Set student data
                                 if (responeAuthMeData["result"]["student"] != null) {
+                                  print('--------------------aaaaaaaaaaaa----------------------');
                                   ref.read(studentProvider.notifier).setStudentData(
                                     responeAuthMeData["result"]["student"]["id"],
-                                    responeAuthMeData["result"]["student"]["fullname"],
+                                    '',
                                     '',
                                     0,
                                     [],
@@ -235,10 +238,10 @@ class _LoginWidgetState extends ConsumerState<LoginWidget> {
                                     [],
                                   );
 
-                                  final urlLogin = Uri.parse('http://${dotenv.env['IP_ADDRESS']}/api/profile/student/${responeAuthMeData["result"]["student"]["id"]}');
+                                  final urlGetStudent = Uri.parse('http://${dotenv.env['IP_ADDRESS']}/api/profile/student/${responeAuthMeData["result"]["student"]["id"]}');
 
                                   final responseStudent = await http.get(
-                                    urlLogin,
+                                    urlGetStudent,
                                     headers: {
                                       'Content-Type': 'application/json',
                                       'Authorization': 'Bearer ${json.decode(responseLogin.body)["result"]["token"]}',
@@ -247,25 +250,26 @@ class _LoginWidgetState extends ConsumerState<LoginWidget> {
 
                                   final responseStudentData = json.decode(responseStudent.body);
 
+                                  print('----------------');
+                                  print(responseStudent.body);
+                                  print('----------------');
+
                                   if (responseStudentData['result'] != null) {
+                                    List<int> getSkillsets = [];
+                                    for (var item in responseStudentData["result"]["skillSets"]) {
+                                      getSkillsets.add(item['id']);
+                                    }
                                     ref.read(studentProvider.notifier).setStudentData(
                                           responeAuthMeData["result"]["student"]["id"],
-                                          responeAuthMeData["result"]["student"]["fullname"],
+                                          responseStudentData["result"]["fullname"],
                                           responseStudentData["result"]["email"],
                                           responseStudentData["result"]["techStack"]["id"],
-                                          responseStudentData["result"]["skillSets"],
+                                          getSkillsets,
                                           responseStudentData["result"]["educations"],
                                           responseStudentData["result"]["experiences"],
                                           responseStudentData["result"]["languages"],
                                         );
                                   }
-                                  print('-----student------');
-                                  print(responseStudentData['result']);
-                                  print('-----------');
-
-                                  Timer(const Duration(seconds: 3), () {
-                                    ref.read(optionsProvider.notifier).setWidgetOption('Projects', user.role!);
-                                  });
                                 }
 
                                 // //Set company data
@@ -301,14 +305,13 @@ class _LoginWidgetState extends ConsumerState<LoginWidget> {
                                           responseCompanyData["result"]["size"],
                                         );
                                   }
-
-                                  Timer(const Duration(seconds: 3), () {
-                                    ref.read(optionsProvider.notifier).setWidgetOption('Dashboard', userLoginRole);
-                                  });
                                 }
 
                                 Timer(const Duration(seconds: 3), () {
-                                  ref.read(optionsProvider.notifier).setWidgetOption(userLoginRole == '0' ? 'ProfileInputStudent' : (responeAuthMeData["result"]["company"] == null ? 'ProfileInput' : 'Dashboard'), userLoginRole);
+                                  ref.read(optionsProvider.notifier).setWidgetOption(
+                                        userLoginRole == '0' ? 'ProfileInputStudent' : (responeAuthMeData["result"]["company"] == null ? 'ProfileInput' : 'Dashboard'),
+                                        userLoginRole,
+                                      );
                                 });
                               }
                               setState(() {
