@@ -35,7 +35,7 @@ class _SignupStep1State extends ConsumerState<SignupStep1> {
         ? const Icon(
             Icons.check_circle,
             size: 30,
-            color: Color.fromARGB(255, 121, 123, 125),
+            color: Colors.black,
           )
         : const Icon(
             Icons.circle_outlined,
@@ -47,7 +47,7 @@ class _SignupStep1State extends ConsumerState<SignupStep1> {
         ? const Icon(
             Icons.check_circle,
             size: 30,
-            color: Color.fromARGB(255, 121, 123, 125),
+            color: Colors.black,
           )
         : const Icon(
             Icons.circle_outlined,
@@ -63,21 +63,36 @@ class _SignupStep1State extends ConsumerState<SignupStep1> {
             child: Center(
               child: Column(
                 children: [
-                  const SizedBox(height: 50),
-                  const Text(
-                    'Join as company or student',
-                    style: TextStyle(
-                      fontSize: 22,
-                      color: Colors.black,
-                      fontWeight: FontWeight.w500,
+                  const SizedBox(height: 100),
+                  const Align(
+                    alignment: Alignment.topLeft,
+                    child: Text(
+                      'Register',
+                      style: TextStyle(
+                        fontSize: 30,
+                        color: Colors.black,
+                        fontWeight: FontWeight.w700,
+                      ),
                     ),
-                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 10),
+                  const Align(
+                    alignment: Alignment.topLeft,
+                    child: Text(
+                      'Join as company or student',
+                      style: TextStyle(
+                        fontSize: 18,
+                        color: Colors.black,
+                        // fontWeight: FontWeight.w500,
+                      ),
+                    ),
                   ),
                   const SizedBox(height: 40),
                   Container(
-                    decoration: const BoxDecoration(
-                      color: Color.fromARGB(255, 233, 236, 239),
-                      borderRadius: BorderRadius.all(Radius.circular(8)),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      border: Border.all(color: Colors.grey),
+                      borderRadius: const BorderRadius.all(Radius.circular(10)),
                     ),
                     child: Padding(
                       padding: const EdgeInsets.symmetric(
@@ -115,9 +130,7 @@ class _SignupStep1State extends ConsumerState<SignupStep1> {
                                     isCompany = true;
                                     isStudent = false;
                                   });
-                                  ref
-                                      .read(userSignupProvider.notifier)
-                                      .setRole(1);
+                                  ref.read(userSignupProvider.notifier).setRole(1);
                                 },
                                 child: iconCheckedCompany,
                               ),
@@ -145,9 +158,10 @@ class _SignupStep1State extends ConsumerState<SignupStep1> {
                   ),
                   const SizedBox(height: 20),
                   Container(
-                    decoration: const BoxDecoration(
-                      color: Color.fromARGB(255, 233, 236, 239),
-                      borderRadius: BorderRadius.all(Radius.circular(8)),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      border: Border.all(color: Colors.grey),
+                      borderRadius: const BorderRadius.all(Radius.circular(8)),
                     ),
                     child: Padding(
                       padding: const EdgeInsets.symmetric(
@@ -185,9 +199,7 @@ class _SignupStep1State extends ConsumerState<SignupStep1> {
                                     isCompany = false;
                                     isStudent = true;
                                   });
-                                  ref
-                                      .read(userSignupProvider.notifier)
-                                      .setRole(0);
+                                  ref.read(userSignupProvider.notifier).setRole(0);
                                 },
                                 child: iconCheckedStudent,
                               ),
@@ -213,7 +225,7 @@ class _SignupStep1State extends ConsumerState<SignupStep1> {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 40),
+                  const SizedBox(height: 45),
                   SizedBox(
                     height: 52,
                     width: MediaQuery.of(context).size.width,
@@ -221,9 +233,10 @@ class _SignupStep1State extends ConsumerState<SignupStep1> {
                       onPressed: !isCompany && !isStudent
                           ? null
                           : () {
-                              ref
-                                  .read(optionsProvider.notifier)
-                                  .setWidgetOption('SignupStep2', user.role!);
+                              ref.read(optionsProvider.notifier).setWidgetOption(
+                                    'SignupStep2',
+                                    user.role!,
+                                  );
                             },
                       style: ElevatedButton.styleFrom(
                         shape: RoundedRectangleBorder(
@@ -243,8 +256,7 @@ class _SignupStep1State extends ConsumerState<SignupStep1> {
                   ),
                   const SizedBox(height: 25),
                   Row(
-                    mainAxisAlignment: MainAxisAlignment
-                        .center, //Center Column contents vertically,
+                    mainAxisAlignment: MainAxisAlignment.center, //Center Column contents vertically,
                     children: [
                       const Text(
                         'Already have an account?',
@@ -262,9 +274,7 @@ class _SignupStep1State extends ConsumerState<SignupStep1> {
                           tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                         ),
                         onPressed: () {
-                          ref
-                              .read(optionsProvider.notifier)
-                              .setWidgetOption('Login', user.role!);
+                          ref.read(optionsProvider.notifier).setWidgetOption('Login', user.role!);
                         },
                         child: Container(
                           padding: const EdgeInsets.only(
@@ -278,10 +288,7 @@ class _SignupStep1State extends ConsumerState<SignupStep1> {
                           ))),
                           child: const Text(
                             "Login",
-                            style: TextStyle(
-                                fontSize: 16,
-                                color: Colors.blue,
-                                fontWeight: FontWeight.w500),
+                            style: TextStyle(fontSize: 16, color: Colors.blue, fontWeight: FontWeight.w500),
                           ),
                         ),
                       ),
