@@ -48,16 +48,8 @@ class _ProjectScreenState extends ConsumerState<ProjectScreen> {
                       width: 315,
                       child: InkWell(
                         onTap: () {
-                          final leftColumnDiscoverData = [
-                            'frontend developer',
-                            'backend developer',
-                            'app designer'
-                          ];
-                          final rightColumnDiscoverData = [
-                            'flutter intern',
-                            'senior frontend',
-                            'fresher python'
-                          ];
+                          final leftColumnDiscoverData = ['frontend developer', 'backend developer', 'app designer'];
+                          final rightColumnDiscoverData = ['flutter intern', 'senior frontend', 'fresher python'];
                           showModalBottomSheet(
                             isScrollControlled: true,
                             context: context,
@@ -66,8 +58,7 @@ class _ProjectScreenState extends ConsumerState<ProjectScreen> {
                               return SingleChildScrollView(
                                 physics: const NeverScrollableScrollPhysics(),
                                 child: Padding(
-                                  padding: const EdgeInsets.only(
-                                      left: 20, right: 20),
+                                  padding: const EdgeInsets.only(left: 20, right: 20),
                                   child: Column(
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
@@ -88,63 +79,41 @@ class _ProjectScreenState extends ConsumerState<ProjectScreen> {
                                         child: TextField(
                                           style: const TextStyle(
                                             fontSize: 17,
-                                            color: Color.fromARGB(
-                                                255, 114, 111, 111),
+                                            color: Color.fromARGB(255, 114, 111, 111),
                                             fontWeight: FontWeight.w500,
                                           ),
                                           controller: searchController,
-                                          textInputAction:
-                                              TextInputAction.search,
+                                          textInputAction: TextInputAction.search,
                                           onSubmitted: (value) {
                                             Navigator.pop(context);
-                                            ref
-                                                .read(optionsProvider.notifier)
-                                                .setWidgetOption(
-                                                    'ProjectSearch',
-                                                    user.role!);
+                                            ref.read(optionsProvider.notifier).setWidgetOption('ProjectSearch', user.role!);
 
-                                            ref
-                                                .read(searchFilterProvider
-                                                    .notifier)
-                                                .setSearch(
-                                                    searchController.text);
+                                            ref.read(searchFilterProvider.notifier).setSearch(searchController.text);
                                           },
                                           decoration: InputDecoration(
                                             border: OutlineInputBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(9),
+                                              borderRadius: BorderRadius.circular(9),
                                             ),
                                             focusedBorder: OutlineInputBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(9),
-                                              borderSide: const BorderSide(
-                                                  color: Colors.black),
+                                              borderRadius: BorderRadius.circular(9),
+                                              borderSide: const BorderSide(color: Colors.black),
                                             ),
-                                            contentPadding:
-                                                const EdgeInsets.symmetric(
+                                            contentPadding: const EdgeInsets.symmetric(
                                               vertical: 8,
                                               horizontal: 15,
                                             ),
-                                            prefixIcon:
-                                                const Icon(Icons.search),
+                                            prefixIcon: const Icon(Icons.search),
                                             suffixIcon: InkWell(
                                               onTap: () {
                                                 setState(() {
                                                   searchController.text = '';
                                                 });
-                                                ref
-                                                    .read(searchFilterProvider
-                                                        .notifier)
-                                                    .setSearch('');
+                                                ref.read(searchFilterProvider.notifier).setSearch('');
                                               },
                                               child: const Icon(Icons.clear),
                                             ),
-                                            hintText:
-                                                'Titles, Contents and More',
-                                            hintStyle: const TextStyle(
-                                                color: Color.fromARGB(
-                                                    255, 114, 111, 111),
-                                                fontWeight: FontWeight.w500),
+                                            hintText: 'Titles, Contents and More',
+                                            hintStyle: const TextStyle(color: Color.fromARGB(255, 114, 111, 111), fontWeight: FontWeight.w500),
                                           ),
                                         ),
                                       ),
@@ -171,37 +140,28 @@ class _ProjectScreenState extends ConsumerState<ProjectScreen> {
                                                       const SizedBox(
                                                         height: 5,
                                                       ),
-                                                      ...leftColumnDiscoverData
-                                                          .map(
+                                                      ...leftColumnDiscoverData.map(
                                                         (data) => InkWell(
                                                           onTap: () {
                                                             setState(() {
-                                                              searchController
-                                                                  .text = data;
+                                                              searchController.text = data;
                                                             });
                                                           },
                                                           child: SizedBox(
                                                             height: 40,
                                                             width: 185,
                                                             child: Row(
-                                                              mainAxisAlignment:
-                                                                  MainAxisAlignment
-                                                                      .start,
-                                                              crossAxisAlignment:
-                                                                  CrossAxisAlignment
-                                                                      .center,
+                                                              mainAxisAlignment: MainAxisAlignment.start,
+                                                              crossAxisAlignment: CrossAxisAlignment.center,
                                                               children: [
-                                                                const Icon(Icons
-                                                                    .search),
+                                                                const Icon(Icons.search),
                                                                 const SizedBox(
                                                                   width: 10,
                                                                 ),
                                                                 Text(
                                                                   data,
-                                                                  style:
-                                                                      const TextStyle(
-                                                                    fontSize:
-                                                                        16,
+                                                                  style: const TextStyle(
+                                                                    fontSize: 16,
                                                                   ),
                                                                 ),
                                                               ],
@@ -217,37 +177,28 @@ class _ProjectScreenState extends ConsumerState<ProjectScreen> {
                                                       const SizedBox(
                                                         height: 5,
                                                       ),
-                                                      ...rightColumnDiscoverData
-                                                          .map(
+                                                      ...rightColumnDiscoverData.map(
                                                         (data) => InkWell(
                                                           onTap: () {
                                                             setState(() {
-                                                              searchController
-                                                                  .text = data;
+                                                              searchController.text = data;
                                                             });
                                                           },
                                                           child: SizedBox(
                                                             height: 40,
                                                             width: 175,
                                                             child: Row(
-                                                              mainAxisAlignment:
-                                                                  MainAxisAlignment
-                                                                      .start,
-                                                              crossAxisAlignment:
-                                                                  CrossAxisAlignment
-                                                                      .center,
+                                                              mainAxisAlignment: MainAxisAlignment.start,
+                                                              crossAxisAlignment: CrossAxisAlignment.center,
                                                               children: [
-                                                                const Icon(Icons
-                                                                    .search),
+                                                                const Icon(Icons.search),
                                                                 const SizedBox(
                                                                   width: 10,
                                                                 ),
                                                                 Text(
                                                                   data,
-                                                                  style:
-                                                                      const TextStyle(
-                                                                    fontSize:
-                                                                        16,
+                                                                  style: const TextStyle(
+                                                                    fontSize: 16,
                                                                   ),
                                                                 ),
                                                               ],
@@ -278,15 +229,11 @@ class _ProjectScreenState extends ConsumerState<ProjectScreen> {
                                               Container(
                                                 decoration: BoxDecoration(
                                                   // color: Colors.white,
-                                                  border: Border.all(
-                                                      color: Colors.grey),
-                                                  borderRadius:
-                                                      const BorderRadius.all(
-                                                          Radius.circular(12)),
+                                                  border: Border.all(color: Colors.grey),
+                                                  borderRadius: const BorderRadius.all(Radius.circular(12)),
                                                 ),
                                                 child: Padding(
-                                                  padding: const EdgeInsets
-                                                      .symmetric(
+                                                  padding: const EdgeInsets.symmetric(
                                                     vertical: 20,
                                                     horizontal: 20,
                                                   ),
@@ -295,23 +242,16 @@ class _ProjectScreenState extends ConsumerState<ProjectScreen> {
                                                       Row(
                                                         children: [
                                                           const Align(
-                                                            alignment: Alignment
-                                                                .topLeft,
+                                                            alignment: Alignment.topLeft,
                                                             child: SizedBox(
                                                               width: 300,
                                                               child: Text(
                                                                 'Senior frontend developer (Fintech)',
-                                                                overflow:
-                                                                    TextOverflow
-                                                                        .ellipsis,
-                                                                style:
-                                                                    TextStyle(
-                                                                  color: Colors
-                                                                      .black,
+                                                                overflow: TextOverflow.ellipsis,
+                                                                style: TextStyle(
+                                                                  color: Colors.black,
                                                                   fontSize: 18,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w600,
+                                                                  fontWeight: FontWeight.w600,
                                                                 ),
                                                               ),
                                                             ),
@@ -320,8 +260,7 @@ class _ProjectScreenState extends ConsumerState<ProjectScreen> {
                                                           InkWell(
                                                             onTap: () {},
                                                             child: const Icon(
-                                                              Icons
-                                                                  .favorite_border,
+                                                              Icons.favorite_border,
                                                               size: 28,
                                                             ),
                                                           ),
@@ -329,22 +268,14 @@ class _ProjectScreenState extends ConsumerState<ProjectScreen> {
                                                       ),
                                                       const SizedBox(height: 2),
                                                       const Align(
-                                                        alignment:
-                                                            Alignment.topLeft,
+                                                        alignment: Alignment.topLeft,
                                                         child: SizedBox(
                                                           width: 340,
                                                           child: Text(
                                                             'Created 3 days ago',
                                                             style: TextStyle(
-                                                              color: Color
-                                                                  .fromARGB(
-                                                                      255,
-                                                                      94,
-                                                                      94,
-                                                                      94),
-                                                              overflow:
-                                                                  TextOverflow
-                                                                      .ellipsis,
+                                                              color: Color.fromARGB(255, 94, 94, 94),
+                                                              overflow: TextOverflow.ellipsis,
                                                               fontSize: 13,
                                                             ),
                                                           ),
@@ -352,48 +283,35 @@ class _ProjectScreenState extends ConsumerState<ProjectScreen> {
                                                       ),
                                                       const SizedBox(height: 5),
                                                       const Align(
-                                                        alignment:
-                                                            Alignment.topLeft,
+                                                        alignment: Alignment.topLeft,
                                                         child: SizedBox(
                                                           width: 340,
                                                           child: Text(
                                                             'Time: 1-3 months, 6 students needed',
                                                             style: TextStyle(
-                                                              color:
-                                                                  Colors.black,
-                                                              overflow:
-                                                                  TextOverflow
-                                                                      .ellipsis,
+                                                              color: Colors.black,
+                                                              overflow: TextOverflow.ellipsis,
                                                               fontSize: 16,
                                                             ),
                                                           ),
                                                         ),
                                                       ),
-                                                      const SizedBox(
-                                                          height: 15),
+                                                      const SizedBox(height: 15),
                                                       Container(
-                                                        decoration:
-                                                            BoxDecoration(
+                                                        decoration: BoxDecoration(
                                                           border: Border.all(
-                                                            color: Colors
-                                                                .black, //                   <--- border color
+                                                            color: Colors.black, //                   <--- border color
                                                             width: 0.3,
                                                           ),
                                                         ),
                                                       ),
-                                                      const SizedBox(
-                                                          height: 15),
+                                                      const SizedBox(height: 15),
                                                       const Row(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .start,
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .center,
+                                                        mainAxisAlignment: MainAxisAlignment.start,
+                                                        crossAxisAlignment: CrossAxisAlignment.center,
                                                         children: [
                                                           Icon(
-                                                            Icons
-                                                                .format_indent_increase_rounded,
+                                                            Icons.format_indent_increase_rounded,
                                                             size: 22,
                                                             color: Colors.black,
                                                           ),
@@ -402,8 +320,7 @@ class _ProjectScreenState extends ConsumerState<ProjectScreen> {
                                                             'Proposals: Less than 5',
                                                             style: TextStyle(
                                                               fontSize: 16,
-                                                              color:
-                                                                  Colors.black,
+                                                              color: Colors.black,
                                                             ),
                                                           ),
                                                         ],
@@ -415,15 +332,11 @@ class _ProjectScreenState extends ConsumerState<ProjectScreen> {
                                               const SizedBox(height: 15),
                                               Container(
                                                 decoration: BoxDecoration(
-                                                  border: Border.all(
-                                                      color: Colors.grey),
-                                                  borderRadius:
-                                                      const BorderRadius.all(
-                                                          Radius.circular(12)),
+                                                  border: Border.all(color: Colors.grey),
+                                                  borderRadius: const BorderRadius.all(Radius.circular(12)),
                                                 ),
                                                 child: Padding(
-                                                  padding: const EdgeInsets
-                                                      .symmetric(
+                                                  padding: const EdgeInsets.symmetric(
                                                     vertical: 20,
                                                     horizontal: 20,
                                                   ),
@@ -432,23 +345,16 @@ class _ProjectScreenState extends ConsumerState<ProjectScreen> {
                                                       Row(
                                                         children: [
                                                           const Align(
-                                                            alignment: Alignment
-                                                                .topLeft,
+                                                            alignment: Alignment.topLeft,
                                                             child: SizedBox(
                                                               width: 300,
                                                               child: Text(
                                                                 'Senior frontend developer (Fintech)',
-                                                                overflow:
-                                                                    TextOverflow
-                                                                        .ellipsis,
-                                                                style:
-                                                                    TextStyle(
-                                                                  color: Colors
-                                                                      .black,
+                                                                overflow: TextOverflow.ellipsis,
+                                                                style: TextStyle(
+                                                                  color: Colors.black,
                                                                   fontSize: 18,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w600,
+                                                                  fontWeight: FontWeight.w600,
                                                                 ),
                                                               ),
                                                             ),
@@ -457,8 +363,7 @@ class _ProjectScreenState extends ConsumerState<ProjectScreen> {
                                                           InkWell(
                                                             onTap: () {},
                                                             child: const Icon(
-                                                              Icons
-                                                                  .favorite_border,
+                                                              Icons.favorite_border,
                                                               size: 28,
                                                             ),
                                                           ),
@@ -466,22 +371,14 @@ class _ProjectScreenState extends ConsumerState<ProjectScreen> {
                                                       ),
                                                       const SizedBox(height: 2),
                                                       const Align(
-                                                        alignment:
-                                                            Alignment.topLeft,
+                                                        alignment: Alignment.topLeft,
                                                         child: SizedBox(
                                                           width: 340,
                                                           child: Text(
                                                             'Created 3 days ago',
                                                             style: TextStyle(
-                                                              color: Color
-                                                                  .fromARGB(
-                                                                      255,
-                                                                      94,
-                                                                      94,
-                                                                      94),
-                                                              overflow:
-                                                                  TextOverflow
-                                                                      .ellipsis,
+                                                              color: Color.fromARGB(255, 94, 94, 94),
+                                                              overflow: TextOverflow.ellipsis,
                                                               fontSize: 13,
                                                             ),
                                                           ),
@@ -489,48 +386,35 @@ class _ProjectScreenState extends ConsumerState<ProjectScreen> {
                                                       ),
                                                       const SizedBox(height: 5),
                                                       const Align(
-                                                        alignment:
-                                                            Alignment.topLeft,
+                                                        alignment: Alignment.topLeft,
                                                         child: SizedBox(
                                                           width: 340,
                                                           child: Text(
                                                             'Time: 1-3 months, 6 students needed',
                                                             style: TextStyle(
-                                                              color:
-                                                                  Colors.black,
-                                                              overflow:
-                                                                  TextOverflow
-                                                                      .ellipsis,
+                                                              color: Colors.black,
+                                                              overflow: TextOverflow.ellipsis,
                                                               fontSize: 16,
                                                             ),
                                                           ),
                                                         ),
                                                       ),
-                                                      const SizedBox(
-                                                          height: 15),
+                                                      const SizedBox(height: 15),
                                                       Container(
-                                                        decoration:
-                                                            BoxDecoration(
+                                                        decoration: BoxDecoration(
                                                           border: Border.all(
-                                                            color: Colors
-                                                                .black, //                   <--- border color
+                                                            color: Colors.black, //                   <--- border color
                                                             width: 0.3,
                                                           ),
                                                         ),
                                                       ),
-                                                      const SizedBox(
-                                                          height: 15),
+                                                      const SizedBox(height: 15),
                                                       const Row(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .start,
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .center,
+                                                        mainAxisAlignment: MainAxisAlignment.start,
+                                                        crossAxisAlignment: CrossAxisAlignment.center,
                                                         children: [
                                                           Icon(
-                                                            Icons
-                                                                .format_indent_increase_rounded,
+                                                            Icons.format_indent_increase_rounded,
                                                             size: 22,
                                                             color: Colors.black,
                                                           ),
@@ -539,8 +423,7 @@ class _ProjectScreenState extends ConsumerState<ProjectScreen> {
                                                             'Proposals: Less than 5',
                                                             style: TextStyle(
                                                               fontSize: 16,
-                                                              color:
-                                                                  Colors.black,
+                                                              color: Colors.black,
                                                             ),
                                                           ),
                                                         ],
@@ -578,8 +461,7 @@ class _ProjectScreenState extends ConsumerState<ProjectScreen> {
                               ),
                               focusedBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(10),
-                                borderSide:
-                                    const BorderSide(color: Colors.black),
+                                borderSide: const BorderSide(color: Colors.black),
                               ),
                               contentPadding: const EdgeInsets.symmetric(
                                 vertical: 8,
@@ -603,9 +485,7 @@ class _ProjectScreenState extends ConsumerState<ProjectScreen> {
                     const Spacer(),
                     InkWell(
                       onTap: () {
-                        ref
-                            .read(optionsProvider.notifier)
-                            .setWidgetOption('SavedProjects', user.role!);
+                        ref.read(optionsProvider.notifier).setWidgetOption('SavedProjects', user.role!);
                       },
                       child: const Icon(
                         Icons.favorite_rounded,

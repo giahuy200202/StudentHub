@@ -63,7 +63,7 @@ class _SignupStep1State extends ConsumerState<SignupStep1> {
             child: Center(
               child: Column(
                 children: [
-                  const SizedBox(height: 50),
+                  const SizedBox(height: 100),
                   const Text(
                     'Join as company or student',
                     style: TextStyle(
@@ -115,9 +115,7 @@ class _SignupStep1State extends ConsumerState<SignupStep1> {
                                     isCompany = true;
                                     isStudent = false;
                                   });
-                                  ref
-                                      .read(userSignupProvider.notifier)
-                                      .setRole(1);
+                                  ref.read(userSignupProvider.notifier).setRole(1);
                                 },
                                 child: iconCheckedCompany,
                               ),
@@ -185,9 +183,7 @@ class _SignupStep1State extends ConsumerState<SignupStep1> {
                                     isCompany = false;
                                     isStudent = true;
                                   });
-                                  ref
-                                      .read(userSignupProvider.notifier)
-                                      .setRole(0);
+                                  ref.read(userSignupProvider.notifier).setRole(0);
                                 },
                                 child: iconCheckedStudent,
                               ),
@@ -221,9 +217,7 @@ class _SignupStep1State extends ConsumerState<SignupStep1> {
                       onPressed: !isCompany && !isStudent
                           ? null
                           : () {
-                              ref
-                                  .read(optionsProvider.notifier)
-                                  .setWidgetOption('SignupStep2', user.role!);
+                              ref.read(optionsProvider.notifier).setWidgetOption('SignupStep2', user.role!);
                             },
                       style: ElevatedButton.styleFrom(
                         shape: RoundedRectangleBorder(
@@ -243,8 +237,7 @@ class _SignupStep1State extends ConsumerState<SignupStep1> {
                   ),
                   const SizedBox(height: 25),
                   Row(
-                    mainAxisAlignment: MainAxisAlignment
-                        .center, //Center Column contents vertically,
+                    mainAxisAlignment: MainAxisAlignment.center, //Center Column contents vertically,
                     children: [
                       const Text(
                         'Already have an account?',
@@ -262,9 +255,7 @@ class _SignupStep1State extends ConsumerState<SignupStep1> {
                           tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                         ),
                         onPressed: () {
-                          ref
-                              .read(optionsProvider.notifier)
-                              .setWidgetOption('Login', user.role!);
+                          ref.read(optionsProvider.notifier).setWidgetOption('Login', user.role!);
                         },
                         child: Container(
                           padding: const EdgeInsets.only(
@@ -278,10 +269,7 @@ class _SignupStep1State extends ConsumerState<SignupStep1> {
                           ))),
                           child: const Text(
                             "Login",
-                            style: TextStyle(
-                                fontSize: 16,
-                                color: Colors.blue,
-                                fontWeight: FontWeight.w500),
+                            style: TextStyle(fontSize: 16, color: Colors.blue, fontWeight: FontWeight.w500),
                           ),
                         ),
                       ),
