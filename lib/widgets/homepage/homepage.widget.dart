@@ -105,7 +105,6 @@ class HomepageWidget extends ConsumerWidget {
                     style: ElevatedButton.styleFrom(
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8),
-                        // side: const BorderSide(color: Colors.grey),
                       ),
                       backgroundColor: Colors.white,
                     ),
