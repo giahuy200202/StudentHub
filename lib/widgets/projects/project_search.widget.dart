@@ -346,11 +346,11 @@ class _ProjectSearchWidgetState extends ConsumerState<ProjectSearchWidget> {
                                                 height: 15,
                                               ),
                                               Container(
-                                                decoration: const BoxDecoration(
-                                                  color: Color.fromARGB(
-                                                      255, 233, 235, 240),
+                                                decoration: BoxDecoration(
+                                                  border: Border.all(
+                                                      color: Colors.grey),
                                                   borderRadius:
-                                                      BorderRadius.all(
+                                                      const BorderRadius.all(
                                                           Radius.circular(12)),
                                                 ),
                                                 child: Padding(
@@ -483,11 +483,11 @@ class _ProjectSearchWidgetState extends ConsumerState<ProjectSearchWidget> {
                                               ),
                                               const SizedBox(height: 15),
                                               Container(
-                                                decoration: const BoxDecoration(
-                                                  color: Color.fromARGB(
-                                                      255, 233, 235, 240),
+                                                decoration: BoxDecoration(
+                                                  border: Border.all(
+                                                      color: Colors.grey),
                                                   borderRadius:
-                                                      BorderRadius.all(
+                                                      const BorderRadius.all(
                                                           Radius.circular(12)),
                                                 ),
                                                 child: Padding(
@@ -1131,10 +1131,11 @@ class _ProjectSearchWidgetState extends ConsumerState<ProjectSearchWidget> {
                                 .setWidgetOption('ProjectDetails', user.role!);
                           },
                           child: Container(
-                            decoration: const BoxDecoration(
-                              color: Color.fromARGB(255, 233, 235, 240),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              border: Border.all(color: Colors.grey),
                               borderRadius:
-                                  BorderRadius.all(Radius.circular(12)),
+                                  const BorderRadius.all(Radius.circular(12)),
                             ),
                             child: Padding(
                               padding: const EdgeInsets.symmetric(
@@ -1267,10 +1268,11 @@ class _ProjectSearchWidgetState extends ConsumerState<ProjectSearchWidget> {
                                 .setWidgetOption('ProjectDetails', user.role!);
                           },
                           child: Container(
-                            decoration: const BoxDecoration(
-                              color: Color.fromARGB(255, 233, 235, 240),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              border: Border.all(color: Colors.grey),
                               borderRadius:
-                                  BorderRadius.all(Radius.circular(12)),
+                                  const BorderRadius.all(Radius.circular(12)),
                             ),
                             child: Padding(
                               padding: const EdgeInsets.symmetric(

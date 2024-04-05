@@ -130,7 +130,7 @@ class _SubmitProposalWidgetState extends ConsumerState<SubmitProposalWidget> {
                                   padding: EdgeInsets.zero, // and this
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(8),
-                                    side: const BorderSide(color: Colors.black),
+                                    side: const BorderSide(color: Colors.grey),
                                   ),
                                   backgroundColor: Colors.white,
                                 ),

@@ -171,7 +171,7 @@ class ViewProfileWidget extends ConsumerWidget {
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(9),
-                        borderSide: const BorderSide(color: Colors.black),
+                        borderSide: const BorderSide(color: Colors.grey),
                       ),
                       contentPadding: const EdgeInsets.symmetric(
                         vertical: 0,
@@ -208,7 +208,7 @@ class ViewProfileWidget extends ConsumerWidget {
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(9),
-                        borderSide: const BorderSide(color: Colors.black),
+                        borderSide: const BorderSide(color: Colors.grey),
                       ),
                       contentPadding: const EdgeInsets.symmetric(
                         vertical: 0,
@@ -245,7 +245,7 @@ class ViewProfileWidget extends ConsumerWidget {
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(9),
-                        borderSide: const BorderSide(color: Colors.black),
+                        borderSide: const BorderSide(color: Colors.grey),
                       ),
                       contentPadding: const EdgeInsets.symmetric(
                         vertical: 10,
@@ -278,9 +278,7 @@ class ViewProfileWidget extends ConsumerWidget {
                         value: 1,
                         groupValue: 1,
                         onChanged: (value) {
-                          ref
-                              .read(selectedEmployeeProvider.notifier)
-                              .selectEmployee(value!);
+                          ref.read(selectedEmployeeProvider.notifier).selectEmployee(value!);
                         },
                       ),
                     ),
@@ -300,10 +298,9 @@ class ViewProfileWidget extends ConsumerWidget {
                           style: ElevatedButton.styleFrom(
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(8),
-                              side: const BorderSide(color: Colors.black),
+                              side: const BorderSide(color: Colors.grey),
                             ),
-                            backgroundColor:
-                                const Color.fromARGB(255, 255, 255, 255),
+                            backgroundColor: const Color.fromARGB(255, 255, 255, 255),
                           ),
                           child: const Text(
                             'Cancel',
@@ -321,8 +318,7 @@ class ViewProfileWidget extends ConsumerWidget {
                       width: 110,
                       child: ElevatedButton(
                         onPressed: () async {
-                          final url = Uri.parse(
-                              'http://${dotenv.env['IP_ADDRESS']}/api/profile/company/${company.id}');
+                          final url = Uri.parse('http://${dotenv.env['IP_ADDRESS']}/api/profile/company/${company.id}');
 
                           final response = await http.put(url,
                               headers: {
@@ -339,18 +335,11 @@ class ViewProfileWidget extends ConsumerWidget {
                                 },
                               ));
 
-                          if (json
-                              .decode(response.body)
-                              .containsKey('errorDetails')) {
-                            if (json.decode(response.body)['errorDetails']
-                                is String) {
-                              showErrorToast('Error',
-                                  json.decode(response.body)['errorDetails']);
+                          if (json.decode(response.body).containsKey('errorDetails')) {
+                            if (json.decode(response.body)['errorDetails'] is String) {
+                              showErrorToast('Error', json.decode(response.body)['errorDetails']);
                             } else {
-                              showErrorToast(
-                                  'Error',
-                                  json.decode(response.body)['errorDetails']
-                                      [0]);
+                              showErrorToast('Error', json.decode(response.body)['errorDetails'][0]);
                             }
                           } else {
                             showSuccessToast('Success', 'Edit successfully');
@@ -367,13 +356,17 @@ class ViewProfileWidget extends ConsumerWidget {
                                 textCompany.text,
                                 textWebsite.text,
                                 textDescription.text,
+                                company.email!,
                                 selectedEmployee);
                           }
+                          Timer(const Duration(seconds: 3), () {
+                            ref.read(optionsProvider.notifier).setWidgetOption('Dashboard', user.role!);
+                          });
                         },
                         style: ElevatedButton.styleFrom(
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(8),
-                            side: const BorderSide(color: Colors.black),
+                            side: const BorderSide(color: Colors.grey),
                           ),
                           backgroundColor: const Color.fromARGB(255, 0, 0, 0),
                         ),

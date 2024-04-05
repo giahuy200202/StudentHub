@@ -21,9 +21,10 @@ class _HiredWidgetState extends ConsumerState<HiredWidget> {
         child: Column(
           children: [
             Container(
-              decoration: const BoxDecoration(
-                color: Color.fromARGB(255, 233, 235, 240),
-                borderRadius: BorderRadius.all(Radius.circular(12)),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                border: Border.all(color: Colors.grey),
+                borderRadius: const BorderRadius.all(Radius.circular(12)),
               ),
               child: Padding(
                 padding: const EdgeInsets.symmetric(
@@ -138,7 +139,7 @@ class _HiredWidgetState extends ConsumerState<HiredWidget> {
                           padding: EdgeInsets.zero, // and this
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(8),
-                            // side: const BorderSide(color: Colors.black),
+                            // side: const BorderSide(color: Colors.grey),
                           ),
                           backgroundColor: Colors.black,
                         ),
@@ -158,9 +159,10 @@ class _HiredWidgetState extends ConsumerState<HiredWidget> {
             ),
             const SizedBox(height: 25),
             Container(
-              decoration: const BoxDecoration(
-                color: Color.fromARGB(255, 233, 235, 240),
-                borderRadius: BorderRadius.all(Radius.circular(12)),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                border: Border.all(color: Colors.grey),
+                borderRadius: const BorderRadius.all(Radius.circular(12)),
               ),
               child: Padding(
                 padding: const EdgeInsets.symmetric(
@@ -275,7 +277,7 @@ class _HiredWidgetState extends ConsumerState<HiredWidget> {
                           padding: EdgeInsets.zero, // and this
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(8),
-                            // side: const BorderSide(color: Colors.black),
+                            // side: const BorderSide(color: Colors.grey),
                           ),
                           backgroundColor: Colors.black,
                         ),
@@ -295,9 +297,10 @@ class _HiredWidgetState extends ConsumerState<HiredWidget> {
             ),
             const SizedBox(height: 25),
             Container(
-              decoration: const BoxDecoration(
-                color: Color.fromARGB(255, 233, 235, 240),
-                borderRadius: BorderRadius.all(Radius.circular(12)),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                border: Border.all(color: Colors.grey),
+                borderRadius: const BorderRadius.all(Radius.circular(12)),
               ),
               child: Padding(
                 padding: const EdgeInsets.symmetric(
@@ -412,7 +415,7 @@ class _HiredWidgetState extends ConsumerState<HiredWidget> {
                           padding: EdgeInsets.zero, // and this
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(8),
-                            // side: const BorderSide(color: Colors.black),
+                            // side: const BorderSide(color: Colors.grey),
                           ),
                           backgroundColor: Colors.black,
                         ),

@@ -129,7 +129,7 @@ class _ShowscheduleWidget extends ConsumerState<ShowscheduleWidget> {
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(9),
-                      borderSide: const BorderSide(color: Colors.black),
+                      borderSide: const BorderSide(color: Colors.grey),
                     ),
                     contentPadding: const EdgeInsets.symmetric(
                       vertical: 0,
@@ -332,7 +332,7 @@ class _ShowscheduleWidget extends ConsumerState<ShowscheduleWidget> {
                         padding: EdgeInsets.zero, // and this
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8),
-                          side: const BorderSide(color: Colors.black),
+                          side: const BorderSide(color: Colors.grey),
                         ),
                         backgroundColor: Colors.white,
                       ),
@@ -388,9 +388,10 @@ class _ShowscheduleWidget extends ConsumerState<ShowscheduleWidget> {
       height: 300,
       child: SingleChildScrollView(
         child: Container(
-          decoration: const BoxDecoration(
-            color: Color.fromARGB(255, 233, 235, 240),
-            borderRadius: BorderRadius.all(Radius.circular(12)),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            border: Border.all(color: Colors.grey),
+            borderRadius: const BorderRadius.all(Radius.circular(12)),
           ),
           child: Padding(
             padding: const EdgeInsets.symmetric(
@@ -475,7 +476,7 @@ class _ShowscheduleWidget extends ConsumerState<ShowscheduleWidget> {
                                 style: ElevatedButton.styleFrom(
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(8),
-                                    side: const BorderSide(color: Colors.black),
+                                    side: const BorderSide(color: Colors.grey),
                                   ),
                                   backgroundColor:
                                       const Color.fromARGB(255, 0, 0, 0),
