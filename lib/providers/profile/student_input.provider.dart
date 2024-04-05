@@ -1,12 +1,14 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class StudentInput {
+  String? fullname;
   int? techStackId;
   List<int>? skillSets;
   List<dynamic>? languages;
   List<dynamic>? educations;
 
   StudentInput({
+    this.fullname,
     this.techStackId,
     this.skillSets,
     this.languages,
@@ -15,25 +17,45 @@ class StudentInput {
 }
 
 class StudentInputNotifier extends StateNotifier<StudentInput> {
-  StudentInputNotifier() : super(StudentInput(techStackId: 0, skillSets: [], languages: [], educations: []));
+  StudentInputNotifier() : super(StudentInput(fullname: '', techStackId: 0, skillSets: [], languages: [], educations: []));
 
   void setStudentInputData(
+    String fullname,
     int techStackId,
     List<int> skillSets,
     List<dynamic> languages,
     List<dynamic> educations,
+    responseStudent,
   ) {
     StudentInput temp = StudentInput(
+      fullname: state.fullname,
       techStackId: state.techStackId,
       skillSets: state.skillSets,
       languages: [...state.languages!],
       educations: [...state.educations!],
     );
 
+    temp.fullname = fullname;
     temp.techStackId = techStackId;
-    temp.skillSets = skillSets;
+    temp.skillSets = [...skillSets];
     temp.languages = [...languages];
     temp.educations = [...educations];
+
+    state = temp;
+  }
+
+  void setStudentInputFullname(
+    String fullname,
+  ) {
+    StudentInput temp = StudentInput(
+      fullname: state.fullname,
+      techStackId: state.techStackId,
+      skillSets: state.skillSets,
+      languages: [...state.languages!],
+      educations: [...state.educations!],
+    );
+
+    temp.fullname = fullname;
 
     state = temp;
   }
@@ -42,6 +64,7 @@ class StudentInputNotifier extends StateNotifier<StudentInput> {
     int id,
   ) {
     StudentInput temp = StudentInput(
+      fullname: state.fullname,
       techStackId: state.techStackId,
       skillSets: state.skillSets,
       languages: [...state.languages!],
@@ -57,6 +80,7 @@ class StudentInputNotifier extends StateNotifier<StudentInput> {
     List<int> skillSets,
   ) {
     StudentInput temp = StudentInput(
+      fullname: state.fullname,
       techStackId: state.techStackId,
       skillSets: state.skillSets,
       languages: [...state.languages!],
@@ -72,6 +96,7 @@ class StudentInputNotifier extends StateNotifier<StudentInput> {
     List<dynamic> languages,
   ) {
     StudentInput temp = StudentInput(
+      fullname: state.fullname,
       techStackId: state.techStackId,
       skillSets: state.skillSets,
       languages: [...state.languages!],
@@ -87,6 +112,7 @@ class StudentInputNotifier extends StateNotifier<StudentInput> {
     dynamic language,
   ) {
     StudentInput temp = StudentInput(
+      fullname: state.fullname,
       techStackId: state.techStackId,
       skillSets: state.skillSets,
       languages: [...state.languages!],
@@ -100,6 +126,7 @@ class StudentInputNotifier extends StateNotifier<StudentInput> {
 
   void updateStudentInputLanguague(String languageName, String level, int index) {
     StudentInput temp = StudentInput(
+      fullname: state.fullname,
       techStackId: state.techStackId,
       skillSets: state.skillSets,
       languages: [...state.languages!],
@@ -114,6 +141,7 @@ class StudentInputNotifier extends StateNotifier<StudentInput> {
 
   void deleteStudentInputLanguague(int index) {
     StudentInput temp = StudentInput(
+      fullname: state.fullname,
       techStackId: state.techStackId,
       skillSets: state.skillSets,
       languages: [...state.languages!],
@@ -130,6 +158,7 @@ class StudentInputNotifier extends StateNotifier<StudentInput> {
     List<dynamic> educations,
   ) {
     StudentInput temp = StudentInput(
+      fullname: state.fullname,
       techStackId: state.techStackId,
       skillSets: state.skillSets,
       languages: [...state.languages!],
@@ -145,6 +174,7 @@ class StudentInputNotifier extends StateNotifier<StudentInput> {
     dynamic educations,
   ) {
     StudentInput temp = StudentInput(
+      fullname: state.fullname,
       techStackId: state.techStackId,
       skillSets: state.skillSets,
       languages: [...state.languages!],
@@ -158,6 +188,7 @@ class StudentInputNotifier extends StateNotifier<StudentInput> {
 
   void updateStudentInputEducation(String schoolName, String startYear, String endYear, int index) {
     StudentInput temp = StudentInput(
+      fullname: state.fullname,
       techStackId: state.techStackId,
       skillSets: state.skillSets,
       languages: [...state.languages!],
@@ -173,6 +204,7 @@ class StudentInputNotifier extends StateNotifier<StudentInput> {
 
   void deleteStudentInputEducation(int index) {
     StudentInput temp = StudentInput(
+      fullname: state.fullname,
       techStackId: state.techStackId,
       skillSets: state.skillSets,
       languages: [...state.languages!],

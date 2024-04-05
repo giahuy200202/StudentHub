@@ -65,6 +65,8 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentWidget> {
 
   String dropdownValue = 'Fullstack Engineer';
 
+  final fullnameController = TextEditingController();
+
   final createLanguagesController = TextEditingController();
   final createLanguageLevelController = TextEditingController();
 
@@ -81,6 +83,7 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentWidget> {
 
   bool isFetchLanguage = false;
   bool isFetchEducation = false;
+  bool isFetchStudent = false;
 
   bool enableCreate = false;
   bool enableEducation = false;
@@ -154,7 +157,7 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentWidget> {
 
   void getEducation(String token) async {
     setState(() {
-      isFetchLanguage = true;
+      isFetchEducation = true;
     });
     final url = Uri.parse('http://${dotenv.env['IP_ADDRESS']}/api/education/getByStudentId/1');
     final response = await http.get(
@@ -165,9 +168,9 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentWidget> {
       },
     );
 
-    final responseLanguages = [...json.decode(response.body)['result']];
+    final responseEducations = [...json.decode(response.body)['result']];
 
-    for (final item in responseLanguages) {
+    for (final item in responseEducations) {
       fetchLanguages.add(
         LanguageFetch(item['id'], item['languageName'], item['level']),
       );
@@ -176,9 +179,37 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentWidget> {
     ref.read(studentInputProvider.notifier).setStudentInputLanguague(fetchLanguages);
 
     setState(() {
-      isFetchLanguage = false;
+      isFetchEducation = false;
     });
   }
+
+  // void getStudent(String token, String studentId) async {
+  //   setState(() {
+  //     isFetchStudent = true;
+  //   });
+  //   final url = Uri.parse('http://${dotenv.env['IP_ADDRESS']}/api/profile/student/$studentId');
+  //   final response = await http.get(
+  //     url,
+  //     headers: {
+  //       'Content-Type': 'application/json',
+  //       'Authorization': 'Bearer $token',
+  //     },
+  //   );
+
+  //   final responseStudent = [...json.decode(response.body)['result']];
+
+  //   ref.read(studentInputProvider.notifier).setStudentInputData(
+  //         responseStudent['techStack']['id'],
+  //         responseStudent['skillSets'],
+  //         responseStudent['educations'],
+  //         responseStudent['languages'],
+  //         responseStudent['experiences'],
+  //       );
+
+  //   setState(() {
+  //     isFetchLanguage = false;
+  //   });
+  // }
 
   @override
   void initState() {
@@ -241,6 +272,52 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentWidget> {
                     const Text(
                       'Tell us about your self and you will be your way connect with real-world project',
                       style: TextStyle(fontSize: 16),
+                    ),
+                    const SizedBox(height: 20),
+                    const Align(
+                      alignment: Alignment.topLeft,
+                      child: Text(
+                        "Fullname",
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    SizedBox(
+                      child: TextField(
+                        controller: fullnameController,
+                        onChanged: (data) {
+                          ref.read(studentInputProvider.notifier).setStudentInputFullname(
+                                fullnameController.text,
+                              );
+                          if (createLanguagesController.text.isEmpty || createLanguageLevelController.text.isEmpty) {
+                            enableCreate = false;
+                          } else {
+                            enableCreate = true;
+                          }
+                          setState(() {});
+                        },
+                        style: const TextStyle(
+                          fontSize: 16,
+                        ),
+                        decoration: InputDecoration(
+                          // labelText: 'Number of students',
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(9),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(9),
+                            borderSide: const BorderSide(color: Colors.black),
+                          ),
+                          contentPadding: const EdgeInsets.symmetric(
+                            vertical: 14,
+                            horizontal: 15,
+                          ),
+                          hintText: 'Enter your fullname',
+                        ),
+                      ),
                     ),
                     const SizedBox(height: 20),
                     const Text(
@@ -1395,17 +1472,46 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentWidget> {
                               height: 46,
                               width: 130,
                               child: ElevatedButton(
-                                onPressed: () {
+                                onPressed: () async {
                                   print('----student input step 1----');
                                   print(studentInput.techStackId);
-                                  print(studentInput.skillSets);
+                                  print(studentInput.skillSets.runtimeType);
                                   print(studentInput.languages);
                                   print(studentInput.educations);
                                   print('----student input step 1----');
-                                  ref.read(optionsProvider.notifier).setWidgetOption(
-                                        'ProfileInputStudentStep2',
-                                        user.role!,
-                                      );
+
+                                  // final url = Uri.parse('http://${dotenv.env['IP_ADDRESS']}/api/profile/student');
+                                  // final responseCreateStudent = await http.post(url,
+                                  //     headers: {
+                                  //       'Content-Type': 'application/json',
+                                  //       'Authorization': 'Bearer ${user.token}',
+                                  //     },
+                                  //     body: json.encode(
+                                  //       {
+                                  //         "fullname": studentInput.fullname,
+                                  //         "techStackId": studentInput.techStackId,
+                                  //         "skillSets": studentInput.skillSets,
+                                  //       },
+                                  //     ));
+
+                                  // var responseCreateStudentData = json.decode(responseCreateStudent.body);
+                                  // print(responseCreateStudentData);
+
+                                  // final urlAuthMe = Uri.parse('http://${dotenv.env['IP_ADDRESS']}/api/auth/me');
+                                  // final responseAuthMe = await http.get(
+                                  //   urlAuthMe,
+                                  //   headers: {
+                                  //     'Content-Type': 'application/json',
+                                  //     'Authorization': 'Bearer ${user.token}',
+                                  //   },
+                                  // );
+                                  // final responeAuthMeData = json.decode(responseAuthMe.body);
+                                  // print(responeAuthMeData);
+
+                                  // ref.read(optionsProvider.notifier).setWidgetOption(
+                                  //       'ProfileInputStudentStep2',
+                                  //       user.role!,
+                                  //     );
                                 },
                                 style: ElevatedButton.styleFrom(
                                   shape: RoundedRectangleBorder(
