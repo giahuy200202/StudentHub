@@ -43,10 +43,7 @@ class _WelcomeWidget extends ConsumerState<WelcomeWidget> {
                     width: 400,
                     child: Text(
                       'Welcome, ',
-                      style: TextStyle(
-                          fontSize: 35,
-                          color: Colors.white,
-                          fontWeight: FontWeight.w800),
+                      style: TextStyle(fontSize: 35, color: Colors.white, fontWeight: FontWeight.w800),
                     ),
                   ),
                 ),
@@ -57,10 +54,11 @@ class _WelcomeWidget extends ConsumerState<WelcomeWidget> {
                     child: Text(
                       'Pham Vo Cuong',
                       style: TextStyle(
-                          fontSize: 48,
-                          overflow: TextOverflow.ellipsis,
-                          color: Colors.white,
-                          fontWeight: FontWeight.w800),
+                        fontSize: 48,
+                        overflow: TextOverflow.ellipsis,
+                        color: Colors.white,
+                        fontWeight: FontWeight.w800,
+                      ),
                     ),
                   ),
                 ),
@@ -81,9 +79,7 @@ class _WelcomeWidget extends ConsumerState<WelcomeWidget> {
                   width: MediaQuery.of(context).size.width,
                   child: ElevatedButton(
                     onPressed: () {
-                      ref.read(optionsProvider.notifier).setWidgetOption(
-                          user.role == '0' ? 'Projects' : 'Dashboard',
-                          user.role!);
+                      ref.read(optionsProvider.notifier).setWidgetOption(user.role == '0' ? 'Projects' : 'Dashboard', user.role!);
                     },
                     style: ElevatedButton.styleFrom(
                       shape: RoundedRectangleBorder(

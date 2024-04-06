@@ -13,6 +13,7 @@ import 'package:studenthub/providers/profile/company.provider.dart';
 import 'dart:convert';
 
 import 'package:studenthub/providers/profile/student.provider.dart';
+import 'package:toastification/toastification.dart';
 
 class LoginWidget extends ConsumerStatefulWidget {
   const LoginWidget({super.key});
@@ -40,54 +41,37 @@ class _LoginWidgetState extends ConsumerState<LoginWidget> {
   }
 
   void showErrorToast(title, description) {
-    MotionToast(
-      icon: Icons.clear,
-      primaryColor: Colors.red,
+    toastification.show(
+      context: context,
+      type: ToastificationType.error,
+      style: ToastificationStyle.minimal,
       title: Text(
         title,
-        style: const TextStyle(
-          fontSize: 16,
-          color: Colors.black,
-          fontWeight: FontWeight.w700,
-        ),
+        style: const TextStyle(fontWeight: FontWeight.w600),
       ),
       description: Text(
         description,
-        style: const TextStyle(
-          fontSize: 16,
-          // overflow: TextOverflow.ellipsis,
-          color: Colors.black,
-          fontWeight: FontWeight.w400,
-        ),
+        style: const TextStyle(fontWeight: FontWeight.w400),
       ),
-      width: 500,
-      height: 80,
-    ).show(context);
+      autoCloseDuration: const Duration(seconds: 3),
+    );
   }
 
   void showSuccessToast(title, description) {
-    MotionToast(
-      icon: Icons.check,
-      primaryColor: Colors.green,
+    toastification.show(
+      context: context,
+      type: ToastificationType.success,
+      style: ToastificationStyle.minimal,
       title: Text(
         title,
-        style: const TextStyle(
-          fontSize: 16,
-          color: Colors.black,
-          fontWeight: FontWeight.w700,
-        ),
+        style: const TextStyle(fontWeight: FontWeight.w600),
       ),
       description: Text(
         description,
-        style: const TextStyle(
-          fontSize: 16,
-          color: Colors.black,
-          fontWeight: FontWeight.w400,
-        ),
+        style: const TextStyle(fontWeight: FontWeight.w400),
       ),
-      width: 500,
-      height: 80,
-    ).show(context);
+      autoCloseDuration: const Duration(seconds: 3),
+    );
   }
 
   @override
@@ -285,14 +269,14 @@ class _LoginWidgetState extends ConsumerState<LoginWidget> {
                                   ));
 
                               if (json.decode(responseLogin.body).containsKey('errorDetails')) {
-                                if (json.decode(responseLogin.body)['errorDetails'] == String) {
+                                if (json.decode(responseLogin.body)['errorDetails'].runtimeType == String) {
                                   showErrorToast('Error', json.decode(responseLogin.body)['errorDetails']);
                                 } else {
                                   showErrorToast('Error', json.decode(responseLogin.body)['errorDetails'][0]);
                                 }
                               } else {
                                 if (json.decode(responseLogin.body)['result'].runtimeType == String) {
-                                  showErrorToast('Warning', 'Please verify your email');
+                                  showErrorToast('Warning', json.decode(responseLogin.body)['result']);
                                 } else {
                                   final urlAuthMe = Uri.parse('http://${dotenv.env['IP_ADDRESS']}/api/auth/me');
                                   final responseAuthMe = await http.get(
@@ -313,11 +297,8 @@ class _LoginWidgetState extends ConsumerState<LoginWidget> {
 
                                   showSuccessToast('Success', 'Login successfully');
 
-                                  print(responeAuthMeData);
-
                                   //Set student data
                                   if (responeAuthMeData["result"]["student"] != null) {
-                                    print('--------------------aaaaaaaaaaaa----------------------');
                                     ref.read(studentProvider.notifier).setStudentData(
                                       responeAuthMeData["result"]["student"]["id"],
                                       '',
@@ -340,10 +321,6 @@ class _LoginWidgetState extends ConsumerState<LoginWidget> {
                                     );
 
                                     final responseStudentData = json.decode(responseStudent.body);
-
-                                    print('----------------');
-                                    print(responseStudent.body);
-                                    print('----------------');
 
                                     if (responseStudentData['result'] != null) {
                                       List<int> getSkillsets = [];
@@ -460,7 +437,7 @@ class _LoginWidgetState extends ConsumerState<LoginWidget> {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 30),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -470,12 +447,12 @@ class _LoginWidgetState extends ConsumerState<LoginWidget> {
                         decoration: const BoxDecoration(
                           borderRadius: BorderRadius.all(Radius.circular(10)),
                           image: DecorationImage(
-                            image: AssetImage("assets/images/google.jpg"),
+                            image: AssetImage("assets/images/google.png"),
                             fit: BoxFit.cover,
                           ),
                         ),
                       ),
-                      const SizedBox(width: 25),
+                      const SizedBox(width: 30),
                       Transform.translate(
                         offset: const Offset(0, -4),
                         child: const Icon(
@@ -483,14 +460,21 @@ class _LoginWidgetState extends ConsumerState<LoginWidget> {
                           size: 65,
                         ),
                       ),
-                      const SizedBox(width: 25),
-                      const Icon(
-                        Icons.facebook_rounded,
-                        size: 55,
+                      const SizedBox(width: 30),
+                      Container(
+                        width: 50,
+                        height: 50,
+                        decoration: const BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                          image: DecorationImage(
+                            image: AssetImage("assets/images/facebook.png"),
+                            fit: BoxFit.cover,
+                          ),
+                        ),
                       ),
                     ],
                   ),
-                  const SizedBox(height: 120),
+                  const SizedBox(height: 110),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center, //Center Column contents vertically,
                     children: [
