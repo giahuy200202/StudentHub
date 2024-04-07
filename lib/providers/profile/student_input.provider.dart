@@ -6,18 +6,21 @@ class StudentInput {
   List<int>? skillSets;
   List<dynamic>? languages;
   List<dynamic>? educations;
+  List<dynamic>? experiences;
 
-  StudentInput({
-    this.fullname,
-    this.techStackId,
-    this.skillSets,
-    this.languages,
-    this.educations,
-  });
+  StudentInput({this.fullname, this.techStackId, this.skillSets, this.languages, this.educations, this.experiences});
 }
 
 class StudentInputNotifier extends StateNotifier<StudentInput> {
-  StudentInputNotifier() : super(StudentInput(fullname: '', techStackId: 0, skillSets: [], languages: [], educations: []));
+  StudentInputNotifier()
+      : super(StudentInput(
+          fullname: '',
+          techStackId: 0,
+          skillSets: [],
+          languages: [],
+          educations: [],
+          experiences: [],
+        ));
 
   void setStudentInputData(
     String fullname,
@@ -25,7 +28,7 @@ class StudentInputNotifier extends StateNotifier<StudentInput> {
     List<int> skillSets,
     List<dynamic> languages,
     List<dynamic> educations,
-    responseStudent,
+    List<dynamic> experiences,
   ) {
     StudentInput temp = StudentInput(
       fullname: state.fullname,
@@ -33,6 +36,7 @@ class StudentInputNotifier extends StateNotifier<StudentInput> {
       skillSets: state.skillSets,
       languages: [...state.languages!],
       educations: [...state.educations!],
+      experiences: [...state.experiences!],
     );
 
     temp.fullname = fullname;
@@ -40,6 +44,7 @@ class StudentInputNotifier extends StateNotifier<StudentInput> {
     temp.skillSets = [...skillSets];
     temp.languages = [...languages];
     temp.educations = [...educations];
+    temp.experiences = [...experiences];
 
     state = temp;
   }
@@ -69,6 +74,7 @@ class StudentInputNotifier extends StateNotifier<StudentInput> {
       skillSets: state.skillSets,
       languages: [...state.languages!],
       educations: [...state.educations!],
+      experiences: [...state.experiences!],
     );
 
     temp.techStackId = id;
@@ -85,6 +91,7 @@ class StudentInputNotifier extends StateNotifier<StudentInput> {
       skillSets: state.skillSets,
       languages: [...state.languages!],
       educations: [...state.educations!],
+      experiences: [...state.experiences!],
     );
 
     temp.skillSets = [...skillSets];
@@ -101,6 +108,7 @@ class StudentInputNotifier extends StateNotifier<StudentInput> {
       skillSets: state.skillSets,
       languages: [...state.languages!],
       educations: [...state.educations!],
+      experiences: [...state.experiences!],
     );
 
     temp.languages = [...languages];
@@ -117,6 +125,7 @@ class StudentInputNotifier extends StateNotifier<StudentInput> {
       skillSets: state.skillSets,
       languages: [...state.languages!],
       educations: [...state.educations!],
+      experiences: [...state.experiences!],
     );
 
     temp.languages = [...temp.languages!, language];
@@ -131,6 +140,7 @@ class StudentInputNotifier extends StateNotifier<StudentInput> {
       skillSets: state.skillSets,
       languages: [...state.languages!],
       educations: [...state.educations!],
+      experiences: [...state.experiences!],
     );
 
     temp.languages![index].languageName = languageName;
@@ -146,6 +156,7 @@ class StudentInputNotifier extends StateNotifier<StudentInput> {
       skillSets: state.skillSets,
       languages: [...state.languages!],
       educations: [...state.educations!],
+      experiences: [...state.experiences!],
     );
 
     temp.languages!.removeAt(index);
@@ -163,6 +174,7 @@ class StudentInputNotifier extends StateNotifier<StudentInput> {
       skillSets: state.skillSets,
       languages: [...state.languages!],
       educations: [...state.educations!],
+      experiences: [...state.experiences!],
     );
 
     temp.educations = [...educations];
@@ -179,6 +191,7 @@ class StudentInputNotifier extends StateNotifier<StudentInput> {
       skillSets: state.skillSets,
       languages: [...state.languages!],
       educations: [...state.educations!],
+      experiences: [...state.experiences!],
     );
 
     temp.educations = [...temp.educations!, educations];
@@ -193,6 +206,7 @@ class StudentInputNotifier extends StateNotifier<StudentInput> {
       skillSets: state.skillSets,
       languages: [...state.languages!],
       educations: [...state.educations!],
+      experiences: [...state.experiences!],
     );
 
     temp.educations![index].schoolName = schoolName;
@@ -209,9 +223,86 @@ class StudentInputNotifier extends StateNotifier<StudentInput> {
       skillSets: state.skillSets,
       languages: [...state.languages!],
       educations: [...state.educations!],
+      experiences: [...state.experiences!],
     );
 
     temp.educations!.removeAt(index);
+
+    state = temp;
+  }
+
+  //experiences
+  void setStudentInputExperiences(
+    List<dynamic> experiences,
+  ) {
+    StudentInput temp = StudentInput(
+      fullname: state.fullname,
+      techStackId: state.techStackId,
+      skillSets: state.skillSets,
+      languages: [...state.languages!],
+      educations: [...state.educations!],
+      experiences: [...state.experiences!],
+    );
+
+    temp.experiences = [...experiences];
+
+    state = temp;
+  }
+
+  void addStudentInputExperiences(
+    dynamic experiences,
+  ) {
+    StudentInput temp = StudentInput(
+      fullname: state.fullname,
+      techStackId: state.techStackId,
+      skillSets: state.skillSets,
+      languages: [...state.languages!],
+      educations: [...state.educations!],
+      experiences: [...state.experiences!],
+    );
+
+    temp.experiences = [...temp.experiences!, experiences];
+
+    state = temp;
+  }
+
+  void updateStudentInputExperiences(
+    String projectName,
+    String startYear,
+    String endYear,
+    String duration,
+    List<dynamic> skillset,
+    int index,
+  ) {
+    StudentInput temp = StudentInput(
+      fullname: state.fullname,
+      techStackId: state.techStackId,
+      skillSets: state.skillSets,
+      languages: [...state.languages!],
+      educations: [...state.educations!],
+      experiences: [...state.experiences!],
+    );
+
+    temp.educations![index].projectName = projectName;
+    temp.educations![index].startYear = startYear;
+    temp.educations![index].endYear = endYear;
+    temp.educations![index].duration = duration;
+    temp.educations![index].skillset = skillset;
+
+    state = temp;
+  }
+
+  void deleteStudentInputExperiences(int index) {
+    StudentInput temp = StudentInput(
+      fullname: state.fullname,
+      techStackId: state.techStackId,
+      skillSets: state.skillSets,
+      languages: [...state.languages!],
+      educations: [...state.educations!],
+      experiences: [...state.experiences!],
+    );
+
+    temp.experiences!.removeAt(index);
 
     state = temp;
   }
