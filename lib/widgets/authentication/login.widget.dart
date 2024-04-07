@@ -338,6 +338,7 @@ class _LoginWidgetState extends ConsumerState<LoginWidget> {
                                             responseStudentData["result"]["languages"],
                                           );
                                     }
+                                    print(responseStudentData);
                                   }
 
                                   // //Set company data
