@@ -2,13 +2,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class Student {
   int? id;
-  String? fullname;
   String? email;
+  String? fullname;
   int? techStackId;
   List<int>? skillSets;
+  List<dynamic>? languages;
   List<dynamic>? educations;
   List<dynamic>? experiences;
-  List<dynamic>? languages;
 
   Student({
     this.id,
@@ -23,7 +23,17 @@ class Student {
 }
 
 class StudentNotifier extends StateNotifier<Student> {
-  StudentNotifier() : super(Student(id: 0, fullname: '', email: '', techStackId: 0, skillSets: [], educations: [], experiences: [], languages: []));
+  StudentNotifier()
+      : super(Student(
+          id: 0,
+          fullname: '',
+          email: '',
+          techStackId: 0,
+          skillSets: [],
+          educations: [],
+          experiences: [],
+          languages: [],
+        ));
 
   void setStudentData(int id, String fullname, String email, int techStackId, List<int> skillSets, List<dynamic> educations, List<dynamic> experiences, List<dynamic> languages) {
     Student temp = Student(

@@ -10,6 +10,7 @@ import 'package:studenthub/providers/options.provider.dart';
 import 'package:studenthub/providers/profile/company.provider.dart';
 import 'package:studenthub/providers/profile/profiles.provider.dart';
 import 'package:http/http.dart' as http;
+import 'package:toastification/toastification.dart';
 
 class LabeledRadio<T> extends StatelessWidget {
   const LabeledRadio({
@@ -73,54 +74,37 @@ class _ProfileInputWidgetState extends ConsumerState<ProfileInputWidget> {
   }
 
   void showErrorToast(title, description) {
-    MotionToast(
-      icon: Icons.clear,
-      primaryColor: Colors.red,
+    toastification.show(
+      context: context,
+      type: ToastificationType.error,
+      style: ToastificationStyle.minimal,
       title: Text(
         title,
-        style: const TextStyle(
-          fontSize: 16,
-          color: Colors.black,
-          fontWeight: FontWeight.w700,
-        ),
+        style: const TextStyle(fontWeight: FontWeight.w600),
       ),
       description: Text(
         description,
-        style: const TextStyle(
-          fontSize: 16,
-          // overflow: TextOverflow.ellipsis,
-          color: Colors.black,
-          fontWeight: FontWeight.w400,
-        ),
+        style: const TextStyle(fontWeight: FontWeight.w400),
       ),
-      width: 500,
-      height: 80,
-    ).show(context);
+      autoCloseDuration: const Duration(seconds: 3),
+    );
   }
 
   void showSuccessToast(title, description) {
-    MotionToast(
-      icon: Icons.check,
-      primaryColor: Colors.green,
+    toastification.show(
+      context: context,
+      type: ToastificationType.success,
+      style: ToastificationStyle.minimal,
       title: Text(
         title,
-        style: const TextStyle(
-          fontSize: 16,
-          color: Colors.black,
-          fontWeight: FontWeight.w700,
-        ),
+        style: const TextStyle(fontWeight: FontWeight.w600),
       ),
       description: Text(
         description,
-        style: const TextStyle(
-          fontSize: 16,
-          color: Colors.black,
-          fontWeight: FontWeight.w400,
-        ),
+        style: const TextStyle(fontWeight: FontWeight.w400),
       ),
-      width: 500,
-      height: 80,
-    ).show(context);
+      autoCloseDuration: const Duration(seconds: 3),
+    );
   }
 
   @override
