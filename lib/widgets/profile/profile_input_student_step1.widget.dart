@@ -11,6 +11,8 @@ import 'package:studenthub/utils/multiselect_bottom_sheet.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
+import 'package:toastification/toastification.dart';
+
 TextEditingController controller = TextEditingController();
 
 class LanguageCreate {
@@ -18,6 +20,17 @@ class LanguageCreate {
   String level;
 
   LanguageCreate(this.languageName, this.level);
+
+  LanguageCreate.fromJson(Map<dynamic, dynamic> json)
+      : languageName = json['languageName'],
+        level = json['level'];
+
+  Map<dynamic, dynamic> toJson() {
+    return {
+      'languageName': languageName,
+      'level': level,
+    };
+  }
 }
 
 class LanguageFetch {
@@ -26,6 +39,19 @@ class LanguageFetch {
   String level;
 
   LanguageFetch(this.id, this.languageName, this.level);
+
+  LanguageFetch.fromJson(Map<dynamic, dynamic> json)
+      : id = json['id'],
+        languageName = json['languageName'],
+        level = json['level'];
+
+  Map<dynamic, dynamic> toJson() {
+    return {
+      'id': id,
+      'languageName': languageName,
+      'level': level,
+    };
+  }
 }
 
 class EducationCreate {
@@ -34,6 +60,19 @@ class EducationCreate {
   String endYear;
 
   EducationCreate(this.schoolName, this.startYear, this.endYear);
+
+  EducationCreate.fromJson(Map<dynamic, dynamic> json)
+      : schoolName = json['schoolName'],
+        startYear = json['startYear'],
+        endYear = json['endYear'];
+
+  Map<dynamic, dynamic> toJson() {
+    return {
+      'schoolName': schoolName,
+      'startYear': startYear,
+      'endYear': endYear,
+    };
+  }
 }
 
 class EducationFetch {
@@ -42,7 +81,22 @@ class EducationFetch {
   String startYear;
   String endYear;
 
-  EducationFetch(this.schoolName, this.startYear, this.endYear);
+  EducationFetch(this.id, this.schoolName, this.startYear, this.endYear);
+
+  EducationFetch.fromJson(Map<dynamic, dynamic> json)
+      : id = json['id'],
+        schoolName = json['schoolName'],
+        startYear = json['startYear'],
+        endYear = json['endYear'];
+
+  Map<dynamic, dynamic> toJson() {
+    return {
+      'id': id,
+      'schoolName': schoolName,
+      'startYear': startYear,
+      'endYear': endYear,
+    };
+  }
 }
 
 class ProfileIStudentWidget extends ConsumerStatefulWidget {
@@ -59,9 +113,6 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentWidget> {
   // late Future<List<MultiSelectBottomSheetModel>> selectSkillSetItem;
   List<MultiSelectBottomSheetModel> skillSetItems = [];
   //List<LanguageData> languages = [];
-
-  List<LanguageFetch> fetchLanguages = [];
-  List<EducationFetch> fetchEducation = [];
 
   String dropdownValue = 'Fullstack Engineer';
 
@@ -87,6 +138,40 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentWidget> {
 
   bool enableCreate = false;
   bool enableEducation = false;
+
+  void showErrorToast(title, description) {
+    toastification.show(
+      context: context,
+      type: ToastificationType.error,
+      style: ToastificationStyle.minimal,
+      title: Text(
+        title,
+        style: const TextStyle(fontWeight: FontWeight.w600),
+      ),
+      description: Text(
+        description,
+        style: const TextStyle(fontWeight: FontWeight.w400),
+      ),
+      autoCloseDuration: const Duration(seconds: 3),
+    );
+  }
+
+  void showSuccessToast(title, description) {
+    toastification.show(
+      context: context,
+      type: ToastificationType.success,
+      style: ToastificationStyle.minimal,
+      title: Text(
+        title,
+        style: const TextStyle(fontWeight: FontWeight.w600),
+      ),
+      description: Text(
+        description,
+        style: const TextStyle(fontWeight: FontWeight.w400),
+      ),
+      autoCloseDuration: const Duration(seconds: 3),
+    );
+  }
 
   Future<List<String>> getTechStack(String token) async {
     final url = Uri.parse('http://${dotenv.env['IP_ADDRESS']}/api/techstack/getAllTechStack');
@@ -150,6 +235,20 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentWidget> {
 
       //set fullname
       fullnameController.text = student.fullname;
+
+      //set languages
+      for (var item in student.languages) {
+        ref.read(studentInputProvider.notifier).addStudentInputLanguague(
+              LanguageFetch(item['id'], item['languageName'], item['level']),
+            );
+      }
+
+      //set educations
+      for (var item in student.educations) {
+        ref.read(studentInputProvider.notifier).addStudentInputEducation(
+              EducationFetch(item['id'], item['schoolName'], item['startYear'], item['endYear']),
+            );
+      }
     }
 
     setState(() {
@@ -170,6 +269,7 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentWidget> {
   @override
   Widget build(BuildContext context) {
     final user = ref.watch(userProvider);
+    final student = ref.watch(studentProvider);
     final studentInput = ref.watch(studentInputProvider);
 
     return Scaffold(
@@ -511,7 +611,10 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentWidget> {
                                                               onPressed: enableCreate
                                                                   ? () {
                                                                       ref.read(studentInputProvider.notifier).addStudentInputLanguague(
-                                                                            LanguageCreate(createLanguagesController.text, createLanguageLevelController.text),
+                                                                            LanguageCreate(
+                                                                              createLanguagesController.text,
+                                                                              createLanguageLevelController.text,
+                                                                            ),
                                                                           );
                                                                       Navigator.pop(context);
                                                                     }
@@ -960,7 +1063,7 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentWidget> {
                                                           vertical: 14,
                                                           horizontal: 15,
                                                         ),
-                                                        hintText: 'Endter your start school year',
+                                                        hintText: 'Enter your start school year',
                                                       ),
                                                     ),
                                                   ),
@@ -1003,7 +1106,7 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentWidget> {
                                                           vertical: 14,
                                                           horizontal: 15,
                                                         ),
-                                                        hintText: 'Endter your end school year',
+                                                        hintText: 'Enter your end school year',
                                                       ),
                                                     ),
                                                   ),
@@ -1255,7 +1358,7 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentWidget> {
                                                                                 vertical: 14,
                                                                                 horizontal: 15,
                                                                               ),
-                                                                              hintText: 'Endter your start school year',
+                                                                              hintText: 'En3ter your start school year',
                                                                             ),
                                                                           ),
                                                                         ),
@@ -1414,59 +1517,102 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentWidget> {
                               width: 130,
                               child: ElevatedButton(
                                 onPressed: () async {
-                                  //Edit fullname, techStackId, skillSets
+                                  if (student.id == 0) {
+                                    //Create fullname, techStackId, skillSets
+                                    final url = Uri.parse('http://${dotenv.env['IP_ADDRESS']}/api/profile/student');
+                                    final responseCreateStudent = await http.post(url,
+                                        headers: {
+                                          'Content-Type': 'application/json',
+                                          'Authorization': 'Bearer ${user.token}',
+                                        },
+                                        body: json.encode(
+                                          {
+                                            "fullname": studentInput.fullname,
+                                            "techStackId": studentInput.techStackId,
+                                            "skillSets": studentInput.skillSets,
+                                          },
+                                        ));
 
-                                  // final url = Uri.parse('http://${dotenv.env['IP_ADDRESS']}/api/profile/student');
-                                  // final responseCreateStudent = await http.post(url,
-                                  //     headers: {
-                                  //       'Content-Type': 'application/json',
-                                  //       'Authorization': 'Bearer ${user.token}',
-                                  //     },
-                                  //     body: json.encode(
-                                  //       {
-                                  //         "fullname": studentInput.fullname,
-                                  //         "techStackId": studentInput.techStackId,
-                                  //         "skillSets": studentInput.skillSets,
-                                  //       },
-                                  //     ));
+                                    var responseCreateStudentData = json.decode(responseCreateStudent.body);
 
-                                  // var responseCreateStudentData = json.decode(responseCreateStudent.body);
-                                  // print(responseCreateStudentData);
+                                    if (responseCreateStudentData.containsKey('errorDetails')) {
+                                      if (responseCreateStudentData['errorDetails'].runtimeType == String) {
+                                        showErrorToast('Error', responseCreateStudentData['errorDetails']);
+                                      } else {
+                                        showErrorToast('Error', responseCreateStudentData['errorDetails'][0]);
+                                      }
+                                    } else {
+                                      showSuccessToast('Success', 'Create profile successfully');
+                                    }
+                                  } else {
+                                    //Edit fullname, techStackId, skillSets
+                                    final url = Uri.parse('http://${dotenv.env['IP_ADDRESS']}/api/profile/student/${student.id}');
+                                    final responseEditStudent = await http.put(url,
+                                        headers: {
+                                          'Content-Type': 'application/json',
+                                          'Authorization': 'Bearer ${user.token}',
+                                        },
+                                        body: json.encode(
+                                          {
+                                            "fullname": studentInput.fullname,
+                                            "techStackId": studentInput.techStackId,
+                                            "skillSets": studentInput.skillSets,
+                                          },
+                                        ));
 
-                                  //Edit fullname, techStackId, skillSets
+                                    var responseEditStudentData = json.decode(responseEditStudent.body);
 
-                                  // final url = Uri.parse('http://${dotenv.env['IP_ADDRESS']}/api/profile/student');
-                                  // final responseCreateStudent = await http.post(url,
-                                  //     headers: {
-                                  //       'Content-Type': 'application/json',
-                                  //       'Authorization': 'Bearer ${user.token}',
-                                  //     },
-                                  //     body: json.encode(
-                                  //       {
-                                  //         "fullname": studentInput.fullname,
-                                  //         "techStackId": studentInput.techStackId,
-                                  //         "skillSets": studentInput.skillSets,
-                                  //       },
-                                  //     ));
+                                    if (responseEditStudentData.containsKey('errorDetails')) {
+                                      if (responseEditStudentData['errorDetails'].runtimeType == String) {
+                                        showErrorToast('Error', responseEditStudentData['errorDetails']);
+                                      } else {
+                                        showErrorToast('Error', responseEditStudentData['errorDetails'][0]);
+                                      }
+                                    } else {
+                                      showSuccessToast('Success', 'Edit profile successfully');
+                                    }
+                                  }
 
-                                  // var responseCreateStudentData = json.decode(responseCreateStudent.body);
-                                  // print(responseCreateStudentData);
+                                  //Edit languages
+                                  final url = Uri.parse('http://${dotenv.env['IP_ADDRESS']}/api/language/updateByStudentId/${student.id}');
+                                  final responseEditLanguages = await http.put(url,
+                                      headers: {
+                                        'Content-Type': 'application/json',
+                                        'Authorization': 'Bearer ${user.token}',
+                                      },
+                                      body: json.encode(
+                                        {
+                                          "languages": studentInput.languages,
+                                        },
+                                      ));
 
-                                  // final urlAuthMe = Uri.parse('http://${dotenv.env['IP_ADDRESS']}/api/auth/me');
-                                  // final responseAuthMe = await http.get(
-                                  //   urlAuthMe,
-                                  //   headers: {
-                                  //     'Content-Type': 'application/json',
-                                  //     'Authorization': 'Bearer ${user.token}',
-                                  //   },
-                                  // );
-                                  // final responeAuthMeData = json.decode(responseAuthMe.body);
-                                  // print(responeAuthMeData);
+                                  var responseEditLanguagesData = json.decode(responseEditLanguages.body);
+                                  print('----languages----');
+                                  print(studentInput.languages);
 
-                                  // ref.read(optionsProvider.notifier).setWidgetOption(
-                                  //       'ProfileInputStudentStep2',
-                                  //       user.role!,
-                                  //     );
+                                  //Edit education
+                                  final urlEducation = Uri.parse('http://${dotenv.env['IP_ADDRESS']}/api/education/updateByStudentId/${student.id}');
+                                  final responseEditEducations = await http.put(urlEducation,
+                                      headers: {
+                                        'Content-Type': 'application/json',
+                                        'Authorization': 'Bearer ${user.token}',
+                                      },
+                                      body: json.encode(
+                                        {
+                                          "education": studentInput.educations,
+                                        },
+                                      ));
+
+                                  var responseEditEducationsData = json.decode(responseEditEducations.body);
+                                  print('----education----');
+                                  print(responseEditEducationsData);
+
+                                  //Set current fullname, techStackId, skillSets to provider
+                                  ref.read(studentProvider.notifier).setStudentFullname(studentInput.fullname!);
+                                  ref.read(studentProvider.notifier).setStudentTechstackId(studentInput.techStackId!);
+                                  ref.read(studentProvider.notifier).setStudentSkillSet(studentInput.skillSets!);
+                                  ref.read(studentProvider.notifier).setStudentLanguague(studentInput.languages!);
+                                  ref.read(studentProvider.notifier).setStudentEducation(studentInput.educations!);
                                 },
                                 style: ElevatedButton.styleFrom(
                                   shape: RoundedRectangleBorder(

@@ -341,7 +341,7 @@ class _LoginWidgetState extends ConsumerState<LoginWidget> {
                                     print(responseStudentData);
                                   }
 
-                                  // //Set company data
+                                  // Set company data
                                   if (responeAuthMeData["result"]["company"] != null) {
                                     ref.read(companyProvider.notifier).setCompanyData(
                                           responeAuthMeData["result"]["company"]["id"],

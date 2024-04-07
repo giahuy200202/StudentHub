@@ -99,6 +99,7 @@ class StudentInputNotifier extends StateNotifier<StudentInput> {
     state = temp;
   }
 
+  //languages
   void setStudentInputLanguague(
     List<dynamic> languages,
   ) {
