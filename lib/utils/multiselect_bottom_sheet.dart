@@ -271,7 +271,9 @@ class _MultiSelectBottomSheetState extends ConsumerState<MultiSelectBottomSheet>
                                           isSelectedIdList.add(item.id);
                                         }
 
-                                        ref.read(studentInputProvider.notifier).setStudentInputSkillSet(isSelectedIdList);
+                                        ref.read(studentInputProvider.notifier).setStudentInputSkillSet(
+                                              isSelectedIdList,
+                                            );
 
                                         setState(() {
                                           widget.items.clear();

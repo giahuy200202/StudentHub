@@ -227,16 +227,21 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentWidget> {
     if (student.id != 0) {
       //set dropdown value
       dropdownValue = techStackName[student.techStackId - 1];
+      ref.read(studentInputProvider.notifier).setStudentInputTechstackId(student.techStackId);
 
       //set selected skillset
+      ref.read(studentInputProvider.notifier).setStudentInputSkillSet(student.skillSets);
+
       for (var item in student.skillSets) {
         skillSetItems[item - 1].isSelected = true;
       }
 
       //set fullname
       fullnameController.text = student.fullname;
+      ref.read(studentInputProvider.notifier).setStudentInputFullname(student.fullname);
 
       //set languages
+      ref.read(studentInputProvider.notifier).setStudentInputLanguague([]);
       for (var item in student.languages) {
         ref.read(studentInputProvider.notifier).addStudentInputLanguague(
               LanguageFetch(item['id'], item['languageName'], item['level']),
@@ -244,9 +249,15 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentWidget> {
       }
 
       //set educations
+      ref.read(studentInputProvider.notifier).setStudentInputEducation([]);
       for (var item in student.educations) {
         ref.read(studentInputProvider.notifier).addStudentInputEducation(
-              EducationFetch(item['id'], item['schoolName'], item['startYear'], item['endYear']),
+              EducationFetch(
+                item['id'],
+                item['schoolName'],
+                '${int.parse(item['startYear'].substring(0, 4)) + 1}',
+                '${int.parse(item['endYear'].substring(0, 4)) + 1}',
+              ),
             );
       }
     }
@@ -1509,7 +1520,7 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentWidget> {
                           ),
 
                     const SizedBox(height: 10),
-                    studentInput.techStackId != 0 && studentInput.skillSets!.isNotEmpty && studentInput.languages!.isNotEmpty && studentInput.educations!.isNotEmpty
+                    (studentInput.techStackId != 0 && studentInput.skillSets!.isNotEmpty && studentInput.languages!.isNotEmpty && studentInput.educations!.isNotEmpty) || (student.id != 0)
                         ? Container(
                             alignment: Alignment.centerRight,
                             child: SizedBox(
@@ -1527,7 +1538,7 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentWidget> {
                                         },
                                         body: json.encode(
                                           {
-                                            "fullname": studentInput.fullname,
+                                            "fullname": fullnameController.text,
                                             "techStackId": studentInput.techStackId,
                                             "skillSets": studentInput.skillSets,
                                           },
@@ -1554,7 +1565,7 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentWidget> {
                                         },
                                         body: json.encode(
                                           {
-                                            "fullname": studentInput.fullname,
+                                            "fullname": fullnameController.text,
                                             "techStackId": studentInput.techStackId,
                                             "skillSets": studentInput.skillSets,
                                           },
@@ -1587,8 +1598,6 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentWidget> {
                                       ));
 
                                   var responseEditLanguagesData = json.decode(responseEditLanguages.body);
-                                  print('----languages----');
-                                  print(studentInput.languages);
 
                                   //Edit education
                                   final urlEducation = Uri.parse('http://${dotenv.env['IP_ADDRESS']}/api/education/updateByStudentId/${student.id}');
@@ -1604,8 +1613,6 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentWidget> {
                                       ));
 
                                   var responseEditEducationsData = json.decode(responseEditEducations.body);
-                                  print('----education----');
-                                  print(responseEditEducationsData);
 
                                   //Set current fullname, techStackId, skillSets to provider
                                   ref.read(studentProvider.notifier).setStudentFullname(studentInput.fullname!);

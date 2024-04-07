@@ -58,8 +58,11 @@ class StudentInputNotifier extends StateNotifier<StudentInput> {
       skillSets: state.skillSets,
       languages: [...state.languages!],
       educations: [...state.educations!],
+      experiences: [...state.experiences!],
     );
 
+    print('---provider fullname---');
+    print(fullname);
     temp.fullname = fullname;
 
     state = temp;
