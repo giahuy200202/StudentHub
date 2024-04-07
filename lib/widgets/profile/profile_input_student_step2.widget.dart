@@ -1,31 +1,87 @@
+import 'dart:convert';
 import 'dart:ffi';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:studenthub/providers/authentication/authentication.provider.dart';
 import 'package:studenthub/providers/options.provider.dart';
+import 'package:studenthub/providers/profile/student.provider.dart';
+import 'package:studenthub/providers/profile/student_input.provider.dart';
 import 'package:studenthub/utils/multiselect_bottom_sheet_model.dart';
-import 'package:studenthub/utils/multiselect_bottom_sheet.dart';
+import 'package:studenthub/utils/multiselect_bottom_sheet_exp.dart';
+import 'package:http/http.dart' as http;
 
-const List<String> list = <String>[
-  'Fullstack Engineer',
-  'Frontend Engineer',
-  'Backend Engineer',
-  'Business Analyst',
-  'Product Manage'
-];
+class ExperienceCreate {
+  String title;
+  String description;
+  String startMonth;
+  String endMonth;
+  List<dynamic> skillSets;
 
-List<MultiSelectBottomSheetModel> selectCountryItem = [
-  MultiSelectBottomSheetModel(
-      id: 0, name: "IOS Development", isSelected: false),
-  MultiSelectBottomSheetModel(id: 1, name: "C", isSelected: false),
-  MultiSelectBottomSheetModel(id: 2, name: "Java", isSelected: false),
-  MultiSelectBottomSheetModel(id: 3, name: "Kubernetes", isSelected: false),
-  MultiSelectBottomSheetModel(id: 4, name: "PostgreSQL", isSelected: false),
-  MultiSelectBottomSheetModel(id: 5, name: "Android", isSelected: false),
-  MultiSelectBottomSheetModel(id: 7, name: "Node.js", isSelected: false),
-  MultiSelectBottomSheetModel(id: 8, name: "React Native", isSelected: false),
-];
+  ExperienceCreate(
+    this.title,
+    this.description,
+    this.startMonth,
+    this.endMonth,
+    this.skillSets,
+  );
+
+  ExperienceCreate.fromJson(Map<dynamic, dynamic> json)
+      : title = json['title'],
+        description = json['description'],
+        startMonth = json['startMonth'],
+        endMonth = json['endMonth'],
+        skillSets = json['skillSets'];
+
+  Map<dynamic, dynamic> toJson() {
+    return {
+      'title': title,
+      'description': description,
+      'startMonth': startMonth,
+      'endMonth': endMonth,
+      'skillSets': skillSets,
+    };
+  }
+}
+
+class ExperienceFetch {
+  int id;
+  String title;
+  String description;
+  String startMonth;
+  String endMonth;
+  List<dynamic> skillSets;
+
+  ExperienceFetch(
+    this.id,
+    this.title,
+    this.description,
+    this.startMonth,
+    this.endMonth,
+    this.skillSets,
+  );
+
+  ExperienceFetch.fromJson(Map<dynamic, dynamic> json)
+      : id = json['id'],
+        title = json['title'],
+        description = json['description'],
+        startMonth = json['startMonth'],
+        endMonth = json['endMonth'],
+        skillSets = json['skillSets'];
+
+  Map<dynamic, dynamic> toJson() {
+    return {
+      'id': id,
+      'title': title,
+      'description': description,
+      'startMonth': startMonth,
+      'endMonth': endMonth,
+      'skillSets': skillSets,
+    };
+  }
+}
+
 TextEditingController controller = TextEditingController();
 
 class ProfileIStudentStep2Widget extends ConsumerStatefulWidget {
@@ -38,189 +94,623 @@ class ProfileIStudentStep2Widget extends ConsumerStatefulWidget {
 }
 
 class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentStep2Widget> {
-  String dropdownValue = list.first;
+  List<MultiSelectBottomSheetModel> skillSetItems = [];
+  bool isGettingExp = false;
+
+  final titleController = TextEditingController();
+  final descriptionController = TextEditingController();
+  final startMonthController = TextEditingController();
+  final endMonthController = TextEditingController();
+
+  bool enableCreate = false;
+
+  Future<List<MultiSelectBottomSheetModel>> getSkillSet(String token) async {
+    final url = Uri.parse('http://${dotenv.env['IP_ADDRESS']}/api/skillset/getAllSkillSet');
+
+    final response = await http.get(
+      url,
+      headers: {'Content-Type': 'application/json', 'Authorization': 'Bearer $token'},
+    );
+
+    var skillSetData = [...json.decode(response.body)['result']];
+
+    List<MultiSelectBottomSheetModel> tempSkillSetItems = [];
+
+    for (var item in skillSetData) {
+      tempSkillSetItems.add(MultiSelectBottomSheetModel(
+        id: item['id'],
+        name: item['name'],
+        isSelected: false,
+      ));
+    }
+
+    return tempSkillSetItems;
+  }
+
+  void getStudent(String token, dynamic student) async {
+    setState(() {
+      isGettingExp = true;
+    });
+
+    skillSetItems = await getSkillSet(token);
+    print(skillSetItems[0]);
+
+    setState(() {
+      isGettingExp = false;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    final user = ref.read(userProvider);
+    final student = ref.read(studentProvider);
+
+    getStudent(user.token!, student);
+  }
 
   @override
   Widget build(BuildContext context) {
     final user = ref.watch(userProvider);
+    final studentInput = ref.watch(studentInputProvider);
 
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const SizedBox(height: 30),
-              const Center(
-                child: Text(
-                  'Experiences',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 22.0,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-              const SizedBox(height: 15),
-              const Text(
-                'Tell us about your self and you will be your way connect with real-world project',
-                style: TextStyle(fontSize: 16),
-              ),
-              const SizedBox(height: 20),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Text(
-                    'Projects',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w600,
+          child: isGettingExp
+              ? const Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    SizedBox(height: 350),
+                    Center(
+                      child: SizedBox(
+                        height: 25,
+                        width: 25,
+                        child: CircularProgressIndicator(
+                          valueColor: AlwaysStoppedAnimation<Color>(
+                            Colors.grey,
+                          ),
+                        ),
+                      ),
                     ),
-                  ),
-                  InkWell(
-                    onTap: () {},
-                    child: const Icon(
-                      Icons.add_circle,
-                      color: Colors.black,
-                      size: 25,
+                  ],
+                )
+              : Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const SizedBox(height: 30),
+                    const Align(
+                      alignment: Alignment.topLeft,
+                      child: Text(
+                        'Experiences',
+                        style: TextStyle(
+                          fontSize: 26,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                     ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 15),
-              Container(
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  border: Border.all(color: Colors.grey),
-                  borderRadius: const BorderRadius.all(Radius.circular(10)),
-                ),
-                child: Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          const Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                    const SizedBox(height: 15),
+                    const Text(
+                      'Tell us about your self and you will be your way connect with real-world project',
+                      style: TextStyle(fontSize: 16),
+                    ),
+                    const SizedBox(height: 20),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const Text(
+                          'Projects',
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                        InkWell(
+                          onTap: () {
+                            titleController.text = '';
+                            descriptionController.text = '';
+                            startMonthController.text = '';
+                            endMonthController.text = '';
+
+                            showModalBottomSheet(
+                              isScrollControlled: true,
+                              context: context,
+                              backgroundColor: Colors.white,
+                              builder: (ctx) {
+                                return StatefulBuilder(builder: (BuildContext context, StateSetter setState /*You can rename this!*/) {
+                                  // bool enable = false;
+                                  return Padding(
+                                    padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+                                    child: SingleChildScrollView(
+                                      // physics: const NeverScrollableScrollPhysics(),
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(left: 20, right: 20),
+                                        child: Column(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            const SizedBox(height: 40),
+                                            const Align(
+                                              alignment: Alignment.topLeft,
+                                              child: Text(
+                                                "Create project",
+                                                style: TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 25,
+                                                ),
+                                              ),
+                                            ),
+                                            const SizedBox(height: 15),
+                                            Container(
+                                              decoration: BoxDecoration(
+                                                border: Border.all(
+                                                  color: Colors.black, //                   <--- border color
+                                                  width: 0.3,
+                                                ),
+                                              ),
+                                            ),
+                                            const SizedBox(height: 15),
+                                            SizedBox(
+                                              height: 580,
+                                              child: Column(
+                                                children: [
+                                                  const Align(
+                                                    alignment: Alignment.topLeft,
+                                                    child: Text(
+                                                      "Title",
+                                                      style: TextStyle(
+                                                        fontWeight: FontWeight.bold,
+                                                        fontSize: 16,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  const SizedBox(height: 15),
+                                                  SizedBox(
+                                                    child: TextField(
+                                                      controller: titleController,
+                                                      onChanged: (data) {
+                                                        if (titleController.text.isEmpty || descriptionController.text.isEmpty || startMonthController.text.isEmpty || endMonthController.text.isEmpty) {
+                                                          enableCreate = false;
+                                                        } else {
+                                                          enableCreate = true;
+                                                        }
+                                                        setState(() {});
+                                                      },
+                                                      style: const TextStyle(
+                                                        fontSize: 16,
+                                                      ),
+                                                      decoration: InputDecoration(
+                                                        // labelText: 'Number of students',
+                                                        border: OutlineInputBorder(
+                                                          borderRadius: BorderRadius.circular(9),
+                                                        ),
+                                                        focusedBorder: OutlineInputBorder(
+                                                          borderRadius: BorderRadius.circular(9),
+                                                          borderSide: const BorderSide(color: Colors.black),
+                                                        ),
+                                                        contentPadding: const EdgeInsets.symmetric(
+                                                          vertical: 14,
+                                                          horizontal: 15,
+                                                        ),
+                                                        hintText: 'Enter your project\'s title',
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  const SizedBox(height: 20),
+                                                  const Align(
+                                                    alignment: Alignment.topLeft,
+                                                    child: Text(
+                                                      "Description",
+                                                      style: TextStyle(
+                                                        fontWeight: FontWeight.bold,
+                                                        fontSize: 16,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  const SizedBox(height: 15),
+                                                  SizedBox(
+                                                    child: TextField(
+                                                      controller: descriptionController,
+                                                      onChanged: (data) {
+                                                        if (titleController.text.isEmpty || descriptionController.text.isEmpty || startMonthController.text.isEmpty || endMonthController.text.isEmpty) {
+                                                          enableCreate = false;
+                                                        } else {
+                                                          enableCreate = true;
+                                                        }
+                                                        setState(() {});
+                                                      },
+                                                      style: const TextStyle(
+                                                        fontSize: 16,
+                                                      ),
+                                                      decoration: InputDecoration(
+                                                        // labelText: 'Number of students',
+                                                        border: OutlineInputBorder(
+                                                          borderRadius: BorderRadius.circular(9),
+                                                        ),
+                                                        focusedBorder: OutlineInputBorder(
+                                                          borderRadius: BorderRadius.circular(9),
+                                                          borderSide: const BorderSide(color: Colors.black),
+                                                        ),
+                                                        contentPadding: const EdgeInsets.symmetric(
+                                                          vertical: 14,
+                                                          horizontal: 15,
+                                                        ),
+                                                        hintText: 'Enter your project\'s description',
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  const SizedBox(height: 20),
+                                                  const Row(
+                                                    children: [
+                                                      Align(
+                                                        alignment: Alignment.topLeft,
+                                                        child: Text(
+                                                          "Start time",
+                                                          style: TextStyle(
+                                                            fontWeight: FontWeight.bold,
+                                                            fontSize: 16,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      SizedBox(width: 118),
+                                                      Align(
+                                                        alignment: Alignment.topLeft,
+                                                        child: Text(
+                                                          "End time",
+                                                          style: TextStyle(
+                                                            fontWeight: FontWeight.bold,
+                                                            fontSize: 16,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  const SizedBox(height: 15),
+                                                  Row(
+                                                    children: [
+                                                      SizedBox(
+                                                        width: 175,
+                                                        child: TextField(
+                                                          controller: startMonthController,
+                                                          onChanged: (data) {
+                                                            if (titleController.text.isEmpty || descriptionController.text.isEmpty || startMonthController.text.isEmpty || endMonthController.text.isEmpty) {
+                                                              enableCreate = false;
+                                                            } else {
+                                                              enableCreate = true;
+                                                            }
+                                                            setState(() {});
+                                                          },
+                                                          style: const TextStyle(
+                                                            fontSize: 16,
+                                                          ),
+                                                          decoration: InputDecoration(
+                                                            // labelText: 'Number of students',
+                                                            border: OutlineInputBorder(
+                                                              borderRadius: BorderRadius.circular(9),
+                                                            ),
+                                                            focusedBorder: OutlineInputBorder(
+                                                              borderRadius: BorderRadius.circular(9),
+                                                              borderSide: const BorderSide(color: Colors.black),
+                                                            ),
+                                                            contentPadding: const EdgeInsets.symmetric(
+                                                              vertical: 14,
+                                                              horizontal: 15,
+                                                            ),
+                                                            hintText: 'End start time',
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      const SizedBox(width: 15),
+                                                      SizedBox(
+                                                        width: 175,
+                                                        child: TextField(
+                                                          controller: endMonthController,
+                                                          onChanged: (data) {
+                                                            if (titleController.text.isEmpty || descriptionController.text.isEmpty || startMonthController.text.isEmpty || endMonthController.text.isEmpty) {
+                                                              enableCreate = false;
+                                                            } else {
+                                                              enableCreate = true;
+                                                            }
+                                                            setState(() {});
+                                                          },
+                                                          style: const TextStyle(
+                                                            fontSize: 16,
+                                                          ),
+                                                          decoration: InputDecoration(
+                                                            // labelText: 'Number of students',
+                                                            border: OutlineInputBorder(
+                                                              borderRadius: BorderRadius.circular(9),
+                                                            ),
+                                                            focusedBorder: OutlineInputBorder(
+                                                              borderRadius: BorderRadius.circular(9),
+                                                              borderSide: const BorderSide(color: Colors.black),
+                                                            ),
+                                                            contentPadding: const EdgeInsets.symmetric(
+                                                              vertical: 14,
+                                                              horizontal: 15,
+                                                            ),
+                                                            hintText: 'Enter end time',
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  const SizedBox(height: 20),
+                                                  const Align(
+                                                    alignment: Alignment.topLeft,
+                                                    child: Text(
+                                                      "Skillsets",
+                                                      style: TextStyle(
+                                                        fontWeight: FontWeight.bold,
+                                                        fontSize: 16,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  const SizedBox(height: 15),
+                                                  MultiSelectBottomSheet(
+                                                    items: skillSetItems,
+                                                    expEachElement: const [],
+                                                    width: MediaQuery.of(context).size.width,
+                                                    bottomSheetHeight: 500 * 0.7, // required for min/max height of bottomSheet
+                                                    hint: "Select Skillset",
+                                                    controller: controller,
+                                                    searchTextFieldWidth: 300 * 0.96,
+                                                    searchIcon: const Icon(
+                                                        // required for searchIcon
+                                                        Icons.search,
+                                                        color: Colors.black87,
+                                                        size: 22),
+                                                    selectTextStyle: const TextStyle(color: Colors.white, fontSize: 17),
+                                                    unSelectTextStyle: const TextStyle(color: Colors.black, fontSize: 17),
+                                                  ),
+                                                  const SizedBox(height: 70),
+                                                  Column(
+                                                    children: [
+                                                      Row(
+                                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                        children: [
+                                                          SizedBox(
+                                                            height: 46,
+                                                            width: 175,
+                                                            child: ElevatedButton(
+                                                              onPressed: () {
+                                                                titleController.text = '';
+                                                                descriptionController.text = '';
+                                                                startMonthController.text = '';
+                                                                endMonthController.text = '';
+                                                                Navigator.pop(context);
+                                                              },
+                                                              style: ElevatedButton.styleFrom(
+                                                                // minimumSize: Size.zero, // Set this
+                                                                padding: EdgeInsets.zero, // and this
+                                                                shape: RoundedRectangleBorder(
+                                                                  borderRadius: BorderRadius.circular(8),
+                                                                  side: const BorderSide(color: Colors.black),
+                                                                ),
+                                                                backgroundColor: Colors.white,
+                                                              ),
+                                                              child: const Text(
+                                                                'Cancel',
+                                                                style: TextStyle(
+                                                                  fontSize: 18,
+                                                                  color: Colors.black,
+                                                                  fontWeight: FontWeight.w500,
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          const SizedBox(width: 15),
+                                                          SizedBox(
+                                                            height: 46,
+                                                            width: 175,
+                                                            child: ElevatedButton(
+                                                              onPressed: enableCreate
+                                                                  ? () {
+                                                                      print(titleController.text);
+                                                                      print(descriptionController.text);
+                                                                      print(startMonthController.text);
+                                                                      print(endMonthController.text);
+                                                                      print(studentInput.skillSetsForExp);
+                                                                      ref.read(studentInputProvider.notifier).addStudentInputExperiences(
+                                                                            ExperienceCreate(
+                                                                              titleController.text,
+                                                                              descriptionController.text,
+                                                                              startMonthController.text,
+                                                                              endMonthController.text,
+                                                                              studentInput.skillSetsForExp!,
+                                                                            ),
+                                                                          );
+                                                                      Navigator.pop(context);
+                                                                    }
+                                                                  : null,
+                                                              style: ElevatedButton.styleFrom(
+                                                                // minimumSize: Size.zero, // Set this
+                                                                padding: EdgeInsets.zero, // and this
+                                                                shape: RoundedRectangleBorder(
+                                                                  borderRadius: BorderRadius.circular(8),
+                                                                ),
+                                                                backgroundColor: Colors.black,
+                                                              ),
+                                                              child: const Text(
+                                                                'Save',
+                                                                style: TextStyle(
+                                                                  fontSize: 18,
+                                                                  color: Color.fromARGB(255, 255, 255, 255),
+                                                                  fontWeight: FontWeight.w500,
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      )
+                                                    ],
+                                                  ),
+                                                ],
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                });
+                              },
+                            );
+                          },
+                          child: const Icon(
+                            Icons.add_circle,
+                            color: Colors.black,
+                            size: 25,
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 15),
+                    studentInput.experiences!.isEmpty
+                        ? const Column(
                             children: [
                               Text(
-                                'Intelligent Taxi Dispatching system',
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w600,
-                                ),
+                                'Empty',
+                                style: TextStyle(fontSize: 16),
                               ),
-                              Text(
-                                '9/2020 - 12/2020, 4 months',
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  color: Color.fromARGB(255, 94, 94, 94),
-                                ),
+                              SizedBox(height: 20),
+                            ],
+                          )
+                        : Column(
+                            children: [
+                              ...studentInput.experiences!.map(
+                                (el) {
+                                  return Column(
+                                    children: [
+                                      Container(
+                                        decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          border: Border.all(color: Colors.grey),
+                                          borderRadius: const BorderRadius.all(Radius.circular(10)),
+                                        ),
+                                        child: Padding(
+                                          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
+                                          child: Column(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              Row(
+                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                children: [
+                                                  Column(
+                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                    children: [
+                                                      Text(
+                                                        el.title,
+                                                        style: const TextStyle(
+                                                          fontSize: 16,
+                                                          fontWeight: FontWeight.w600,
+                                                        ),
+                                                      ),
+                                                      Text(
+                                                        '${el.startMonth} - ${el.endMonth}',
+                                                        style: const TextStyle(
+                                                          fontSize: 14,
+                                                          color: Color.fromARGB(255, 94, 94, 94),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  Row(children: [
+                                                    InkWell(
+                                                      onTap: () {},
+                                                      child: const Icon(
+                                                        Icons.edit_calendar,
+                                                        color: Colors.black,
+                                                        size: 25,
+                                                      ),
+                                                    ),
+                                                    const SizedBox(width: 10),
+                                                    InkWell(
+                                                      onTap: () {},
+                                                      child: const Icon(
+                                                        Icons.delete_forever,
+                                                        color: Colors.red,
+                                                        size: 25,
+                                                      ),
+                                                    ),
+                                                  ]),
+                                                ],
+                                              ),
+                                              const SizedBox(height: 10),
+                                              Text(
+                                                el.description,
+                                                style: const TextStyle(
+                                                  fontSize: 16,
+                                                ),
+                                              ),
+                                              const SizedBox(height: 15),
+                                              const Text(
+                                                'Skillset',
+                                                style: TextStyle(
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.w600,
+                                                ),
+                                              ),
+                                              const SizedBox(height: 10),
+                                              MultiSelectBottomSheet(
+                                                items: skillSetItems,
+                                                expEachElement: el.skillSets,
+                                                width: MediaQuery.of(context).size.width,
+                                                bottomSheetHeight: 500 * 0.7, // required for min/max height of bottomSheet
+                                                hint: "Select Skillset",
+                                                controller: controller,
+                                                searchTextFieldWidth: 300 * 0.96,
+                                                searchIcon: const Icon(
+                                                    // required for searchIcon
+                                                    Icons.search,
+                                                    color: Colors.black87,
+                                                    size: 22),
+                                                selectTextStyle: const TextStyle(color: Colors.white, fontSize: 17),
+                                                unSelectTextStyle: const TextStyle(color: Colors.black, fontSize: 17),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                      const SizedBox(height: 15),
+                                    ],
+                                  );
+                                },
                               ),
                             ],
                           ),
-                          Row(children: [
-                            InkWell(
-                              onTap: () {},
-                              child: const Icon(
-                                Icons.edit_calendar,
-                                color: Colors.black,
-                                size: 25,
-                              ),
+                    const SizedBox(height: 180),
+                    Container(
+                      alignment: Alignment.centerRight,
+                      child: SizedBox(
+                        height: 46,
+                        width: 130,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            ref.read(optionsProvider.notifier).setWidgetOption('ProfileInputStudentStep3', user.role!);
+                          },
+                          style: ElevatedButton.styleFrom(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8),
+                              side: const BorderSide(color: Colors.grey),
                             ),
-                            const SizedBox(width: 10),
-                            InkWell(
-                              onTap: () {},
-                              child: const Icon(
-                                Icons.delete_forever,
-                                color: Colors.red,
-                                size: 25,
-                              ),
+                            backgroundColor: const Color.fromARGB(255, 0, 0, 0),
+                          ),
+                          child: const Text(
+                            'Next',
+                            style: TextStyle(
+                              fontSize: 18,
+                              color: Color.fromARGB(255, 255, 255, 255),
+                              fontWeight: FontWeight.w500,
                             ),
-                          ]),
-                        ],
-                      ),
-                      const SizedBox(height: 10),
-                      const Text(
-                        'It is the developer of a super-app for ride-halling, food delivery, and digital payments services on mobile devices that operates in Singapore, Malaysia, ..',
-                        style: TextStyle(
-                          fontSize: 16,
+                          ),
                         ),
                       ),
-                      const SizedBox(height: 15),
-                      const Text(
-                        'Skillset',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      const SizedBox(height: 10),
-                      MultiSelectBottomSheet(
-                        items: selectCountryItem, // required for Item list
-                        width: MediaQuery.of(context).size.width,
-                        bottomSheetHeight: 500 *
-                            0.7, // required for min/max height of bottomSheet
-                        hint: "Select Skillset",
-                        controller: controller,
-                        searchTextFieldWidth: 300 * 0.96,
-                        searchIcon: const Icon(
-                            // required for searchIcon
-                            Icons.search,
-                            color: Colors.black87,
-                            size: 22),
-                        selectTextStyle:
-                            const TextStyle(color: Colors.white, fontSize: 17),
-                        unSelectTextStyle:
-                            const TextStyle(color: Colors.black, fontSize: 17),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-
-              const SizedBox(height: 20),
-              // const Divider(
-              //   height: 10,
-              //   thickness: 1,
-              //   endIndent: 0,
-              //   color: Colors.grey,
-              // ),
-              const SizedBox(height: 180),
-              Container(
-                alignment: Alignment.centerRight,
-                child: SizedBox(
-                  height: 46,
-                  width: 130,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      ref.read(optionsProvider.notifier).setWidgetOption(
-                          'ProfileInputStudentStep3', user.role!);
-                    },
-                    style: ElevatedButton.styleFrom(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
-                        side: const BorderSide(color: Colors.grey),
-                      ),
-                      backgroundColor: const Color.fromARGB(255, 0, 0, 0),
                     ),
-                    child: const Text(
-                      'Next',
-                      style: TextStyle(
-                        fontSize: 18,
-                        color: Color.fromARGB(255, 255, 255, 255),
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                  ),
+                  ],
                 ),
-              ),
-            ],
-          ),
         ),
       ),
     );
