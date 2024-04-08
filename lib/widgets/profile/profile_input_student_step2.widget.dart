@@ -95,6 +95,11 @@ class ProfileIStudentStep2Widget extends ConsumerStatefulWidget {
 
 class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentStep2Widget> {
   List<MultiSelectBottomSheetModel> skillSetItems = [];
+
+  List<List<MultiSelectBottomSheetModel>> skillSetItemsForCreate = [];
+  List<List<MultiSelectBottomSheetModel>> defaultListAll = [];
+  List<List<MultiSelectBottomSheetModel>> filterListAll = [];
+
   bool isGettingExp = false;
 
   final titleController = TextEditingController();
@@ -133,7 +138,9 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentStep2Widget> {
     });
 
     skillSetItems = await getSkillSet(token);
-    print(skillSetItems[0]);
+
+    print('---skillSetItems---');
+    print(skillSetItems);
 
     setState(() {
       isGettingExp = false;
@@ -146,6 +153,7 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentStep2Widget> {
 
     final user = ref.read(userProvider);
     final student = ref.read(studentProvider);
+    final studentInput = ref.read(studentInputProvider);
 
     getStudent(user.token!, student);
   }
@@ -154,6 +162,7 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentStep2Widget> {
   Widget build(BuildContext context) {
     final user = ref.watch(userProvider);
     final studentInput = ref.watch(studentInputProvider);
+    final student = ref.watch(studentProvider);
 
     return Scaffold(
       body: SingleChildScrollView(
@@ -222,6 +231,37 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentStep2Widget> {
                               builder: (ctx) {
                                 return StatefulBuilder(builder: (BuildContext context, StateSetter setState /*You can rename this!*/) {
                                   // bool enable = false;
+                                  final studentInputModal = ref.watch(studentInputProvider);
+
+                                  // skillSetItemsForCreate.add(skillSetItems);
+
+                                  // for (var item in skillSetItems) {
+                                  //   defaultList.add(MultiSelectBottomSheetModel(
+                                  //     id: item.id,
+                                  //     name: item.name,
+                                  //     isSelected: item.isSelected,
+                                  //   ));
+                                  //   filterList.add(MultiSelectBottomSheetModel(
+                                  //     id: item.id,
+                                  //     name: item.name,
+                                  //     isSelected: item.isSelected,
+                                  //   ));
+                                  // }
+
+                                  // defaultListAll.add(defaultList);
+                                  // filterListAll.add(filterList);
+
+                                  // for (int i = 0; i < studentInput.experiences!.length; i++) {
+                                  //   if (studentInput.experiences![i].skillSets.isNotEmpty) {
+                                  //     for (int j = 0; j < studentInput.experiences![i].skillSets!.length; j++) {
+                                  //       skillSetItemsForCreate[i][studentInput.experiences![i].skillSets![j] - 1].isSelected = true;
+                                  //       defaultListAll[i][studentInput.experiences![i].skillSets![j] - 1].isSelected = true;
+                                  //       filterListAll[i][studentInput.experiences![i].skillSets![j] - 1].isSelected = true;
+                                  //     }
+                                  //   }
+                                  //   skillSetItemsForCreate[i] = skillSetItems;
+                                  // }
+
                                   return Padding(
                                     padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
                                     child: SingleChildScrollView(
@@ -450,8 +490,10 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentStep2Widget> {
                                                   ),
                                                   const SizedBox(height: 15),
                                                   MultiSelectBottomSheet(
+                                                    // defaultList: defaultListAll[defaultListAll.length - 1],
+                                                    // filterList: filterListAll[filterListAll.length - 1],
                                                     items: skillSetItems,
-                                                    expEachElement: const [],
+                                                    expEachElement: [],
                                                     width: MediaQuery.of(context).size.width,
                                                     bottomSheetHeight: 500 * 0.7, // required for min/max height of bottomSheet
                                                     hint: "Select Skillset",
@@ -465,7 +507,7 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentStep2Widget> {
                                                     selectTextStyle: const TextStyle(color: Colors.white, fontSize: 17),
                                                     unSelectTextStyle: const TextStyle(color: Colors.black, fontSize: 17),
                                                   ),
-                                                  const SizedBox(height: 70),
+                                                  const SizedBox(height: 40),
                                                   Column(
                                                     children: [
                                                       Row(
@@ -508,18 +550,22 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentStep2Widget> {
                                                             child: ElevatedButton(
                                                               onPressed: enableCreate
                                                                   ? () {
-                                                                      print(titleController.text);
-                                                                      print(descriptionController.text);
-                                                                      print(startMonthController.text);
-                                                                      print(endMonthController.text);
-                                                                      print(studentInput.skillSetsForExp);
+                                                                      List<int> test = [];
+                                                                      for (var item in skillSetItems) {
+                                                                        if (item.isSelected) {
+                                                                          test.add(item.id);
+                                                                        }
+                                                                      }
+
+                                                                      final skillSetsWithoutRef = [...studentInputModal.skillSetsForExp!];
+
                                                                       ref.read(studentInputProvider.notifier).addStudentInputExperiences(
                                                                             ExperienceCreate(
                                                                               titleController.text,
                                                                               descriptionController.text,
                                                                               startMonthController.text,
                                                                               endMonthController.text,
-                                                                              studentInput.skillSetsForExp!,
+                                                                              skillSetsWithoutRef,
                                                                             ),
                                                                           );
                                                                       Navigator.pop(context);
@@ -655,6 +701,8 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentStep2Widget> {
                                               ),
                                               const SizedBox(height: 10),
                                               MultiSelectBottomSheet(
+                                                // defaultList: defaultListAll[studentInput.experiences!.indexOf(el)],
+                                                // filterList: filterListAll[studentInput.experiences!.indexOf(el)],
                                                 items: skillSetItems,
                                                 expEachElement: el.skillSets,
                                                 width: MediaQuery.of(context).size.width,
@@ -681,7 +729,7 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentStep2Widget> {
                               ),
                             ],
                           ),
-                    const SizedBox(height: 180),
+                    const SizedBox(height: 20),
                     Container(
                       alignment: Alignment.centerRight,
                       child: SizedBox(
@@ -689,7 +737,10 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentStep2Widget> {
                         width: 130,
                         child: ElevatedButton(
                           onPressed: () {
-                            ref.read(optionsProvider.notifier).setWidgetOption('ProfileInputStudentStep3', user.role!);
+                            ref.read(optionsProvider.notifier).setWidgetOption(
+                                  'ProfileInputStudentStep3',
+                                  user.role!,
+                                );
                           },
                           style: ElevatedButton.styleFrom(
                             shape: RoundedRectangleBorder(

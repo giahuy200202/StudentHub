@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:studenthub/providers/profile/student_input.provider.dart';
@@ -5,6 +7,9 @@ import 'package:studenthub/utils/multiselect_bottom_sheet_model.dart';
 import 'package:studenthub/utils/colors.dart';
 
 class MultiSelectBottomSheet extends ConsumerStatefulWidget {
+  // Function(List<int>)? callback;
+  // final List<MultiSelectBottomSheetModel> defaultList;
+  // final List<MultiSelectBottomSheetModel> filterList;
   final List<MultiSelectBottomSheetModel> items;
   final List<int> expEachElement;
   final double width;
@@ -28,6 +33,9 @@ class MultiSelectBottomSheet extends ConsumerStatefulWidget {
   final Icon searchIcon;
 
   const MultiSelectBottomSheet({
+    // required this.callback,
+    // required this.defaultList,
+    // required this.filterList,
     required this.items,
     required this.expEachElement,
     required this.width,
@@ -59,24 +67,56 @@ class _MultiSelectBottomSheetState extends ConsumerState<MultiSelectBottomSheet>
   TextEditingController controller = TextEditingController();
   List<MultiSelectBottomSheetModel> filterList = [];
   List<MultiSelectBottomSheetModel> defaultList = [];
+  List<MultiSelectBottomSheetModel> items = [];
 
   @override
   void initState() {
     super.initState();
+
+    items.clear();
     defaultList.clear();
     filterList.clear();
 
     for (var item in widget.items) {
+      items.add(MultiSelectBottomSheetModel(id: item.id, name: item.name, isSelected: item.isSelected));
       defaultList.add(MultiSelectBottomSheetModel(id: item.id, name: item.name, isSelected: item.isSelected));
       filterList.add(MultiSelectBottomSheetModel(id: item.id, name: item.name, isSelected: item.isSelected));
     }
 
     if (widget.expEachElement.isNotEmpty) {
+      print('----');
       for (var item in widget.expEachElement) {
-        widget.items[item - 1].isSelected = true;
+        items[item - 1].isSelected = true;
         defaultList[item - 1].isSelected = true;
-        defaultList[item - 1].isSelected = true;
+        filterList[item - 1].isSelected = true;
       }
+    } else {
+      for (int i = 0; i < items.length; i++) {
+        items[i].isSelected = false;
+        defaultList[i].isSelected = false;
+        filterList[i].isSelected = false;
+      }
+    }
+
+    print('each element');
+    print(widget.expEachElement);
+
+    print('items');
+    print(items.length);
+    for (var item in items) {
+      print(item.isSelected ? item.name : '');
+    }
+
+    print('defaultList');
+    print(defaultList.length);
+    for (var item in defaultList) {
+      print(item.isSelected ? item.name : '');
+    }
+
+    print('filterList');
+    print(filterList.length);
+    for (var item in defaultList) {
+      print(item.isSelected ? item.name : '');
     }
   }
 
@@ -84,6 +124,7 @@ class _MultiSelectBottomSheetState extends ConsumerState<MultiSelectBottomSheet>
   Widget build(BuildContext context) {
     var width = MediaQuery.of(context).size.width;
     var height = MediaQuery.of(context).size.height;
+
     return GestureDetector(
       onTap: () {
         showModalBottomSheet(
@@ -114,7 +155,7 @@ class _MultiSelectBottomSheetState extends ConsumerState<MultiSelectBottomSheet>
                           textInputAction: TextInputAction.search,
                           onSubmitted: (value) {
                             setState(() {
-                              filterList = widget.items.where((element) => element.name.toLowerCase().contains(value.toLowerCase())).toList();
+                              filterList = items.where((element) => element.name.toLowerCase().contains(value.toLowerCase())).toList();
                             });
                           },
                           decoration: InputDecoration(
@@ -166,9 +207,9 @@ class _MultiSelectBottomSheetState extends ConsumerState<MultiSelectBottomSheet>
                                     setState(() {
                                       e.isSelected = !e.isSelected;
 
-                                      if (e.id == widget.items[0].id) {
+                                      if (e.id == items[0].id) {
                                       } else {
-                                        if (filterList[0].id != widget.items[0].id) {
+                                        if (filterList[0].id != items[0].id) {
                                           filterList[0].isSelected = false;
                                         }
                                       }
@@ -274,21 +315,24 @@ class _MultiSelectBottomSheetState extends ConsumerState<MultiSelectBottomSheet>
                                     ),
                                     child: GestureDetector(
                                       onTap: () {
-                                        final isSelectedList = filterList.where((el) => el.isSelected).toList();
+                                        var isSelectedList = filterList.where((el) => el.isSelected).toList();
 
-                                        final List<int> isSelectedIdList = [];
+                                        List<int> isSelectedIdList = [];
 
                                         for (var item in isSelectedList) {
                                           isSelectedIdList.add(item.id);
                                         }
+
+                                        print('---is selected---');
+                                        print(isSelectedIdList);
 
                                         ref.read(studentInputProvider.notifier).setStudentInputSkillSetForExp(
                                               isSelectedIdList,
                                             );
 
                                         setState(() {
-                                          widget.items.clear();
-                                          widget.items.addAll(defaultList);
+                                          items.clear();
+                                          items.addAll(defaultList);
                                         });
                                         Navigator.pop(context);
                                       },
@@ -328,13 +372,13 @@ class _MultiSelectBottomSheetState extends ConsumerState<MultiSelectBottomSheet>
             ),
             borderRadius: BorderRadius.circular(9),
             color: whiteColor),
-        padding: EdgeInsets.symmetric(horizontal: 0, vertical: widget.items.where((element) => element.isSelected).isEmpty ? 15 : height * 0.015),
+        padding: EdgeInsets.symmetric(horizontal: 0, vertical: items.where((element) => element.isSelected).isEmpty ? 15 : height * 0.015),
         width: widget.width,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            widget.items.where((element) => element.isSelected).isEmpty
+            items.where((element) => element.isSelected).isEmpty
                 ? Padding(
                     padding: const EdgeInsets.fromLTRB(15, 0, 0, 0),
                     child: Text(
@@ -349,8 +393,8 @@ class _MultiSelectBottomSheetState extends ConsumerState<MultiSelectBottomSheet>
                     child: Wrap(
                       spacing: width * 0.01,
                       runSpacing: width * 0.01,
-                      children: widget.items.where((element) => element.isSelected).map((e) {
-                        String separator = e.id == widget.items.where((element) => element.isSelected).last.id ? "" : ", ";
+                      children: items.where((element) => element.isSelected).map((e) {
+                        String separator = e.id == items.where((element) => element.isSelected).last.id ? "" : ", ";
                         return Text(
                           "${e.name}$separator",
                           overflow: TextOverflow.ellipsis,

@@ -312,6 +312,7 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentWidget> {
 
       //set languages
       ref.read(studentInputProvider.notifier).setStudentInputLanguague([]);
+      ;
       for (var item in student.languages) {
         ref.read(studentInputProvider.notifier).addStudentInputLanguague(
               LanguageFetch(item['id'], item['languageName'], item['level']),
@@ -1620,98 +1621,123 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentWidget> {
                               width: 130,
                               child: ElevatedButton(
                                 onPressed: () async {
-                                  //   if (student.id == 0) {
-                                  //     //Create fullname, techStackId, skillSets
-                                  //     final url = Uri.parse('http://${dotenv.env['IP_ADDRESS']}/api/profile/student');
-                                  //     final responseCreateStudent = await http.post(url,
-                                  //         headers: {
-                                  //           'Content-Type': 'application/json',
-                                  //           'Authorization': 'Bearer ${user.token}',
-                                  //         },
-                                  //         body: json.encode(
-                                  //           {
-                                  //             "fullname": fullnameController.text,
-                                  //             "techStackId": studentInput.techStackId,
-                                  //             "skillSets": studentInput.skillSets,
-                                  //           },
-                                  //         ));
+                                  if (student.id == 0) {
+                                    //Create fullname, techStackId, skillSets
+                                    final url = Uri.parse('http://${dotenv.env['IP_ADDRESS']}/api/profile/student');
+                                    final responseCreateStudent = await http.post(url,
+                                        headers: {
+                                          'Content-Type': 'application/json',
+                                          'Authorization': 'Bearer ${user.token}',
+                                        },
+                                        body: json.encode(
+                                          {
+                                            "fullname": fullnameController.text,
+                                            "techStackId": studentInput.techStackId,
+                                            "skillSets": studentInput.skillSets,
+                                          },
+                                        ));
 
-                                  //     var responseCreateStudentData = json.decode(responseCreateStudent.body);
+                                    var responseCreateStudentData = json.decode(responseCreateStudent.body);
 
-                                  //     if (responseCreateStudentData.containsKey('errorDetails')) {
-                                  //       if (responseCreateStudentData['errorDetails'].runtimeType == String) {
-                                  //         showErrorToast('Error', responseCreateStudentData['errorDetails']);
-                                  //       } else {
-                                  //         showErrorToast('Error', responseCreateStudentData['errorDetails'][0]);
-                                  //       }
-                                  //     } else {
-                                  //       showSuccessToast('Success', 'Create profile successfully');
-                                  //     }
-                                  //   } else {
-                                  //     //Edit fullname, techStackId, skillSets
-                                  //     final url = Uri.parse('http://${dotenv.env['IP_ADDRESS']}/api/profile/student/${student.id}');
-                                  //     final responseEditStudent = await http.put(url,
-                                  //         headers: {
-                                  //           'Content-Type': 'application/json',
-                                  //           'Authorization': 'Bearer ${user.token}',
-                                  //         },
-                                  //         body: json.encode(
-                                  //           {
-                                  //             "fullname": fullnameController.text,
-                                  //             "techStackId": studentInput.techStackId,
-                                  //             "skillSets": studentInput.skillSets,
-                                  //           },
-                                  //         ));
+                                    if (responseCreateStudentData.containsKey('errorDetails')) {
+                                      if (responseCreateStudentData['errorDetails'].runtimeType == String) {
+                                        showErrorToast('Error', responseCreateStudentData['errorDetails']);
+                                      } else {
+                                        showErrorToast('Error', responseCreateStudentData['errorDetails'][0]);
+                                      }
+                                    } else {
+                                      showSuccessToast('Success', 'Create profile successfully');
+                                    }
+                                  } else {
+                                    //Edit fullname, techStackId, skillSets
+                                    final url = Uri.parse('http://${dotenv.env['IP_ADDRESS']}/api/profile/student/${student.id}');
+                                    final responseEditStudent = await http.put(url,
+                                        headers: {
+                                          'Content-Type': 'application/json',
+                                          'Authorization': 'Bearer ${user.token}',
+                                        },
+                                        body: json.encode(
+                                          {
+                                            "fullname": fullnameController.text,
+                                            "techStackId": studentInput.techStackId,
+                                            "skillSets": studentInput.skillSets,
+                                          },
+                                        ));
 
-                                  //     var responseEditStudentData = json.decode(responseEditStudent.body);
+                                    var responseEditStudentData = json.decode(responseEditStudent.body);
 
-                                  //     if (responseEditStudentData.containsKey('errorDetails')) {
-                                  //       if (responseEditStudentData['errorDetails'].runtimeType == String) {
-                                  //         showErrorToast('Error', responseEditStudentData['errorDetails']);
-                                  //       } else {
-                                  //         showErrorToast('Error', responseEditStudentData['errorDetails'][0]);
-                                  //       }
-                                  //     } else {
-                                  //       showSuccessToast('Success', 'Edit profile successfully');
-                                  //     }
-                                  //   }
+                                    if (responseEditStudentData.containsKey('errorDetails')) {
+                                      if (responseEditStudentData['errorDetails'].runtimeType == String) {
+                                        showErrorToast('Error', responseEditStudentData['errorDetails']);
+                                      } else {
+                                        showErrorToast('Error', responseEditStudentData['errorDetails'][0]);
+                                      }
+                                    } else {
+                                      showSuccessToast('Success', 'Edit profile successfully');
+                                    }
+                                  }
 
-                                  //   //Edit languages
-                                  //   final url = Uri.parse('http://${dotenv.env['IP_ADDRESS']}/api/language/updateByStudentId/${student.id}');
-                                  //   final responseEditLanguages = await http.put(url,
-                                  //       headers: {
-                                  //         'Content-Type': 'application/json',
-                                  //         'Authorization': 'Bearer ${user.token}',
-                                  //       },
-                                  //       body: json.encode(
-                                  //         {
-                                  //           "languages": studentInput.languages,
-                                  //         },
-                                  //       ));
+                                  //Edit languages
+                                  final url = Uri.parse('http://${dotenv.env['IP_ADDRESS']}/api/language/updateByStudentId/${student.id}');
+                                  final responseEditLanguages = await http.put(url,
+                                      headers: {
+                                        'Content-Type': 'application/json',
+                                        'Authorization': 'Bearer ${user.token}',
+                                      },
+                                      body: json.encode(
+                                        {
+                                          "languages": studentInput.languages,
+                                        },
+                                      ));
 
-                                  //   var responseEditLanguagesData = json.decode(responseEditLanguages.body);
+                                  var responseEditLanguagesData = json.decode(responseEditLanguages.body);
 
-                                  //   //Edit education
-                                  //   final urlEducation = Uri.parse('http://${dotenv.env['IP_ADDRESS']}/api/education/updateByStudentId/${student.id}');
-                                  //   final responseEditEducations = await http.put(urlEducation,
-                                  //       headers: {
-                                  //         'Content-Type': 'application/json',
-                                  //         'Authorization': 'Bearer ${user.token}',
-                                  //       },
-                                  //       body: json.encode(
-                                  //         {
-                                  //           "education": studentInput.educations,
-                                  //         },
-                                  //       ));
+                                  //Edit education
+                                  final urlEducation = Uri.parse('http://${dotenv.env['IP_ADDRESS']}/api/education/updateByStudentId/${student.id}');
+                                  final responseEditEducations = await http.put(urlEducation,
+                                      headers: {
+                                        'Content-Type': 'application/json',
+                                        'Authorization': 'Bearer ${user.token}',
+                                      },
+                                      body: json.encode(
+                                        {
+                                          "education": studentInput.educations,
+                                        },
+                                      ));
 
-                                  //   var responseEditEducationsData = json.decode(responseEditEducations.body);
+                                  var responseEditEducationsData = json.decode(responseEditEducations.body);
 
-                                  //   //Set current fullname, techStackId, skillSets to provider
-                                  //   ref.read(studentProvider.notifier).setStudentFullname(studentInput.fullname!);
-                                  //   ref.read(studentProvider.notifier).setStudentTechstackId(studentInput.techStackId!);
-                                  //   ref.read(studentProvider.notifier).setStudentSkillSet(studentInput.skillSets!);
-                                  //   ref.read(studentProvider.notifier).setStudentLanguague(studentInput.languages!);
-                                  //   ref.read(studentProvider.notifier).setStudentEducation(studentInput.educations!);
+                                  //Set current fullname, techStackId, skillSets to provider
+
+                                  final urlGetStudent = Uri.parse('http://${dotenv.env['IP_ADDRESS']}/api/profile/student/${student.id}');
+
+                                  final responseStudent = await http.get(
+                                    urlGetStudent,
+                                    headers: {
+                                      'Content-Type': 'application/json',
+                                      'Authorization': 'Bearer ${user.token}',
+                                    },
+                                  );
+
+                                  final responseStudentData = json.decode(responseStudent.body);
+
+                                  if (responseStudentData['result'] != null) {
+                                    List<int> getSkillsets = [];
+                                    for (var item in responseStudentData["result"]["skillSets"]) {
+                                      getSkillsets.add(item['id']);
+                                    }
+
+                                    ref.read(studentProvider.notifier).setStudentData(
+                                          student.id!,
+                                          responseStudentData["result"]["fullname"],
+                                          responseStudentData["result"]["email"],
+                                          responseStudentData["result"]["techStack"]["id"],
+                                          getSkillsets,
+                                          responseStudentData["result"]["educations"],
+                                          responseStudentData["result"]["experiences"],
+                                          responseStudentData["result"]["languages"],
+                                        );
+                                  }
 
                                   ref.read(optionsProvider.notifier).setWidgetOption('ProfileInputStudentStep2', user.role!);
                                 },

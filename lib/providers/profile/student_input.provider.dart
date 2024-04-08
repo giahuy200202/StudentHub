@@ -305,9 +305,6 @@ class StudentInputNotifier extends StateNotifier<StudentInput> {
       skillSetsForExp: [...state.skillSetsForExp!],
     );
 
-    print('---provider---');
-    print(experiences.skillSets);
-
     temp.experiences = [...temp.experiences!, experiences];
 
     state = temp;
