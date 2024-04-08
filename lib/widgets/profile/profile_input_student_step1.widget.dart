@@ -324,14 +324,6 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentWidget> {
 
       var responseEditEducationsData = json.decode(responseEditEducations.body);
 
-      print('----responseEditEducationsData----');
-
-      print(responseEditEducationsData);
-
-      print('----languages----');
-
-      print(json.encode({'languages': student.languages}));
-
       for (var item in student.languages) {
         ref.read(studentInputProvider.notifier).addStudentInputLanguague(
               LanguageFetch(item['id'], item['languageName'], item['level']),
@@ -345,14 +337,15 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentWidget> {
               EducationFetch(
                 item['id'],
                 item['schoolName'],
-                '${int.parse(item['startYear'].substring(0, 4)) + 1}',
-                '${int.parse(item['endYear'].substring(0, 4)) + 1}',
+                '${item['startYear'] + 1}',
+                '${item['endYear'] + 1}',
               ),
             );
       }
 
+      print('----student.experiences----');
+      print(student.experiences);
       //set experiences
-
       ref.read(studentInputProvider.notifier).setStudentInputExperiences([]);
       for (var item in student.experiences) {
         List<int> tempSkillSet = [];
@@ -369,12 +362,18 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentWidget> {
                 item['id'],
                 item['title'],
                 item['description'],
-                '${int.parse(item['startMonth'].substring(0, 4)) + 1}',
-                '${int.parse(item['endMonth'].substring(0, 4)) + 1}',
+                '${int.parse(item['startMonth'].subString(0, 4)) + 1}',
+                '${int.parse(item['endMonth'].subString(0, 4)) + 1}',
                 tempSkillSet,
               ),
             );
       }
+
+      //set resume
+      ref.read(studentInputProvider.notifier).setStudentInputResume(student.resume);
+
+      //set transcript
+      ref.read(studentInputProvider.notifier).setStudentInputTranscript(student.transcript);
     }
 
     setState(() {
