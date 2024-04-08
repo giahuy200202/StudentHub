@@ -193,8 +193,8 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentStep2Widget> {
   @override
   Widget build(BuildContext context) {
     final user = ref.watch(userProvider);
-    final studentInput = ref.watch(studentInputProvider);
-    final student = ref.watch(studentProvider);
+    var studentInput = ref.watch(studentInputProvider);
+    var student = ref.watch(studentProvider);
 
     return Scaffold(
       body: SingleChildScrollView(
@@ -937,8 +937,7 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentStep2Widget> {
                                                                                           onPressed: enableCreate
                                                                                               ? () {
                                                                                                   final studentAfterEdit = ref.watch(studentInputProvider);
-                                                                                                  print('skillSetsWithoutRef');
-                                                                                                  print(studentAfterEdit.skillSetsForExp!);
+
                                                                                                   ref.read(studentInputProvider.notifier).updateStudentInputExperiences(
                                                                                                         titleController.text,
                                                                                                         descriptionController.text,
@@ -1047,7 +1046,8 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentStep2Widget> {
                         width: 130,
                         child: ElevatedButton(
                           onPressed: () async {
-                            if (student.id == 0) {
+                            print(student.id);
+                            if (student.id == null || student.id == 0) {
                               //Create fullname, techStackId, skillSets
                               final url = Uri.parse('http://${dotenv.env['IP_ADDRESS']}/api/profile/student');
                               final responseCreateStudent = await http.post(url,
@@ -1065,8 +1065,9 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentStep2Widget> {
 
                               var responseCreateStudentData = json.decode(responseCreateStudent.body);
 
-                              print('---responseCreateStudentData---');
-                              print(responseCreateStudentData);
+                              ref.read(studentProvider.notifier).setStudentId(responseCreateStudentData['result']['id']);
+
+                              student = ref.watch(studentProvider);
 
                               if (responseCreateStudentData.containsKey('errorDetails')) {
                                 if (responseCreateStudentData['errorDetails'].runtimeType == String) {
@@ -1107,8 +1108,8 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentStep2Widget> {
                             }
 
                             //Edit languages
-                            final url = Uri.parse('http://${dotenv.env['IP_ADDRESS']}/api/language/updateByStudentId/${student.id}');
-                            final responseEditLanguages = await http.put(url,
+                            final urlEditLanguages = Uri.parse('http://${dotenv.env['IP_ADDRESS']}/api/language/updateByStudentId/${student.id}');
+                            final responseEditLanguages = await http.put(urlEditLanguages,
                                 headers: {
                                   'Content-Type': 'application/json',
                                   'Authorization': 'Bearer ${user.token}',
@@ -1151,9 +1152,6 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentStep2Widget> {
 
                             var responseEditExperiencesData = json.decode(responseEditExperiences.body);
 
-                            // print('---responseEditExperiencesData---');
-                            // print(responseEditExperiencesData);
-
                             //Set current fullname, techStackId, skillSets to provider
 
                             final urlGetStudent = Uri.parse('http://${dotenv.env['IP_ADDRESS']}/api/profile/student/${student.id}');
@@ -1167,16 +1165,6 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentStep2Widget> {
                             );
 
                             final responseStudentData = json.decode(responseStudent.body);
-
-                            print('----responseStudentData----');
-                            print(responseStudentData);
-
-                            // print('----exp skill sets----');
-                            // print(json.encode(
-                            //   {
-                            //     "a": studentInput.experiences,
-                            //   },
-                            // ));
 
                             if (responseStudentData['result'] != null) {
                               List<int> getSkillsets = [];
@@ -1195,26 +1183,6 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentStep2Widget> {
                                     responseStudentData["result"]["languages"],
                                   );
                             }
-
-                            final urlGetExperiences = Uri.parse('http://${dotenv.env['IP_ADDRESS']}/api/experience/getByStudentId/${student.id}');
-
-                            final responseExp = await http.get(
-                              urlGetExperiences,
-                              headers: {
-                                'Content-Type': 'application/json',
-                                'Authorization': 'Bearer ${user.token}',
-                              },
-                            );
-
-                            final responseExpData = json.decode(responseExp.body);
-
-                            print('----responseExp----');
-                            print(responseExpData['result']);
-
-                            // ref.read(optionsProvider.notifier).setWidgetOption(
-                            //       'ProfileInputStudentStep3',
-                            //       user.role!,
-                            //     );
                           },
                           style: ElevatedButton.styleFrom(
                             shape: RoundedRectangleBorder(

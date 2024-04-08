@@ -273,7 +273,7 @@ class _SignupStep2State extends ConsumerState<SignupStep2> {
                                 // print(json.decode(response.body));
                                 ref.read(userLoginProvider.notifier).setRole('${userSignup.role}');
 
-                                showSuccessToast('Success', 'Create successfully');
+                                showSuccessToast('Success', 'Create successfully, please check your email to verify account');
                                 Timer(const Duration(seconds: 3), () {
                                   ref.read(optionsProvider.notifier).setWidgetOption('Login', user.role!);
                                 });

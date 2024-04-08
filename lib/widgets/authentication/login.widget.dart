@@ -300,6 +300,7 @@ class _LoginWidgetState extends ConsumerState<LoginWidget> {
 
                                   showSuccessToast('Success', 'Login successfully');
 
+                                  print('------------------responeAuthMeData["result"]["student"]');
                                   print(responeAuthMeData["result"]["student"]);
                                   //Set student data
                                   if (responeAuthMeData["result"]["student"] != null) {
@@ -325,6 +326,9 @@ class _LoginWidgetState extends ConsumerState<LoginWidget> {
                                     );
 
                                     final responseStudentData = json.decode(responseStudent.body);
+
+                                    print('---responseStudentData---');
+                                    print(responseStudentData);
 
                                     if (responseStudentData['result'] != null) {
                                       List<int> getSkillsets = [];

@@ -312,7 +312,26 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentWidget> {
 
       //set languages
       ref.read(studentInputProvider.notifier).setStudentInputLanguague([]);
-      ;
+
+      final urlEducation = Uri.parse('http://${dotenv.env['IP_ADDRESS']}/api/language/getByStudentId/${student.id}');
+      final responseEditEducations = await http.get(
+        urlEducation,
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ${token}',
+        },
+      );
+
+      var responseEditEducationsData = json.decode(responseEditEducations.body);
+
+      print('----responseEditEducationsData----');
+
+      print(responseEditEducationsData);
+
+      print('----languages----');
+
+      print(json.encode({'languages': student.languages}));
+
       for (var item in student.languages) {
         ref.read(studentInputProvider.notifier).addStudentInputLanguague(
               LanguageFetch(item['id'], item['languageName'], item['level']),

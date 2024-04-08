@@ -24,15 +24,6 @@ class _SwitchAccountWidgetState extends ConsumerState<SwitchAccountWidget> {
     final student = ref.watch(studentProvider);
     final company = ref.watch(companyProvider);
 
-    print('----user role----');
-    print(user.id);
-
-    print('----student role----');
-    print(student.id);
-
-    print('----company role----');
-    print(company.id);
-
     Icon icon = isChecked
         ? const Icon(Icons.keyboard_arrow_up_outlined, size: 40, color: Color.fromARGB(255, 121, 123, 125))
         : const Icon(
@@ -73,7 +64,7 @@ class _SwitchAccountWidgetState extends ConsumerState<SwitchAccountWidget> {
                                 child: SizedBox(
                                   width: 240,
                                   child: Text(
-                                    company.id == null ? 'Anonymous' : company.companyName!,
+                                    company.id == null || company.id == 0 ? 'Anonymous' : company.companyName!,
                                     overflow: TextOverflow.ellipsis,
                                     style: const TextStyle(
                                       color: Colors.black,
@@ -150,7 +141,7 @@ class _SwitchAccountWidgetState extends ConsumerState<SwitchAccountWidget> {
                                 child: SizedBox(
                                   width: 240,
                                   child: Text(
-                                    student.id == null ? 'Anonymous' : student.fullname!,
+                                    student.id == null || student.id == 0 ? 'Anonymous' : student.fullname!,
                                     overflow: TextOverflow.ellipsis,
                                     style: const TextStyle(
                                       color: Colors.black,
@@ -235,7 +226,7 @@ class _SwitchAccountWidgetState extends ConsumerState<SwitchAccountWidget> {
                                 child: SizedBox(
                                   width: 240,
                                   child: Text(
-                                    student.id == null ? 'Anonymous' : student.fullname!,
+                                    student.id == null || student.id == 0 ? 'Anonymous' : student.fullname!,
                                     overflow: TextOverflow.ellipsis,
                                     style: const TextStyle(
                                       color: Colors.black,
@@ -309,7 +300,7 @@ class _SwitchAccountWidgetState extends ConsumerState<SwitchAccountWidget> {
                                 child: SizedBox(
                                   width: 240,
                                   child: Text(
-                                    company.id == null ? 'Anonymous' : company.companyName!,
+                                    company.id == null || company.id == 0 ? 'Anonymous' : company.companyName!,
                                     overflow: TextOverflow.ellipsis,
                                     style: const TextStyle(
                                       color: Colors.black,
@@ -399,7 +390,7 @@ class _SwitchAccountWidgetState extends ConsumerState<SwitchAccountWidget> {
                           verticalAlignment: TableCellVerticalAlignment.middle,
                           child: InkWell(
                             onTap: () {
-                              ref.read(optionsProvider.notifier).setWidgetOption(user.role == '1' ? (company.id == null ? 'ProfileInput' : 'ViewProfile') : 'ProfileInputStudent', user.role!);
+                              ref.read(optionsProvider.notifier).setWidgetOption(user.role == '1' ? (company.id == null || company.id == 0 || company.id == 0 ? 'ProfileInput' : 'ViewProfile') : 'ProfileInputStudent', user.role!);
                             },
                             child: const Padding(
                               padding: EdgeInsets.symmetric(horizontal: 10, vertical: 20),

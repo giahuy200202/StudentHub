@@ -67,6 +67,25 @@ class StudentNotifier extends StateNotifier<Student> {
     state = temp;
   }
 
+  void setStudentId(
+    int id,
+  ) {
+    Student temp = Student(
+      id: state.id,
+      fullname: state.fullname,
+      email: state.email,
+      techStackId: state.techStackId,
+      skillSets: [...state.skillSets!],
+      educations: [...state.educations!],
+      experiences: [...state.experiences!],
+      languages: [...state.languages!],
+    );
+
+    temp.id = id;
+
+    state = temp;
+  }
+
   void setStudentFullname(
     String fullname,
   ) {
