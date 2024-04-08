@@ -288,6 +288,9 @@ class _LoginWidgetState extends ConsumerState<LoginWidget> {
                                   );
                                   final responeAuthMeData = json.decode(responseAuthMe.body);
 
+                                  print('---responeAuthMeData---');
+                                  print(responeAuthMeData);
+
                                   //Set authentication data
                                   ref.read(userProvider.notifier).setUserData(
                                         responeAuthMeData["result"]["id"],
@@ -297,6 +300,7 @@ class _LoginWidgetState extends ConsumerState<LoginWidget> {
 
                                   showSuccessToast('Success', 'Login successfully');
 
+                                  print(responeAuthMeData["result"]["student"]);
                                   //Set student data
                                   if (responeAuthMeData["result"]["student"] != null) {
                                     ref.read(studentProvider.notifier).setStudentData(
@@ -363,6 +367,9 @@ class _LoginWidgetState extends ConsumerState<LoginWidget> {
                                     );
 
                                     final responseCompanyData = json.decode(responseCompany.body);
+
+                                    print('---responseCompanyData---');
+                                    print(responseCompanyData);
 
                                     if (responseCompanyData['result'] != null) {
                                       ref.read(companyProvider.notifier).setCompanyData(
