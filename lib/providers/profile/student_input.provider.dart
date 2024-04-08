@@ -8,6 +8,8 @@ class StudentInput {
   List<dynamic>? educations;
   List<dynamic>? experiences;
   List<int>? skillSetsForExp;
+  String? resume;
+  String? transcript;
 
   StudentInput({
     this.fullname,
@@ -17,6 +19,8 @@ class StudentInput {
     this.educations,
     this.experiences,
     this.skillSetsForExp,
+    this.resume,
+    this.transcript,
   });
 }
 
@@ -30,6 +34,8 @@ class StudentInputNotifier extends StateNotifier<StudentInput> {
           educations: [],
           experiences: [],
           skillSetsForExp: [],
+          resume: '',
+          transcript: '',
         ));
 
   void setStudentInputData(
@@ -48,6 +54,8 @@ class StudentInputNotifier extends StateNotifier<StudentInput> {
       educations: [...state.educations!],
       experiences: [...state.experiences!],
       skillSetsForExp: [...state.skillSetsForExp!],
+      resume: state.resume,
+      transcript: state.transcript,
     );
 
     temp.fullname = fullname;
@@ -71,6 +79,8 @@ class StudentInputNotifier extends StateNotifier<StudentInput> {
       educations: [...state.educations!],
       experiences: [...state.experiences!],
       skillSetsForExp: [...state.skillSetsForExp!],
+      resume: state.resume,
+      transcript: state.transcript,
     );
 
     temp.fullname = fullname;
@@ -89,6 +99,8 @@ class StudentInputNotifier extends StateNotifier<StudentInput> {
       educations: [...state.educations!],
       experiences: [...state.experiences!],
       skillSetsForExp: [...state.skillSetsForExp!],
+      resume: state.resume,
+      transcript: state.transcript,
     );
 
     temp.techStackId = id;
@@ -107,6 +119,8 @@ class StudentInputNotifier extends StateNotifier<StudentInput> {
       educations: [...state.educations!],
       experiences: [...state.experiences!],
       skillSetsForExp: [...state.skillSetsForExp!],
+      resume: state.resume,
+      transcript: state.transcript,
     );
 
     temp.skillSets = [...skillSets];
@@ -125,6 +139,8 @@ class StudentInputNotifier extends StateNotifier<StudentInput> {
       educations: [...state.educations!],
       experiences: [...state.experiences!],
       skillSetsForExp: [...state.skillSetsForExp!],
+      resume: state.resume,
+      transcript: state.transcript,
     );
 
     temp.skillSetsForExp = [...skillSetsForExp];
@@ -144,6 +160,8 @@ class StudentInputNotifier extends StateNotifier<StudentInput> {
       educations: [...state.educations!],
       experiences: [...state.experiences!],
       skillSetsForExp: [...state.skillSetsForExp!],
+      resume: state.resume,
+      transcript: state.transcript,
     );
 
     temp.languages = [...languages];
@@ -162,6 +180,8 @@ class StudentInputNotifier extends StateNotifier<StudentInput> {
       educations: [...state.educations!],
       experiences: [...state.experiences!],
       skillSetsForExp: [...state.skillSetsForExp!],
+      resume: state.resume,
+      transcript: state.transcript,
     );
 
     temp.languages = [...temp.languages!, language];
@@ -178,6 +198,8 @@ class StudentInputNotifier extends StateNotifier<StudentInput> {
       educations: [...state.educations!],
       experiences: [...state.experiences!],
       skillSetsForExp: [...state.skillSetsForExp!],
+      resume: state.resume,
+      transcript: state.transcript,
     );
 
     temp.languages![index].languageName = languageName;
@@ -195,6 +217,8 @@ class StudentInputNotifier extends StateNotifier<StudentInput> {
       educations: [...state.educations!],
       experiences: [...state.experiences!],
       skillSetsForExp: [...state.skillSetsForExp!],
+      resume: state.resume,
+      transcript: state.transcript,
     );
 
     temp.languages!.removeAt(index);
@@ -214,6 +238,8 @@ class StudentInputNotifier extends StateNotifier<StudentInput> {
       educations: [...state.educations!],
       experiences: [...state.experiences!],
       skillSetsForExp: [...state.skillSetsForExp!],
+      resume: state.resume,
+      transcript: state.transcript,
     );
 
     temp.educations = [...educations];
@@ -232,6 +258,8 @@ class StudentInputNotifier extends StateNotifier<StudentInput> {
       educations: [...state.educations!],
       experiences: [...state.experiences!],
       skillSetsForExp: [...state.skillSetsForExp!],
+      resume: state.resume,
+      transcript: state.transcript,
     );
 
     temp.educations = [...temp.educations!, educations];
@@ -239,7 +267,12 @@ class StudentInputNotifier extends StateNotifier<StudentInput> {
     state = temp;
   }
 
-  void updateStudentInputEducation(String schoolName, String startYear, String endYear, int index) {
+  void updateStudentInputEducation(
+    String schoolName,
+    String startYear,
+    String endYear,
+    int index,
+  ) {
     StudentInput temp = StudentInput(
       fullname: state.fullname,
       techStackId: state.techStackId,
@@ -248,6 +281,8 @@ class StudentInputNotifier extends StateNotifier<StudentInput> {
       educations: [...state.educations!],
       experiences: [...state.experiences!],
       skillSetsForExp: [...state.skillSetsForExp!],
+      resume: state.resume,
+      transcript: state.transcript,
     );
 
     temp.educations![index].schoolName = schoolName;
@@ -266,6 +301,8 @@ class StudentInputNotifier extends StateNotifier<StudentInput> {
       educations: [...state.educations!],
       experiences: [...state.experiences!],
       skillSetsForExp: [...state.skillSetsForExp!],
+      resume: state.resume,
+      transcript: state.transcript,
     );
 
     temp.educations!.removeAt(index);
@@ -285,6 +322,8 @@ class StudentInputNotifier extends StateNotifier<StudentInput> {
       educations: [...state.educations!],
       experiences: [...state.experiences!],
       skillSetsForExp: [...state.skillSetsForExp!],
+      resume: state.resume,
+      transcript: state.transcript,
     );
 
     temp.experiences = [...experiences];
@@ -303,6 +342,8 @@ class StudentInputNotifier extends StateNotifier<StudentInput> {
       educations: [...state.educations!],
       experiences: [...state.experiences!],
       skillSetsForExp: [...state.skillSetsForExp!],
+      resume: state.resume,
+      transcript: state.transcript,
     );
 
     temp.experiences = [...temp.experiences!, experiences];
@@ -326,6 +367,8 @@ class StudentInputNotifier extends StateNotifier<StudentInput> {
       educations: [...state.educations!],
       experiences: [...state.experiences!],
       skillSetsForExp: [...state.skillSetsForExp!],
+      resume: state.resume,
+      transcript: state.transcript,
     );
 
     temp.experiences![index].title = title;
@@ -333,9 +376,6 @@ class StudentInputNotifier extends StateNotifier<StudentInput> {
     temp.experiences![index].startMonth = startMonth;
     temp.experiences![index].endMonth = endMonth;
     temp.experiences![index].skillSets = [...skillSets];
-
-    print('skillSets provider---------------------------');
-    print(temp.experiences![index].skillSets);
 
     state = temp;
   }
@@ -349,9 +389,51 @@ class StudentInputNotifier extends StateNotifier<StudentInput> {
       educations: [...state.educations!],
       experiences: [...state.experiences!],
       skillSetsForExp: [...state.skillSetsForExp!],
+      resume: state.resume,
+      transcript: state.transcript,
     );
 
     temp.experiences!.removeAt(index);
+
+    state = temp;
+  }
+
+  void setStudentInputResume(
+    String resume,
+  ) {
+    StudentInput temp = StudentInput(
+      fullname: state.fullname,
+      techStackId: state.techStackId,
+      skillSets: state.skillSets,
+      languages: [...state.languages!],
+      educations: [...state.educations!],
+      experiences: [...state.experiences!],
+      skillSetsForExp: [...state.skillSetsForExp!],
+      resume: state.resume,
+      transcript: state.transcript,
+    );
+
+    temp.resume = resume;
+
+    state = temp;
+  }
+
+  void setStudentInputTranscript(
+    String transcript,
+  ) {
+    StudentInput temp = StudentInput(
+      fullname: state.fullname,
+      techStackId: state.techStackId,
+      skillSets: state.skillSets,
+      languages: [...state.languages!],
+      educations: [...state.educations!],
+      experiences: [...state.experiences!],
+      skillSetsForExp: [...state.skillSetsForExp!],
+      resume: state.resume,
+      transcript: state.transcript,
+    );
+
+    temp.transcript = transcript;
 
     state = temp;
   }

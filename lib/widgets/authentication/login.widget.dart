@@ -290,6 +290,7 @@ class _LoginWidgetState extends ConsumerState<LoginWidget> {
 
                                   print('---responeAuthMeData---');
                                   print(responeAuthMeData);
+                                  print(user.token);
 
                                   //Set authentication data
                                   ref.read(userProvider.notifier).setUserData(
@@ -346,7 +347,37 @@ class _LoginWidgetState extends ConsumerState<LoginWidget> {
                                             responseStudentData["result"]["languages"],
                                           );
                                     }
-                                    print(responseStudentData);
+
+                                    //set resume
+                                    final urlResume = Uri.parse('http://${dotenv.env['IP_ADDRESS']}/api/profile/student/${responeAuthMeData["result"]["student"]["id"]}/resume');
+                                    final responseResumeGet = await http.get(
+                                      urlResume,
+                                      headers: {
+                                        'Content-Type': 'application/json',
+                                        'Authorization': 'Bearer ${json.decode(responseLogin.body)["result"]["token"]}',
+                                      },
+                                    );
+
+                                    var resumeData = json.decode(responseResumeGet.body)['result'];
+
+                                    print('---resumeData---');
+                                    print(resumeData);
+                                    ref.read(studentProvider.notifier).setStudentResume(resumeData ?? '');
+
+                                    //set transcript
+                                    final urlTranscript = Uri.parse('http://${dotenv.env['IP_ADDRESS']}/api/profile/student/${responeAuthMeData["result"]["student"]["id"]}/resume');
+                                    final responseTranscriptGet = await http.get(
+                                      urlTranscript,
+                                      headers: {
+                                        'Content-Type': 'application/json',
+                                        'Authorization': 'Bearer ${json.decode(responseLogin.body)["result"]["token"]}',
+                                      },
+                                    );
+
+                                    var transcriptData = json.decode(responseTranscriptGet.body)['result'];
+                                    print('---transcriptData---');
+                                    print(transcriptData);
+                                    ref.read(studentProvider.notifier).setStudentTranscript(transcriptData ?? '');
                                   }
 
                                   // Set company data
