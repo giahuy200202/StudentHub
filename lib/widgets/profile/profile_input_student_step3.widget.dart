@@ -22,6 +22,8 @@ class ProfileIStudentStep3Widget extends ConsumerStatefulWidget {
 }
 
 class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentStep3Widget> {
+  bool isSending = false;
+
   void showErrorToast(title, description) {
     toastification.show(
       context: context,
@@ -61,7 +63,6 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentStep3Widget> {
     final user = ref.watch(userProvider);
     final studentInput = ref.watch(studentInputProvider);
     var student = ref.watch(studentProvider);
-    bool isSending = false;
 
     var responseEditStudent;
     var responseEditStudentData;
@@ -74,27 +75,39 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentStep3Widget> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(height: 30),
-              const Center(
+              const Align(
+                alignment: Alignment.topLeft,
                 child: Text(
                   'CV & Transcript',
-                  textAlign: TextAlign.center,
                   style: TextStyle(
-                    fontSize: 22.0,
+                    fontSize: 26,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 15),
               const Text(
                 'Tell us about your self and you will be your way connect with real-world project',
                 style: TextStyle(fontSize: 16),
               ),
               const SizedBox(height: 20),
-              const Text('Resume/CV(*)', style: TextStyle(fontSize: 16)),
+              const Text(
+                'Resume/CV',
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
               const SizedBox(height: 20),
               const ResumeInput(),
               const SizedBox(height: 20),
-              const Text('Transcript(*)', style: TextStyle(fontSize: 16)),
+              const Text(
+                'Transcript',
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
               const SizedBox(height: 20),
               const TrasncriptInput(),
               const SizedBox(height: 60),
@@ -109,6 +122,7 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentStep3Widget> {
                             setState(() {
                               isSending = true;
                             });
+
                             if (student.id == null || student.id == 0) {
                               //Create fullname, techStackId, skillSets
                               final url = Uri.parse('http://${dotenv.env['IP_ADDRESS']}/api/profile/student');
@@ -234,69 +248,66 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentStep3Widget> {
                             print('----responseStudentData----');
                             print(responseStudentData['result']);
 
-                            //update resume
-                            var requestResume = http.MultipartRequest(
-                              'PUT',
-                              Uri.parse('http://${dotenv.env['IP_ADDRESS']}/api/profile/student/${student.id}/resume'),
-                            );
-
-                            // Add the token to the headers
-                            requestResume.headers.addAll({
-                              'Authorization': 'Bearer ${user.token}',
-                            });
-
-                            requestResume.files.add(await http.MultipartFile.fromPath(
-                              'file',
-                              studentInput.resume!,
-                            ));
-                            var responseResume = await requestResume.send();
-                            http.Response finalResponseResume = await http.Response.fromStream(responseResume);
-                            // print('----responseResume----');
-                            // print(json.decode(finalResponseResume.body));
-
-                            //update transcript
-                            var requestTranscript = http.MultipartRequest(
-                              'PUT',
-                              Uri.parse('http://${dotenv.env['IP_ADDRESS']}/api/profile/student/${student.id}/resume'),
-                            );
-
-                            // Add the token to the headers
-                            requestTranscript.headers.addAll({
-                              'Authorization': 'Bearer ${user.token}',
-                            });
-
-                            requestTranscript.files.add(await http.MultipartFile.fromPath(
-                              'file',
-                              studentInput.resume!,
-                            ));
-                            var responseTranscript = await requestTranscript.send();
-                            http.Response finalResponseTranscript = await http.Response.fromStream(responseTranscript);
-                            // print('----responseTranscript----');
-                            // print(json.decode(finalResponseTranscript.body));
-
                             //set resume
-                            final urlResume = Uri.parse('http://${dotenv.env['IP_ADDRESS']}/api/profile/student/${student.id}/resume');
-                            final responseResumeGet = await http.get(
-                              urlResume,
-                              headers: {'Content-Type': 'application/json', 'Authorization': 'Bearer ${user.token}'},
-                            );
+                            if (studentInput.resume!.substring(0, 4) != 'http') {
+                              //update resume
+                              var requestResume = http.MultipartRequest(
+                                'PUT',
+                                Uri.parse('http://${dotenv.env['IP_ADDRESS']}/api/profile/student/${student.id}/resume'),
+                              );
 
-                            var resumeData = json.decode(responseResumeGet.body)['result'];
-                            ref.read(studentProvider.notifier).setStudentResume(resumeData ?? '');
+                              // Add the token to the headers
+                              requestResume.headers.addAll({
+                                'Authorization': 'Bearer ${user.token}',
+                              });
 
-                            //set transcript
-                            final urlTranscript = Uri.parse('http://${dotenv.env['IP_ADDRESS']}/api/profile/student/${student.id}/resume');
-                            final responseTranscriptGet = await http.get(
-                              urlTranscript,
-                              headers: {'Content-Type': 'application/json', 'Authorization': 'Bearer ${user.token}'},
-                            );
+                              requestResume.files.add(await http.MultipartFile.fromPath(
+                                'file',
+                                studentInput.resume!,
+                              ));
+                              var responseResume = await requestResume.send();
+                              http.Response finalResponseResume = await http.Response.fromStream(responseResume);
 
-                            var transcriptData = json.decode(responseTranscriptGet.body)['result'];
-                            ref.read(studentProvider.notifier).setStudentTranscript(transcriptData ?? '');
+                              // set resume after update
+                              final urlResume = Uri.parse('http://${dotenv.env['IP_ADDRESS']}/api/profile/student/${student.id}/resume');
+                              final responseResumeGet = await http.get(
+                                urlResume,
+                                headers: {'Content-Type': 'application/json', 'Authorization': 'Bearer ${user.token}'},
+                              );
 
-                            setState(() {
-                              isSending = false;
-                            });
+                              var resumeData = json.decode(responseResumeGet.body)['result'];
+                              ref.read(studentProvider.notifier).setStudentResume(resumeData ?? '');
+                            }
+
+                            if (studentInput.transcript!.substring(0, 4) != 'http') {
+                              //update transcript
+                              var requestTranscript = http.MultipartRequest(
+                                'PUT',
+                                Uri.parse('http://${dotenv.env['IP_ADDRESS']}/api/profile/student/${student.id}/resume'),
+                              );
+
+                              // Add the token to the headers
+                              requestTranscript.headers.addAll({
+                                'Authorization': 'Bearer ${user.token}',
+                              });
+
+                              requestTranscript.files.add(await http.MultipartFile.fromPath(
+                                'file',
+                                studentInput.resume!,
+                              ));
+                              var responseTranscript = await requestTranscript.send();
+                              http.Response finalResponseTranscript = await http.Response.fromStream(responseTranscript);
+
+                              //set transcript after update
+                              final urlTranscript = Uri.parse('http://${dotenv.env['IP_ADDRESS']}/api/profile/student/${student.id}/resume');
+                              final responseTranscriptGet = await http.get(
+                                urlTranscript,
+                                headers: {'Content-Type': 'application/json', 'Authorization': 'Bearer ${user.token}'},
+                              );
+
+                              var transcriptData = json.decode(responseTranscriptGet.body)['result'];
+                              ref.read(studentProvider.notifier).setStudentTranscript(transcriptData ?? '');
+                            }
 
                             if (responseEditStudentData.containsKey('errorDetails') || responseEditLanguagesData.containsKey('errorDetails') || responseEditEducationsData.containsKey('errorDetails') || responseEditExperiencesData.containsKey('errorDetails')) {
                               showErrorToast('Error', 'Something went wrong, please try again');
@@ -321,13 +332,16 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentStep3Widget> {
                               }
                             }
 
+                            setState(() {
+                              isSending = false;
+                            });
+
                             // ref.read(optionsProvider.notifier).setWidgetOption('Welcome', user.role!);
                           }
                         : null,
                     style: ElevatedButton.styleFrom(
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8),
-                        side: const BorderSide(color: Colors.grey),
                       ),
                       backgroundColor: const Color.fromARGB(255, 0, 0, 0),
                     ),
