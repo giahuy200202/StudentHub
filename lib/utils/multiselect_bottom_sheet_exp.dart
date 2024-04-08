@@ -98,14 +98,14 @@ class _MultiSelectBottomSheetState extends ConsumerState<MultiSelectBottomSheet>
       }
     }
 
-    print('each element');
-    print(widget.expEachElement);
+    // print('each element');
+    // print(widget.expEachElement);
 
-    print('items');
-    print(items.length);
-    for (var item in items) {
-      print(item.isSelected ? item.name : '');
-    }
+    // print('items');
+    // print(items.length);
+    // for (var item in items) {
+    //   print(item.isSelected ? item.name : '');
+    // }
 
     print('defaultList');
     print(defaultList.length);

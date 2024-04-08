@@ -233,35 +233,6 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentStep2Widget> {
                                   // bool enable = false;
                                   final studentInputModal = ref.watch(studentInputProvider);
 
-                                  // skillSetItemsForCreate.add(skillSetItems);
-
-                                  // for (var item in skillSetItems) {
-                                  //   defaultList.add(MultiSelectBottomSheetModel(
-                                  //     id: item.id,
-                                  //     name: item.name,
-                                  //     isSelected: item.isSelected,
-                                  //   ));
-                                  //   filterList.add(MultiSelectBottomSheetModel(
-                                  //     id: item.id,
-                                  //     name: item.name,
-                                  //     isSelected: item.isSelected,
-                                  //   ));
-                                  // }
-
-                                  // defaultListAll.add(defaultList);
-                                  // filterListAll.add(filterList);
-
-                                  // for (int i = 0; i < studentInput.experiences!.length; i++) {
-                                  //   if (studentInput.experiences![i].skillSets.isNotEmpty) {
-                                  //     for (int j = 0; j < studentInput.experiences![i].skillSets!.length; j++) {
-                                  //       skillSetItemsForCreate[i][studentInput.experiences![i].skillSets![j] - 1].isSelected = true;
-                                  //       defaultListAll[i][studentInput.experiences![i].skillSets![j] - 1].isSelected = true;
-                                  //       filterListAll[i][studentInput.experiences![i].skillSets![j] - 1].isSelected = true;
-                                  //     }
-                                  //   }
-                                  //   skillSetItemsForCreate[i] = skillSetItems;
-                                  // }
-
                                   return Padding(
                                     padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
                                     child: SingleChildScrollView(
@@ -550,13 +521,6 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentStep2Widget> {
                                                             child: ElevatedButton(
                                                               onPressed: enableCreate
                                                                   ? () {
-                                                                      List<int> test = [];
-                                                                      for (var item in skillSetItems) {
-                                                                        if (item.isSelected) {
-                                                                          test.add(item.id);
-                                                                        }
-                                                                      }
-
                                                                       final skillSetsWithoutRef = [...studentInputModal.skillSetsForExp!];
 
                                                                       ref.read(studentInputProvider.notifier).addStudentInputExperiences(
@@ -628,6 +592,16 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentStep2Widget> {
                             children: [
                               ...studentInput.experiences!.map(
                                 (el) {
+                                  print('----el in array----');
+                                  print(el.skillSets);
+                                  String elTitle = '';
+                                  for (int i = 0; i < el.skillSets.length; i++) {
+                                    if (i != el.skillSets.length - 1) {
+                                      elTitle += '${skillSetItems[el.skillSets[i] - 1].name}, ';
+                                    } else {
+                                      elTitle += '${skillSetItems[el.skillSets[i] - 1].name}';
+                                    }
+                                  }
                                   return Column(
                                     children: [
                                       Container(
@@ -665,7 +639,320 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentStep2Widget> {
                                                   ),
                                                   Row(children: [
                                                     InkWell(
-                                                      onTap: () {},
+                                                      onTap: () {
+                                                        showModalBottomSheet(
+                                                          isScrollControlled: true,
+                                                          context: context,
+                                                          backgroundColor: Colors.white,
+                                                          builder: (ctx) {
+                                                            return StatefulBuilder(builder: (BuildContext context, StateSetter setState /*You can rename this!*/) {
+                                                              // bool enable = false;
+                                                              return Padding(
+                                                                padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+                                                                child: SingleChildScrollView(
+                                                                  // physics: const NeverScrollableScrollPhysics(),
+                                                                  child: Padding(
+                                                                    padding: const EdgeInsets.only(left: 20, right: 20),
+                                                                    child: Column(
+                                                                      mainAxisSize: MainAxisSize.min,
+                                                                      children: [
+                                                                        const SizedBox(height: 40),
+                                                                        const Align(
+                                                                          alignment: Alignment.topLeft,
+                                                                          child: Text(
+                                                                            "Edit project",
+                                                                            style: TextStyle(
+                                                                              fontWeight: FontWeight.bold,
+                                                                              fontSize: 25,
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                        const SizedBox(height: 15),
+                                                                        Container(
+                                                                          decoration: BoxDecoration(
+                                                                            border: Border.all(
+                                                                              color: Colors.black, //                   <--- border color
+                                                                              width: 0.3,
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                        const SizedBox(height: 15),
+                                                                        SizedBox(
+                                                                          height: 580,
+                                                                          child: Column(
+                                                                            children: [
+                                                                              const Align(
+                                                                                alignment: Alignment.topLeft,
+                                                                                child: Text(
+                                                                                  "Title",
+                                                                                  style: TextStyle(
+                                                                                    fontWeight: FontWeight.bold,
+                                                                                    fontSize: 16,
+                                                                                  ),
+                                                                                ),
+                                                                              ),
+                                                                              const SizedBox(height: 15),
+                                                                              SizedBox(
+                                                                                child: TextField(
+                                                                                  controller: titleController,
+                                                                                  onChanged: (data) {},
+                                                                                  style: const TextStyle(
+                                                                                    fontSize: 16,
+                                                                                  ),
+                                                                                  decoration: InputDecoration(
+                                                                                    // labelText: 'Number of students',
+                                                                                    border: OutlineInputBorder(
+                                                                                      borderRadius: BorderRadius.circular(9),
+                                                                                    ),
+                                                                                    focusedBorder: OutlineInputBorder(
+                                                                                      borderRadius: BorderRadius.circular(9),
+                                                                                      borderSide: const BorderSide(color: Colors.black),
+                                                                                    ),
+                                                                                    contentPadding: const EdgeInsets.symmetric(
+                                                                                      vertical: 14,
+                                                                                      horizontal: 15,
+                                                                                    ),
+                                                                                    hintText: 'Enter your project\'s title',
+                                                                                  ),
+                                                                                ),
+                                                                              ),
+                                                                              const SizedBox(height: 20),
+                                                                              const Align(
+                                                                                alignment: Alignment.topLeft,
+                                                                                child: Text(
+                                                                                  "Description",
+                                                                                  style: TextStyle(
+                                                                                    fontWeight: FontWeight.bold,
+                                                                                    fontSize: 16,
+                                                                                  ),
+                                                                                ),
+                                                                              ),
+                                                                              const SizedBox(height: 15),
+                                                                              SizedBox(
+                                                                                child: TextField(
+                                                                                  controller: descriptionController,
+                                                                                  onChanged: (data) {},
+                                                                                  style: const TextStyle(
+                                                                                    fontSize: 16,
+                                                                                  ),
+                                                                                  decoration: InputDecoration(
+                                                                                    // labelText: 'Number of students',
+                                                                                    border: OutlineInputBorder(
+                                                                                      borderRadius: BorderRadius.circular(9),
+                                                                                    ),
+                                                                                    focusedBorder: OutlineInputBorder(
+                                                                                      borderRadius: BorderRadius.circular(9),
+                                                                                      borderSide: const BorderSide(color: Colors.black),
+                                                                                    ),
+                                                                                    contentPadding: const EdgeInsets.symmetric(
+                                                                                      vertical: 14,
+                                                                                      horizontal: 15,
+                                                                                    ),
+                                                                                    hintText: 'Enter your project\'s description',
+                                                                                  ),
+                                                                                ),
+                                                                              ),
+                                                                              const SizedBox(height: 20),
+                                                                              const Row(
+                                                                                children: [
+                                                                                  Align(
+                                                                                    alignment: Alignment.topLeft,
+                                                                                    child: Text(
+                                                                                      "Start time",
+                                                                                      style: TextStyle(
+                                                                                        fontWeight: FontWeight.bold,
+                                                                                        fontSize: 16,
+                                                                                      ),
+                                                                                    ),
+                                                                                  ),
+                                                                                  SizedBox(width: 118),
+                                                                                  Align(
+                                                                                    alignment: Alignment.topLeft,
+                                                                                    child: Text(
+                                                                                      "End time",
+                                                                                      style: TextStyle(
+                                                                                        fontWeight: FontWeight.bold,
+                                                                                        fontSize: 16,
+                                                                                      ),
+                                                                                    ),
+                                                                                  ),
+                                                                                ],
+                                                                              ),
+                                                                              const SizedBox(height: 15),
+                                                                              Row(
+                                                                                children: [
+                                                                                  SizedBox(
+                                                                                    width: 175,
+                                                                                    child: TextField(
+                                                                                      controller: startMonthController,
+                                                                                      onChanged: (data) {},
+                                                                                      style: const TextStyle(
+                                                                                        fontSize: 16,
+                                                                                      ),
+                                                                                      decoration: InputDecoration(
+                                                                                        // labelText: 'Number of students',
+                                                                                        border: OutlineInputBorder(
+                                                                                          borderRadius: BorderRadius.circular(9),
+                                                                                        ),
+                                                                                        focusedBorder: OutlineInputBorder(
+                                                                                          borderRadius: BorderRadius.circular(9),
+                                                                                          borderSide: const BorderSide(color: Colors.black),
+                                                                                        ),
+                                                                                        contentPadding: const EdgeInsets.symmetric(
+                                                                                          vertical: 14,
+                                                                                          horizontal: 15,
+                                                                                        ),
+                                                                                        hintText: 'End start time',
+                                                                                      ),
+                                                                                    ),
+                                                                                  ),
+                                                                                  const SizedBox(width: 15),
+                                                                                  SizedBox(
+                                                                                    width: 175,
+                                                                                    child: TextField(
+                                                                                      controller: endMonthController,
+                                                                                      onChanged: (data) {},
+                                                                                      style: const TextStyle(
+                                                                                        fontSize: 16,
+                                                                                      ),
+                                                                                      decoration: InputDecoration(
+                                                                                        // labelText: 'Number of students',
+                                                                                        border: OutlineInputBorder(
+                                                                                          borderRadius: BorderRadius.circular(9),
+                                                                                        ),
+                                                                                        focusedBorder: OutlineInputBorder(
+                                                                                          borderRadius: BorderRadius.circular(9),
+                                                                                          borderSide: const BorderSide(color: Colors.black),
+                                                                                        ),
+                                                                                        contentPadding: const EdgeInsets.symmetric(
+                                                                                          vertical: 14,
+                                                                                          horizontal: 15,
+                                                                                        ),
+                                                                                        hintText: 'Enter end time',
+                                                                                      ),
+                                                                                    ),
+                                                                                  ),
+                                                                                ],
+                                                                              ),
+                                                                              const SizedBox(height: 20),
+                                                                              const Align(
+                                                                                alignment: Alignment.topLeft,
+                                                                                child: Text(
+                                                                                  "Skillsets",
+                                                                                  style: TextStyle(
+                                                                                    fontWeight: FontWeight.bold,
+                                                                                    fontSize: 16,
+                                                                                  ),
+                                                                                ),
+                                                                              ),
+                                                                              const SizedBox(height: 15),
+                                                                              MultiSelectBottomSheet(
+                                                                                items: skillSetItems,
+                                                                                expEachElement: el.skillSets,
+                                                                                width: MediaQuery.of(context).size.width,
+                                                                                bottomSheetHeight: 500 * 0.7, // required for min/max height of bottomSheet
+                                                                                hint: "Select Skillset",
+                                                                                controller: controller,
+                                                                                searchTextFieldWidth: 300 * 0.96,
+                                                                                searchIcon: const Icon(
+                                                                                    // required for searchIcon
+                                                                                    Icons.search,
+                                                                                    color: Colors.black87,
+                                                                                    size: 22),
+                                                                                selectTextStyle: const TextStyle(color: Colors.white, fontSize: 17),
+                                                                                unSelectTextStyle: const TextStyle(color: Colors.black, fontSize: 17),
+                                                                              ),
+                                                                              const SizedBox(height: 40),
+                                                                              Column(
+                                                                                children: [
+                                                                                  Row(
+                                                                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                                    children: [
+                                                                                      SizedBox(
+                                                                                        height: 46,
+                                                                                        width: 175,
+                                                                                        child: ElevatedButton(
+                                                                                          onPressed: () {
+                                                                                            titleController.text = '';
+                                                                                            descriptionController.text = '';
+                                                                                            startMonthController.text = '';
+                                                                                            endMonthController.text = '';
+                                                                                            Navigator.pop(context);
+                                                                                          },
+                                                                                          style: ElevatedButton.styleFrom(
+                                                                                            // minimumSize: Size.zero, // Set this
+                                                                                            padding: EdgeInsets.zero, // and this
+                                                                                            shape: RoundedRectangleBorder(
+                                                                                              borderRadius: BorderRadius.circular(8),
+                                                                                              side: const BorderSide(color: Colors.black),
+                                                                                            ),
+                                                                                            backgroundColor: Colors.white,
+                                                                                          ),
+                                                                                          child: const Text(
+                                                                                            'Cancel',
+                                                                                            style: TextStyle(
+                                                                                              fontSize: 18,
+                                                                                              color: Colors.black,
+                                                                                              fontWeight: FontWeight.w500,
+                                                                                            ),
+                                                                                          ),
+                                                                                        ),
+                                                                                      ),
+                                                                                      const SizedBox(width: 15),
+                                                                                      SizedBox(
+                                                                                        height: 46,
+                                                                                        width: 175,
+                                                                                        child: ElevatedButton(
+                                                                                          onPressed: enableCreate
+                                                                                              ? () {
+                                                                                                  final studentAfterEdit = ref.watch(studentInputProvider);
+                                                                                                  print('skillSetsWithoutRef');
+                                                                                                  print(studentAfterEdit.skillSetsForExp!);
+                                                                                                  ref.read(studentInputProvider.notifier).updateStudentInputExperiences(
+                                                                                                        titleController.text,
+                                                                                                        descriptionController.text,
+                                                                                                        startMonthController.text,
+                                                                                                        endMonthController.text,
+                                                                                                        studentAfterEdit.skillSetsForExp!,
+                                                                                                        studentInput.experiences!.indexOf(el),
+                                                                                                      );
+                                                                                                  Navigator.pop(context);
+                                                                                                }
+                                                                                              : null,
+                                                                                          style: ElevatedButton.styleFrom(
+                                                                                            // minimumSize: Size.zero, // Set this
+                                                                                            padding: EdgeInsets.zero, // and this
+                                                                                            shape: RoundedRectangleBorder(
+                                                                                              borderRadius: BorderRadius.circular(8),
+                                                                                            ),
+                                                                                            backgroundColor: Colors.black,
+                                                                                          ),
+                                                                                          child: const Text(
+                                                                                            'Save',
+                                                                                            style: TextStyle(
+                                                                                              fontSize: 18,
+                                                                                              color: Color.fromARGB(255, 255, 255, 255),
+                                                                                              fontWeight: FontWeight.w500,
+                                                                                            ),
+                                                                                          ),
+                                                                                        ),
+                                                                                      ),
+                                                                                    ],
+                                                                                  )
+                                                                                ],
+                                                                              ),
+                                                                            ],
+                                                                          ),
+                                                                        )
+                                                                      ],
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              );
+                                                            });
+                                                          },
+                                                        );
+                                                      },
                                                       child: const Icon(
                                                         Icons.edit_calendar,
                                                         color: Colors.black,
@@ -674,7 +961,11 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentStep2Widget> {
                                                     ),
                                                     const SizedBox(width: 10),
                                                     InkWell(
-                                                      onTap: () {},
+                                                      onTap: () {
+                                                        ref.read(studentInputProvider.notifier).deleteStudentInputExperiences(
+                                                              studentInput.experiences!.indexOf(el),
+                                                            );
+                                                      },
                                                       child: const Icon(
                                                         Icons.delete_forever,
                                                         color: Colors.red,
@@ -700,23 +991,11 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentStep2Widget> {
                                                 ),
                                               ),
                                               const SizedBox(height: 10),
-                                              MultiSelectBottomSheet(
-                                                // defaultList: defaultListAll[studentInput.experiences!.indexOf(el)],
-                                                // filterList: filterListAll[studentInput.experiences!.indexOf(el)],
-                                                items: skillSetItems,
-                                                expEachElement: el.skillSets,
-                                                width: MediaQuery.of(context).size.width,
-                                                bottomSheetHeight: 500 * 0.7, // required for min/max height of bottomSheet
-                                                hint: "Select Skillset",
-                                                controller: controller,
-                                                searchTextFieldWidth: 300 * 0.96,
-                                                searchIcon: const Icon(
-                                                    // required for searchIcon
-                                                    Icons.search,
-                                                    color: Colors.black87,
-                                                    size: 22),
-                                                selectTextStyle: const TextStyle(color: Colors.white, fontSize: 17),
-                                                unSelectTextStyle: const TextStyle(color: Colors.black, fontSize: 17),
+                                              Text(
+                                                elTitle,
+                                                style: const TextStyle(
+                                                  fontSize: 16,
+                                                ),
                                               ),
                                             ],
                                           ),

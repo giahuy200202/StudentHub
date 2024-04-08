@@ -311,11 +311,11 @@ class StudentInputNotifier extends StateNotifier<StudentInput> {
   }
 
   void updateStudentInputExperiences(
-    String projectName,
-    String startYear,
-    String endYear,
-    String duration,
-    List<dynamic> skillset,
+    String title,
+    String description,
+    String startMonth,
+    String endMonth,
+    List<int> skillSets,
     int index,
   ) {
     StudentInput temp = StudentInput(
@@ -328,11 +328,14 @@ class StudentInputNotifier extends StateNotifier<StudentInput> {
       skillSetsForExp: [...state.skillSetsForExp!],
     );
 
-    temp.educations![index].projectName = projectName;
-    temp.educations![index].startYear = startYear;
-    temp.educations![index].endYear = endYear;
-    temp.educations![index].duration = duration;
-    temp.educations![index].skillset = skillset;
+    temp.experiences![index].title = title;
+    temp.experiences![index].description = description;
+    temp.experiences![index].startMonth = startMonth;
+    temp.experiences![index].endMonth = endMonth;
+    temp.experiences![index].skillSets = [...skillSets];
+
+    print('skillSets provider---------------------------');
+    print(temp.experiences![index].skillSets);
 
     state = temp;
   }
