@@ -49,7 +49,7 @@ class _TrasncriptInputState extends ConsumerState<TrasncriptInput> {
           fit: BoxFit.cover,
         );
       } else {
-        content = Image.file(File(studentInput.resume!), fit: BoxFit.cover);
+        content = Image.file(File(studentInput.transcript!), fit: BoxFit.cover);
       }
     }
     return DottedBorder(

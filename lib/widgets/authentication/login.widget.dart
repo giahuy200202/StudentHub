@@ -365,7 +365,7 @@ class _LoginWidgetState extends ConsumerState<LoginWidget> {
                                     ref.read(studentProvider.notifier).setStudentResume(resumeData ?? '');
 
                                     //set transcript
-                                    final urlTranscript = Uri.parse('http://${dotenv.env['IP_ADDRESS']}/api/profile/student/${responeAuthMeData["result"]["student"]["id"]}/resume');
+                                    final urlTranscript = Uri.parse('http://${dotenv.env['IP_ADDRESS']}/api/profile/student/${responeAuthMeData["result"]["student"]["id"]}/transcript');
                                     final responseTranscriptGet = await http.get(
                                       urlTranscript,
                                       headers: {
@@ -378,6 +378,20 @@ class _LoginWidgetState extends ConsumerState<LoginWidget> {
                                     print('---transcriptData---');
                                     print(transcriptData);
                                     ref.read(studentProvider.notifier).setStudentTranscript(transcriptData ?? '');
+                                  } else {
+                                    print('-------------------');
+                                    ref.read(studentProvider.notifier).setStudentData(
+                                      0,
+                                      '',
+                                      '',
+                                      0,
+                                      [],
+                                      [],
+                                      [],
+                                      [],
+                                    );
+                                    ref.read(studentProvider.notifier).setStudentResume('');
+                                    ref.read(studentProvider.notifier).setStudentTranscript('');
                                   }
 
                                   // Set company data
@@ -416,6 +430,15 @@ class _LoginWidgetState extends ConsumerState<LoginWidget> {
                                             responseCompanyData["result"]["size"],
                                           );
                                     }
+                                  } else {
+                                    ref.read(companyProvider.notifier).setCompanyData(
+                                          0,
+                                          '',
+                                          '',
+                                          '',
+                                          '',
+                                          0,
+                                        );
                                   }
 
                                   Timer(const Duration(seconds: 3), () {

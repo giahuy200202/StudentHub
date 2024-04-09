@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
@@ -66,6 +67,7 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentStep3Widget> {
 
     var responseEditStudent;
     var responseEditStudentData;
+    var responseCreateStudentData;
 
     return Scaffold(
       body: SingleChildScrollView(
@@ -91,22 +93,89 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentStep3Widget> {
                 style: TextStyle(fontSize: 16),
               ),
               const SizedBox(height: 20),
-              const Text(
-                'Resume/CV',
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
-                ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text(
+                    'Resume/CV',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  InkWell(
+                    onTap: () async {
+                      final deleteResumeUrl = Uri.parse('http://${dotenv.env['IP_ADDRESS']}/api/profile/student/${student.id}/resume');
+                      final responseDeleteResume = await http.delete(deleteResumeUrl,
+                          headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': 'Bearer ${user.token}',
+                          },
+                          body: json.encode(
+                            {
+                              "fullname": studentInput.fullname,
+                              "techStackId": studentInput.techStackId,
+                              "skillSets": studentInput.skillSets,
+                            },
+                          ));
+
+                      final responseDeleteResumeData = json.decode(responseDeleteResume.body);
+
+                      print('----responseDeleteResumeData----');
+                      print(responseDeleteResumeData);
+                      ref.read(studentProvider.notifier).setStudentResume('');
+                      ref.read(studentInputProvider.notifier).setStudentInputResume('');
+                    },
+                    child: const Icon(
+                      Icons.delete_forever,
+                      color: Colors.red,
+                      size: 25,
+                    ),
+                  ),
+                ],
               ),
               const SizedBox(height: 20),
               const ResumeInput(),
               const SizedBox(height: 20),
-              const Text(
-                'Transcript',
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
-                ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text(
+                    'Transcript',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  InkWell(
+                    onTap: () async {
+                      final deleteTranscriptUrl = Uri.parse('http://${dotenv.env['IP_ADDRESS']}/api/profile/student/${student.id}/transcript');
+                      final responseDeleteTranscript = await http.delete(deleteTranscriptUrl,
+                          headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': 'Bearer ${user.token}',
+                          },
+                          body: json.encode(
+                            {
+                              "fullname": studentInput.fullname,
+                              "techStackId": studentInput.techStackId,
+                              "skillSets": studentInput.skillSets,
+                            },
+                          ));
+
+                      final responseDeleteTranscriptData = json.decode(responseDeleteTranscript.body);
+                      print('----responseDeleteTranscriptData----');
+                      print(responseDeleteTranscriptData);
+                      ref.read(studentProvider.notifier).setStudentTranscript('');
+                      ref.read(studentInputProvider.notifier).setStudentInputTranscript('');
+                    },
+                    child: const Icon(
+                      Icons.delete_forever,
+                      color: Colors.red,
+                      size: 25,
+                    ),
+                  ),
+                ],
               ),
               const SizedBox(height: 20),
               const TrasncriptInput(),
@@ -139,9 +208,9 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentStep3Widget> {
                                     },
                                   ));
 
-                              var responseCreateStudentData = json.decode(responseCreateStudent.body);
+                              responseCreateStudentData = json.decode(responseCreateStudent.body);
                               print('----responseCreateStudentData----');
-                              print(responseCreateStudentData['result']);
+                              print(responseCreateStudentData);
 
                               ref.read(studentProvider.notifier).setStudentId(responseCreateStudentData['result']['id']);
 
@@ -174,7 +243,7 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentStep3Widget> {
 
                               responseEditStudentData = json.decode(responseEditStudent.body);
                               print('----responseEditStudentData----');
-                              print(responseEditStudentData['result']);
+                              print(responseEditStudentData);
                             }
 
                             //Edit languages
@@ -192,7 +261,7 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentStep3Widget> {
 
                             var responseEditLanguagesData = json.decode(responseEditLanguages.body);
                             print('----responseEditLanguagesData----');
-                            print(responseEditLanguagesData['result']);
+                            print(responseEditLanguagesData);
 
                             //Edit education
                             final urlEducation = Uri.parse('http://${dotenv.env['IP_ADDRESS']}/api/education/updateByStudentId/${student.id}');
@@ -208,8 +277,10 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentStep3Widget> {
                                 ));
 
                             var responseEditEducationsData = json.decode(responseEditEducations.body);
+                            print('----studentInput.education----');
+                            print(json.encode(studentInput.educations));
                             print('----responseEditEducationsData----');
-                            print(responseEditEducationsData['result']);
+                            print(responseEditEducationsData);
 
                             //Edit experiences
                             final urlExperience = Uri.parse('http://${dotenv.env['IP_ADDRESS']}/api/experience/updateByStudentId/${student.id}');
@@ -230,7 +301,7 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentStep3Widget> {
                             print(json.encode(studentInput.experiences));
 
                             print('----responseEditExperiencesData----');
-                            print(responseEditExperiencesData['result']);
+                            print(responseEditExperiencesData);
 
                             //Set current fullname, techStackId, skillSets to provider
 
@@ -246,10 +317,12 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentStep3Widget> {
 
                             final responseStudentData = json.decode(responseStudent.body);
                             print('----responseStudentData----');
-                            print(responseStudentData['result']);
+                            print(responseStudentData);
 
                             //set resume
-                            if (studentInput.resume!.substring(0, 4) != 'http') {
+                            if (studentInput.resume! != '' && studentInput.resume!.substring(0, 4) != 'http') {
+                              print('-----studentInput.resume----');
+                              print(studentInput.resume);
                               //update resume
                               var requestResume = http.MultipartRequest(
                                 'PUT',
@@ -279,11 +352,14 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentStep3Widget> {
                               ref.read(studentProvider.notifier).setStudentResume(resumeData ?? '');
                             }
 
-                            if (studentInput.transcript!.substring(0, 4) != 'http') {
+                            if (studentInput.transcript! != '' && studentInput.transcript!.substring(0, 4) != 'http') {
                               //update transcript
+
+                              print('-----studentInput.transcript----');
+                              print(studentInput.transcript);
                               var requestTranscript = http.MultipartRequest(
                                 'PUT',
-                                Uri.parse('http://${dotenv.env['IP_ADDRESS']}/api/profile/student/${student.id}/resume'),
+                                Uri.parse('http://${dotenv.env['IP_ADDRESS']}/api/profile/student/${student.id}/transcript'),
                               );
 
                               // Add the token to the headers
@@ -293,13 +369,13 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentStep3Widget> {
 
                               requestTranscript.files.add(await http.MultipartFile.fromPath(
                                 'file',
-                                studentInput.resume!,
+                                studentInput.transcript!,
                               ));
                               var responseTranscript = await requestTranscript.send();
                               http.Response finalResponseTranscript = await http.Response.fromStream(responseTranscript);
 
                               //set transcript after update
-                              final urlTranscript = Uri.parse('http://${dotenv.env['IP_ADDRESS']}/api/profile/student/${student.id}/resume');
+                              final urlTranscript = Uri.parse('http://${dotenv.env['IP_ADDRESS']}/api/profile/student/${student.id}/transcript');
                               final responseTranscriptGet = await http.get(
                                 urlTranscript,
                                 headers: {'Content-Type': 'application/json', 'Authorization': 'Bearer ${user.token}'},
@@ -309,8 +385,8 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentStep3Widget> {
                               ref.read(studentProvider.notifier).setStudentTranscript(transcriptData ?? '');
                             }
 
-                            if (responseEditStudentData.containsKey('errorDetails') || responseEditLanguagesData.containsKey('errorDetails') || responseEditEducationsData.containsKey('errorDetails') || responseEditExperiencesData.containsKey('errorDetails')) {
-                              showErrorToast('Error', 'Something went wrong, please try again');
+                            if ((responseCreateStudentData != null && responseCreateStudentData.containsKey('errorDetails')) || (responseEditStudentData != null && responseEditStudentData.containsKey('errorDetails')) || responseEditLanguagesData.containsKey('errorDetails') || responseEditEducationsData.containsKey('errorDetails') || responseEditExperiencesData.containsKey('errorDetails')) {
+                              showErrorToast('Error', 'Something went wrong, please check again your information');
                             } else {
                               showSuccessToast('Success', 'Edit profile successfully');
                               if (responseStudentData['result'] != null) {
@@ -329,14 +405,15 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentStep3Widget> {
                                       responseStudentData["result"]["experiences"],
                                       responseStudentData["result"]["languages"],
                                     );
+                                Timer(const Duration(seconds: 3), () {
+                                  ref.read(optionsProvider.notifier).setWidgetOption('Welcome', user.role!);
+                                });
                               }
                             }
 
                             setState(() {
                               isSending = false;
                             });
-
-                            // ref.read(optionsProvider.notifier).setWidgetOption('Welcome', user.role!);
                           }
                         : null,
                     style: ElevatedButton.styleFrom(
@@ -347,11 +424,10 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentStep3Widget> {
                     ),
                     child: isSending
                         ? const SizedBox(
-                            height: 20,
-                            width: 20,
+                            height: 17,
+                            width: 17,
                             child: CircularProgressIndicator(
                               color: Colors.white,
-                              strokeWidth: 2,
                             ),
                           )
                         : const Text(

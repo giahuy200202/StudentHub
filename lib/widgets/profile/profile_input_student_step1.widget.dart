@@ -295,9 +295,12 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentWidget> {
     skillSetItems = await getSkillSet(token);
 
     if (student.id != 0) {
-      //set dropdown value
+      //set techstackId,  dropdown value
       dropdownValue = techStackName[student.techStackId - 1];
       ref.read(studentInputProvider.notifier).setStudentInputTechstackId(student.techStackId);
+
+      print('----student.techStackId----');
+      print(json.encode(student.techStackId));
 
       //set selected skillset
       ref.read(studentInputProvider.notifier).setStudentInputSkillSet(student.skillSets);
@@ -306,9 +309,15 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentWidget> {
         skillSetItems[item - 1].isSelected = true;
       }
 
+      print('----student.skillSets----');
+      print(json.encode(student.skillSets));
+
       //set fullname
       fullnameController.text = student.fullname;
       ref.read(studentInputProvider.notifier).setStudentInputFullname(student.fullname);
+
+      print('----student.fullname----');
+      print(json.encode(student.fullname));
 
       //set languages
       ref.read(studentInputProvider.notifier).setStudentInputLanguague([]);
@@ -330,6 +339,9 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentWidget> {
             );
       }
 
+      print('----student.languages----');
+      print(json.encode(student.languages));
+
       //set educations
       ref.read(studentInputProvider.notifier).setStudentInputEducation([]);
       for (var item in student.educations) {
@@ -337,14 +349,15 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentWidget> {
               EducationFetch(
                 item['id'],
                 item['schoolName'],
-                '${item['startYear'] + 1}',
-                '${item['endYear'] + 1}',
+                '${item['startYear']}',
+                '${item['endYear']}',
               ),
             );
       }
 
-      print('----student.experiences----');
-      print(student.experiences);
+      print('----student.educations----');
+      print(json.encode(student.educations));
+
       //set experiences
       ref.read(studentInputProvider.notifier).setStudentInputExperiences([]);
       for (var item in student.experiences) {
@@ -362,8 +375,10 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentWidget> {
                 item['id'],
                 item['title'],
                 item['description'],
-                '${int.parse(item['startMonth'].subString(0, 4)) + 1}',
-                '${int.parse(item['endMonth'].subString(0, 4)) + 1}',
+                item['startMonth'],
+                item['endMonth'],
+                // '${int.parse(item['startMonth'].subString(0, 4)) + 1}',
+                // '${int.parse(item['endMonth'].subString(0, 4)) + 1}',
                 tempSkillSet,
               ),
             );
@@ -371,8 +386,21 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentWidget> {
 
       //set resume
       ref.read(studentInputProvider.notifier).setStudentInputResume(student.resume);
+      print('----student.resume----');
+      print(json.encode(student.resume));
 
       //set transcript
+      ref.read(studentInputProvider.notifier).setStudentInputTranscript(student.transcript);
+      print('----student.transcript----');
+      print(json.encode(student.transcript));
+    } else {
+      ref.read(studentInputProvider.notifier).setStudentInputTechstackId(student.techStackId);
+      ref.read(studentInputProvider.notifier).setStudentInputSkillSet(student.skillSets);
+      ref.read(studentInputProvider.notifier).setStudentInputFullname(student.fullname);
+      ref.read(studentInputProvider.notifier).setStudentInputLanguague(student.languages);
+      ref.read(studentInputProvider.notifier).setStudentInputEducation(student.educations);
+      ref.read(studentInputProvider.notifier).setStudentInputExperiences(student.experiences);
+      ref.read(studentInputProvider.notifier).setStudentInputResume(student.resume);
       ref.read(studentInputProvider.notifier).setStudentInputTranscript(student.transcript);
     }
 
@@ -1022,7 +1050,7 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentWidget> {
                                                 child: const Icon(
                                                   Icons.edit_calendar,
                                                   color: Colors.black,
-                                                  size: 25,
+                                                  size: 24,
                                                 ),
                                               ),
                                               const SizedBox(width: 10),
@@ -1605,7 +1633,7 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentWidget> {
                                                 child: const Icon(
                                                   Icons.edit_calendar,
                                                   color: Colors.black,
-                                                  size: 25,
+                                                  size: 24,
                                                 ),
                                               ),
                                               const SizedBox(width: 10),

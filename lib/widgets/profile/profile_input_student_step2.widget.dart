@@ -108,6 +108,11 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentStep2Widget> {
   final startMonthController = TextEditingController();
   final endMonthController = TextEditingController();
 
+  final editTitleController = TextEditingController();
+  final editDescriptionController = TextEditingController();
+  final editStartMonthController = TextEditingController();
+  final editEndMonthController = TextEditingController();
+
   bool enableCreate = false;
 
   void showErrorToast(title, description) {
@@ -677,6 +682,10 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentStep2Widget> {
                                                           builder: (ctx) {
                                                             return StatefulBuilder(builder: (BuildContext context, StateSetter setState /*You can rename this!*/) {
                                                               // bool enable = false;
+                                                              editTitleController.text = el.title;
+                                                              editDescriptionController.text = el.description;
+                                                              editStartMonthController.text = el.startMonth;
+                                                              editEndMonthController.text = el.endMonth;
                                                               return Padding(
                                                                 padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
                                                                 child: SingleChildScrollView(
@@ -724,7 +733,7 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentStep2Widget> {
                                                                               const SizedBox(height: 15),
                                                                               SizedBox(
                                                                                 child: TextField(
-                                                                                  controller: titleController,
+                                                                                  controller: editTitleController,
                                                                                   onChanged: (data) {},
                                                                                   style: const TextStyle(
                                                                                     fontSize: 16,
@@ -760,7 +769,7 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentStep2Widget> {
                                                                               const SizedBox(height: 15),
                                                                               SizedBox(
                                                                                 child: TextField(
-                                                                                  controller: descriptionController,
+                                                                                  controller: editDescriptionController,
                                                                                   onChanged: (data) {},
                                                                                   style: const TextStyle(
                                                                                     fontSize: 16,
@@ -814,7 +823,7 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentStep2Widget> {
                                                                                   SizedBox(
                                                                                     width: 175,
                                                                                     child: TextField(
-                                                                                      controller: startMonthController,
+                                                                                      controller: editStartMonthController,
                                                                                       onChanged: (data) {},
                                                                                       style: const TextStyle(
                                                                                         fontSize: 16,
@@ -840,7 +849,7 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentStep2Widget> {
                                                                                   SizedBox(
                                                                                     width: 175,
                                                                                     child: TextField(
-                                                                                      controller: endMonthController,
+                                                                                      controller: editEndMonthController,
                                                                                       onChanged: (data) {},
                                                                                       style: const TextStyle(
                                                                                         fontSize: 16,
@@ -939,10 +948,10 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentStep2Widget> {
                                                                                                   final studentAfterEdit = ref.watch(studentInputProvider);
 
                                                                                                   ref.read(studentInputProvider.notifier).updateStudentInputExperiences(
-                                                                                                        titleController.text,
-                                                                                                        descriptionController.text,
-                                                                                                        startMonthController.text,
-                                                                                                        endMonthController.text,
+                                                                                                        editTitleController.text,
+                                                                                                        editDescriptionController.text,
+                                                                                                        editStartMonthController.text,
+                                                                                                        editEndMonthController.text,
                                                                                                         studentAfterEdit.skillSetsForExp!,
                                                                                                         studentInput.experiences!.indexOf(el),
                                                                                                       );
@@ -986,7 +995,7 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentStep2Widget> {
                                                       child: const Icon(
                                                         Icons.edit_calendar,
                                                         color: Colors.black,
-                                                        size: 25,
+                                                        size: 24,
                                                       ),
                                                     ),
                                                     const SizedBox(width: 10),
