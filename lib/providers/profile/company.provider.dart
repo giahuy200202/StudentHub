@@ -8,27 +8,27 @@ class Company {
   String? email;
   int? size;
 
-  Company(
-      {this.id,
-      this.companyName,
-      this.website,
-      this.description,
-      this.email,
-      this.size});
+  Company({
+    this.id,
+    this.companyName,
+    this.website,
+    this.description,
+    this.email,
+    this.size,
+  });
 }
 
 class CompanyNotifier extends StateNotifier<Company> {
-  CompanyNotifier()
-      : super(Company(
-            id: 0,
-            companyName: '',
-            website: '',
-            description: '',
-            email: '',
-            size: 0));
+  CompanyNotifier() : super(Company(
+            // id: 0,
+            // companyName: '',
+            // website: '',
+            // description: '',
+            // email: '',
+            // size: 0,
+            ));
 
-  void setCompanyData(int id, String companyName, String website,
-      String description, String email, int size) {
+  void setCompanyData(int id, String companyName, String website, String description, String email, int size) {
     Company temp = Company(
       id: state.id,
       companyName: state.companyName,
@@ -47,5 +47,4 @@ class CompanyNotifier extends StateNotifier<Company> {
   }
 }
 
-final companyProvider =
-    StateNotifierProvider<CompanyNotifier, Company>((ref) => CompanyNotifier());
+final companyProvider = StateNotifierProvider<CompanyNotifier, Company>((ref) => CompanyNotifier());

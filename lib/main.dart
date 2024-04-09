@@ -29,12 +29,17 @@ class _AppState extends ConsumerState<App> {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(
+        // scaffoldBackgroundColor: Color.fromARGB(255, 40, 40, 40),
         colorScheme: ColorScheme.fromSeed(
           seedColor: Colors.white,
           primary: const Color.fromARGB(255, 86, 85, 85),
           secondary: Colors.black,
         ),
       ),
+      // darkTheme: ThemeData(
+      //   brightness: Brightness.dark,
+      //   /* dark theme settings */
+      // ),
       home: const LayoutScreen(),
     );
   }

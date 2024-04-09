@@ -11,6 +11,8 @@ import 'package:studenthub/utils/multiselect_bottom_sheet.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
+import 'package:toastification/toastification.dart';
+
 TextEditingController controller = TextEditingController();
 
 class LanguageCreate {
@@ -18,6 +20,17 @@ class LanguageCreate {
   String level;
 
   LanguageCreate(this.languageName, this.level);
+
+  LanguageCreate.fromJson(Map<dynamic, dynamic> json)
+      : languageName = json['languageName'],
+        level = json['level'];
+
+  Map<dynamic, dynamic> toJson() {
+    return {
+      'languageName': languageName,
+      'level': level,
+    };
+  }
 }
 
 class LanguageFetch {
@@ -26,6 +39,19 @@ class LanguageFetch {
   String level;
 
   LanguageFetch(this.id, this.languageName, this.level);
+
+  LanguageFetch.fromJson(Map<dynamic, dynamic> json)
+      : id = json['id'],
+        languageName = json['languageName'],
+        level = json['level'];
+
+  Map<dynamic, dynamic> toJson() {
+    return {
+      'id': id,
+      'languageName': languageName,
+      'level': level,
+    };
+  }
 }
 
 class EducationCreate {
@@ -34,6 +60,19 @@ class EducationCreate {
   String endYear;
 
   EducationCreate(this.schoolName, this.startYear, this.endYear);
+
+  EducationCreate.fromJson(Map<dynamic, dynamic> json)
+      : schoolName = json['schoolName'],
+        startYear = json['startYear'],
+        endYear = json['endYear'];
+
+  Map<dynamic, dynamic> toJson() {
+    return {
+      'schoolName': schoolName,
+      'startYear': startYear,
+      'endYear': endYear,
+    };
+  }
 }
 
 class EducationFetch {
@@ -42,7 +81,92 @@ class EducationFetch {
   String startYear;
   String endYear;
 
-  EducationFetch(this.schoolName, this.startYear, this.endYear);
+  EducationFetch(this.id, this.schoolName, this.startYear, this.endYear);
+
+  EducationFetch.fromJson(Map<dynamic, dynamic> json)
+      : id = json['id'],
+        schoolName = json['schoolName'],
+        startYear = json['startYear'],
+        endYear = json['endYear'];
+
+  Map<dynamic, dynamic> toJson() {
+    return {
+      'id': id,
+      'schoolName': schoolName,
+      'startYear': startYear,
+      'endYear': endYear,
+    };
+  }
+}
+
+class ExperienceCreate {
+  String title;
+  String description;
+  String startMonth;
+  String endMonth;
+  List<dynamic> skillSets;
+
+  ExperienceCreate(
+    this.title,
+    this.description,
+    this.startMonth,
+    this.endMonth,
+    this.skillSets,
+  );
+
+  ExperienceCreate.fromJson(Map<dynamic, dynamic> json)
+      : title = json['title'],
+        description = json['description'],
+        startMonth = json['startMonth'],
+        endMonth = json['endMonth'],
+        skillSets = json['skillSets'];
+
+  Map<dynamic, dynamic> toJson() {
+    return {
+      'title': title,
+      'description': description,
+      'startMonth': startMonth,
+      'endMonth': endMonth,
+      'skillSets': skillSets,
+    };
+  }
+}
+
+class ExperienceFetch {
+  int id;
+  String title;
+  String description;
+  String startMonth;
+  String endMonth;
+  List<dynamic> skillSets;
+
+  ExperienceFetch(
+    this.id,
+    this.title,
+    this.description,
+    this.startMonth,
+    this.endMonth,
+    this.skillSets,
+  );
+
+  ExperienceFetch.fromJson(Map<dynamic, dynamic> json)
+      : id = json['id'],
+        title = json['title'],
+        description = json['description'],
+        startMonth = json['startMonth'],
+        endMonth = json['endMonth'],
+        skillSets = json['skillSets'];
+
+  Map<dynamic, dynamic> toJson() {
+    return {
+      'id': id,
+      'title': title,
+      'description': description,
+      'startMonth': startMonth,
+      'endMonth': endMonth,
+      'skillSets': skillSets,
+    };
+  }
 }
 
 class ProfileIStudentWidget extends ConsumerStatefulWidget {
@@ -57,11 +181,8 @@ class ProfileIStudentWidget extends ConsumerStatefulWidget {
 class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentWidget> {
   List<String> techStackName = [];
   // late Future<List<MultiSelectBottomSheetModel>> selectSkillSetItem;
-  List<MultiSelectBottomSheetModel> selectSkillSetItem = [];
+  List<MultiSelectBottomSheetModel> skillSetItems = [];
   //List<LanguageData> languages = [];
-
-  List<LanguageFetch> fetchLanguages = [];
-  List<EducationFetch> fetchEducation = [];
 
   String dropdownValue = 'Fullstack Engineer';
 
@@ -83,12 +204,46 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentWidget> {
 
   bool isFetchLanguage = false;
   bool isFetchEducation = false;
-  bool isFetchStudent = false;
+  bool isGettingStudent = false;
 
   bool enableCreate = false;
   bool enableEducation = false;
 
-  void getTechStack(String token) async {
+  void showErrorToast(title, description) {
+    toastification.show(
+      context: context,
+      type: ToastificationType.error,
+      style: ToastificationStyle.minimal,
+      title: Text(
+        title,
+        style: const TextStyle(fontWeight: FontWeight.w600),
+      ),
+      description: Text(
+        description,
+        style: const TextStyle(fontWeight: FontWeight.w400),
+      ),
+      autoCloseDuration: const Duration(seconds: 3),
+    );
+  }
+
+  void showSuccessToast(title, description) {
+    toastification.show(
+      context: context,
+      type: ToastificationType.success,
+      style: ToastificationStyle.minimal,
+      title: Text(
+        title,
+        style: const TextStyle(fontWeight: FontWeight.w600),
+      ),
+      description: Text(
+        description,
+        style: const TextStyle(fontWeight: FontWeight.w400),
+      ),
+      autoCloseDuration: const Duration(seconds: 3),
+    );
+  }
+
+  Future<List<String>> getTechStack(String token) async {
     final url = Uri.parse('http://${dotenv.env['IP_ADDRESS']}/api/techstack/getAllTechStack');
     final response = await http.get(
       url,
@@ -97,15 +252,18 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentWidget> {
 
     var techStackData = [...json.decode(response.body)['result']];
 
+    List<String> tempTechStackName = [];
+
     for (var item in techStackData) {
-      techStackName.add(item['name']);
+      tempTechStackName.add(item['name']);
     }
-    setState(() {
-      dropdownValue = techStackName[0];
-    });
+
+    dropdownValue = tempTechStackName[0];
+
+    return tempTechStackName;
   }
 
-  void getSkillSet(String token) async {
+  Future<List<MultiSelectBottomSheetModel>> getSkillSet(String token) async {
     final url = Uri.parse('http://${dotenv.env['IP_ADDRESS']}/api/skillset/getAllSkillSet');
 
     final response = await http.get(
@@ -115,127 +273,163 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentWidget> {
 
     var skillSetData = [...json.decode(response.body)['result']];
 
-    final List<MultiSelectBottomSheetModel> temp = [];
+    List<MultiSelectBottomSheetModel> tempSkillSetItems = [];
+
     for (var item in skillSetData) {
-      temp.add(MultiSelectBottomSheetModel(id: item['id'], name: item['name'], isSelected: false));
+      tempSkillSetItems.add(MultiSelectBottomSheetModel(
+        id: item['id'],
+        name: item['name'],
+        isSelected: false,
+      ));
     }
 
-    setState(() {
-      selectSkillSetItem = temp;
-    });
-
-    // print(selectSkillSetItem);
+    return tempSkillSetItems;
   }
 
-  void getLanguage(String token) async {
+  void getStudent(String token, dynamic student) async {
     setState(() {
-      isFetchLanguage = true;
+      isGettingStudent = true;
     });
-    final url = Uri.parse('http://${dotenv.env['IP_ADDRESS']}/api/language/getByStudentId/1');
-    final response = await http.get(
-      url,
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer $token',
-      },
-    );
 
-    final responseLanguages = [...json.decode(response.body)['result']];
+    techStackName = await getTechStack(token);
+    skillSetItems = await getSkillSet(token);
 
-    for (final item in responseLanguages) {
-      fetchLanguages.add(
-        LanguageFetch(item['id'], item['languageName'], item['level']),
+    if (student.id != 0) {
+      //set techstackId,  dropdown value
+      dropdownValue = techStackName[student.techStackId - 1];
+      ref.read(studentInputProvider.notifier).setStudentInputTechstackId(student.techStackId);
+
+      print('----student.techStackId----');
+      print(json.encode(student.techStackId));
+
+      //set selected skillset
+      ref.read(studentInputProvider.notifier).setStudentInputSkillSet(student.skillSets);
+
+      for (var item in student.skillSets) {
+        skillSetItems[item - 1].isSelected = true;
+      }
+
+      print('----student.skillSets----');
+      print(json.encode(student.skillSets));
+
+      //set fullname
+      fullnameController.text = student.fullname;
+      ref.read(studentInputProvider.notifier).setStudentInputFullname(student.fullname);
+
+      print('----student.fullname----');
+      print(json.encode(student.fullname));
+
+      //set languages
+      ref.read(studentInputProvider.notifier).setStudentInputLanguague([]);
+
+      final urlEducation = Uri.parse('http://${dotenv.env['IP_ADDRESS']}/api/language/getByStudentId/${student.id}');
+      final responseEditEducations = await http.get(
+        urlEducation,
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ${token}',
+        },
       );
+
+      var responseEditEducationsData = json.decode(responseEditEducations.body);
+
+      for (var item in student.languages) {
+        ref.read(studentInputProvider.notifier).addStudentInputLanguague(
+              LanguageFetch(item['id'], item['languageName'], item['level']),
+            );
+      }
+
+      print('----student.languages----');
+      print(json.encode(student.languages));
+
+      //set educations
+      ref.read(studentInputProvider.notifier).setStudentInputEducation([]);
+      for (var item in student.educations) {
+        ref.read(studentInputProvider.notifier).addStudentInputEducation(
+              EducationFetch(
+                item['id'],
+                item['schoolName'],
+                '${item['startYear']}',
+                '${item['endYear']}',
+              ),
+            );
+      }
+
+      print('----student.educations----');
+      print(json.encode(student.educations));
+
+      //set experiences
+      ref.read(studentInputProvider.notifier).setStudentInputExperiences([]);
+      for (var item in student.experiences) {
+        List<int> tempSkillSet = [];
+        print('----skillSets----');
+        print(item);
+        if (item['skillSets'] != null) {
+          for (var i in item['skillSets']) {
+            tempSkillSet.add(i['id']);
+          }
+        }
+
+        ref.read(studentInputProvider.notifier).addStudentInputExperiences(
+              ExperienceFetch(
+                item['id'],
+                item['title'],
+                item['description'],
+                item['startMonth'],
+                item['endMonth'],
+                // '${int.parse(item['startMonth'].subString(0, 4)) + 1}',
+                // '${int.parse(item['endMonth'].subString(0, 4)) + 1}',
+                tempSkillSet,
+              ),
+            );
+      }
+
+      //set resume
+      ref.read(studentInputProvider.notifier).setStudentInputResume(student.resume);
+      print('----student.resume----');
+      print(json.encode(student.resume));
+
+      //set transcript
+      ref.read(studentInputProvider.notifier).setStudentInputTranscript(student.transcript);
+      print('----student.transcript----');
+      print(json.encode(student.transcript));
+    } else {
+      ref.read(studentInputProvider.notifier).setStudentInputTechstackId(student.techStackId);
+      ref.read(studentInputProvider.notifier).setStudentInputSkillSet(student.skillSets);
+      ref.read(studentInputProvider.notifier).setStudentInputFullname(student.fullname);
+      ref.read(studentInputProvider.notifier).setStudentInputLanguague(student.languages);
+      ref.read(studentInputProvider.notifier).setStudentInputEducation(student.educations);
+      ref.read(studentInputProvider.notifier).setStudentInputExperiences(student.experiences);
+      ref.read(studentInputProvider.notifier).setStudentInputResume(student.resume);
+      ref.read(studentInputProvider.notifier).setStudentInputTranscript(student.transcript);
     }
 
-    ref.read(studentInputProvider.notifier).setStudentInputLanguague(fetchLanguages);
-
     setState(() {
-      isFetchLanguage = false;
+      isGettingStudent = false;
     });
   }
-
-  void getEducation(String token) async {
-    setState(() {
-      isFetchEducation = true;
-    });
-    final url = Uri.parse('http://${dotenv.env['IP_ADDRESS']}/api/education/getByStudentId/1');
-    final response = await http.get(
-      url,
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer $token',
-      },
-    );
-
-    final responseEducations = [...json.decode(response.body)['result']];
-
-    for (final item in responseEducations) {
-      fetchLanguages.add(
-        LanguageFetch(item['id'], item['languageName'], item['level']),
-      );
-    }
-
-    ref.read(studentInputProvider.notifier).setStudentInputLanguague(fetchLanguages);
-
-    setState(() {
-      isFetchEducation = false;
-    });
-  }
-
-  // void getStudent(String token, String studentId) async {
-  //   setState(() {
-  //     isFetchStudent = true;
-  //   });
-  //   final url = Uri.parse('http://${dotenv.env['IP_ADDRESS']}/api/profile/student/$studentId');
-  //   final response = await http.get(
-  //     url,
-  //     headers: {
-  //       'Content-Type': 'application/json',
-  //       'Authorization': 'Bearer $token',
-  //     },
-  //   );
-
-  //   final responseStudent = [...json.decode(response.body)['result']];
-
-  //   ref.read(studentInputProvider.notifier).setStudentInputData(
-  //         responseStudent['techStack']['id'],
-  //         responseStudent['skillSets'],
-  //         responseStudent['educations'],
-  //         responseStudent['languages'],
-  //         responseStudent['experiences'],
-  //       );
-
-  //   setState(() {
-  //     isFetchLanguage = false;
-  //   });
-  // }
 
   @override
   void initState() {
     super.initState();
+
     final user = ref.read(userProvider);
     final student = ref.read(studentProvider);
-    getTechStack(user.token!);
-    getSkillSet(user.token!);
-    if (student.id != 0) {
-      getLanguage(user.token!);
-      getEducation(user.token!);
-    }
-    // dropdownValue = techStackName[0];
-    // 42
+
+    getStudent(user.token!, student);
   }
 
   @override
   Widget build(BuildContext context) {
     final user = ref.watch(userProvider);
+    final student = ref.watch(studentProvider);
     final studentInput = ref.watch(studentInputProvider);
 
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),
-          child: selectSkillSetItem.isEmpty || techStackName.isEmpty || isFetchLanguage
+          child: isGettingStudent
               ? const Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -258,19 +452,19 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentWidget> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const SizedBox(height: 30),
-                    const Center(
+                    const Align(
+                      alignment: Alignment.topLeft,
                       child: Text(
-                        'Welcome to Student Hub',
-                        textAlign: TextAlign.center,
+                        'Student profile',
                         style: TextStyle(
-                          fontSize: 22.0,
+                          fontSize: 26,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                     ),
-                    const SizedBox(height: 20),
+                    const SizedBox(height: 10),
                     const Text(
-                      'Tell us about your self and you will be your way connect with real-world project',
+                      'Tell us about yourself and you will be your way connect with real-world project',
                       style: TextStyle(fontSize: 16),
                     ),
                     const SizedBox(height: 20),
@@ -371,7 +565,7 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentWidget> {
                     ),
                     const SizedBox(height: 10),
                     MultiSelectBottomSheet(
-                      items: selectSkillSetItem, // required for Item list
+                      items: skillSetItems, // required for Item list
                       width: 370,
                       bottomSheetHeight: 500 * 0.7, // required for min/max height of bottomSheet
                       hint: "Select Skillset",
@@ -570,7 +764,10 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentWidget> {
                                                               onPressed: enableCreate
                                                                   ? () {
                                                                       ref.read(studentInputProvider.notifier).addStudentInputLanguague(
-                                                                            LanguageCreate(createLanguagesController.text, createLanguageLevelController.text),
+                                                                            LanguageCreate(
+                                                                              createLanguagesController.text,
+                                                                              createLanguageLevelController.text,
+                                                                            ),
                                                                           );
                                                                       Navigator.pop(context);
                                                                     }
@@ -853,7 +1050,7 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentWidget> {
                                                 child: const Icon(
                                                   Icons.edit_calendar,
                                                   color: Colors.black,
-                                                  size: 25,
+                                                  size: 24,
                                                 ),
                                               ),
                                               const SizedBox(width: 10),
@@ -1019,7 +1216,7 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentWidget> {
                                                           vertical: 14,
                                                           horizontal: 15,
                                                         ),
-                                                        hintText: 'Endter your start school year',
+                                                        hintText: 'Enter your start school year',
                                                       ),
                                                     ),
                                                   ),
@@ -1062,7 +1259,7 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentWidget> {
                                                           vertical: 14,
                                                           horizontal: 15,
                                                         ),
-                                                        hintText: 'Endter your end school year',
+                                                        hintText: 'Enter your end school year',
                                                       ),
                                                     ),
                                                   ),
@@ -1314,7 +1511,7 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentWidget> {
                                                                                 vertical: 14,
                                                                                 horizontal: 15,
                                                                               ),
-                                                                              hintText: 'Endter your start school year',
+                                                                              hintText: 'En3ter your start school year',
                                                                             ),
                                                                           ),
                                                                         ),
@@ -1436,7 +1633,7 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentWidget> {
                                                 child: const Icon(
                                                   Icons.edit_calendar,
                                                   color: Colors.black,
-                                                  size: 25,
+                                                  size: 24,
                                                 ),
                                               ),
                                               const SizedBox(width: 10),
@@ -1465,7 +1662,7 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentWidget> {
                           ),
 
                     const SizedBox(height: 10),
-                    studentInput.techStackId != 0 && studentInput.skillSets!.isNotEmpty && studentInput.languages!.isNotEmpty && studentInput.educations!.isNotEmpty
+                    (studentInput.techStackId != 0 && studentInput.skillSets!.isNotEmpty && studentInput.languages!.isNotEmpty && studentInput.educations!.isNotEmpty) || (student.id != 0)
                         ? Container(
                             alignment: Alignment.centerRight,
                             child: SizedBox(
@@ -1473,45 +1670,7 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentWidget> {
                               width: 130,
                               child: ElevatedButton(
                                 onPressed: () async {
-                                  print('----student input step 1----');
-                                  print(studentInput.techStackId);
-                                  print(studentInput.skillSets.runtimeType);
-                                  print(studentInput.languages);
-                                  print(studentInput.educations);
-                                  print('----student input step 1----');
-
-                                  final url = Uri.parse('http://${dotenv.env['IP_ADDRESS']}/api/profile/student');
-                                  final responseCreateStudent = await http.post(url,
-                                      headers: {
-                                        'Content-Type': 'application/json',
-                                        'Authorization': 'Bearer ${user.token}',
-                                      },
-                                      body: json.encode(
-                                        {
-                                          "fullname": studentInput.fullname,
-                                          "techStackId": studentInput.techStackId,
-                                          "skillSets": studentInput.skillSets,
-                                        },
-                                      ));
-
-                                  // var responseCreateStudentData = json.decode(responseCreateStudent.body);
-                                  // print(responseCreateStudentData);
-
-                                  // final urlAuthMe = Uri.parse('http://${dotenv.env['IP_ADDRESS']}/api/auth/me');
-                                  // final responseAuthMe = await http.get(
-                                  //   urlAuthMe,
-                                  //   headers: {
-                                  //     'Content-Type': 'application/json',
-                                  //     'Authorization': 'Bearer ${user.token}',
-                                  //   },
-                                  // );
-                                  // final responeAuthMeData = json.decode(responseAuthMe.body);
-                                  // print(responeAuthMeData);
-
-                                  // ref.read(optionsProvider.notifier).setWidgetOption(
-                                  //       'ProfileInputStudentStep2',
-                                  //       user.role!,
-                                  //     );
+                                  ref.read(optionsProvider.notifier).setWidgetOption('ProfileInputStudentStep2', user.role!);
                                 },
                                 style: ElevatedButton.styleFrom(
                                   shape: RoundedRectangleBorder(
