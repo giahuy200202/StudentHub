@@ -120,15 +120,21 @@ class ViewProfileWidget extends ConsumerWidget {
             child: Column(
               children: [
                 const SizedBox(height: 30),
-                const Text(
-                  'Welcome to Student Hub',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 22,
-                    fontWeight: FontWeight.bold,
+                const Align(
+                  alignment: Alignment.topLeft,
+                  child: Text(
+                    'Company profile',
+                    style: TextStyle(
+                      fontSize: 26,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
-                /////////////
+                const SizedBox(height: 15),
+                const Text(
+                  'Tell us about your company and you will be your way connect with real-world project',
+                  style: TextStyle(fontSize: 16),
+                ),
                 const SizedBox(height: 20),
                 Container(
                   height: 25,
@@ -269,7 +275,7 @@ class ViewProfileWidget extends ConsumerWidget {
                     ),
                   ],
                 ),
-                const SizedBox(height: 175),
+                const SizedBox(height: 100),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
@@ -277,7 +283,7 @@ class ViewProfileWidget extends ConsumerWidget {
                       margin: const EdgeInsets.only(right: 15),
                       child: SizedBox(
                         height: 46,
-                        width: 110,
+                        width: 120,
                         child: ElevatedButton(
                           onPressed: () {},
                           style: ElevatedButton.styleFrom(
@@ -300,7 +306,7 @@ class ViewProfileWidget extends ConsumerWidget {
                     ),
                     SizedBox(
                       height: 46,
-                      width: 110,
+                      width: 120,
                       child: ElevatedButton(
                         onPressed: () async {
                           final url = Uri.parse('http://${dotenv.env['IP_ADDRESS']}/api/profile/company/${company.id}');

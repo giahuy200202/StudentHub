@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:studenthub/providers/authentication/authentication.provider.dart';
 import 'package:studenthub/providers/options.provider.dart';
+import 'package:studenthub/providers/profile/company.provider.dart';
+import 'package:studenthub/providers/profile/student.provider.dart';
 
 class WelcomeWidget extends ConsumerStatefulWidget {
   const WelcomeWidget({super.key});
@@ -16,6 +18,9 @@ class _WelcomeWidget extends ConsumerState<WelcomeWidget> {
   @override
   Widget build(BuildContext context) {
     final user = ref.watch(userProvider);
+    final comany = ref.watch(companyProvider);
+    final student = ref.watch(studentProvider);
+
     return Scaffold(
       body: SingleChildScrollView(
           physics: const NeverScrollableScrollPhysics(),
@@ -42,21 +47,21 @@ class _WelcomeWidget extends ConsumerState<WelcomeWidget> {
                   child: SizedBox(
                     width: 400,
                     child: Text(
-                      'Welcome, ',
+                      'Welcome,',
                       style: TextStyle(fontSize: 35, color: Colors.white, fontWeight: FontWeight.w800),
                     ),
                   ),
                 ),
-                const Align(
+                Align(
                   alignment: Alignment.topLeft,
                   child: SizedBox(
                     width: 400,
                     child: Text(
-                      'Pham Vo Cuong',
-                      style: TextStyle(
+                      user.role == '1' ? comany.companyName! : student.fullname!,
+                      style: const TextStyle(
                         fontSize: 48,
                         overflow: TextOverflow.ellipsis,
-                        color: Colors.white,
+                        color: Colors.blue,
                         fontWeight: FontWeight.w800,
                       ),
                     ),

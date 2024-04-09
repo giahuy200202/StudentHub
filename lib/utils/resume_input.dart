@@ -42,8 +42,6 @@ class _ResumeInputState extends ConsumerState<ResumeInput> {
       onPressed: _takePicture,
     );
 
-    print('-----studentInput.resume------');
-    print(studentInput.resume!);
     if ((studentInput.resume != null && studentInput.resume != '')) {
       if (studentInput.resume != null && studentInput.resume!.substring(0, 4) == 'http') {
         content = Image.network(
