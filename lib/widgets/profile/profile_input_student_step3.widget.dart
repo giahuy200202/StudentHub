@@ -64,7 +64,6 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentStep3Widget> {
     final user = ref.watch(userProvider);
     final studentInput = ref.watch(studentInputProvider);
     var student = ref.watch(studentProvider);
-
     var responseEditStudent;
     var responseEditStudentData;
     var responseCreateStudentData;
