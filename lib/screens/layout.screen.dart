@@ -182,9 +182,7 @@ class _LayoutScreenState extends ConsumerState<LayoutScreen> {
     Widget currentScreen = getCurrentScreen(options[Option.widgetOption]!);
 
     return Scaffold(
-        appBar: options[Option.widgetOption] == "" ||
-                options[Option.widgetOption] == "Homepage" ||
-                options[Option.widgetOption] == "Welcome"
+        appBar: options[Option.widgetOption] == "" || options[Option.widgetOption] == "Homepage" || options[Option.widgetOption] == "Welcome" || options[Option.widgetOption] == "Login" || options[Option.widgetOption] == "SignupStep1" || options[Option.widgetOption] == "SignupStep2"
             ? null
             : PreferredSize(
                 preferredSize: const Size.fromHeight(60),
@@ -198,10 +196,7 @@ class _LayoutScreenState extends ConsumerState<LayoutScreen> {
                 ),
               ),
         body: currentScreen,
-        bottomNavigationBar: options[Option.widgetOption] == 'Projects' ||
-                options[Option.widgetOption] == 'Dashboard' ||
-                options[Option.widgetOption] == 'Message' ||
-                options[Option.widgetOption] == 'Alert'
+        bottomNavigationBar: options[Option.widgetOption] == 'Projects' || options[Option.widgetOption] == 'Dashboard' || options[Option.widgetOption] == 'Message' || options[Option.widgetOption] == 'Alert'
             ? BottomNavigationBar(
                 onTap: (int index) {
                   setState(() {
@@ -209,21 +204,13 @@ class _LayoutScreenState extends ConsumerState<LayoutScreen> {
                   });
 
                   if (index == 0) {
-                    ref
-                        .read(optionsProvider.notifier)
-                        .setWidgetOption('Projects', user.role!);
+                    ref.read(optionsProvider.notifier).setWidgetOption('Projects', user.role!);
                   } else if (index == 1) {
-                    ref
-                        .read(optionsProvider.notifier)
-                        .setWidgetOption('Dashboard', user.role!);
+                    ref.read(optionsProvider.notifier).setWidgetOption('Dashboard', user.role!);
                   } else if (index == 2) {
-                    ref
-                        .read(optionsProvider.notifier)
-                        .setWidgetOption('Message', user.role!);
+                    ref.read(optionsProvider.notifier).setWidgetOption('Message', user.role!);
                   } else if (index == 3) {
-                    ref
-                        .read(optionsProvider.notifier)
-                        .setWidgetOption('Alert', user.role!);
+                    ref.read(optionsProvider.notifier).setWidgetOption('Alert', user.role!);
                   }
                 },
                 currentIndex: _selectedPageIndex,

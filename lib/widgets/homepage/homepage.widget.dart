@@ -100,14 +100,11 @@ class HomepageWidget extends ConsumerWidget {
                     onPressed: () {
                       ref.read(userLoginProvider.notifier).setRole('1');
 
-                      ref
-                          .read(optionsProvider.notifier)
-                          .setWidgetOption('Login', user.role!);
+                      ref.read(optionsProvider.notifier).setWidgetOption('Login', user.role!);
                     },
                     style: ElevatedButton.styleFrom(
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8),
-                        // side: const BorderSide(color: Colors.grey),
                       ),
                       backgroundColor: Colors.white,
                     ),
@@ -128,9 +125,7 @@ class HomepageWidget extends ConsumerWidget {
                   child: ElevatedButton(
                     onPressed: () {
                       ref.read(userLoginProvider.notifier).setRole('0');
-                      ref
-                          .read(optionsProvider.notifier)
-                          .setWidgetOption('Login', user.role!);
+                      ref.read(optionsProvider.notifier).setWidgetOption('Login', user.role!);
                     },
                     style: ElevatedButton.styleFrom(
                       shape: RoundedRectangleBorder(

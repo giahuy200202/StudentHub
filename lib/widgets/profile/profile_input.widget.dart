@@ -10,6 +10,7 @@ import 'package:studenthub/providers/options.provider.dart';
 import 'package:studenthub/providers/profile/company.provider.dart';
 import 'package:studenthub/providers/profile/profiles.provider.dart';
 import 'package:http/http.dart' as http;
+import 'package:toastification/toastification.dart';
 
 class LabeledRadio<T> extends StatelessWidget {
   const LabeledRadio({
@@ -73,54 +74,37 @@ class _ProfileInputWidgetState extends ConsumerState<ProfileInputWidget> {
   }
 
   void showErrorToast(title, description) {
-    MotionToast(
-      icon: Icons.clear,
-      primaryColor: Colors.red,
+    toastification.show(
+      context: context,
+      type: ToastificationType.error,
+      style: ToastificationStyle.minimal,
       title: Text(
         title,
-        style: const TextStyle(
-          fontSize: 16,
-          color: Colors.black,
-          fontWeight: FontWeight.w700,
-        ),
+        style: const TextStyle(fontWeight: FontWeight.w600),
       ),
       description: Text(
         description,
-        style: const TextStyle(
-          fontSize: 16,
-          // overflow: TextOverflow.ellipsis,
-          color: Colors.black,
-          fontWeight: FontWeight.w400,
-        ),
+        style: const TextStyle(fontWeight: FontWeight.w400),
       ),
-      width: 500,
-      height: 80,
-    ).show(context);
+      autoCloseDuration: const Duration(seconds: 3),
+    );
   }
 
   void showSuccessToast(title, description) {
-    MotionToast(
-      icon: Icons.check,
-      primaryColor: Colors.green,
+    toastification.show(
+      context: context,
+      type: ToastificationType.success,
+      style: ToastificationStyle.minimal,
       title: Text(
         title,
-        style: const TextStyle(
-          fontSize: 16,
-          color: Colors.black,
-          fontWeight: FontWeight.w700,
-        ),
+        style: const TextStyle(fontWeight: FontWeight.w600),
       ),
       description: Text(
         description,
-        style: const TextStyle(
-          fontSize: 16,
-          color: Colors.black,
-          fontWeight: FontWeight.w400,
-        ),
+        style: const TextStyle(fontWeight: FontWeight.w400),
       ),
-      width: 500,
-      height: 80,
-    ).show(context);
+      autoCloseDuration: const Duration(seconds: 3),
+    );
   }
 
   @override
@@ -140,15 +124,20 @@ class _ProfileInputWidgetState extends ConsumerState<ProfileInputWidget> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(height: 30),
-              const Center(
+              const Align(
+                alignment: Alignment.topLeft,
                 child: Text(
-                  'Welcome to Student Hub',
-                  textAlign: TextAlign.center,
+                  'Company profile',
                   style: TextStyle(
-                    fontSize: 22.0,
+                    fontSize: 26,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
+              ),
+              const SizedBox(height: 10),
+              const Text(
+                'Tell us about your company and you will be your way connect with real-world project',
+                style: TextStyle(fontSize: 16),
               ),
               const SizedBox(height: 20),
               const Text(
@@ -386,6 +375,9 @@ class _ProfileInputWidgetState extends ConsumerState<ProfileInputWidget> {
                                   },
                                 ));
 
+                            print('----response create company----');
+                            print(json.decode(response.body));
+
                             if (json.decode(response.body).containsKey('errorDetails')) {
                               if (json.decode(response.body)['errorDetails'] is String) {
                                 showErrorToast('Error', json.decode(response.body)['errorDetails']);
@@ -394,12 +386,24 @@ class _ProfileInputWidgetState extends ConsumerState<ProfileInputWidget> {
                               }
                             } else {
                               showSuccessToast('Success', 'Create successfully');
+                              print('----json.decode(response.body)["result"]["id"]----');
+                              print(json.decode(response.body)["result"]["id"]);
+                              print('----json.decode(response.body)["result"]["companyName"]----');
+                              print(json.decode(response.body)["result"]["companyName"]);
+                              print('----json.decode(response.body)["result"]["website"]----');
+                              print(json.decode(response.body)["result"]["website"]);
+                              print('----json.decode(response.body)["result"]["description"]----');
+                              print(json.decode(response.body)["result"]["description"]);
+                              print('----company.email----');
+                              print(company.email!);
+                              print('----json.decode(response.body)["result"]["size"]----');
+                              print(json.decode(response.body)["result"]["size"]);
                               ref.read(companyProvider.notifier).setCompanyData(
                                     json.decode(response.body)["result"]["id"],
                                     json.decode(response.body)["result"]["companyName"],
                                     json.decode(response.body)["result"]["website"],
                                     json.decode(response.body)["result"]["description"],
-                                    company.email!,
+                                    '',
                                     json.decode(response.body)["result"]["size"],
                                   );
 

@@ -11,6 +11,8 @@ import 'package:studenthub/providers/authentication/signup.provider.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
+import 'package:toastification/toastification.dart';
+
 class SignupStep2 extends ConsumerStatefulWidget {
   const SignupStep2({super.key});
 
@@ -36,55 +38,38 @@ class _SignupStep2State extends ConsumerState<SignupStep2> {
     super.dispose();
   }
 
-  void showSuccessToast(title, description) {
-    MotionToast(
-      icon: Icons.check,
-      primaryColor: Colors.green,
+  void showErrorToast(title, description) {
+    toastification.show(
+      context: context,
+      type: ToastificationType.error,
+      style: ToastificationStyle.minimal,
       title: Text(
         title,
-        style: const TextStyle(
-          fontSize: 16,
-          color: Colors.black,
-          fontWeight: FontWeight.w700,
-        ),
+        style: const TextStyle(fontWeight: FontWeight.w600),
       ),
       description: Text(
         description,
-        style: const TextStyle(
-          fontSize: 16,
-          color: Colors.black,
-          fontWeight: FontWeight.w400,
-        ),
+        style: const TextStyle(fontWeight: FontWeight.w400),
       ),
-      width: 500,
-      height: 80,
-    ).show(context);
+      autoCloseDuration: const Duration(seconds: 3),
+    );
   }
 
-  void showErrorToast(title, description) {
-    MotionToast(
-      icon: Icons.clear,
-      primaryColor: Colors.red,
+  void showSuccessToast(title, description) {
+    toastification.show(
+      context: context,
+      type: ToastificationType.success,
+      style: ToastificationStyle.minimal,
       title: Text(
         title,
-        style: const TextStyle(
-          fontSize: 16,
-          color: Colors.black,
-          fontWeight: FontWeight.w700,
-        ),
+        style: const TextStyle(fontWeight: FontWeight.w600),
       ),
       description: Text(
         description,
-        style: const TextStyle(
-          fontSize: 16,
-          // overflow: TextOverflow.ellipsis,
-          color: Colors.black,
-          fontWeight: FontWeight.w400,
-        ),
+        style: const TextStyle(fontWeight: FontWeight.w400),
       ),
-      width: 500,
-      height: 80,
-    ).show(context);
+      autoCloseDuration: const Duration(seconds: 3),
+    );
   }
 
   @override
@@ -112,15 +97,29 @@ class _SignupStep2State extends ConsumerState<SignupStep2> {
             child: Center(
               child: Column(
                 children: [
-                  const SizedBox(height: 50),
-                  const Text(
-                    'Sign up as Company',
-                    style: TextStyle(
-                      fontSize: 22,
-                      color: Colors.black,
-                      fontWeight: FontWeight.w500,
+                  const SizedBox(height: 100),
+                  const Align(
+                    alignment: Alignment.topLeft,
+                    child: Text(
+                      'Register',
+                      style: TextStyle(
+                        fontSize: 30,
+                        color: Colors.black,
+                        fontWeight: FontWeight.w700,
+                      ),
                     ),
-                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 10),
+                  const Align(
+                    alignment: Alignment.topLeft,
+                    child: Text(
+                      'Please fill the below details',
+                      style: TextStyle(
+                        fontSize: 18,
+                        color: Colors.black,
+                        // fontWeight: FontWeight.w500,
+                      ),
+                    ),
                   ),
                   const SizedBox(height: 40),
                   SizedBox(
@@ -172,7 +171,7 @@ class _SignupStep2State extends ConsumerState<SignupStep2> {
                         fontSize: 17,
                       ),
                       decoration: InputDecoration(
-                        labelText: 'Work email address',
+                        labelText: 'Email address',
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(9),
                         ),
@@ -274,7 +273,7 @@ class _SignupStep2State extends ConsumerState<SignupStep2> {
                                 // print(json.decode(response.body));
                                 ref.read(userLoginProvider.notifier).setRole('${userSignup.role}');
 
-                                showSuccessToast('Success', 'Create successfully');
+                                showSuccessToast('Success', 'Create successfully, please check your email to verify account');
                                 Timer(const Duration(seconds: 3), () {
                                   ref.read(optionsProvider.notifier).setWidgetOption('Login', user.role!);
                                 });
