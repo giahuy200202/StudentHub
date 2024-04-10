@@ -8,15 +8,6 @@ class SwitchAccountNotifier extends StateNotifier<String> {
     state = switchOption;
     return true;
   }
-
-  // bool setWidgetOption(String option) {
-  //   state = {
-  //     ...state,
-  //     Option.widgetOption: option,
-  //   };
-
-  //   return true;
-  // }
 }
 
 final switchAccountProvider = StateNotifierProvider<SwitchAccountNotifier, String>((ref) {

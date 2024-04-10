@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:studenthub/providers/authentication/authentication.provider.dart';
-import 'package:studenthub/providers/search_filter.provider.dart';
+import 'package:studenthub/providers/projects/search_filter.provider.dart';
 import 'package:studenthub/widgets/projects/list_projects.widget.dart';
 import '../../providers/options.provider.dart';
 // import 'package:keyboard_visibility/keyboard_visibility.dart';

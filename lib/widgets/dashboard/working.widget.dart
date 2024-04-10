@@ -193,8 +193,6 @@ class _WorkingWidgetState extends ConsumerState<WorkingWidget> {
           typeFlag: item['typeFlag'],
         ));
       }
-    } else {
-      showErrorToast('Error', 'No projects found');
     }
 
     setState(() {

@@ -135,8 +135,6 @@ class _SavedProjectsWidgetState extends ConsumerState<SavedProjectsWidget> {
           countProposals: item['project']['countProposals'],
         ));
       }
-    } else {
-      showErrorToast('Error', 'No projects found');
     }
 
     setState(() {

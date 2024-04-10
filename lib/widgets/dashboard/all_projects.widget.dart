@@ -61,6 +61,8 @@ class Project {
       'description': description,
       'countProposals': countProposals,
       'countMessages': countMessages,
+      'countHired': countHired,
+      'typeFlag': typeFlag,
     };
   }
 }
@@ -116,7 +118,7 @@ class _AllProjectsWidgetState extends ConsumerState<AllProjectsWidget> {
   var descriptionController = TextEditingController();
   var numOfStudentsController = TextEditingController();
 
-  int pickedScope = 1;
+  int pickedScope = -1;
 
   List<Project> listProjects = [];
   bool isFetchingData = false;
@@ -195,8 +197,6 @@ class _AllProjectsWidgetState extends ConsumerState<AllProjectsWidget> {
           typeFlag: item['typeFlag'],
         ));
       }
-    } else {
-      showErrorToast('Error', 'No projects found');
     }
 
     setState(() {
@@ -487,6 +487,7 @@ class _AllProjectsWidgetState extends ConsumerState<AllProjectsWidget> {
                                                                         titleController.text = el.title;
                                                                         descriptionController.text = el.description;
                                                                         numOfStudentsController.text = '${el.numberOfStudents}';
+                                                                        pickedScope = el.projectScopeFlag;
                                                                         showModalBottomSheet(
                                                                           isScrollControlled: true,
                                                                           context: context,
@@ -583,7 +584,7 @@ class _AllProjectsWidgetState extends ConsumerState<AllProjectsWidget> {
                                                                                                     child: LabeledRadio(
                                                                                                       label: 'Less than 1 month',
                                                                                                       value: 0,
-                                                                                                      groupValue: el.projectScopeFlag, //projectPosting.scope,
+                                                                                                      groupValue: pickedScope, //projectPosting.scope,
                                                                                                       onChanged: (value) {
                                                                                                         setState(() {
                                                                                                           pickedScope = value as int;
@@ -597,7 +598,7 @@ class _AllProjectsWidgetState extends ConsumerState<AllProjectsWidget> {
                                                                                                     child: LabeledRadio(
                                                                                                       label: '1 to 3 months',
                                                                                                       value: 1,
-                                                                                                      groupValue: el.projectScopeFlag, //projectPosting.scope,
+                                                                                                      groupValue: pickedScope, //projectPosting.scope,
                                                                                                       onChanged: (value) {
                                                                                                         setState(() {
                                                                                                           pickedScope = value as int;
@@ -611,7 +612,7 @@ class _AllProjectsWidgetState extends ConsumerState<AllProjectsWidget> {
                                                                                                     child: LabeledRadio(
                                                                                                       label: '3 to 6 months',
                                                                                                       value: 2,
-                                                                                                      groupValue: el.projectScopeFlag, //projectPosting.scope,
+                                                                                                      groupValue: pickedScope, //projectPosting.scope,
                                                                                                       onChanged: (value) {
                                                                                                         setState(() {
                                                                                                           pickedScope = value as int;
@@ -625,7 +626,7 @@ class _AllProjectsWidgetState extends ConsumerState<AllProjectsWidget> {
                                                                                                     child: LabeledRadio(
                                                                                                       label: 'More than 6 months',
                                                                                                       value: 3,
-                                                                                                      groupValue: el.projectScopeFlag, //projectPosting.scope,
+                                                                                                      groupValue: pickedScope, //projectPosting.scope,
                                                                                                       onChanged: (value) {
                                                                                                         setState(() {
                                                                                                           pickedScope = value as int;

@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:studenthub/providers/authentication/authentication.provider.dart';
 import 'package:studenthub/providers/options.provider.dart';
-import 'package:studenthub/providers/search_filter.provider.dart';
-import '../../providers/project_posting.provider.dart';
+import 'package:studenthub/providers/projects/project_id.provider.dart';
+import 'package:studenthub/providers/projects/search_filter.provider.dart';
+import '../../providers/projects/project_posting.provider.dart';
 // import '../../providers/options_provider.dart';
 
 import 'package:http/http.dart' as http;
@@ -207,8 +208,6 @@ class _ProjectSearchWidgetState extends ConsumerState<ProjectSearchWidget> {
       }
       print('----listProjectsSearch----');
       print(json.encode(listProjectsSearch));
-    } else {
-      showErrorToast('Error', 'No projects found');
     }
 
     setState(() {
@@ -1105,6 +1104,7 @@ class _ProjectSearchWidgetState extends ConsumerState<ProjectSearchWidget> {
                                         GestureDetector(
                                           onTap: () {
                                             ref.read(optionsProvider.notifier).setWidgetOption('ProjectDetails', user.role!);
+                                            ref.read(projectIdProvider.notifier).setProjectId(el.projectId);
                                           },
                                           child: Container(
                                             decoration: BoxDecoration(

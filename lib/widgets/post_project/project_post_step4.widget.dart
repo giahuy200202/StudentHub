@@ -5,7 +5,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:studenthub/providers/authentication/authentication.provider.dart';
 import 'package:studenthub/providers/profile/company.provider.dart';
-import '../../providers/project_posting.provider.dart';
+import '../../providers/projects/project_posting.provider.dart';
 import '../../providers/options.provider.dart';
 import 'package:http/http.dart' as http;
 

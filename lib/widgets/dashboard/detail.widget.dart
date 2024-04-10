@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:studenthub/providers/options.provider.dart';
-import '../../providers/project_posting.provider.dart';
+import '../../providers/projects/project_posting.provider.dart';
 // import '../../providers/options_provider.dart';
 
 class DetailWidget extends ConsumerStatefulWidget {
@@ -69,8 +69,7 @@ class _DetailWidgetState extends ConsumerState<DetailWidget> {
                 Container(
                   decoration: BoxDecoration(
                     border: Border.all(
-                      color:
-                          Colors.black, //                   <--- border color
+                      color: Colors.black, //                   <--- border color
                       width: 0.3,
                     ),
                   ),
@@ -91,8 +90,7 @@ class _DetailWidgetState extends ConsumerState<DetailWidget> {
                 Container(
                   decoration: BoxDecoration(
                     border: Border.all(
-                      color:
-                          Colors.black, //                   <--- border color
+                      color: Colors.black, //                   <--- border color
                       width: 0.3,
                     ),
                   ),
@@ -115,11 +113,7 @@ class _DetailWidgetState extends ConsumerState<DetailWidget> {
                           children: [
                             Text(
                               'Project scope',
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  overflow: TextOverflow.ellipsis,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w700),
+                              style: TextStyle(color: Colors.black, overflow: TextOverflow.ellipsis, fontSize: 16, fontWeight: FontWeight.w700),
                             ),
                             Text(
                               '3 to 6 month',
@@ -147,11 +141,7 @@ class _DetailWidgetState extends ConsumerState<DetailWidget> {
                           children: [
                             Text(
                               'Student required',
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  overflow: TextOverflow.ellipsis,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w700),
+                              style: TextStyle(color: Colors.black, overflow: TextOverflow.ellipsis, fontSize: 16, fontWeight: FontWeight.w700),
                             ),
                             Text(
                               '6 students',

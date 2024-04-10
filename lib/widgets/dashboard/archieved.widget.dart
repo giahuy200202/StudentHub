@@ -193,8 +193,6 @@ class _ArchievedWidgetState extends ConsumerState<ArchievedWidget> {
           typeFlag: item['typeFlag'],
         ));
       }
-    } else {
-      showErrorToast('Error', 'No projects found');
     }
 
     setState(() {

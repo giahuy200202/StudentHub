@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:studenthub/providers/authentication/authentication.provider.dart';
 import 'package:studenthub/providers/profile/student.provider.dart';
+import 'package:studenthub/providers/projects/project_id.provider.dart';
 import 'package:toastification/toastification.dart';
 
 import '../../providers/options.provider.dart';
@@ -138,8 +139,6 @@ class _ListProjectsWidgetState extends ConsumerState<ListProjectsWidget> {
           isFavorite: item['isFavorite'],
         ));
       }
-    } else {
-      showErrorToast('Error', 'No projects found');
     }
 
     setState(() {
@@ -159,6 +158,7 @@ class _ListProjectsWidgetState extends ConsumerState<ListProjectsWidget> {
   Widget build(BuildContext context) {
     final user = ref.watch(userProvider);
     final student = ref.watch(studentProvider);
+    final projectId = ref.watch(projectIdProvider);
 
     return SizedBox(
       height: 590,
@@ -200,6 +200,7 @@ class _ListProjectsWidgetState extends ConsumerState<ListProjectsWidget> {
                             GestureDetector(
                               onTap: () {
                                 ref.read(optionsProvider.notifier).setWidgetOption('ProjectDetails', user.role!);
+                                ref.read(projectIdProvider.notifier).setProjectId(el.projectId);
                               },
                               child: Container(
                                 decoration: BoxDecoration(

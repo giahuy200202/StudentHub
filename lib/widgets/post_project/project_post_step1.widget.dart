@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:studenthub/providers/authentication/authentication.provider.dart';
-import 'package:studenthub/providers/project_posting.provider.dart';
+import 'package:studenthub/providers/projects/project_posting.provider.dart';
 
 import '../../providers/options.provider.dart';
 
@@ -14,8 +14,7 @@ class ProjectPostStep1Widget extends ConsumerStatefulWidget {
   }
 }
 
-class _ProjectPostStep1WidgetState
-    extends ConsumerState<ProjectPostStep1Widget> {
+class _ProjectPostStep1WidgetState extends ConsumerState<ProjectPostStep1Widget> {
   var titleController = TextEditingController();
   bool enable = false;
   @override
@@ -173,14 +172,9 @@ class _ProjectPostStep1WidgetState
                     child: ElevatedButton(
                       onPressed: enable
                           ? () {
-                              ref
-                                  .read(projectPostingProvider.notifier)
-                                  .setTitle(titleController.text);
+                              ref.read(projectPostingProvider.notifier).setTitle(titleController.text);
 
-                              ref
-                                  .read(optionsProvider.notifier)
-                                  .setWidgetOption(
-                                      'ProjectPostStep2', user.role!);
+                              ref.read(optionsProvider.notifier).setWidgetOption('ProjectPostStep2', user.role!);
                             }
                           : null,
                       style: ElevatedButton.styleFrom(
