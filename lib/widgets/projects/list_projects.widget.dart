@@ -168,7 +168,7 @@ class _ListProjectsWidgetState extends ConsumerState<ListProjectsWidget> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  SizedBox(height: 250),
+                  SizedBox(height: 240),
                   Center(
                     child: SizedBox(
                       height: 25,

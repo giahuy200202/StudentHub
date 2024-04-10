@@ -12,8 +12,7 @@ class ProjectPostStep4Widget extends ConsumerStatefulWidget {
   }
 }
 
-class _ProjectPostStep4WidgetState
-    extends ConsumerState<ProjectPostStep4Widget> {
+class _ProjectPostStep4WidgetState extends ConsumerState<ProjectPostStep4Widget> {
   var descriptionController = TextEditingController();
   bool enable = false;
   @override
@@ -117,8 +116,7 @@ class _ProjectPostStep4WidgetState
                         Container(
                           decoration: BoxDecoration(
                             border: Border.all(
-                              color: Colors
-                                  .black, //                   <--- border color
+                              color: Colors.black, //                   <--- border color
                               width: 0.3,
                             ),
                           ),
@@ -139,8 +137,7 @@ class _ProjectPostStep4WidgetState
                         Container(
                           decoration: BoxDecoration(
                             border: Border.all(
-                              color: Colors
-                                  .black, //                   <--- border color
+                              color: Colors.black, //                   <--- border color
                               width: 0.3,
                             ),
                           ),
@@ -163,16 +160,16 @@ class _ProjectPostStep4WidgetState
                                   children: [
                                     const Text(
                                       'Project scope',
-                                      style: TextStyle(
-                                          color: Colors.black,
-                                          overflow: TextOverflow.ellipsis,
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w700),
+                                      style: TextStyle(color: Colors.black, overflow: TextOverflow.ellipsis, fontSize: 16, fontWeight: FontWeight.w700),
                                     ),
                                     Text(
-                                      projectPosting.scope == 1
-                                          ? '1 to 3 months'
-                                          : '3 to 6 months',
+                                      projectPosting.scope == 0
+                                          ? 'Less than 1 month'
+                                          : projectPosting.scope == 1
+                                              ? '1 to 3 months'
+                                              : projectPosting.scope == 2
+                                                  ? '3 to 6 months'
+                                                  : 'More than 6 months',
                                       style: const TextStyle(
                                         color: Colors.black,
                                         overflow: TextOverflow.ellipsis,
@@ -198,10 +195,11 @@ class _ProjectPostStep4WidgetState
                                     const Text(
                                       'Student required',
                                       style: TextStyle(
-                                          color: Colors.black,
-                                          overflow: TextOverflow.ellipsis,
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w700),
+                                        color: Colors.black,
+                                        overflow: TextOverflow.ellipsis,
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w700,
+                                      ),
                                     ),
                                     Text(
                                       '${projectPosting.numOfStudents} students',
@@ -221,6 +219,46 @@ class _ProjectPostStep4WidgetState
                     ),
                   ),
                 ),
+                const SizedBox(height: 40),
+                SizedBox(
+                  height: 52,
+                  width: MediaQuery.of(context).size.width,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      ref.read(projectPostingProvider.notifier).setTitle('');
+                      ref.read(projectPostingProvider.notifier).setScope(-1);
+                      ref.read(projectPostingProvider.notifier).setNumOfStudents('');
+                      ref.read(projectPostingProvider.notifier).setDescription('');
+                    },
+                    style: ElevatedButton.styleFrom(
+                      minimumSize: Size.zero, // Set this
+                      padding: EdgeInsets.zero, // and this
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
+                        side: const BorderSide(color: Colors.grey),
+                      ),
+                      backgroundColor: Colors.black,
+                    ),
+                    child: const Padding(
+                      padding: EdgeInsets.only(left: 10),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Text(
+                            'Post project',
+                            style: TextStyle(
+                              fontSize: 17,
+                              color: Colors.white,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 20),
               ],
             ),
           ),

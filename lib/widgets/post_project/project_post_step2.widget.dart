@@ -50,8 +50,7 @@ class ProjectPostStep2Widget extends ConsumerStatefulWidget {
   }
 }
 
-class _ProjectPostStep2WidgetState
-    extends ConsumerState<ProjectPostStep2Widget> {
+class _ProjectPostStep2WidgetState extends ConsumerState<ProjectPostStep2Widget> {
   var numOfStudentsController = TextEditingController();
   bool enable = false;
   @override
@@ -123,13 +122,23 @@ class _ProjectPostStep2WidgetState
                       height: 30,
                       width: MediaQuery.of(context).size.width,
                       child: LabeledRadio(
+                        label: 'Less than 1 month',
+                        value: 0,
+                        groupValue: projectPosting.scope,
+                        onChanged: (value) {
+                          ref.read(projectPostingProvider.notifier).setScope(value as int);
+                        },
+                      ),
+                    ),
+                    SizedBox(
+                      height: 30,
+                      width: MediaQuery.of(context).size.width,
+                      child: LabeledRadio(
                         label: '1 to 3 months',
                         value: 1,
                         groupValue: projectPosting.scope,
                         onChanged: (value) {
-                          ref
-                              .read(projectPostingProvider.notifier)
-                              .setScope(value as int);
+                          ref.read(projectPostingProvider.notifier).setScope(value as int);
                         },
                       ),
                     ),
@@ -141,9 +150,19 @@ class _ProjectPostStep2WidgetState
                         value: 2,
                         groupValue: projectPosting.scope,
                         onChanged: (value) {
-                          ref
-                              .read(projectPostingProvider.notifier)
-                              .setScope(value as int);
+                          ref.read(projectPostingProvider.notifier).setScope(value as int);
+                        },
+                      ),
+                    ),
+                    SizedBox(
+                      height: 30,
+                      width: MediaQuery.of(context).size.width,
+                      child: LabeledRadio(
+                        label: 'More than 6 months',
+                        value: 3,
+                        groupValue: projectPosting.scope,
+                        onChanged: (value) {
+                          ref.read(projectPostingProvider.notifier).setScope(value as int);
                         },
                       ),
                     ),
@@ -200,15 +219,9 @@ class _ProjectPostStep2WidgetState
                     child: ElevatedButton(
                       onPressed: enable
                           ? () {
-                              ref
-                                  .read(projectPostingProvider.notifier)
-                                  .setNumOfStudents(
-                                      numOfStudentsController.text);
+                              ref.read(projectPostingProvider.notifier).setNumOfStudents(numOfStudentsController.text);
 
-                              ref
-                                  .read(optionsProvider.notifier)
-                                  .setWidgetOption(
-                                      'ProjectPostStep3', user.role!);
+                              ref.read(optionsProvider.notifier).setWidgetOption('ProjectPostStep3', user.role!);
                             }
                           : null,
                       style: ElevatedButton.styleFrom(
