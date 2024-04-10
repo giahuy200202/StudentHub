@@ -18,7 +18,7 @@ class SearchFilterNotifier extends StateNotifier<SearchFilter> {
   SearchFilterNotifier()
       : super(SearchFilter(
           search: '',
-          projectLength: 1,
+          projectLength: -1,
           numOfStudents: '',
           proposals: '',
         ));
@@ -69,6 +69,4 @@ class SearchFilterNotifier extends StateNotifier<SearchFilter> {
   }
 }
 
-final searchFilterProvider =
-    StateNotifierProvider<SearchFilterNotifier, SearchFilter>(
-        (ref) => SearchFilterNotifier());
+final searchFilterProvider = StateNotifierProvider<SearchFilterNotifier, SearchFilter>((ref) => SearchFilterNotifier());
