@@ -1,4 +1,4 @@
-name: ci_cd
+name: Test
 # liên kết branche bạn muốn push và pull_request 
 on:
   push:
