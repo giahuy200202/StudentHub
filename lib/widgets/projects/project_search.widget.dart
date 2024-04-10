@@ -344,7 +344,6 @@ class _ProjectSearchWidgetState extends ConsumerState<ProjectSearchWidget> {
                                             suffixIcon: InkWell(
                                               onTap: () {
                                                 searchController.text = '';
-                                                ref.read(searchFilterProvider.notifier).setSearch('');
                                               },
                                               child: const Icon(Icons.clear),
                                             ),

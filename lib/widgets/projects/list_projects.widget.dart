@@ -3,6 +3,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:studenthub/providers/authentication/authentication.provider.dart';
+import 'package:studenthub/providers/profile/student.provider.dart';
 import 'package:toastification/toastification.dart';
 
 import '../../providers/options.provider.dart';
@@ -157,6 +158,7 @@ class _ListProjectsWidgetState extends ConsumerState<ListProjectsWidget> {
   @override
   Widget build(BuildContext context) {
     final user = ref.watch(userProvider);
+    final student = ref.watch(studentProvider);
 
     return SizedBox(
       height: 590,
@@ -233,9 +235,32 @@ class _ListProjectsWidgetState extends ConsumerState<ListProjectsWidget> {
                                           ),
                                           const Spacer(),
                                           InkWell(
-                                            onTap: user.role == '1' ? null : () {},
-                                            child: const Icon(
-                                              Icons.favorite_border,
+                                            onTap: user.role == '1'
+                                                ? null
+                                                : () async {
+                                                    final urlFavoriteProjects = Uri.parse('http://${dotenv.env['IP_ADDRESS']}/api/favoriteProject/${student.id}?');
+
+                                                    final responsePatchFavoriteProject = await http.patch(
+                                                      urlFavoriteProjects,
+                                                      headers: {
+                                                        'Content-Type': 'application/json',
+                                                        'Authorization': 'Bearer ${user.token!}',
+                                                      },
+                                                      body: json.encode({
+                                                        'projectId': el.projectId,
+                                                        'disableFlag': el.isFavorite ? 1 : 0,
+                                                      }),
+                                                    );
+
+                                                    final responsePatchFavoriteProjectData = json.decode(responsePatchFavoriteProject.body);
+
+                                                    print('----responsePatchFavoriteProjecData----');
+                                                    print(responsePatchFavoriteProjectData);
+
+                                                    getProjects(user.token!);
+                                                  },
+                                            child: Icon(
+                                              el.isFavorite ? Icons.favorite : Icons.favorite_border,
                                               size: 28,
                                             ),
                                           ),
