@@ -97,9 +97,7 @@ class _ProjectScreenState extends ConsumerState<ProjectScreen> {
                                             prefixIcon: const Icon(Icons.search),
                                             suffixIcon: InkWell(
                                               onTap: () {
-                                                setState(() {
-                                                  searchController.text = '';
-                                                });
+                                                searchController.text = '';
                                                 ref.read(searchFilterProvider.notifier).setSearch('');
                                               },
                                               child: const Icon(Icons.clear),

@@ -14,6 +14,7 @@ import 'package:toastification/toastification.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class Project {
+  final String projectId;
   final String title;
   final String createTime;
   final int projectScopeFlag;
@@ -23,6 +24,7 @@ class Project {
   final bool isFavorite;
 
   Project({
+    required this.projectId,
     required this.title,
     required this.createTime,
     required this.projectScopeFlag,
@@ -33,7 +35,8 @@ class Project {
   });
 
   Project.fromJson(Map<dynamic, dynamic> json)
-      : title = json['title'],
+      : projectId = json['projectId'],
+        title = json['title'],
         createTime = json['createdAt'],
         projectScopeFlag = json['projectScopeFlag'],
         numberOfStudents = json['numberOfStudents'],
@@ -43,6 +46,7 @@ class Project {
 
   Map<dynamic, dynamic> toJson() {
     return {
+      'projectId': projectId,
       'title': title,
       'createdAt': createTime,
       'projectScopeFlag': projectScopeFlag,
@@ -154,17 +158,22 @@ class _ProjectSearchWidgetState extends ConsumerState<ProjectSearchWidget> {
       isFetchingData = true;
     });
 
-    String titleParam = 'title=${searchFilter.search}';
-    // Map<String, String> searchParameters = {
-    //   'title': searchFilter.search ?? '',
-    //   'projectScopeFlag': searchFilter.projectLength ?? '',
-    //   'numberOfStudents': searchFilter.numOfStudents ?? '',
-    //   'proposalsLessThan': searchFilter.proposals ?? '',
-    // };
-    // print('----searchParameters----');
-    // print(searchParameters);
+    String titleParam = searchFilter.search != null && searchFilter.search != '' ? 'title=${searchFilter.search}&' : '';
+    String projectScopeFlagParam = searchFilter.projectLength != null && searchFilter.projectLength != -1 ? 'projectScopeFlag=${searchFilter.projectLength}&' : '';
+    String numberOfStudentsParam = searchFilter.numOfStudents != null && searchFilter.numOfStudents != '' ? 'numberOfStudents=${searchFilter.numOfStudents}&' : '';
+    String proposalsLessThanParam = searchFilter.proposals != null && searchFilter.proposals != '' ? 'proposalsLessThan=${searchFilter.proposals}&' : '';
 
-    final urlGetProjects = Uri.parse('http://${dotenv.env['IP_ADDRESS']}/api/project?title=${searchFilter.search}&');
+    print('----titleParam----');
+    print(titleParam);
+    print('----projectScopeFlagParam----');
+    print(projectScopeFlagParam);
+    print('----numberOfStudentsParam----');
+    print(numberOfStudentsParam);
+    print('----proposalsLessThanParam----');
+    print(proposalsLessThanParam);
+
+    final urlGetProjects = Uri.parse('http://${dotenv.env['IP_ADDRESS']}/api/project?$titleParam$projectScopeFlagParam$numberOfStudentsParam$proposalsLessThanParam');
+
     print('----urlGetProjects----');
     print(urlGetProjects);
 
@@ -184,6 +193,7 @@ class _ProjectSearchWidgetState extends ConsumerState<ProjectSearchWidget> {
     if (responseProjectsSearchData['result'] != null) {
       for (var item in responseProjectsSearchData['result']) {
         listProjectSearchsGetFromRes.add(Project(
+          projectId: item['projectId'].toString(),
           title: item['title'],
           createTime: 'Created at ${DateFormat("dd/MM/yyyy | HH:mm").format(
                 DateTime.parse(item['createdAt']),
@@ -218,7 +228,7 @@ class _ProjectSearchWidgetState extends ConsumerState<ProjectSearchWidget> {
   @override
   Widget build(BuildContext context) {
     var searchFilter = ref.watch(searchFilterProvider);
-    int projectLength = 0;
+    int projectLength = -1;
 
     searchController.text = searchFilter.search!;
     final user = ref.watch(userProvider);
@@ -304,9 +314,19 @@ class _ProjectSearchWidgetState extends ConsumerState<ProjectSearchWidget> {
                                           controller: searchController,
                                           textInputAction: TextInputAction.search,
                                           onSubmitted: (value) {
-                                            Navigator.pop(context);
                                             ref.read(optionsProvider.notifier).setWidgetOption('ProjectSearch', user.role!);
                                             ref.read(searchFilterProvider.notifier).setSearch(searchController.text);
+
+                                            final searchFilterAfterFilter = ref.watch(searchFilterProvider);
+                                            getProjects(user.token!, searchFilterAfterFilter);
+
+                                            numOfStudentsController.text = '';
+                                            proposalsController.text = '';
+                                            setState(() {
+                                              projectLength = -1;
+                                            });
+
+                                            Navigator.pop(context);
                                           },
                                           decoration: InputDecoration(
                                             border: OutlineInputBorder(
@@ -323,9 +343,7 @@ class _ProjectSearchWidgetState extends ConsumerState<ProjectSearchWidget> {
                                             prefixIcon: const Icon(Icons.search),
                                             suffixIcon: InkWell(
                                               onTap: () {
-                                                setState(() {
-                                                  searchController.text = '';
-                                                });
+                                                searchController.text = '';
                                                 ref.read(searchFilterProvider.notifier).setSearch('');
                                               },
                                               child: const Icon(Icons.clear),
@@ -362,8 +380,18 @@ class _ProjectSearchWidgetState extends ConsumerState<ProjectSearchWidget> {
                                                         (data) => InkWell(
                                                           onTap: () {
                                                             searchController.text = data;
-                                                            ref.read(searchFilterProvider.notifier).setSearch(searchController.text);
                                                             Navigator.pop(context);
+                                                            ref.read(optionsProvider.notifier).setWidgetOption('ProjectSearch', user.role!);
+                                                            ref.read(searchFilterProvider.notifier).setSearch(searchController.text);
+
+                                                            final searchFilterAfterFilter = ref.watch(searchFilterProvider);
+                                                            getProjects(user.token!, searchFilterAfterFilter);
+
+                                                            numOfStudentsController.text = '';
+                                                            proposalsController.text = '';
+                                                            setState(() {
+                                                              projectLength = -1;
+                                                            });
                                                           },
                                                           child: SizedBox(
                                                             height: 40,
@@ -399,8 +427,18 @@ class _ProjectSearchWidgetState extends ConsumerState<ProjectSearchWidget> {
                                                         (data) => InkWell(
                                                           onTap: () {
                                                             searchController.text = data;
-                                                            ref.read(searchFilterProvider.notifier).setSearch(searchController.text);
                                                             Navigator.pop(context);
+                                                            ref.read(optionsProvider.notifier).setWidgetOption('ProjectSearch', user.role!);
+                                                            ref.read(searchFilterProvider.notifier).setSearch(searchController.text);
+
+                                                            final searchFilterAfterFilter = ref.watch(searchFilterProvider);
+                                                            getProjects(user.token!, searchFilterAfterFilter);
+
+                                                            numOfStudentsController.text = '';
+                                                            proposalsController.text = '';
+                                                            setState(() {
+                                                              projectLength = -1;
+                                                            });
                                                           },
                                                           child: SizedBox(
                                                             height: 40,
@@ -774,12 +812,6 @@ class _ProjectSearchWidgetState extends ConsumerState<ProjectSearchWidget> {
                                                         setState(() {
                                                           projectLength = value!;
                                                         });
-                                                        if (projectLength == 0 || numOfStudentsController.text.isEmpty || proposalsController.text.isEmpty) {
-                                                          enable = false;
-                                                        } else {
-                                                          enable = true;
-                                                        }
-                                                        setState(() {});
                                                       },
                                                     ),
                                                   ),
@@ -795,12 +827,6 @@ class _ProjectSearchWidgetState extends ConsumerState<ProjectSearchWidget> {
                                                         setState(() {
                                                           projectLength = value!;
                                                         });
-                                                        if (projectLength == 0 || numOfStudentsController.text.isEmpty || proposalsController.text.isEmpty) {
-                                                          enable = false;
-                                                        } else {
-                                                          enable = true;
-                                                        }
-                                                        setState(() {});
                                                       },
                                                     ),
                                                   ),
@@ -816,12 +842,6 @@ class _ProjectSearchWidgetState extends ConsumerState<ProjectSearchWidget> {
                                                         setState(() {
                                                           projectLength = value!;
                                                         });
-                                                        if (projectLength == 0 || numOfStudentsController.text.isEmpty || proposalsController.text.isEmpty) {
-                                                          enable = false;
-                                                        } else {
-                                                          enable = true;
-                                                        }
-                                                        setState(() {});
                                                       },
                                                     ),
                                                   ),
@@ -837,7 +857,7 @@ class _ProjectSearchWidgetState extends ConsumerState<ProjectSearchWidget> {
                                                         setState(() {
                                                           projectLength = value!;
                                                         });
-                                                        if (projectLength == 0 || numOfStudentsController.text.isEmpty || proposalsController.text.isEmpty) {
+                                                        if (projectLength == -1 || numOfStudentsController.text.isEmpty || proposalsController.text.isEmpty) {
                                                           enable = false;
                                                         } else {
                                                           enable = true;
@@ -868,14 +888,7 @@ class _ProjectSearchWidgetState extends ConsumerState<ProjectSearchWidget> {
                                               SizedBox(
                                                 child: TextField(
                                                   controller: numOfStudentsController,
-                                                  onChanged: (data) {
-                                                    if (projectLength == 0 || numOfStudentsController.text.isEmpty || proposalsController.text.isEmpty) {
-                                                      enable = false;
-                                                    } else {
-                                                      enable = true;
-                                                    }
-                                                    setState(() {});
-                                                  },
+                                                  onChanged: (data) {},
                                                   style: const TextStyle(
                                                     fontSize: 16,
                                                   ),
@@ -914,14 +927,7 @@ class _ProjectSearchWidgetState extends ConsumerState<ProjectSearchWidget> {
                                               SizedBox(
                                                 child: TextField(
                                                   controller: proposalsController,
-                                                  onChanged: (data) {
-                                                    if (projectLength == 0 || numOfStudentsController.text.isEmpty || proposalsController.text.isEmpty) {
-                                                      enable = false;
-                                                    } else {
-                                                      enable = true;
-                                                    }
-                                                    setState(() {});
-                                                  },
+                                                  onChanged: (data) {},
                                                   style: const TextStyle(
                                                     fontSize: 16,
                                                   ),
@@ -938,7 +944,7 @@ class _ProjectSearchWidgetState extends ConsumerState<ProjectSearchWidget> {
                                                       vertical: 14,
                                                       horizontal: 15,
                                                     ),
-                                                    hintText: 'Number of students',
+                                                    hintText: 'Number of proposals',
                                                   ),
                                                 ),
                                               ),
@@ -954,9 +960,17 @@ class _ProjectSearchWidgetState extends ConsumerState<ProjectSearchWidget> {
                                                         numOfStudentsController.text = '';
                                                         proposalsController.text = '';
                                                         setState(() {
-                                                          projectLength = 0;
-                                                          enable = false;
+                                                          projectLength = -1;
                                                         });
+                                                        ref.read(searchFilterProvider.notifier).setNumOfStudents(
+                                                              '',
+                                                            );
+                                                        ref.read(searchFilterProvider.notifier).setProposals(
+                                                              '',
+                                                            );
+                                                        ref.read(searchFilterProvider.notifier).setProjectLength(
+                                                              -1,
+                                                            );
                                                       },
                                                       style: ElevatedButton.styleFrom(
                                                         minimumSize: Size.zero, // Set this
@@ -982,7 +996,35 @@ class _ProjectSearchWidgetState extends ConsumerState<ProjectSearchWidget> {
                                                     height: 46,
                                                     width: 175,
                                                     child: ElevatedButton(
-                                                      onPressed: enable ? () {} : null,
+                                                      onPressed: () {
+                                                        ref.read(searchFilterProvider.notifier).setNumOfStudents(
+                                                              numOfStudentsController.text,
+                                                            );
+                                                        ref.read(searchFilterProvider.notifier).setProposals(
+                                                              proposalsController.text,
+                                                            );
+                                                        ref.read(searchFilterProvider.notifier).setProjectLength(
+                                                              projectLength,
+                                                            );
+                                                        final searchFilterAfterFilter = ref.watch(searchFilterProvider);
+                                                        getProjects(user.token!, searchFilterAfterFilter);
+
+                                                        numOfStudentsController.text = '';
+                                                        proposalsController.text = '';
+                                                        setState(() {
+                                                          projectLength = -1;
+                                                        });
+                                                        ref.read(searchFilterProvider.notifier).setNumOfStudents(
+                                                              '',
+                                                            );
+                                                        ref.read(searchFilterProvider.notifier).setProposals(
+                                                              '',
+                                                            );
+                                                        ref.read(searchFilterProvider.notifier).setProjectLength(
+                                                              -1,
+                                                            );
+                                                        Navigator.pop(context);
+                                                      },
                                                       style: ElevatedButton.styleFrom(
                                                         minimumSize: Size.zero, // Set this
                                                         padding: EdgeInsets.zero, // and this
@@ -1050,7 +1092,7 @@ class _ProjectSearchWidgetState extends ConsumerState<ProjectSearchWidget> {
                             ? const Column(
                                 children: [
                                   Text(
-                                    'Empty',
+                                    'No project found',
                                     style: TextStyle(fontSize: 16),
                                   ),
                                   SizedBox(height: 20),
