@@ -13,6 +13,7 @@ import 'package:studenthub/providers/profile/company.provider.dart';
 import 'dart:convert';
 
 import 'package:studenthub/providers/profile/student.provider.dart';
+import 'package:studenthub/providers/switch_account.provider.dart';
 import 'package:toastification/toastification.dart';
 
 class LoginWidget extends ConsumerStatefulWidget {
@@ -299,6 +300,9 @@ class _LoginWidgetState extends ConsumerState<LoginWidget> {
                                         responeAuthMeData["result"]["id"],
                                         userLoginRole,
                                         json.decode(responseLogin.body)["result"]["token"],
+                                      );
+                                  ref.read(switchAccountProvider.notifier).setSwitchAccount(
+                                        userLoginRole,
                                       );
 
                                   showSuccessToast('Success', 'Login successfully');

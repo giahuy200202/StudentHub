@@ -4,6 +4,7 @@ import 'package:studenthub/providers/authentication/authentication.provider.dart
 import 'package:studenthub/providers/options.provider.dart';
 import 'package:studenthub/providers/profile/company.provider.dart';
 import 'package:studenthub/providers/profile/student.provider.dart';
+import 'package:studenthub/providers/switch_account.provider.dart';
 
 class SwitchAccountWidget extends ConsumerStatefulWidget {
   const SwitchAccountWidget({super.key});
@@ -38,6 +39,9 @@ class _SwitchAccountWidgetState extends ConsumerState<SwitchAccountWidget> {
             child: InkWell(
               onTap: () {
                 ref.read(userProvider.notifier).setRole("1");
+                ref.read(switchAccountProvider.notifier).setSwitchAccount(
+                      "1",
+                    );
               },
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
@@ -115,6 +119,9 @@ class _SwitchAccountWidgetState extends ConsumerState<SwitchAccountWidget> {
             child: InkWell(
               onTap: () {
                 ref.read(userProvider.notifier).setRole("0");
+                ref.read(switchAccountProvider.notifier).setSwitchAccount(
+                      "0",
+                    );
               },
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
@@ -194,6 +201,9 @@ class _SwitchAccountWidgetState extends ConsumerState<SwitchAccountWidget> {
             child: InkWell(
               onTap: () {
                 ref.read(userProvider.notifier).setRole("0");
+                ref.read(switchAccountProvider.notifier).setSwitchAccount(
+                      "0",
+                    );
               },
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
@@ -268,6 +278,9 @@ class _SwitchAccountWidgetState extends ConsumerState<SwitchAccountWidget> {
             child: InkWell(
               onTap: () {
                 ref.read(userProvider.notifier).setRole("1");
+                ref.read(switchAccountProvider.notifier).setSwitchAccount(
+                      "1",
+                    );
               },
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),

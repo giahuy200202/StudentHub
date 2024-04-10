@@ -168,7 +168,7 @@ class _ListProjectsWidgetState extends ConsumerState<ListProjectsWidget> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  SizedBox(height: 220),
+                  SizedBox(height: 250),
                   Center(
                     child: SizedBox(
                       height: 25,
@@ -256,11 +256,12 @@ class _ListProjectsWidgetState extends ConsumerState<ListProjectsWidget> {
 
                                                     print('----responsePatchFavoriteProjecData----');
                                                     print(responsePatchFavoriteProjectData);
+                                                    print(student.id);
 
                                                     getProjects(user.token!);
                                                   },
                                             child: Icon(
-                                              el.isFavorite ? Icons.favorite : Icons.favorite_border,
+                                              el.isFavorite ? Icons.favorite_rounded : Icons.favorite_border,
                                               size: 28,
                                             ),
                                           ),
