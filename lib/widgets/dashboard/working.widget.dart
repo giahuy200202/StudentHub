@@ -179,10 +179,10 @@ class _WorkingWidgetState extends ConsumerState<WorkingWidget> {
     if (responseProjectsData['result'] != null) {
       for (var item in responseProjectsData['result']) {
         listProjectsGetFromRes.add(Project(
-          projectId: item['projectId'].toString(),
+          projectId: item['id'].toString(),
           title: item['title'],
           createTime: 'Created at ${DateFormat("dd/MM/yyyy | HH:mm").format(
-                DateTime.parse(item['createdAt']),
+                DateTime.parse(item['createdAt']).toLocal(),
               ).toString()}',
           projectScopeFlag: item['projectScopeFlag'],
           numberOfStudents: item['numberOfStudents'],

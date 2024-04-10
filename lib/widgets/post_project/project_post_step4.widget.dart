@@ -1,7 +1,13 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:studenthub/providers/authentication/authentication.provider.dart';
+import 'package:studenthub/providers/profile/company.provider.dart';
 import '../../providers/project_posting.provider.dart';
 import '../../providers/options.provider.dart';
+import 'package:http/http.dart' as http;
 
 class ProjectPostStep4Widget extends ConsumerStatefulWidget {
   const ProjectPostStep4Widget({super.key});
@@ -15,6 +21,8 @@ class ProjectPostStep4Widget extends ConsumerStatefulWidget {
 class _ProjectPostStep4WidgetState extends ConsumerState<ProjectPostStep4Widget> {
   var descriptionController = TextEditingController();
   bool enable = false;
+  bool isFetching = false;
+
   @override
   void dispose() {
     descriptionController.dispose();
@@ -24,6 +32,8 @@ class _ProjectPostStep4WidgetState extends ConsumerState<ProjectPostStep4Widget>
   @override
   Widget build(BuildContext context) {
     final projectPosting = ref.watch(projectPostingProvider);
+    final user = ref.watch(userProvider);
+    final company = ref.watch(companyProvider);
 
     return Scaffold(
       body: SingleChildScrollView(
@@ -224,12 +234,46 @@ class _ProjectPostStep4WidgetState extends ConsumerState<ProjectPostStep4Widget>
                   height: 52,
                   width: MediaQuery.of(context).size.width,
                   child: ElevatedButton(
-                    onPressed: () {
-                      ref.read(projectPostingProvider.notifier).setTitle('');
-                      ref.read(projectPostingProvider.notifier).setScope(-1);
-                      ref.read(projectPostingProvider.notifier).setNumOfStudents('');
-                      ref.read(projectPostingProvider.notifier).setDescription('');
-                    },
+                    onPressed: isFetching
+                        ? null
+                        : () async {
+                            setState(() {
+                              isFetching = true;
+                            });
+
+                            final urlPostprojects = Uri.parse('http://${dotenv.env['IP_ADDRESS']}/api/project');
+
+                            final responsePostProjects = await http.post(
+                              urlPostprojects,
+                              headers: {
+                                'Content-Type': 'application/json',
+                                'Authorization': 'Bearer ${user.token}',
+                              },
+                              body: json.encode({
+                                'companyId': company.id,
+                                'projectScopeFlag': projectPosting.scope,
+                                'title': projectPosting.title,
+                                'numberOfStudents': int.parse(projectPosting.numOfStudents!),
+                                'description': projectPosting.description,
+                                "typeFlag": 0,
+                              }),
+                            );
+
+                            final responsePostProjectsData = json.decode(responsePostProjects.body);
+                            print('----responsePostProjectsData----');
+                            print(responsePostProjectsData);
+
+                            ref.read(projectPostingProvider.notifier).setTitle('');
+                            ref.read(projectPostingProvider.notifier).setScope(-1);
+                            ref.read(projectPostingProvider.notifier).setNumOfStudents('');
+                            ref.read(projectPostingProvider.notifier).setDescription('');
+
+                            setState(() {
+                              isFetching = false;
+                            });
+
+                            ref.read(optionsProvider.notifier).setWidgetOption('Dashboard', user.role!);
+                          },
                     style: ElevatedButton.styleFrom(
                       minimumSize: Size.zero, // Set this
                       padding: EdgeInsets.zero, // and this
@@ -239,23 +283,33 @@ class _ProjectPostStep4WidgetState extends ConsumerState<ProjectPostStep4Widget>
                       ),
                       backgroundColor: Colors.black,
                     ),
-                    child: const Padding(
-                      padding: EdgeInsets.only(left: 10),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Text(
-                            'Post project',
-                            style: TextStyle(
-                              fontSize: 17,
-                              color: Colors.white,
-                              fontWeight: FontWeight.w600,
+                    child: isFetching
+                        ? const SizedBox(
+                            height: 17,
+                            width: 17,
+                            child: CircularProgressIndicator(
+                              valueColor: AlwaysStoppedAnimation<Color>(
+                                Colors.white,
+                              ),
+                            ),
+                          )
+                        : const Padding(
+                            padding: EdgeInsets.only(left: 10),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Text(
+                                  'Post project',
+                                  style: TextStyle(
+                                    fontSize: 17,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
-                        ],
-                      ),
-                    ),
                   ),
                 ),
                 const SizedBox(height: 20),

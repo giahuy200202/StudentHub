@@ -116,6 +116,8 @@ class _AllProjectsWidgetState extends ConsumerState<AllProjectsWidget> {
   var descriptionController = TextEditingController();
   var numOfStudentsController = TextEditingController();
 
+  int pickedScope = 1;
+
   List<Project> listProjects = [];
   bool isFetchingData = false;
 
@@ -179,10 +181,10 @@ class _AllProjectsWidgetState extends ConsumerState<AllProjectsWidget> {
     if (responseProjectsData['result'] != null) {
       for (var item in responseProjectsData['result']) {
         listProjectsGetFromRes.add(Project(
-          projectId: item['projectId'].toString(),
+          projectId: item['id'].toString(),
           title: item['title'],
           createTime: 'Created at ${DateFormat("dd/MM/yyyy | HH:mm").format(
-                DateTime.parse(item['createdAt']),
+                DateTime.parse(item['createdAt']).toLocal(),
               ).toString()}',
           projectScopeFlag: item['projectScopeFlag'],
           numberOfStudents: item['numberOfStudents'],
@@ -209,583 +211,6 @@ class _AllProjectsWidgetState extends ConsumerState<AllProjectsWidget> {
     final company = ref.read(companyProvider);
     getProjects(user.token!, company.id);
     super.initState();
-  }
-
-  void openMoreOverlay() {
-    showModalBottomSheet(
-      context: context,
-      builder: (ctx) {
-        return Container(
-          height: 330,
-          width: MediaQuery.of(context).size.width,
-          decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(15)),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 30),
-            child: Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SizedBox(
-                          height: 52,
-                          width: 168,
-                          child: ElevatedButton(
-                            onPressed: () {},
-                            style: ElevatedButton.styleFrom(
-                              minimumSize: Size.zero, // Set this
-                              padding: EdgeInsets.zero, // and this
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(8),
-                                side: const BorderSide(color: Colors.grey),
-                              ),
-                              backgroundColor: Colors.white,
-                            ),
-                            child: const Padding(
-                              padding: EdgeInsets.only(left: 10),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Icon(
-                                    Icons.format_indent_increase_rounded,
-                                    size: 22,
-                                    color: Colors.black,
-                                  ),
-                                  SizedBox(width: 5),
-                                  Text(
-                                    'View proposals',
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      // color: Color.fromARGB(255, 255, 255, 255),
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                        const SizedBox(height: 20),
-                        SizedBox(
-                          height: 52,
-                          width: 168,
-                          child: ElevatedButton(
-                            onPressed: () {},
-                            style: ElevatedButton.styleFrom(
-                              minimumSize: Size.zero, // Set this
-                              padding: EdgeInsets.zero, // and this
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(8),
-                                side: const BorderSide(color: Colors.grey),
-                              ),
-                              backgroundColor: Colors.white,
-                            ),
-                            child: const Padding(
-                              padding: EdgeInsets.only(left: 10),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Icon(
-                                    Icons.message_outlined,
-                                    size: 22,
-                                    color: Colors.black,
-                                  ),
-                                  SizedBox(width: 5),
-                                  Text(
-                                    'View messages',
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                        const SizedBox(height: 20),
-                        SizedBox(
-                          height: 52,
-                          width: 168,
-                          child: ElevatedButton(
-                            onPressed: () {},
-                            style: ElevatedButton.styleFrom(
-                              minimumSize: Size.zero, // Set this
-                              padding: EdgeInsets.zero, // and this
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(8),
-                                side: const BorderSide(color: Colors.grey),
-                              ),
-                              backgroundColor: Colors.white,
-                            ),
-                            child: const Padding(
-                              padding: EdgeInsets.only(left: 10),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Icon(
-                                    Icons.person_3,
-                                    size: 22,
-                                    color: Colors.black,
-                                  ),
-                                  SizedBox(width: 5),
-                                  Text(
-                                    'View hired',
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SizedBox(
-                          height: 52,
-                          width: 168,
-                          child: ElevatedButton(
-                            onPressed: () {},
-                            style: ElevatedButton.styleFrom(
-                              minimumSize: Size.zero, // Set this
-                              padding: EdgeInsets.zero, // and this
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(8),
-                                side: const BorderSide(color: Colors.grey),
-                              ),
-                              backgroundColor: Colors.white,
-                            ),
-                            child: const Padding(
-                              padding: EdgeInsets.only(left: 10),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Icon(
-                                    Icons.list_alt_outlined,
-                                    size: 22,
-                                    color: Colors.black,
-                                  ),
-                                  SizedBox(width: 5),
-                                  Text(
-                                    'View job posting',
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      // color: Color.fromARGB(255, 255, 255, 255),
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                        const SizedBox(height: 20),
-                        SizedBox(
-                          height: 52,
-                          width: 168,
-                          child: ElevatedButton(
-                            onPressed: () {
-                              showModalBottomSheet(
-                                isScrollControlled: true,
-                                context: context,
-                                backgroundColor: Colors.white,
-                                builder: (ctx) {
-                                  return StatefulBuilder(builder: (BuildContext context, StateSetter setState /*You can rename this!*/) {
-                                    titleController.text = 'Senior frontend developer (Fintech)';
-                                    descriptionController.text = 'This practice lesson consists of short paragraphs about interesting subjects. Find fun keyboard typing practice—and learn something new! Our paragraph practice is great typing practice for writing essays, reports, emails, and more for school and work.';
-                                    numOfStudentsController.text = '1';
-                                    return Padding(
-                                      padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
-                                      child: SingleChildScrollView(
-                                        // physics: const NeverScrollableScrollPhysics(),
-                                        child: Padding(
-                                          padding: const EdgeInsets.only(left: 20, right: 20),
-                                          child: Column(
-                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                            mainAxisSize: MainAxisSize.min,
-                                            children: [
-                                              const SizedBox(height: 40),
-                                              const Align(
-                                                alignment: Alignment.topLeft,
-                                                child: Text(
-                                                  "Edit project",
-                                                  style: TextStyle(
-                                                    fontWeight: FontWeight.bold,
-                                                    fontSize: 25,
-                                                  ),
-                                                ),
-                                              ),
-                                              const SizedBox(height: 15),
-                                              Container(
-                                                decoration: BoxDecoration(
-                                                  border: Border.all(
-                                                    color: Colors.black, //                   <--- border color
-                                                    width: 0.3,
-                                                  ),
-                                                ),
-                                              ),
-                                              const SizedBox(height: 20),
-                                              SizedBox(
-                                                height: 580,
-                                                child: Column(
-                                                  children: [
-                                                    const Align(
-                                                      alignment: Alignment.topLeft,
-                                                      child: Text(
-                                                        "Title",
-                                                        style: TextStyle(
-                                                          fontWeight: FontWeight.bold,
-                                                          fontSize: 16,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    const SizedBox(height: 15),
-                                                    SizedBox(
-                                                      child: TextField(
-                                                        controller: titleController,
-                                                        onChanged: (data) {},
-                                                        style: const TextStyle(
-                                                          fontSize: 16,
-                                                        ),
-                                                        decoration: InputDecoration(
-                                                          // labelText: 'Number of students',
-                                                          border: OutlineInputBorder(
-                                                            borderRadius: BorderRadius.circular(9),
-                                                          ),
-                                                          focusedBorder: OutlineInputBorder(
-                                                            borderRadius: BorderRadius.circular(9),
-                                                            borderSide: const BorderSide(color: Colors.black),
-                                                          ),
-                                                          contentPadding: const EdgeInsets.symmetric(
-                                                            vertical: 14,
-                                                            horizontal: 15,
-                                                          ),
-                                                          hintText: 'Enter your languages',
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    const SizedBox(height: 20),
-                                                    const Align(
-                                                      alignment: Alignment.topLeft,
-                                                      child: Text(
-                                                        'Project scope',
-                                                        style: TextStyle(
-                                                          fontWeight: FontWeight.bold,
-                                                          fontSize: 16,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    const SizedBox(height: 15),
-                                                    Column(
-                                                      children: [
-                                                        SizedBox(
-                                                          height: 30,
-                                                          width: MediaQuery.of(context).size.width,
-                                                          child: LabeledRadio(
-                                                            label: '1 to 3 months',
-                                                            value: 1,
-                                                            groupValue: 0, //projectPosting.scope,
-                                                            onChanged: (value) {
-                                                              // ref.read(projectPostingProvider.notifier).setScope(value as int);
-                                                            },
-                                                          ),
-                                                        ),
-                                                        SizedBox(
-                                                          height: 30,
-                                                          width: MediaQuery.of(context).size.width,
-                                                          child: LabeledRadio(
-                                                            label: '3 to 6 months',
-                                                            value: 2,
-                                                            groupValue: 2,
-                                                            onChanged: (value) {
-                                                              // ref.read(projectPostingProvider.notifier).setScope(value as int);
-                                                            },
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                    const SizedBox(height: 20),
-                                                    const Align(
-                                                      alignment: Alignment.topLeft,
-                                                      child: Text(
-                                                        "Number of students",
-                                                        style: TextStyle(
-                                                          fontWeight: FontWeight.bold,
-                                                          fontSize: 16,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    const SizedBox(height: 15),
-                                                    SizedBox(
-                                                      child: TextField(
-                                                        controller: numOfStudentsController,
-                                                        onChanged: (data) {},
-                                                        style: const TextStyle(
-                                                          fontSize: 16,
-                                                        ),
-                                                        decoration: InputDecoration(
-                                                          // labelText: 'Number of students',
-                                                          border: OutlineInputBorder(
-                                                            borderRadius: BorderRadius.circular(9),
-                                                          ),
-                                                          focusedBorder: OutlineInputBorder(
-                                                            borderRadius: BorderRadius.circular(9),
-                                                            borderSide: const BorderSide(color: Colors.black),
-                                                          ),
-                                                          contentPadding: const EdgeInsets.symmetric(
-                                                            vertical: 14,
-                                                            horizontal: 15,
-                                                          ),
-                                                          hintText: 'Enter your language level',
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    const SizedBox(height: 20),
-                                                    const Align(
-                                                      alignment: Alignment.topLeft,
-                                                      child: Text(
-                                                        "Description",
-                                                        style: TextStyle(
-                                                          fontWeight: FontWeight.bold,
-                                                          fontSize: 16,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    const SizedBox(height: 15),
-                                                    SizedBox(
-                                                      child: TextField(
-                                                        maxLines: 3,
-                                                        controller: descriptionController,
-                                                        onChanged: (data) {},
-                                                        style: const TextStyle(
-                                                          fontSize: 16,
-                                                        ),
-                                                        decoration: InputDecoration(
-                                                          // labelText: 'Number of students',
-                                                          border: OutlineInputBorder(
-                                                            borderRadius: BorderRadius.circular(9),
-                                                          ),
-                                                          focusedBorder: OutlineInputBorder(
-                                                            borderRadius: BorderRadius.circular(9),
-                                                            borderSide: const BorderSide(color: Colors.black),
-                                                          ),
-                                                          contentPadding: const EdgeInsets.symmetric(
-                                                            vertical: 14,
-                                                            horizontal: 15,
-                                                          ),
-                                                          hintText: 'Enter your language level',
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    const SizedBox(height: 35),
-                                                    Column(
-                                                      children: [
-                                                        Row(
-                                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                          children: [
-                                                            SizedBox(
-                                                              height: 46,
-                                                              width: 175,
-                                                              child: ElevatedButton(
-                                                                onPressed: () {
-                                                                  Navigator.pop(context);
-                                                                },
-                                                                style: ElevatedButton.styleFrom(
-                                                                  minimumSize: Size.zero, // Set this
-                                                                  padding: EdgeInsets.zero, // and this
-                                                                  shape: RoundedRectangleBorder(
-                                                                    borderRadius: BorderRadius.circular(8),
-                                                                    side: const BorderSide(color: Colors.black),
-                                                                  ),
-                                                                  backgroundColor: Colors.white,
-                                                                ),
-                                                                child: const Text(
-                                                                  'Cancel',
-                                                                  style: TextStyle(
-                                                                    fontSize: 18,
-                                                                    color: Colors.black,
-                                                                    fontWeight: FontWeight.w500,
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                            ),
-                                                            const SizedBox(width: 15),
-                                                            SizedBox(
-                                                              height: 46,
-                                                              width: 175,
-                                                              child: ElevatedButton(
-                                                                onPressed: () {
-                                                                  Navigator.pop(context);
-                                                                },
-                                                                style: ElevatedButton.styleFrom(
-                                                                  minimumSize: Size.zero, // Set this
-                                                                  padding: EdgeInsets.zero, // and this
-                                                                  shape: RoundedRectangleBorder(
-                                                                    borderRadius: BorderRadius.circular(8),
-                                                                  ),
-                                                                  backgroundColor: Colors.black,
-                                                                ),
-                                                                child: const Text(
-                                                                  'Edit',
-                                                                  style: TextStyle(
-                                                                    fontSize: 18,
-                                                                    color: Color.fromARGB(255, 255, 255, 255),
-                                                                    fontWeight: FontWeight.w500,
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                            ),
-                                                          ],
-                                                        )
-                                                      ],
-                                                    ),
-                                                  ],
-                                                ),
-                                              )
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                    );
-                                  });
-                                },
-                              );
-                            },
-                            style: ElevatedButton.styleFrom(
-                              minimumSize: Size.zero, // Set this
-                              padding: EdgeInsets.zero, // and this
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(8),
-                                side: const BorderSide(color: Colors.grey),
-                              ),
-                              backgroundColor: Colors.white,
-                            ),
-                            child: const Padding(
-                              padding: EdgeInsets.only(left: 10),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Icon(
-                                    Icons.edit_calendar_outlined,
-                                    size: 22,
-                                    color: Colors.black,
-                                  ),
-                                  SizedBox(width: 5),
-                                  Text(
-                                    'Edit posting',
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                        const SizedBox(height: 20),
-                        SizedBox(
-                          height: 52,
-                          width: 168,
-                          child: ElevatedButton(
-                            onPressed: () {},
-                            style: ElevatedButton.styleFrom(
-                              minimumSize: Size.zero, // Set this
-                              padding: EdgeInsets.zero, // and this
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(8),
-                                side: const BorderSide(color: Colors.grey),
-                              ),
-                              backgroundColor: Colors.white,
-                            ),
-                            child: const Padding(
-                              padding: EdgeInsets.only(left: 10),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Icon(
-                                    Icons.delete_forever,
-                                    size: 22,
-                                    color: Colors.red,
-                                  ),
-                                  SizedBox(width: 5),
-                                  Text(
-                                    'Remove posting',
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      color: Colors.red,
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 20),
-                SizedBox(
-                  height: 52,
-                  width: MediaQuery.of(context).size.width,
-                  child: ElevatedButton(
-                    onPressed: () {},
-                    style: ElevatedButton.styleFrom(
-                      minimumSize: Size.zero, // Set this
-                      padding: EdgeInsets.zero, // and this
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
-                        side: const BorderSide(color: Colors.grey),
-                      ),
-                      backgroundColor: Colors.black,
-                    ),
-                    child: const Padding(
-                      padding: EdgeInsets.only(left: 10),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Text(
-                            'Start working this project',
-                            style: TextStyle(
-                              fontSize: 16,
-                              color: Colors.white,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        );
-      },
-    );
   }
 
   @override
@@ -867,7 +292,660 @@ class _AllProjectsWidgetState extends ConsumerState<AllProjectsWidget> {
                                           ),
                                           const Spacer(),
                                           InkWell(
-                                            onTap: openMoreOverlay,
+                                            onTap: () {
+                                              showModalBottomSheet(
+                                                context: context,
+                                                builder: (ctx) {
+                                                  return Container(
+                                                    height: 330,
+                                                    width: MediaQuery.of(context).size.width,
+                                                    decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(15)),
+                                                    child: Padding(
+                                                      padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 30),
+                                                      child: Column(
+                                                        children: [
+                                                          Row(
+                                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                            children: [
+                                                              Column(
+                                                                mainAxisAlignment: MainAxisAlignment.start,
+                                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                                children: [
+                                                                  SizedBox(
+                                                                    height: 52,
+                                                                    width: 168,
+                                                                    child: ElevatedButton(
+                                                                      onPressed: () {},
+                                                                      style: ElevatedButton.styleFrom(
+                                                                        minimumSize: Size.zero, // Set this
+                                                                        padding: EdgeInsets.zero, // and this
+                                                                        shape: RoundedRectangleBorder(
+                                                                          borderRadius: BorderRadius.circular(8),
+                                                                          side: const BorderSide(color: Colors.grey),
+                                                                        ),
+                                                                        backgroundColor: Colors.white,
+                                                                      ),
+                                                                      child: const Padding(
+                                                                        padding: EdgeInsets.only(left: 10),
+                                                                        child: Row(
+                                                                          mainAxisAlignment: MainAxisAlignment.start,
+                                                                          crossAxisAlignment: CrossAxisAlignment.center,
+                                                                          children: [
+                                                                            Icon(
+                                                                              Icons.format_indent_increase_rounded,
+                                                                              size: 22,
+                                                                              color: Colors.black,
+                                                                            ),
+                                                                            SizedBox(width: 5),
+                                                                            Text(
+                                                                              'View proposals',
+                                                                              style: TextStyle(
+                                                                                fontSize: 16,
+                                                                                // color: Color.fromARGB(255, 255, 255, 255),
+                                                                                color: Colors.black,
+                                                                                fontWeight: FontWeight.w500,
+                                                                              ),
+                                                                            ),
+                                                                          ],
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                  const SizedBox(height: 20),
+                                                                  SizedBox(
+                                                                    height: 52,
+                                                                    width: 168,
+                                                                    child: ElevatedButton(
+                                                                      onPressed: () {},
+                                                                      style: ElevatedButton.styleFrom(
+                                                                        minimumSize: Size.zero, // Set this
+                                                                        padding: EdgeInsets.zero, // and this
+                                                                        shape: RoundedRectangleBorder(
+                                                                          borderRadius: BorderRadius.circular(8),
+                                                                          side: const BorderSide(color: Colors.grey),
+                                                                        ),
+                                                                        backgroundColor: Colors.white,
+                                                                      ),
+                                                                      child: const Padding(
+                                                                        padding: EdgeInsets.only(left: 10),
+                                                                        child: Row(
+                                                                          mainAxisAlignment: MainAxisAlignment.start,
+                                                                          crossAxisAlignment: CrossAxisAlignment.center,
+                                                                          children: [
+                                                                            Icon(
+                                                                              Icons.message_outlined,
+                                                                              size: 22,
+                                                                              color: Colors.black,
+                                                                            ),
+                                                                            SizedBox(width: 5),
+                                                                            Text(
+                                                                              'View messages',
+                                                                              style: TextStyle(
+                                                                                fontSize: 16,
+                                                                                color: Colors.black,
+                                                                                fontWeight: FontWeight.w500,
+                                                                              ),
+                                                                            ),
+                                                                          ],
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                  const SizedBox(height: 20),
+                                                                  SizedBox(
+                                                                    height: 52,
+                                                                    width: 168,
+                                                                    child: ElevatedButton(
+                                                                      onPressed: () {},
+                                                                      style: ElevatedButton.styleFrom(
+                                                                        minimumSize: Size.zero, // Set this
+                                                                        padding: EdgeInsets.zero, // and this
+                                                                        shape: RoundedRectangleBorder(
+                                                                          borderRadius: BorderRadius.circular(8),
+                                                                          side: const BorderSide(color: Colors.grey),
+                                                                        ),
+                                                                        backgroundColor: Colors.white,
+                                                                      ),
+                                                                      child: const Padding(
+                                                                        padding: EdgeInsets.only(left: 10),
+                                                                        child: Row(
+                                                                          mainAxisAlignment: MainAxisAlignment.start,
+                                                                          crossAxisAlignment: CrossAxisAlignment.center,
+                                                                          children: [
+                                                                            Icon(
+                                                                              Icons.person_3,
+                                                                              size: 22,
+                                                                              color: Colors.black,
+                                                                            ),
+                                                                            SizedBox(width: 5),
+                                                                            Text(
+                                                                              'View hired',
+                                                                              style: TextStyle(
+                                                                                fontSize: 16,
+                                                                                color: Colors.black,
+                                                                                fontWeight: FontWeight.w500,
+                                                                              ),
+                                                                            ),
+                                                                          ],
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                              Column(
+                                                                mainAxisAlignment: MainAxisAlignment.start,
+                                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                                children: [
+                                                                  SizedBox(
+                                                                    height: 52,
+                                                                    width: 168,
+                                                                    child: ElevatedButton(
+                                                                      onPressed: () {},
+                                                                      style: ElevatedButton.styleFrom(
+                                                                        minimumSize: Size.zero, // Set this
+                                                                        padding: EdgeInsets.zero, // and this
+                                                                        shape: RoundedRectangleBorder(
+                                                                          borderRadius: BorderRadius.circular(8),
+                                                                          side: const BorderSide(color: Colors.grey),
+                                                                        ),
+                                                                        backgroundColor: Colors.white,
+                                                                      ),
+                                                                      child: const Padding(
+                                                                        padding: EdgeInsets.only(left: 10),
+                                                                        child: Row(
+                                                                          mainAxisAlignment: MainAxisAlignment.start,
+                                                                          crossAxisAlignment: CrossAxisAlignment.center,
+                                                                          children: [
+                                                                            Icon(
+                                                                              Icons.list_alt_outlined,
+                                                                              size: 22,
+                                                                              color: Colors.black,
+                                                                            ),
+                                                                            SizedBox(width: 5),
+                                                                            Text(
+                                                                              'View job posting',
+                                                                              style: TextStyle(
+                                                                                fontSize: 16,
+                                                                                // color: Color.fromARGB(255, 255, 255, 255),
+                                                                                color: Colors.black,
+                                                                                fontWeight: FontWeight.w500,
+                                                                              ),
+                                                                            ),
+                                                                          ],
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                  const SizedBox(height: 20),
+                                                                  SizedBox(
+                                                                    height: 52,
+                                                                    width: 168,
+                                                                    child: ElevatedButton(
+                                                                      onPressed: () {
+                                                                        Navigator.pop(context);
+                                                                        titleController.text = el.title;
+                                                                        descriptionController.text = el.description;
+                                                                        numOfStudentsController.text = '${el.numberOfStudents}';
+                                                                        showModalBottomSheet(
+                                                                          isScrollControlled: true,
+                                                                          context: context,
+                                                                          backgroundColor: Colors.white,
+                                                                          builder: (ctx) {
+                                                                            return StatefulBuilder(builder: (BuildContext context, StateSetter setState /*You can rename this!*/) {
+                                                                              return Padding(
+                                                                                padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+                                                                                child: SingleChildScrollView(
+                                                                                  // physics: const NeverScrollableScrollPhysics(),
+                                                                                  child: Padding(
+                                                                                    padding: const EdgeInsets.only(left: 20, right: 20),
+                                                                                    child: Column(
+                                                                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                                                                      mainAxisSize: MainAxisSize.min,
+                                                                                      children: [
+                                                                                        const SizedBox(height: 40),
+                                                                                        const Align(
+                                                                                          alignment: Alignment.topLeft,
+                                                                                          child: Text(
+                                                                                            "Edit project",
+                                                                                            style: TextStyle(
+                                                                                              fontWeight: FontWeight.bold,
+                                                                                              fontSize: 25,
+                                                                                            ),
+                                                                                          ),
+                                                                                        ),
+                                                                                        const SizedBox(height: 15),
+                                                                                        Container(
+                                                                                          decoration: BoxDecoration(
+                                                                                            border: Border.all(
+                                                                                              color: Colors.black, //                   <--- border color
+                                                                                              width: 0.3,
+                                                                                            ),
+                                                                                          ),
+                                                                                        ),
+                                                                                        const SizedBox(height: 20),
+                                                                                        SizedBox(
+                                                                                          height: 580,
+                                                                                          child: Column(
+                                                                                            children: [
+                                                                                              const Align(
+                                                                                                alignment: Alignment.topLeft,
+                                                                                                child: Text(
+                                                                                                  "Title",
+                                                                                                  style: TextStyle(
+                                                                                                    fontWeight: FontWeight.bold,
+                                                                                                    fontSize: 16,
+                                                                                                  ),
+                                                                                                ),
+                                                                                              ),
+                                                                                              const SizedBox(height: 15),
+                                                                                              SizedBox(
+                                                                                                child: TextField(
+                                                                                                  controller: titleController,
+                                                                                                  onChanged: (data) {},
+                                                                                                  style: const TextStyle(
+                                                                                                    fontSize: 16,
+                                                                                                  ),
+                                                                                                  decoration: InputDecoration(
+                                                                                                    // labelText: 'Number of students',
+                                                                                                    border: OutlineInputBorder(
+                                                                                                      borderRadius: BorderRadius.circular(9),
+                                                                                                    ),
+                                                                                                    focusedBorder: OutlineInputBorder(
+                                                                                                      borderRadius: BorderRadius.circular(9),
+                                                                                                      borderSide: const BorderSide(color: Colors.black),
+                                                                                                    ),
+                                                                                                    contentPadding: const EdgeInsets.symmetric(
+                                                                                                      vertical: 14,
+                                                                                                      horizontal: 15,
+                                                                                                    ),
+                                                                                                    hintText: 'Enter your languages',
+                                                                                                  ),
+                                                                                                ),
+                                                                                              ),
+                                                                                              const SizedBox(height: 20),
+                                                                                              const Align(
+                                                                                                alignment: Alignment.topLeft,
+                                                                                                child: Text(
+                                                                                                  'Project scope',
+                                                                                                  style: TextStyle(
+                                                                                                    fontWeight: FontWeight.bold,
+                                                                                                    fontSize: 16,
+                                                                                                  ),
+                                                                                                ),
+                                                                                              ),
+                                                                                              const SizedBox(height: 15),
+                                                                                              Column(
+                                                                                                children: [
+                                                                                                  SizedBox(
+                                                                                                    height: 30,
+                                                                                                    width: MediaQuery.of(context).size.width,
+                                                                                                    child: LabeledRadio(
+                                                                                                      label: 'Less than 1 month',
+                                                                                                      value: 0,
+                                                                                                      groupValue: el.projectScopeFlag, //projectPosting.scope,
+                                                                                                      onChanged: (value) {
+                                                                                                        setState(() {
+                                                                                                          pickedScope = value as int;
+                                                                                                        });
+                                                                                                      },
+                                                                                                    ),
+                                                                                                  ),
+                                                                                                  SizedBox(
+                                                                                                    height: 30,
+                                                                                                    width: MediaQuery.of(context).size.width,
+                                                                                                    child: LabeledRadio(
+                                                                                                      label: '1 to 3 months',
+                                                                                                      value: 1,
+                                                                                                      groupValue: el.projectScopeFlag, //projectPosting.scope,
+                                                                                                      onChanged: (value) {
+                                                                                                        setState(() {
+                                                                                                          pickedScope = value as int;
+                                                                                                        });
+                                                                                                      },
+                                                                                                    ),
+                                                                                                  ),
+                                                                                                  SizedBox(
+                                                                                                    height: 30,
+                                                                                                    width: MediaQuery.of(context).size.width,
+                                                                                                    child: LabeledRadio(
+                                                                                                      label: '3 to 6 months',
+                                                                                                      value: 2,
+                                                                                                      groupValue: el.projectScopeFlag, //projectPosting.scope,
+                                                                                                      onChanged: (value) {
+                                                                                                        setState(() {
+                                                                                                          pickedScope = value as int;
+                                                                                                        });
+                                                                                                      },
+                                                                                                    ),
+                                                                                                  ),
+                                                                                                  SizedBox(
+                                                                                                    height: 30,
+                                                                                                    width: MediaQuery.of(context).size.width,
+                                                                                                    child: LabeledRadio(
+                                                                                                      label: 'More than 6 months',
+                                                                                                      value: 3,
+                                                                                                      groupValue: el.projectScopeFlag, //projectPosting.scope,
+                                                                                                      onChanged: (value) {
+                                                                                                        setState(() {
+                                                                                                          pickedScope = value as int;
+                                                                                                        });
+                                                                                                      },
+                                                                                                    ),
+                                                                                                  ),
+                                                                                                ],
+                                                                                              ),
+                                                                                              const SizedBox(height: 20),
+                                                                                              const Align(
+                                                                                                alignment: Alignment.topLeft,
+                                                                                                child: Text(
+                                                                                                  "Number of students",
+                                                                                                  style: TextStyle(
+                                                                                                    fontWeight: FontWeight.bold,
+                                                                                                    fontSize: 16,
+                                                                                                  ),
+                                                                                                ),
+                                                                                              ),
+                                                                                              const SizedBox(height: 15),
+                                                                                              SizedBox(
+                                                                                                child: TextField(
+                                                                                                  controller: numOfStudentsController,
+                                                                                                  onChanged: (data) {},
+                                                                                                  style: const TextStyle(
+                                                                                                    fontSize: 16,
+                                                                                                  ),
+                                                                                                  decoration: InputDecoration(
+                                                                                                    // labelText: 'Number of students',
+                                                                                                    border: OutlineInputBorder(
+                                                                                                      borderRadius: BorderRadius.circular(9),
+                                                                                                    ),
+                                                                                                    focusedBorder: OutlineInputBorder(
+                                                                                                      borderRadius: BorderRadius.circular(9),
+                                                                                                      borderSide: const BorderSide(color: Colors.black),
+                                                                                                    ),
+                                                                                                    contentPadding: const EdgeInsets.symmetric(
+                                                                                                      vertical: 14,
+                                                                                                      horizontal: 15,
+                                                                                                    ),
+                                                                                                    hintText: 'Enter your language level',
+                                                                                                  ),
+                                                                                                ),
+                                                                                              ),
+                                                                                              const SizedBox(height: 20),
+                                                                                              const Align(
+                                                                                                alignment: Alignment.topLeft,
+                                                                                                child: Text(
+                                                                                                  "Description",
+                                                                                                  style: TextStyle(
+                                                                                                    fontWeight: FontWeight.bold,
+                                                                                                    fontSize: 16,
+                                                                                                  ),
+                                                                                                ),
+                                                                                              ),
+                                                                                              const SizedBox(height: 15),
+                                                                                              SizedBox(
+                                                                                                child: TextField(
+                                                                                                  controller: descriptionController,
+                                                                                                  onChanged: (data) {},
+                                                                                                  style: const TextStyle(
+                                                                                                    fontSize: 16,
+                                                                                                  ),
+                                                                                                  decoration: InputDecoration(
+                                                                                                    // labelText: 'Number of students',
+                                                                                                    border: OutlineInputBorder(
+                                                                                                      borderRadius: BorderRadius.circular(9),
+                                                                                                    ),
+                                                                                                    focusedBorder: OutlineInputBorder(
+                                                                                                      borderRadius: BorderRadius.circular(9),
+                                                                                                      borderSide: const BorderSide(color: Colors.black),
+                                                                                                    ),
+                                                                                                    contentPadding: const EdgeInsets.symmetric(
+                                                                                                      vertical: 14,
+                                                                                                      horizontal: 15,
+                                                                                                    ),
+                                                                                                    hintText: 'Enter your language level',
+                                                                                                  ),
+                                                                                                ),
+                                                                                              ),
+                                                                                              const SizedBox(height: 25),
+                                                                                              Column(
+                                                                                                children: [
+                                                                                                  Row(
+                                                                                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                                                    children: [
+                                                                                                      SizedBox(
+                                                                                                        height: 46,
+                                                                                                        width: 175,
+                                                                                                        child: ElevatedButton(
+                                                                                                          onPressed: () {
+                                                                                                            Navigator.pop(context);
+                                                                                                          },
+                                                                                                          style: ElevatedButton.styleFrom(
+                                                                                                            minimumSize: Size.zero, // Set this
+                                                                                                            padding: EdgeInsets.zero, // and this
+                                                                                                            shape: RoundedRectangleBorder(
+                                                                                                              borderRadius: BorderRadius.circular(8),
+                                                                                                              side: const BorderSide(color: Colors.black),
+                                                                                                            ),
+                                                                                                            backgroundColor: Colors.white,
+                                                                                                          ),
+                                                                                                          child: const Text(
+                                                                                                            'Cancel',
+                                                                                                            style: TextStyle(
+                                                                                                              fontSize: 18,
+                                                                                                              color: Colors.black,
+                                                                                                              fontWeight: FontWeight.w500,
+                                                                                                            ),
+                                                                                                          ),
+                                                                                                        ),
+                                                                                                      ),
+                                                                                                      const SizedBox(width: 15),
+                                                                                                      SizedBox(
+                                                                                                        height: 46,
+                                                                                                        width: 175,
+                                                                                                        child: ElevatedButton(
+                                                                                                          onPressed: () async {
+                                                                                                            final urlEditProjects = Uri.parse('http://${dotenv.env['IP_ADDRESS']}/api/project/${el.projectId}');
+
+                                                                                                            final responseEditProjects = await http.patch(
+                                                                                                              urlEditProjects,
+                                                                                                              headers: {
+                                                                                                                'Content-Type': 'application/json',
+                                                                                                                'Authorization': 'Bearer ${user.token}',
+                                                                                                              },
+                                                                                                              body: json.encode({
+                                                                                                                'projectScopeFlag': pickedScope,
+                                                                                                                'title': titleController.text,
+                                                                                                                'numberOfStudents': int.parse(numOfStudentsController.text),
+                                                                                                                'description': descriptionController.text,
+                                                                                                                "typeFlag": el.typeFlag,
+                                                                                                              }),
+                                                                                                            );
+
+                                                                                                            final responseEditProjectsData = json.decode(responseEditProjects.body);
+                                                                                                            print('----responseEditProjectsData----');
+                                                                                                            print(responseEditProjectsData);
+
+                                                                                                            titleController.text = '';
+                                                                                                            descriptionController.text = '';
+                                                                                                            numOfStudentsController.text = '';
+                                                                                                            pickedScope = -1;
+
+                                                                                                            Navigator.pop(context);
+                                                                                                            showSuccessToast('Success', 'Edit project successfully');
+                                                                                                            getProjects(user.token, company.id);
+                                                                                                          },
+                                                                                                          style: ElevatedButton.styleFrom(
+                                                                                                            minimumSize: Size.zero, // Set this
+                                                                                                            padding: EdgeInsets.zero, // and this
+                                                                                                            shape: RoundedRectangleBorder(
+                                                                                                              borderRadius: BorderRadius.circular(8),
+                                                                                                            ),
+                                                                                                            backgroundColor: Colors.black,
+                                                                                                          ),
+                                                                                                          child: const Text(
+                                                                                                            'Edit',
+                                                                                                            style: TextStyle(
+                                                                                                              fontSize: 18,
+                                                                                                              color: Color.fromARGB(255, 255, 255, 255),
+                                                                                                              fontWeight: FontWeight.w500,
+                                                                                                            ),
+                                                                                                          ),
+                                                                                                        ),
+                                                                                                      ),
+                                                                                                    ],
+                                                                                                  )
+                                                                                                ],
+                                                                                              ),
+                                                                                            ],
+                                                                                          ),
+                                                                                        )
+                                                                                      ],
+                                                                                    ),
+                                                                                  ),
+                                                                                ),
+                                                                              );
+                                                                            });
+                                                                          },
+                                                                        );
+                                                                      },
+                                                                      style: ElevatedButton.styleFrom(
+                                                                        minimumSize: Size.zero, // Set this
+                                                                        padding: EdgeInsets.zero, // and this
+                                                                        shape: RoundedRectangleBorder(
+                                                                          borderRadius: BorderRadius.circular(8),
+                                                                          side: const BorderSide(color: Colors.grey),
+                                                                        ),
+                                                                        backgroundColor: Colors.white,
+                                                                      ),
+                                                                      child: const Padding(
+                                                                        padding: EdgeInsets.only(left: 10),
+                                                                        child: Row(
+                                                                          mainAxisAlignment: MainAxisAlignment.start,
+                                                                          crossAxisAlignment: CrossAxisAlignment.center,
+                                                                          children: [
+                                                                            Icon(
+                                                                              Icons.edit_calendar_outlined,
+                                                                              size: 22,
+                                                                              color: Colors.black,
+                                                                            ),
+                                                                            SizedBox(width: 5),
+                                                                            Text(
+                                                                              'Edit project',
+                                                                              style: TextStyle(
+                                                                                fontSize: 16,
+                                                                                color: Colors.black,
+                                                                                fontWeight: FontWeight.w500,
+                                                                              ),
+                                                                            ),
+                                                                          ],
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                  const SizedBox(height: 20),
+                                                                  SizedBox(
+                                                                    height: 52,
+                                                                    width: 168,
+                                                                    child: ElevatedButton(
+                                                                      onPressed: () async {
+                                                                        final urlDeleteProjects = Uri.parse('http://${dotenv.env['IP_ADDRESS']}/api/project/${el.projectId}');
+
+                                                                        final responseDeleteProjects = await http.delete(
+                                                                          urlDeleteProjects,
+                                                                          headers: {
+                                                                            'Content-Type': 'application/json',
+                                                                            'Authorization': 'Bearer ${user.token}',
+                                                                          },
+                                                                        );
+
+                                                                        final responseDeleteProjectsData = json.decode(responseDeleteProjects.body);
+                                                                        print('----responseDeleteProjectsData----');
+                                                                        print(el.projectId);
+                                                                        print(responseDeleteProjectsData);
+
+                                                                        Navigator.pop(context);
+                                                                        getProjects(user.token, company.id);
+                                                                      },
+                                                                      style: ElevatedButton.styleFrom(
+                                                                        minimumSize: Size.zero, // Set this
+                                                                        padding: EdgeInsets.zero, // and this
+                                                                        shape: RoundedRectangleBorder(
+                                                                          borderRadius: BorderRadius.circular(8),
+                                                                          side: const BorderSide(color: Colors.grey),
+                                                                        ),
+                                                                        backgroundColor: Colors.white,
+                                                                      ),
+                                                                      child: const Padding(
+                                                                        padding: EdgeInsets.only(left: 10),
+                                                                        child: Row(
+                                                                          mainAxisAlignment: MainAxisAlignment.start,
+                                                                          crossAxisAlignment: CrossAxisAlignment.center,
+                                                                          children: [
+                                                                            Icon(
+                                                                              Icons.delete_forever,
+                                                                              size: 22,
+                                                                              color: Colors.red,
+                                                                            ),
+                                                                            SizedBox(width: 5),
+                                                                            Text(
+                                                                              'Remove posting',
+                                                                              style: TextStyle(
+                                                                                fontSize: 16,
+                                                                                color: Colors.red,
+                                                                                fontWeight: FontWeight.w500,
+                                                                              ),
+                                                                            ),
+                                                                          ],
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                            ],
+                                                          ),
+                                                          const SizedBox(height: 20),
+                                                          SizedBox(
+                                                            height: 52,
+                                                            width: MediaQuery.of(context).size.width,
+                                                            child: ElevatedButton(
+                                                              onPressed: () {},
+                                                              style: ElevatedButton.styleFrom(
+                                                                minimumSize: Size.zero, // Set this
+                                                                padding: EdgeInsets.zero, // and this
+                                                                shape: RoundedRectangleBorder(
+                                                                  borderRadius: BorderRadius.circular(8),
+                                                                  side: const BorderSide(color: Colors.grey),
+                                                                ),
+                                                                backgroundColor: Colors.black,
+                                                              ),
+                                                              child: const Padding(
+                                                                padding: EdgeInsets.only(left: 10),
+                                                                child: Row(
+                                                                  mainAxisAlignment: MainAxisAlignment.center,
+                                                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                                                  children: [
+                                                                    Text(
+                                                                      'Start working this project',
+                                                                      style: TextStyle(
+                                                                        fontSize: 16,
+                                                                        color: Colors.white,
+                                                                        fontWeight: FontWeight.w500,
+                                                                      ),
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  );
+                                                },
+                                              );
+                                            },
                                             child: const Icon(Icons.more_vert),
                                           ),
                                         ],
