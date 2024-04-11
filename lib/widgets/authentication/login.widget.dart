@@ -449,7 +449,7 @@ class _LoginWidgetState extends ConsumerState<LoginWidget> {
 
                                   Timer(const Duration(seconds: 3), () {
                                     ref.read(optionsProvider.notifier).setWidgetOption(
-                                          userLoginRole == '0' ? 'ProfileInputStudent' : (responeAuthMeData["result"]["company"] == null ? 'ProfileInput' : 'Dashboard'),
+                                          userLoginRole == '0' ? (responeAuthMeData["result"]["company"] == null ? 'ProfileInputStudent' : 'Projects') : (responeAuthMeData["result"]["company"] == null ? 'ProfileInput' : 'Dashboard'),
                                           userLoginRole,
                                         );
                                   });

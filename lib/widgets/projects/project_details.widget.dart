@@ -467,8 +467,9 @@ class _ProjectDetailsWidgetState extends ConsumerState<ProjectDetailsWidget> {
                                       // print('----responsePatchFavoriteProjecData----');
                                       // print(responsePatchFavoriteProjectData);
 
-                                      // ref.read(optionsProvider.notifier).setWidgetOption('Projects', user.role!);
                                       // showSuccessToast('Success', 'Project added to favorites');
+                                      print(projectId);
+                                      ref.read(optionsProvider.notifier).setWidgetOption('SubmitProposal', user.role!);
                                     }
                                   : null,
                               style: ElevatedButton.styleFrom(

@@ -4,6 +4,7 @@ import 'package:studenthub/providers/authentication/authentication.provider.dart
 import 'package:studenthub/widgets/dashboard/all_projects.widget.dart';
 import 'package:studenthub/widgets/dashboard/all_projects_student.widget.dart';
 import 'package:studenthub/widgets/dashboard/archieved.widget.dart';
+import 'package:studenthub/widgets/dashboard/archieved_student.widget.dart';
 import 'package:studenthub/widgets/dashboard/working.widget.dart';
 import 'package:studenthub/widgets/dashboard/working_student.widget.dart';
 import '../../providers/options.provider.dart';
@@ -58,9 +59,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                     width: 150,
                     child: ElevatedButton(
                       onPressed: () {
-                        ref
-                            .read(optionsProvider.notifier)
-                            .setWidgetOption('ProjectPostStep1', user.role!);
+                        ref.read(optionsProvider.notifier).setWidgetOption('ProjectPostStep1', user.role!);
                       },
                       style: ElevatedButton.styleFrom(
                         minimumSize: Size.zero, // Set this
@@ -127,9 +126,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                         style: TextStyle(
                           fontSize: 18,
                           color: Colors.black,
-                          fontWeight: tabWidget == 1
-                              ? FontWeight.w600
-                              : FontWeight.w400,
+                          fontWeight: tabWidget == 1 ? FontWeight.w600 : FontWeight.w400,
                         ),
                       ),
                     ),
@@ -164,9 +161,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                         style: TextStyle(
                           fontSize: 18,
                           color: Colors.black,
-                          fontWeight: tabWidget == 2
-                              ? FontWeight.w600
-                              : FontWeight.w400,
+                          fontWeight: tabWidget == 2 ? FontWeight.w600 : FontWeight.w400,
                         ),
                       ),
                     ),
@@ -201,9 +196,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                         style: TextStyle(
                           fontSize: 18,
                           color: Colors.black,
-                          fontWeight: tabWidget == 3
-                              ? FontWeight.w600
-                              : FontWeight.w400,
+                          fontWeight: tabWidget == 3 ? FontWeight.w600 : FontWeight.w400,
                         ),
                       ),
                     ),
@@ -276,9 +269,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                         style: TextStyle(
                           fontSize: 18,
                           color: Colors.black,
-                          fontWeight: tabWidget == 1
-                              ? FontWeight.w600
-                              : FontWeight.w400,
+                          fontWeight: tabWidget == 1 ? FontWeight.w600 : FontWeight.w400,
                         ),
                       ),
                     ),
@@ -313,9 +304,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                         style: TextStyle(
                           fontSize: 18,
                           color: Colors.black,
-                          fontWeight: tabWidget == 2
-                              ? FontWeight.w600
-                              : FontWeight.w400,
+                          fontWeight: tabWidget == 2 ? FontWeight.w600 : FontWeight.w400,
                         ),
                       ),
                     ),
@@ -350,9 +339,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                         style: TextStyle(
                           fontSize: 18,
                           color: Colors.black,
-                          fontWeight: tabWidget == 3
-                              ? FontWeight.w600
-                              : FontWeight.w400,
+                          fontWeight: tabWidget == 3 ? FontWeight.w600 : FontWeight.w400,
                         ),
                       ),
                     ),
@@ -364,7 +351,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                   ? AllProjectsStudentWidget()
                   : tabWidget == 2
                       ? WorkingStudentWidget()
-                      : ArchievedWidget()
+                      : ArchievedStudentWidget()
             ],
           ),
         ),

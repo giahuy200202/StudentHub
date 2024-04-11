@@ -159,6 +159,7 @@ class _ListProjectsWidgetState extends ConsumerState<ListProjectsWidget> {
     final user = ref.watch(userProvider);
     final student = ref.watch(studentProvider);
     final projectId = ref.watch(projectIdProvider);
+    print(student.id);
 
     return SizedBox(
       height: 590,

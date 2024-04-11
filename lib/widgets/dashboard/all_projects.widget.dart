@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:studenthub/providers/authentication/authentication.provider.dart';
 import 'package:studenthub/providers/profile/company.provider.dart';
 import 'package:studenthub/providers/profile/student.provider.dart';
+import 'package:studenthub/providers/projects/project_id.provider.dart';
 import 'package:toastification/toastification.dart';
 
 import '../../providers/options.provider.dart';
@@ -258,6 +259,7 @@ class _AllProjectsWidgetState extends ConsumerState<AllProjectsWidget> {
                           children: [
                             GestureDetector(
                               onTap: () {
+                                ref.read(projectIdProvider.notifier).setProjectId(el.projectId);
                                 ref.read(optionsProvider.notifier).setWidgetOption('SendHireOffer', user.role!);
                               },
                               child: Container(
@@ -504,7 +506,7 @@ class _AllProjectsWidgetState extends ConsumerState<AllProjectsWidget> {
                                                                                       crossAxisAlignment: CrossAxisAlignment.start,
                                                                                       mainAxisSize: MainAxisSize.min,
                                                                                       children: [
-                                                                                        const SizedBox(height: 40),
+                                                                                        const SizedBox(height: 30),
                                                                                         const Align(
                                                                                           alignment: Alignment.topLeft,
                                                                                           child: Text(
@@ -515,7 +517,7 @@ class _AllProjectsWidgetState extends ConsumerState<AllProjectsWidget> {
                                                                                             ),
                                                                                           ),
                                                                                         ),
-                                                                                        const SizedBox(height: 15),
+                                                                                        const SizedBox(height: 10),
                                                                                         Container(
                                                                                           decoration: BoxDecoration(
                                                                                             border: Border.all(
@@ -524,7 +526,7 @@ class _AllProjectsWidgetState extends ConsumerState<AllProjectsWidget> {
                                                                                             ),
                                                                                           ),
                                                                                         ),
-                                                                                        const SizedBox(height: 20),
+                                                                                        const SizedBox(height: 15),
                                                                                         SizedBox(
                                                                                           height: 580,
                                                                                           child: Column(
@@ -564,7 +566,7 @@ class _AllProjectsWidgetState extends ConsumerState<AllProjectsWidget> {
                                                                                                   ),
                                                                                                 ),
                                                                                               ),
-                                                                                              const SizedBox(height: 20),
+                                                                                              const SizedBox(height: 15),
                                                                                               const Align(
                                                                                                 alignment: Alignment.topLeft,
                                                                                                 child: Text(
@@ -636,7 +638,7 @@ class _AllProjectsWidgetState extends ConsumerState<AllProjectsWidget> {
                                                                                                   ),
                                                                                                 ],
                                                                                               ),
-                                                                                              const SizedBox(height: 20),
+                                                                                              const SizedBox(height: 15),
                                                                                               const Align(
                                                                                                 alignment: Alignment.topLeft,
                                                                                                 child: Text(
@@ -672,7 +674,7 @@ class _AllProjectsWidgetState extends ConsumerState<AllProjectsWidget> {
                                                                                                   ),
                                                                                                 ),
                                                                                               ),
-                                                                                              const SizedBox(height: 20),
+                                                                                              const SizedBox(height: 15),
                                                                                               const Align(
                                                                                                 alignment: Alignment.topLeft,
                                                                                                 child: Text(
@@ -708,7 +710,7 @@ class _AllProjectsWidgetState extends ConsumerState<AllProjectsWidget> {
                                                                                                   ),
                                                                                                 ),
                                                                                               ),
-                                                                                              const SizedBox(height: 25),
+                                                                                              const SizedBox(height: 35),
                                                                                               Column(
                                                                                                 children: [
                                                                                                   Row(

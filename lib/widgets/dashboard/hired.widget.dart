@@ -1,7 +1,48 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
+import 'package:studenthub/providers/authentication/authentication.provider.dart';
+import 'package:studenthub/providers/projects/project_id.provider.dart';
 
 import '../../providers/options.provider.dart';
+
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+import 'dart:async';
+
+class Proposal {
+  final String proposalId;
+  final String studentName;
+  final String createTime;
+  final String techStackName;
+  final String coverLetter;
+
+  Proposal({
+    required this.proposalId,
+    required this.studentName,
+    required this.createTime,
+    required this.techStackName,
+    required this.coverLetter,
+  });
+
+  Proposal.fromJson(Map<dynamic, dynamic> json)
+      : proposalId = json['proposalId'],
+        studentName = json['studentName'],
+        createTime = json['createTime'],
+        techStackName = json['techStackName'],
+        coverLetter = json['coverLetter'];
+
+  Map<dynamic, dynamic> toJson() {
+    return {
+      'proposalId': proposalId,
+      'studentName': studentName,
+      'createTime': createTime,
+      'techStackName': techStackName,
+      'coverLetter': coverLetter,
+    };
+  }
+}
 
 class HiredWidget extends ConsumerStatefulWidget {
   const HiredWidget({super.key});
@@ -13,6 +54,60 @@ class HiredWidget extends ConsumerStatefulWidget {
 }
 
 class _HiredWidgetState extends ConsumerState<HiredWidget> {
+  List<Proposal> listProposals = [];
+  bool isFetchingData = false;
+
+  void getProjects(token, projectId) async {
+    setState(() {
+      isFetchingData = true;
+    });
+
+    final urlGetProposals = Uri.parse('http://${dotenv.env['IP_ADDRESS']}/apiproposal/getByProjectId/$projectId');
+
+    final responseProposals = await http.get(
+      urlGetProposals,
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $token',
+      },
+    );
+
+    final responseProposalsData = json.decode(responseProposals.body);
+    print('----responseProposalsData----');
+    print(responseProposalsData['result']);
+
+    List<Proposal> listProposalsGetFromRes = [];
+    if (responseProposalsData['result'] != null) {
+      for (var item in responseProposalsData['result']['items']) {
+        listProposalsGetFromRes.add(Proposal(
+          proposalId: item['id'].toString(),
+          createTime: 'Submitted at ${DateFormat("dd/MM/yyyy | HH:mm").format(
+                DateTime.parse(item['createdAt']).toLocal(),
+              ).toString()}',
+          studentName: item['student']['user']['fullName'] ?? 'Unknown',
+          techStackName: item['techStack']['name'] ?? 'Unknown',
+          coverLetter: item['coverLetter'] ?? 'Unknown',
+        ));
+      }
+    }
+
+    print('----listProjectsGetFromRes----');
+    print(listProposalsGetFromRes);
+
+    setState(() {
+      listProposals = [...listProposalsGetFromRes];
+      isFetchingData = false;
+    });
+  }
+
+  @override
+  void initState() {
+    final user = ref.read(userProvider);
+    final projectId = ref.read(projectIdProvider);
+    getProjects(user.token!, projectId);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return SizedBox(

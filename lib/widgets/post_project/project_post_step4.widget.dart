@@ -5,6 +5,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:studenthub/providers/authentication/authentication.provider.dart';
 import 'package:studenthub/providers/profile/company.provider.dart';
+import 'package:toastification/toastification.dart';
 import '../../providers/projects/project_posting.provider.dart';
 import '../../providers/options.provider.dart';
 import 'package:http/http.dart' as http;
@@ -22,6 +23,40 @@ class _ProjectPostStep4WidgetState extends ConsumerState<ProjectPostStep4Widget>
   var descriptionController = TextEditingController();
   bool enable = false;
   bool isFetching = false;
+
+  void showErrorToast(title, description) {
+    toastification.show(
+      context: context,
+      type: ToastificationType.error,
+      style: ToastificationStyle.minimal,
+      title: Text(
+        title,
+        style: const TextStyle(fontWeight: FontWeight.w600),
+      ),
+      description: Text(
+        description,
+        style: const TextStyle(fontWeight: FontWeight.w400),
+      ),
+      autoCloseDuration: const Duration(seconds: 3),
+    );
+  }
+
+  void showSuccessToast(title, description) {
+    toastification.show(
+      context: context,
+      type: ToastificationType.success,
+      style: ToastificationStyle.minimal,
+      title: Text(
+        title,
+        style: const TextStyle(fontWeight: FontWeight.w600),
+      ),
+      description: Text(
+        description,
+        style: const TextStyle(fontWeight: FontWeight.w400),
+      ),
+      autoCloseDuration: const Duration(seconds: 3),
+    );
+  }
 
   @override
   void dispose() {
@@ -263,23 +298,35 @@ class _ProjectPostStep4WidgetState extends ConsumerState<ProjectPostStep4Widget>
                             print('----responsePostProjectsData----');
                             print(responsePostProjectsData);
 
-                            ref.read(projectPostingProvider.notifier).setTitle('');
-                            ref.read(projectPostingProvider.notifier).setScope(-1);
-                            ref.read(projectPostingProvider.notifier).setNumOfStudents('');
-                            ref.read(projectPostingProvider.notifier).setDescription('');
+                            if (responsePostProjectsData.containsKey('errorDetails')) {
+                              if (responsePostProjectsData['errorDetails'] is String) {
+                                showErrorToast('Error', responsePostProjectsData['errorDetails']);
+                              } else {
+                                showErrorToast('Error', responsePostProjectsData['errorDetails'][0]);
+                              }
+                              setState(() {
+                                isFetching = false;
+                              });
+                            } else {
+                              showSuccessToast('Success', 'Create new project successfully');
+                              ref.read(projectPostingProvider.notifier).setTitle('');
+                              ref.read(projectPostingProvider.notifier).setScope(-1);
+                              ref.read(projectPostingProvider.notifier).setNumOfStudents('');
+                              ref.read(projectPostingProvider.notifier).setDescription('');
 
-                            setState(() {
-                              isFetching = false;
-                            });
+                              setState(() {
+                                isFetching = false;
+                              });
 
-                            ref.read(optionsProvider.notifier).setWidgetOption('Dashboard', user.role!);
+                              ref.read(optionsProvider.notifier).setWidgetOption('Dashboard', user.role!);
+                            }
                           },
                     style: ElevatedButton.styleFrom(
                       minimumSize: Size.zero, // Set this
                       padding: EdgeInsets.zero, // and this
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8),
-                        side: const BorderSide(color: Colors.grey),
+                        // side: const BorderSide(color: Colors.grey),
                       ),
                       backgroundColor: Colors.black,
                     ),
