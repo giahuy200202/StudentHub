@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:studenthub/providers/authentication/authentication.provider.dart';
 import 'package:studenthub/providers/options.provider.dart';
+import 'package:studenthub/providers/profile/student.provider.dart';
 import 'package:studenthub/providers/projects/project_id.provider.dart';
 import 'package:studenthub/providers/projects/search_filter.provider.dart';
 import '../../providers/projects/project_posting.provider.dart';
@@ -227,6 +228,7 @@ class _ProjectSearchWidgetState extends ConsumerState<ProjectSearchWidget> {
   @override
   Widget build(BuildContext context) {
     var searchFilter = ref.watch(searchFilterProvider);
+    final student = ref.watch(studentProvider);
     int projectLength = -1;
 
     searchController.text = searchFilter.search!;
@@ -1140,9 +1142,32 @@ class _ProjectSearchWidgetState extends ConsumerState<ProjectSearchWidget> {
                                                       ),
                                                       const Spacer(),
                                                       InkWell(
-                                                        onTap: user.role == '1' ? null : () {},
-                                                        child: const Icon(
-                                                          Icons.favorite_border,
+                                                        onTap: user.role == '1'
+                                                            ? null
+                                                            : () async {
+                                                                final urlFavoriteProjects = Uri.parse('http://${dotenv.env['IP_ADDRESS']}/api/favoriteProject/${student.id}?');
+
+                                                                final responsePatchFavoriteProject = await http.patch(
+                                                                  urlFavoriteProjects,
+                                                                  headers: {
+                                                                    'Content-Type': 'application/json',
+                                                                    'Authorization': 'Bearer ${user.token!}',
+                                                                  },
+                                                                  body: json.encode({
+                                                                    'projectId': el.projectId,
+                                                                    'disableFlag': el.isFavorite ? 1 : 0,
+                                                                  }),
+                                                                );
+
+                                                                final responsePatchFavoriteProjectData = json.decode(responsePatchFavoriteProject.body);
+
+                                                                print('----responsePatchFavoriteProjecData----');
+                                                                print(responsePatchFavoriteProjectData);
+
+                                                                getProjects(user.token!, searchFilter);
+                                                              },
+                                                        child: Icon(
+                                                          el.isFavorite ? Icons.favorite_rounded : Icons.favorite_border,
                                                           size: 28,
                                                         ),
                                                       ),
