@@ -87,7 +87,7 @@ class _ProposalsWidgetState extends ConsumerState<ProposalsWidget> {
           createTime: 'Submitted at ${DateFormat("dd/MM/yyyy | HH:mm").format(
                 DateTime.parse(item['createdAt']).toLocal(),
               ).toString()}',
-          studentName: item['student']['user']['fullName'] ?? 'Unknown',
+          studentName: item['student']['user']['fullname'] ?? 'Unknown',
           techStackName: item['student']['techStack']['name'] ?? 'Unknown',
           coverLetter: item['coverLetter'] ?? 'Unknown',
         ));
