@@ -17,6 +17,7 @@ class Proposal {
   final String createTime;
   final String techStackName;
   final String coverLetter;
+  final int statusFlag;
 
   Proposal({
     required this.proposalId,
@@ -24,6 +25,7 @@ class Proposal {
     required this.createTime,
     required this.techStackName,
     required this.coverLetter,
+    required this.statusFlag,
   });
 
   Proposal.fromJson(Map<dynamic, dynamic> json)
@@ -31,7 +33,8 @@ class Proposal {
         studentName = json['studentName'],
         createTime = json['createTime'],
         techStackName = json['techStackName'],
-        coverLetter = json['coverLetter'];
+        coverLetter = json['coverLetter'],
+        statusFlag = json['statusFlag'];
 
   Map<dynamic, dynamic> toJson() {
     return {
@@ -40,6 +43,7 @@ class Proposal {
       'createTime': createTime,
       'techStackName': techStackName,
       'coverLetter': coverLetter,
+      'statusFlag': statusFlag,
     };
   }
 }
@@ -90,6 +94,7 @@ class _HiredWidgetState extends ConsumerState<HiredWidget> {
           studentName: item['student']['user']['fullname'] ?? 'Unknown',
           techStackName: item['student']['techStack']['name'] ?? 'Unknown',
           coverLetter: item['coverLetter'] ?? 'Unknown',
+          statusFlag: item['statusFlag'],
         ));
       }
     }
@@ -135,7 +140,7 @@ class _HiredWidgetState extends ConsumerState<HiredWidget> {
                   ),
                 ],
               )
-            : listProposals.isEmpty
+            : listProposals.where((el) => el.statusFlag == 3).toList().isEmpty
                 ? const Column(
                     children: [
                       Text(
@@ -147,7 +152,7 @@ class _HiredWidgetState extends ConsumerState<HiredWidget> {
                   )
                 : Column(
                     children: [
-                      ...listProposals.map((el) {
+                      ...listProposals.where((el) => el.statusFlag == 3).toList().map((el) {
                         return Column(
                           children: [
                             Container(

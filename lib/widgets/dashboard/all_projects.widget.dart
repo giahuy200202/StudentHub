@@ -443,7 +443,40 @@ class _AllProjectsWidgetState extends ConsumerState<AllProjectsWidget> {
                                                                     height: 52,
                                                                     width: 168,
                                                                     child: ElevatedButton(
-                                                                      onPressed: () {},
+                                                                      onPressed: () async {
+                                                                        final urlPatchprojects = Uri.parse('http://${dotenv.env['IP_ADDRESS']}/api/project/${el.projectId}');
+
+                                                                        final responsePatchProjects = await http.patch(
+                                                                          urlPatchprojects,
+                                                                          headers: {
+                                                                            'Content-Type': 'application/json',
+                                                                            'Authorization': 'Bearer ${user.token}',
+                                                                          },
+                                                                          body: json.encode({
+                                                                            'projectScopeFlag': el.projectScopeFlag,
+                                                                            'title': el.title,
+                                                                            'description': el.description,
+                                                                            'numberOfStudents': el.numberOfStudents,
+                                                                            "typeFlag": 1,
+                                                                          }),
+                                                                        );
+
+                                                                        final responsePatchProjectsData = json.decode(responsePatchProjects.body);
+                                                                        print('----responsePatchProjectsData----');
+                                                                        print(responsePatchProjectsData);
+
+                                                                        if (responsePatchProjectsData.containsKey('errorDetails')) {
+                                                                          if (responsePatchProjectsData['errorDetails'] is String) {
+                                                                            showErrorToast('Error', responsePatchProjectsData['errorDetails']);
+                                                                          } else {
+                                                                            showErrorToast('Error', responsePatchProjectsData['errorDetails'][0]);
+                                                                          }
+                                                                        } else {
+                                                                          Navigator.pop(context);
+                                                                          getProjects(user.token, company.id);
+                                                                          showSuccessToast('Success', 'Project has been archived successfully');
+                                                                        }
+                                                                      },
                                                                       style: ElevatedButton.styleFrom(
                                                                         minimumSize: Size.zero, // Set this
                                                                         padding: EdgeInsets.zero, // and this
@@ -460,13 +493,13 @@ class _AllProjectsWidgetState extends ConsumerState<AllProjectsWidget> {
                                                                           crossAxisAlignment: CrossAxisAlignment.center,
                                                                           children: [
                                                                             Icon(
-                                                                              Icons.list_alt_outlined,
+                                                                              Icons.archive_outlined,
                                                                               size: 22,
                                                                               color: Colors.black,
                                                                             ),
                                                                             SizedBox(width: 5),
                                                                             Text(
-                                                                              'View job posting',
+                                                                              'Close project',
                                                                               style: TextStyle(
                                                                                 fontSize: 16,
                                                                                 // color: Color.fromARGB(255, 255, 255, 255),

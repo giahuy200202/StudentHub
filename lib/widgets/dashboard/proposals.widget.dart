@@ -17,6 +17,7 @@ class Proposal {
   final String createTime;
   final String techStackName;
   final String coverLetter;
+  final int statusFlag;
 
   Proposal({
     required this.proposalId,
@@ -24,6 +25,7 @@ class Proposal {
     required this.createTime,
     required this.techStackName,
     required this.coverLetter,
+    required this.statusFlag,
   });
 
   Proposal.fromJson(Map<dynamic, dynamic> json)
@@ -31,7 +33,8 @@ class Proposal {
         studentName = json['studentName'],
         createTime = json['createTime'],
         techStackName = json['techStackName'],
-        coverLetter = json['coverLetter'];
+        coverLetter = json['coverLetter'],
+        statusFlag = json['statusFlag'];
 
   Map<dynamic, dynamic> toJson() {
     return {
@@ -40,6 +43,7 @@ class Proposal {
       'createTime': createTime,
       'techStackName': techStackName,
       'coverLetter': coverLetter,
+      'statusFlag': statusFlag,
     };
   }
 }
@@ -90,6 +94,7 @@ class _ProposalsWidgetState extends ConsumerState<ProposalsWidget> {
           studentName: item['student']['user']['fullname'] ?? 'Unknown',
           techStackName: item['student']['techStack']['name'] ?? 'Unknown',
           coverLetter: item['coverLetter'] ?? 'Unknown',
+          statusFlag: item['statusFlag'],
         ));
       }
     }
@@ -371,9 +376,15 @@ class _ProposalsWidgetState extends ConsumerState<ProposalsWidget> {
                                               ),
                                               backgroundColor: Colors.black,
                                             ),
-                                            child: const Text(
-                                              'Sent hired offer',
-                                              style: TextStyle(
+                                            child: Text(
+                                              el.statusFlag == 0
+                                                  ? 'Send offer'
+                                                  : el.statusFlag == 1
+                                                      ? 'Send offer'
+                                                      : el.statusFlag == 2
+                                                          ? 'Offer sent'
+                                                          : 'Hired',
+                                              style: const TextStyle(
                                                 fontSize: 16,
                                                 color: Color.fromARGB(255, 255, 255, 255),
                                                 fontWeight: FontWeight.w500,
