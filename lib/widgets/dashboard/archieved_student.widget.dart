@@ -62,17 +62,17 @@ class Project {
   }
 }
 
-class WorkingStudentWidget extends ConsumerStatefulWidget {
-  const WorkingStudentWidget({
+class ArchievedStudentWidget extends ConsumerStatefulWidget {
+  const ArchievedStudentWidget({
     super.key,
   });
   @override
-  ConsumerState<WorkingStudentWidget> createState() {
-    return _WorkingStudentWidgetState();
+  ConsumerState<ArchievedStudentWidget> createState() {
+    return _ArchievedStudentWidgetState();
   }
 }
 
-class _WorkingStudentWidgetState extends ConsumerState<WorkingStudentWidget> {
+class _ArchievedStudentWidgetState extends ConsumerState<ArchievedStudentWidget> {
   List<Project> listProjects = [];
   bool isFetchingData = false;
 

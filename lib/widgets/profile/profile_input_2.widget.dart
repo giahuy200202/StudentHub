@@ -100,13 +100,13 @@ class ViewProfileWidget extends ConsumerWidget {
     textWebsite.text = company.website!;
     textDescription.text = company.description!;
 
-    final numOfPeople = company.size == 1
+    final numOfPeople = company.size == 0
         ? 'It\'s just me'
-        : company.size == 2
+        : company.size == 1
             ? ' 2-9 employees'
-            : company.size == 3
+            : company.size == 2
                 ? '10-99 employees'
-                : company.size == 4
+                : company.size == 3
                     ? '100-1000 employees'
                     : 'More than 1000 employees';
 

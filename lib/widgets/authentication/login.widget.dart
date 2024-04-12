@@ -13,6 +13,7 @@ import 'package:studenthub/providers/profile/company.provider.dart';
 import 'dart:convert';
 
 import 'package:studenthub/providers/profile/student.provider.dart';
+import 'package:studenthub/providers/switch_account.provider.dart';
 import 'package:toastification/toastification.dart';
 
 class LoginWidget extends ConsumerStatefulWidget {
@@ -102,7 +103,21 @@ class _LoginWidgetState extends ConsumerState<LoginWidget> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const SizedBox(height: 100),
+                  const SizedBox(height: 60),
+                  Align(
+                    alignment: Alignment.topLeft,
+                    child: InkWell(
+                      onTap: () {
+                        ref.read(optionsProvider.notifier).setWidgetOption('', user.role!);
+                      },
+                      child: const Icon(
+                        Icons.arrow_back_ios,
+                        size: 35,
+                        color: Colors.grey,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 20),
                   const Align(
                     alignment: Alignment.topLeft,
                     child: Text(
@@ -241,12 +256,20 @@ class _LoginWidgetState extends ConsumerState<LoginWidget> {
                           ),
                         ],
                       ),
-                      const Text(
-                        'Forgot Password?',
-                        style: TextStyle(
-                          fontSize: 15,
-                          color: Colors.black,
-                          fontWeight: FontWeight.w700,
+                      InkWell(
+                        onTap: () {
+                          ref.read(optionsProvider.notifier).setWidgetOption(
+                                'ForgotPassword',
+                                userLoginRole,
+                              );
+                        },
+                        child: const Text(
+                          'Forgot Password?',
+                          style: TextStyle(
+                            fontSize: 15,
+                            color: Colors.black,
+                            fontWeight: FontWeight.w700,
+                          ),
                         ),
                       ),
                     ],
@@ -290,13 +313,18 @@ class _LoginWidgetState extends ConsumerState<LoginWidget> {
 
                                   print('---responeAuthMeData---');
                                   print(responeAuthMeData);
-                                  print(user.token);
+
+                                  print('-----user.token----');
+                                  print(json.decode(responseLogin.body)["result"]["token"]);
 
                                   //Set authentication data
                                   ref.read(userProvider.notifier).setUserData(
                                         responeAuthMeData["result"]["id"],
                                         userLoginRole,
                                         json.decode(responseLogin.body)["result"]["token"],
+                                      );
+                                  ref.read(switchAccountProvider.notifier).setSwitchAccount(
+                                        userLoginRole,
                                       );
 
                                   showSuccessToast('Success', 'Login successfully');
@@ -443,7 +471,7 @@ class _LoginWidgetState extends ConsumerState<LoginWidget> {
 
                                   Timer(const Duration(seconds: 3), () {
                                     ref.read(optionsProvider.notifier).setWidgetOption(
-                                          userLoginRole == '0' ? 'ProfileInputStudent' : (responeAuthMeData["result"]["company"] == null ? 'ProfileInput' : 'Dashboard'),
+                                          userLoginRole == '0' ? (responeAuthMeData["result"]["company"] == null ? 'ProfileInputStudent' : 'Projects') : (responeAuthMeData["result"]["company"] == null ? 'ProfileInput' : 'Dashboard'),
                                           userLoginRole,
                                         );
                                   });
@@ -540,7 +568,7 @@ class _LoginWidgetState extends ConsumerState<LoginWidget> {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 110),
+                  const SizedBox(height: 100),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center, //Center Column contents vertically,
                     children: [

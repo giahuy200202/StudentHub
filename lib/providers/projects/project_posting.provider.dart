@@ -18,7 +18,7 @@ class ProjectPostingNotifier extends StateNotifier<ProjectPosting> {
   ProjectPostingNotifier()
       : super(ProjectPosting(
           title: '',
-          scope: 1,
+          scope: -1,
           numOfStudents: '',
           description: '',
         ));
@@ -68,6 +68,4 @@ class ProjectPostingNotifier extends StateNotifier<ProjectPosting> {
   }
 }
 
-final projectPostingProvider =
-    StateNotifierProvider<ProjectPostingNotifier, ProjectPosting>(
-        (ref) => ProjectPostingNotifier());
+final projectPostingProvider = StateNotifierProvider<ProjectPostingNotifier, ProjectPosting>((ref) => ProjectPostingNotifier());

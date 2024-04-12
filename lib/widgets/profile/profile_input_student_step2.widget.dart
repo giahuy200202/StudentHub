@@ -943,21 +943,19 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentStep2Widget> {
                                                                                         height: 46,
                                                                                         width: 175,
                                                                                         child: ElevatedButton(
-                                                                                          onPressed: enableCreate
-                                                                                              ? () {
-                                                                                                  final studentAfterEdit = ref.watch(studentInputProvider);
+                                                                                          onPressed: () {
+                                                                                            final studentAfterEdit = ref.watch(studentInputProvider);
 
-                                                                                                  ref.read(studentInputProvider.notifier).updateStudentInputExperiences(
-                                                                                                        editTitleController.text,
-                                                                                                        editDescriptionController.text,
-                                                                                                        editStartMonthController.text,
-                                                                                                        editEndMonthController.text,
-                                                                                                        studentAfterEdit.skillSetsForExp!,
-                                                                                                        studentInput.experiences!.indexOf(el),
-                                                                                                      );
-                                                                                                  Navigator.pop(context);
-                                                                                                }
-                                                                                              : null,
+                                                                                            ref.read(studentInputProvider.notifier).updateStudentInputExperiences(
+                                                                                                  editTitleController.text,
+                                                                                                  editDescriptionController.text,
+                                                                                                  editStartMonthController.text,
+                                                                                                  editEndMonthController.text,
+                                                                                                  studentAfterEdit.skillSetsForExp!,
+                                                                                                  studentInput.experiences!.indexOf(el),
+                                                                                                );
+                                                                                            Navigator.pop(context);
+                                                                                          },
                                                                                           style: ElevatedButton.styleFrom(
                                                                                             // minimumSize: Size.zero, // Set this
                                                                                             padding: EdgeInsets.zero, // and this

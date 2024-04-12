@@ -141,11 +141,6 @@ class _ProfileInputWidgetState extends ConsumerState<ProfileInputWidget> {
               ),
               const SizedBox(height: 20),
               const Text(
-                'Tell us about your company and you will be on your way connect with high-skilled students',
-                style: TextStyle(fontSize: 16),
-              ),
-              const SizedBox(height: 20),
-              const Text(
                 'How many people in company?',
                 style: TextStyle(
                   fontSize: 16,

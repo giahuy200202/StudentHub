@@ -42,9 +42,10 @@ class _MessageDetailsWidget extends ConsumerState<MessageDetailsWidget> {
               decoration: const InputDecoration(labelText: 'Send a message...'),
             )),
             IconButton(
-                color: Theme.of(context).colorScheme.primary,
-                onPressed: _submitMessage,
-                icon: const Icon(Icons.send))
+              color: Theme.of(context).colorScheme.primary,
+              onPressed: _submitMessage,
+              icon: const Icon(Icons.send),
+            )
           ],
         ));
   }

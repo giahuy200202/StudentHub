@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:studenthub/providers/authentication/authentication.provider.dart';
-import 'package:studenthub/providers/search_filter.provider.dart';
+import 'package:studenthub/providers/projects/search_filter.provider.dart';
 import 'package:studenthub/widgets/projects/list_projects.widget.dart';
 import '../../providers/options.provider.dart';
 // import 'package:keyboard_visibility/keyboard_visibility.dart';
@@ -18,13 +18,6 @@ class ProjectScreen extends ConsumerStatefulWidget {
 class _ProjectScreenState extends ConsumerState<ProjectScreen> {
   var searchController = TextEditingController();
   var tempController = TextEditingController();
-
-  // @override
-  // void dispose() {
-  //   searchController.dispose();
-  //   tempController.dispose();
-  //   super.dispose();
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -87,7 +80,6 @@ class _ProjectScreenState extends ConsumerState<ProjectScreen> {
                                           onSubmitted: (value) {
                                             Navigator.pop(context);
                                             ref.read(optionsProvider.notifier).setWidgetOption('ProjectSearch', user.role!);
-
                                             ref.read(searchFilterProvider.notifier).setSearch(searchController.text);
                                           },
                                           decoration: InputDecoration(
@@ -105,9 +97,7 @@ class _ProjectScreenState extends ConsumerState<ProjectScreen> {
                                             prefixIcon: const Icon(Icons.search),
                                             suffixIcon: InkWell(
                                               onTap: () {
-                                                setState(() {
-                                                  searchController.text = '';
-                                                });
+                                                searchController.text = '';
                                                 ref.read(searchFilterProvider.notifier).setSearch('');
                                               },
                                               child: const Icon(Icons.clear),
@@ -145,6 +135,9 @@ class _ProjectScreenState extends ConsumerState<ProjectScreen> {
                                                           onTap: () {
                                                             setState(() {
                                                               searchController.text = data;
+                                                              Navigator.pop(context);
+                                                              ref.read(optionsProvider.notifier).setWidgetOption('ProjectSearch', user.role!);
+                                                              ref.read(searchFilterProvider.notifier).setSearch(searchController.text);
                                                             });
                                                           },
                                                           child: SizedBox(
@@ -182,6 +175,9 @@ class _ProjectScreenState extends ConsumerState<ProjectScreen> {
                                                           onTap: () {
                                                             setState(() {
                                                               searchController.text = data;
+                                                              Navigator.pop(context);
+                                                              ref.read(optionsProvider.notifier).setWidgetOption('ProjectSearch', user.role!);
+                                                              ref.read(searchFilterProvider.notifier).setSearch(searchController.text);
                                                             });
                                                           },
                                                           child: SizedBox(
@@ -484,9 +480,11 @@ class _ProjectScreenState extends ConsumerState<ProjectScreen> {
                     ),
                     const Spacer(),
                     InkWell(
-                      onTap: () {
-                        ref.read(optionsProvider.notifier).setWidgetOption('SavedProjects', user.role!);
-                      },
+                      onTap: user.role == '1'
+                          ? null
+                          : () {
+                              ref.read(optionsProvider.notifier).setWidgetOption('SavedProjects', user.role!);
+                            },
                       child: const Icon(
                         Icons.favorite_rounded,
                         size: 35,

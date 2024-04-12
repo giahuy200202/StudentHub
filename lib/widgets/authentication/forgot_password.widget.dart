@@ -9,32 +9,29 @@ import 'package:studenthub/providers/authentication/login.provider.dart';
 import 'package:studenthub/providers/options.provider.dart';
 import 'package:studenthub/providers/authentication/signup.provider.dart';
 import 'package:http/http.dart' as http;
+import 'package:studenthub/providers/profile/company.provider.dart';
+import 'package:studenthub/providers/profile/student.provider.dart';
 import 'dart:convert';
 
 import 'package:toastification/toastification.dart';
 
-class SignupStep2 extends ConsumerStatefulWidget {
-  const SignupStep2({super.key});
+class ForgotPasswordWidget extends ConsumerStatefulWidget {
+  const ForgotPasswordWidget({super.key});
 
   @override
-  ConsumerState<SignupStep2> createState() {
-    return _SignupStep2State();
+  ConsumerState<ForgotPasswordWidget> createState() {
+    return _ForgotPasswordWidgetState();
   }
 }
 
-class _SignupStep2State extends ConsumerState<SignupStep2> {
-  var fullnameController = TextEditingController();
+class _ForgotPasswordWidgetState extends ConsumerState<ForgotPasswordWidget> {
   var emailController = TextEditingController();
-  var passwordController = TextEditingController();
-  bool isConfirm = false;
-  bool enable = false;
   bool isSending = false;
+  bool enable = false;
 
   @override
   void dispose() {
-    fullnameController.dispose();
     emailController.dispose();
-    passwordController.dispose();
     super.dispose();
   }
 
@@ -77,18 +74,6 @@ class _SignupStep2State extends ConsumerState<SignupStep2> {
     final userSignup = ref.watch(userSignupProvider);
     final user = ref.watch(userProvider);
 
-    Icon iconCheckedConfirm = isConfirm
-        ? const Icon(
-            Icons.check_circle,
-            size: 30,
-            color: Color.fromARGB(255, 121, 123, 125),
-          )
-        : const Icon(
-            Icons.circle_outlined,
-            size: 30,
-            color: Color.fromARGB(255, 151, 153, 155),
-          );
-
     return Scaffold(
       body: SingleChildScrollView(
           physics: const NeverScrollableScrollPhysics(),
@@ -102,7 +87,7 @@ class _SignupStep2State extends ConsumerState<SignupStep2> {
                     alignment: Alignment.topLeft,
                     child: InkWell(
                       onTap: () {
-                        ref.read(optionsProvider.notifier).setWidgetOption('SignupStep1', user.role!);
+                        ref.read(optionsProvider.notifier).setWidgetOption('Login', user.role!);
                       },
                       child: const Icon(
                         Icons.arrow_back_ios,
@@ -115,7 +100,7 @@ class _SignupStep2State extends ConsumerState<SignupStep2> {
                   const Align(
                     alignment: Alignment.topLeft,
                     child: Text(
-                      'Register',
+                      'Forgot Password',
                       style: TextStyle(
                         fontSize: 30,
                         color: Colors.black,
@@ -139,42 +124,9 @@ class _SignupStep2State extends ConsumerState<SignupStep2> {
                   SizedBox(
                     height: 80,
                     child: TextField(
-                      controller: fullnameController,
-                      onChanged: (data) {
-                        if (fullnameController.text.isEmpty || emailController.text.isEmpty || passwordController.text.isEmpty) {
-                          enable = false;
-                        } else {
-                          enable = true;
-                        }
-                        setState(() {});
-                      },
-                      style: const TextStyle(
-                        fontSize: 17,
-                      ),
-                      decoration: InputDecoration(
-                        labelText: 'Fullname',
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(9),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(9),
-                          borderSide: const BorderSide(color: Colors.grey),
-                        ),
-                        contentPadding: const EdgeInsets.symmetric(
-                          vertical: 17,
-                          horizontal: 15,
-                        ),
-                        prefixIcon: const Icon(Icons.person),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                  SizedBox(
-                    height: 80,
-                    child: TextField(
                       controller: emailController,
                       onChanged: (data) {
-                        if (fullnameController.text.isEmpty || emailController.text.isEmpty || passwordController.text.isEmpty) {
+                        if (emailController.text.isEmpty) {
                           enable = false;
                         } else {
                           enable = true;
@@ -185,7 +137,7 @@ class _SignupStep2State extends ConsumerState<SignupStep2> {
                         fontSize: 17,
                       ),
                       decoration: InputDecoration(
-                        labelText: 'Email address',
+                        labelText: 'Enter your email',
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(9),
                         ),
@@ -197,98 +149,54 @@ class _SignupStep2State extends ConsumerState<SignupStep2> {
                           vertical: 17,
                           horizontal: 15,
                         ),
-                        prefixIcon: const Icon(Icons.email_outlined),
+                        prefixIcon: const Icon(Icons.mail),
                       ),
                     ),
-                  ),
-                  const SizedBox(height: 8),
-                  SizedBox(
-                    height: 80,
-                    child: TextField(
-                      obscureText: true,
-                      controller: passwordController,
-                      onChanged: (data) {
-                        if (fullnameController.text.isEmpty || emailController.text.isEmpty || passwordController.text.isEmpty) {
-                          enable = false;
-                        } else {
-                          enable = true;
-                        }
-                        setState(() {});
-                      },
-                      style: const TextStyle(
-                        fontSize: 17,
-                      ),
-                      decoration: InputDecoration(
-                        labelText: 'Password (8 or more characters)',
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(9),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(9),
-                          borderSide: const BorderSide(color: Colors.grey),
-                        ),
-                        contentPadding: const EdgeInsets.symmetric(
-                          vertical: 17,
-                          horizontal: 15,
-                        ),
-                        prefixIcon: const Icon(Icons.key),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 5),
-                  Row(
-                    children: [
-                      InkWell(
-                        onTap: () {
-                          setState(() {
-                            isConfirm = !isConfirm;
-                          });
-                        },
-                        child: iconCheckedConfirm,
-                      ),
-                      const SizedBox(width: 7),
-                      const Text(
-                        'Yes, I understand and agree to StudentHub',
-                        style: TextStyle(
-                          fontSize: 16,
-                        ),
-                      ),
-                    ],
                   ),
                   const SizedBox(height: 25),
                   SizedBox(
                     height: 52,
                     width: MediaQuery.of(context).size.width,
                     child: ElevatedButton(
-                      onPressed: enable && isConfirm && !isSending
+                      onPressed: enable && !isSending
                           ? () async {
                               setState(() {
                                 isSending = true;
                               });
 
-                              final url = Uri.parse('http://${dotenv.env['IP_ADDRESS']}/api/auth/sign-up');
-                              final response = await http.post(url,
+                              final url = Uri.parse('http://${dotenv.env['IP_ADDRESS']}/api/user/forgotPassword');
+                              final responseForgotPassword = await http.post(url,
                                   headers: {'Content-Type': 'application/json'},
                                   body: json.encode(
-                                    {"fullname": fullnameController.text, "email": emailController.text, "password": passwordController.text, "role": userSignup.role},
+                                    {
+                                      "email": emailController.text,
+                                    },
                                   ));
+
+                              final responseForgotPasswordData = json.decode(responseForgotPassword.body);
+
+                              print('----responseForgotPasswordData----');
+                              print(responseForgotPasswordData);
 
                               setState(() {
                                 isSending = false;
                               });
 
-                              if (json.decode(response.body).containsKey('errorDetails')) {
-                                if (json.decode(response.body)['errorDetails'] is String) {
-                                  showErrorToast('Error', json.decode(response.body)['errorDetails']);
+                              if (json.decode(responseForgotPassword.body).containsKey('errorDetails')) {
+                                if (json.decode(responseForgotPassword.body)['errorDetails'] is String) {
+                                  showErrorToast('Error', json.decode(responseForgotPassword.body)['errorDetails']);
                                 } else {
-                                  showErrorToast('Error', json.decode(response.body)['errorDetails'][0]);
+                                  showErrorToast('Error', json.decode(responseForgotPassword.body)['errorDetails'][0]);
                                 }
                               } else {
                                 // print(json.decode(response.body));
-                                ref.read(userLoginProvider.notifier).setRole('${userSignup.role}');
 
-                                showSuccessToast('Success', 'Create successfully, please check your email to verify account');
+                                showSuccessToast('Success', responseForgotPasswordData['result']['message']);
+
                                 Timer(const Duration(seconds: 3), () {
+                                  ref.read(userProvider.notifier).setUserData(0, '', '');
+                                  ref.read(companyProvider.notifier).setCompanyData(0, '', '', '', '', 0);
+                                  ref.read(studentProvider.notifier).setStudentData(0, '', '', 0, [], [], [], []);
                                   ref.read(optionsProvider.notifier).setWidgetOption('Login', user.role!);
                                 });
                               }
@@ -313,9 +221,9 @@ class _SignupStep2State extends ConsumerState<SignupStep2> {
                               ),
                             )
                           : const Text(
-                              'Create my account',
+                              'Reset password',
                               style: TextStyle(
-                                fontSize: 18,
+                                fontSize: 16,
                                 color: Colors.white,
                                 fontWeight: FontWeight.w500,
                               ),

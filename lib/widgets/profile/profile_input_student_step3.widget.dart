@@ -64,7 +64,6 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentStep3Widget> {
     final user = ref.watch(userProvider);
     final studentInput = ref.watch(studentInputProvider);
     var student = ref.watch(studentProvider);
-
     var responseEditStudent;
     var responseEditStudentData;
     var responseCreateStudentData;
@@ -244,6 +243,13 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentStep3Widget> {
                               responseEditStudentData = json.decode(responseEditStudent.body);
                               print('----responseEditStudentData----');
                               print(responseEditStudentData);
+
+                              print('--studentInput.fullname--');
+                              print(studentInput.fullname);
+                              print('--studentInput.techStackId--');
+                              print(studentInput.techStackId);
+                              print('--studentInput.skillSets--');
+                              print(studentInput.skillSets);
                             }
 
                             //Edit languages
@@ -397,7 +403,7 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentStep3Widget> {
 
                                 ref.read(studentProvider.notifier).setStudentData(
                                       student.id!,
-                                      responseStudentData["result"]["fullname"],
+                                      studentInput.fullname!,
                                       responseStudentData["result"]["email"],
                                       responseStudentData["result"]["techStack"]["id"],
                                       getSkillsets,
