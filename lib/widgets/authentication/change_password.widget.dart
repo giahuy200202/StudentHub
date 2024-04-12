@@ -9,32 +9,33 @@ import 'package:studenthub/providers/authentication/login.provider.dart';
 import 'package:studenthub/providers/options.provider.dart';
 import 'package:studenthub/providers/authentication/signup.provider.dart';
 import 'package:http/http.dart' as http;
+import 'package:studenthub/providers/profile/company.provider.dart';
+import 'package:studenthub/providers/profile/student.provider.dart';
 import 'dart:convert';
 
 import 'package:toastification/toastification.dart';
 
-class SignupStep2 extends ConsumerStatefulWidget {
-  const SignupStep2({super.key});
+class ChangePasswordWidget extends ConsumerStatefulWidget {
+  const ChangePasswordWidget({super.key});
 
   @override
-  ConsumerState<SignupStep2> createState() {
-    return _SignupStep2State();
+  ConsumerState<ChangePasswordWidget> createState() {
+    return _ChangePasswordWidgetState();
   }
 }
 
-class _SignupStep2State extends ConsumerState<SignupStep2> {
-  var fullnameController = TextEditingController();
-  var emailController = TextEditingController();
-  var passwordController = TextEditingController();
-  bool isConfirm = false;
-  bool enable = false;
+class _ChangePasswordWidgetState extends ConsumerState<ChangePasswordWidget> {
+  var oldPasswordController = TextEditingController();
+  var newPasswordController = TextEditingController();
   bool isSending = false;
+  bool enable = false;
+  bool isDisplayOldPassword = false;
+  bool isDisplayNewPassword = false;
 
   @override
   void dispose() {
-    fullnameController.dispose();
-    emailController.dispose();
-    passwordController.dispose();
+    oldPasswordController.dispose();
+    newPasswordController.dispose();
     super.dispose();
   }
 
@@ -77,18 +78,6 @@ class _SignupStep2State extends ConsumerState<SignupStep2> {
     final userSignup = ref.watch(userSignupProvider);
     final user = ref.watch(userProvider);
 
-    Icon iconCheckedConfirm = isConfirm
-        ? const Icon(
-            Icons.check_circle,
-            size: 30,
-            color: Color.fromARGB(255, 121, 123, 125),
-          )
-        : const Icon(
-            Icons.circle_outlined,
-            size: 30,
-            color: Color.fromARGB(255, 151, 153, 155),
-          );
-
     return Scaffold(
       body: SingleChildScrollView(
           physics: const NeverScrollableScrollPhysics(),
@@ -101,7 +90,7 @@ class _SignupStep2State extends ConsumerState<SignupStep2> {
                   const Align(
                     alignment: Alignment.topLeft,
                     child: Text(
-                      'Register',
+                      'Change Password',
                       style: TextStyle(
                         fontSize: 30,
                         color: Colors.black,
@@ -125,9 +114,10 @@ class _SignupStep2State extends ConsumerState<SignupStep2> {
                   SizedBox(
                     height: 80,
                     child: TextField(
-                      controller: fullnameController,
+                      obscureText: isDisplayOldPassword ? false : true,
+                      controller: oldPasswordController,
                       onChanged: (data) {
-                        if (fullnameController.text.isEmpty || emailController.text.isEmpty || passwordController.text.isEmpty) {
+                        if (oldPasswordController.text.isEmpty || newPasswordController.text.isEmpty) {
                           enable = false;
                         } else {
                           enable = true;
@@ -138,74 +128,7 @@ class _SignupStep2State extends ConsumerState<SignupStep2> {
                         fontSize: 17,
                       ),
                       decoration: InputDecoration(
-                        labelText: 'Fullname',
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(9),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(9),
-                          borderSide: const BorderSide(color: Colors.grey),
-                        ),
-                        contentPadding: const EdgeInsets.symmetric(
-                          vertical: 17,
-                          horizontal: 15,
-                        ),
-                        prefixIcon: const Icon(Icons.person),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                  SizedBox(
-                    height: 80,
-                    child: TextField(
-                      controller: emailController,
-                      onChanged: (data) {
-                        if (fullnameController.text.isEmpty || emailController.text.isEmpty || passwordController.text.isEmpty) {
-                          enable = false;
-                        } else {
-                          enable = true;
-                        }
-                        setState(() {});
-                      },
-                      style: const TextStyle(
-                        fontSize: 17,
-                      ),
-                      decoration: InputDecoration(
-                        labelText: 'Email address',
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(9),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(9),
-                          borderSide: const BorderSide(color: Colors.grey),
-                        ),
-                        contentPadding: const EdgeInsets.symmetric(
-                          vertical: 17,
-                          horizontal: 15,
-                        ),
-                        prefixIcon: const Icon(Icons.email_outlined),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                  SizedBox(
-                    height: 80,
-                    child: TextField(
-                      obscureText: true,
-                      controller: passwordController,
-                      onChanged: (data) {
-                        if (fullnameController.text.isEmpty || emailController.text.isEmpty || passwordController.text.isEmpty) {
-                          enable = false;
-                        } else {
-                          enable = true;
-                        }
-                        setState(() {});
-                      },
-                      style: const TextStyle(
-                        fontSize: 17,
-                      ),
-                      decoration: InputDecoration(
-                        labelText: 'Password (8 or more characters)',
+                        labelText: 'Enter your old password',
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(9),
                         ),
@@ -218,63 +141,129 @@ class _SignupStep2State extends ConsumerState<SignupStep2> {
                           horizontal: 15,
                         ),
                         prefixIcon: const Icon(Icons.key),
+                        suffix: InkWell(
+                          onTap: () {
+                            setState(() {
+                              isDisplayOldPassword = !isDisplayOldPassword;
+                            });
+                          },
+                          child: Transform.translate(
+                            offset: const Offset(0, 4.5),
+                            child: isDisplayOldPassword
+                                ? const Icon(
+                                    Icons.visibility_off_outlined,
+                                    size: 21,
+                                  )
+                                : const Icon(
+                                    Icons.visibility_outlined,
+                                    size: 21,
+                                  ),
+                          ),
+                        ),
                       ),
                     ),
                   ),
-                  const SizedBox(height: 5),
-                  Row(
-                    children: [
-                      InkWell(
-                        onTap: () {
-                          setState(() {
-                            isConfirm = !isConfirm;
-                          });
-                        },
-                        child: iconCheckedConfirm,
+                  const SizedBox(height: 8),
+                  SizedBox(
+                    height: 80,
+                    child: TextField(
+                      obscureText: isDisplayNewPassword ? false : true,
+                      controller: newPasswordController,
+                      onChanged: (data) {
+                        if (oldPasswordController.text.isEmpty || newPasswordController.text.isEmpty) {
+                          enable = false;
+                        } else {
+                          enable = true;
+                        }
+                        setState(() {});
+                      },
+                      style: const TextStyle(
+                        fontSize: 17,
                       ),
-                      const SizedBox(width: 7),
-                      const Text(
-                        'Yes, I understand and agree to StudentHub',
-                        style: TextStyle(
-                          fontSize: 16,
+                      decoration: InputDecoration(
+                        labelText: 'Enter your new password',
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(9),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(9),
+                          borderSide: const BorderSide(color: Colors.grey),
+                        ),
+                        contentPadding: const EdgeInsets.symmetric(
+                          vertical: 17,
+                          horizontal: 15,
+                        ),
+                        prefixIcon: const Icon(Icons.key),
+                        suffix: InkWell(
+                          onTap: () {
+                            setState(() {
+                              isDisplayNewPassword = !isDisplayNewPassword;
+                            });
+                          },
+                          child: Transform.translate(
+                            offset: const Offset(0, 4.5),
+                            child: isDisplayNewPassword
+                                ? const Icon(
+                                    Icons.visibility_off_outlined,
+                                    size: 21,
+                                  )
+                                : const Icon(
+                                    Icons.visibility_outlined,
+                                    size: 21,
+                                  ),
+                          ),
                         ),
                       ),
-                    ],
+                    ),
                   ),
                   const SizedBox(height: 25),
                   SizedBox(
                     height: 52,
                     width: MediaQuery.of(context).size.width,
                     child: ElevatedButton(
-                      onPressed: enable && isConfirm && !isSending
+                      onPressed: enable && !isSending
                           ? () async {
                               setState(() {
                                 isSending = true;
                               });
 
-                              final url = Uri.parse('http://${dotenv.env['IP_ADDRESS']}/api/auth/sign-up');
-                              final response = await http.post(url,
-                                  headers: {'Content-Type': 'application/json'},
+                              final url = Uri.parse('http://${dotenv.env['IP_ADDRESS']}/api/user/changePassword');
+                              final responseChangePassword = await http.put(url,
+                                  headers: {
+                                    'Content-Type': 'application/json',
+                                    'Authorization': 'Bearer ${user.token}',
+                                  },
                                   body: json.encode(
-                                    {"fullname": fullnameController.text, "email": emailController.text, "password": passwordController.text, "role": userSignup.role},
+                                    {
+                                      "oldPassword": oldPasswordController.text,
+                                      "newPassword": newPasswordController.text,
+                                    },
                                   ));
+
+                              final responseChangePasswordData = json.decode(responseChangePassword.body);
+
+                              print('----responseChangePasswordData----');
+                              print(responseChangePasswordData);
 
                               setState(() {
                                 isSending = false;
                               });
 
-                              if (json.decode(response.body).containsKey('errorDetails')) {
-                                if (json.decode(response.body)['errorDetails'] is String) {
-                                  showErrorToast('Error', json.decode(response.body)['errorDetails']);
+                              if (json.decode(responseChangePassword.body).containsKey('errorDetails')) {
+                                if (json.decode(responseChangePassword.body)['errorDetails'] is String) {
+                                  showErrorToast('Error', json.decode(responseChangePassword.body)['errorDetails']);
                                 } else {
-                                  showErrorToast('Error', json.decode(response.body)['errorDetails'][0]);
+                                  showErrorToast('Error', json.decode(responseChangePassword.body)['errorDetails'][0]);
                                 }
                               } else {
                                 // print(json.decode(response.body));
-                                ref.read(userLoginProvider.notifier).setRole('${userSignup.role}');
 
-                                showSuccessToast('Success', 'Create successfully, please check your email to verify account');
+                                showSuccessToast('Success', 'Change password successfully, please login again');
+
                                 Timer(const Duration(seconds: 3), () {
+                                  ref.read(userProvider.notifier).setUserData(0, '', '');
+                                  ref.read(companyProvider.notifier).setCompanyData(0, '', '', '', '', 0);
+                                  ref.read(studentProvider.notifier).setStudentData(0, '', '', 0, [], [], [], []);
                                   ref.read(optionsProvider.notifier).setWidgetOption('Login', user.role!);
                                 });
                               }
@@ -299,53 +288,15 @@ class _SignupStep2State extends ConsumerState<SignupStep2> {
                               ),
                             )
                           : const Text(
-                              'Create my account',
+                              'Change password',
                               style: TextStyle(
-                                fontSize: 18,
+                                fontSize: 16,
                                 color: Colors.white,
                                 fontWeight: FontWeight.w500,
                               ),
                             ),
                     ),
                   ),
-                  const SizedBox(height: 25),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center, //Center Column contents vertically,
-                    children: [
-                      const Text(
-                        'Looking for a project?',
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: Colors.black,
-                        ),
-                      ),
-                      const SizedBox(width: 5),
-                      TextButton(
-                        style: TextButton.styleFrom(
-                          padding: EdgeInsets.zero,
-                          alignment: Alignment.centerLeft,
-                          minimumSize: const Size(50, 30),
-                          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                        ),
-                        onPressed: () {},
-                        child: Container(
-                          padding: const EdgeInsets.only(
-                            bottom: 0.5,
-                          ),
-                          decoration: const BoxDecoration(
-                              border: Border(
-                                  bottom: BorderSide(
-                            color: Colors.blue,
-                            width: 1.3,
-                          ))),
-                          child: const Text(
-                            "Apply as student",
-                            style: TextStyle(fontSize: 16, color: Colors.blue, fontWeight: FontWeight.w500),
-                          ),
-                        ),
-                      ),
-                    ],
-                  )
                 ],
               ),
             ),

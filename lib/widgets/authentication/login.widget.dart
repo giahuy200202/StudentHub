@@ -242,12 +242,20 @@ class _LoginWidgetState extends ConsumerState<LoginWidget> {
                           ),
                         ],
                       ),
-                      const Text(
-                        'Forgot Password?',
-                        style: TextStyle(
-                          fontSize: 15,
-                          color: Colors.black,
-                          fontWeight: FontWeight.w700,
+                      InkWell(
+                        onTap: () {
+                          ref.read(optionsProvider.notifier).setWidgetOption(
+                                'ForgotPassword',
+                                userLoginRole,
+                              );
+                        },
+                        child: const Text(
+                          'Forgot Password?',
+                          style: TextStyle(
+                            fontSize: 15,
+                            color: Colors.black,
+                            fontWeight: FontWeight.w700,
+                          ),
                         ),
                       ),
                     ],

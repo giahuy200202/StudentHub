@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:studenthub/providers/authentication/authentication.provider.dart';
 import 'package:studenthub/providers/options.provider.dart';
 import 'package:studenthub/providers/profile/company.provider.dart';
 import 'package:studenthub/providers/profile/student.provider.dart';
 import 'package:studenthub/providers/switch_account.provider.dart';
+
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+import 'dart:async';
 
 class SwitchAccountWidget extends ConsumerStatefulWidget {
   const SwitchAccountWidget({super.key});
@@ -494,6 +499,69 @@ class _SwitchAccountWidgetState extends ConsumerState<SwitchAccountWidget> {
                           verticalAlignment: TableCellVerticalAlignment.middle,
                           child: InkWell(
                             onTap: () {
+                              ref.read(optionsProvider.notifier).setWidgetOption('ChangePassword', user.role!);
+                            },
+                            child: const Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+                              child: SizedBox(
+                                // width: 250,
+                                child: Padding(
+                                  padding: EdgeInsets.only(left: 8),
+                                  child: Row(
+                                    children: [
+                                      Icon(
+                                        Icons.key,
+                                        size: 40,
+                                        color: Color.fromARGB(255, 121, 123, 125),
+                                      ),
+                                      SizedBox(width: 10),
+                                      Padding(
+                                        padding: EdgeInsets.only(left: 2),
+                                        child: Align(
+                                          alignment: Alignment.topLeft,
+                                          child: SizedBox(
+                                            width: 240,
+                                            child: Text(
+                                              'Change password',
+                                              overflow: TextOverflow.ellipsis,
+                                              style: TextStyle(
+                                                color: Color.fromARGB(255, 73, 80, 87),
+                                                fontSize: 16,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    TableRow(
+                      children: [
+                        TableCell(
+                          verticalAlignment: TableCellVerticalAlignment.middle,
+                          child: InkWell(
+                            onTap: () async {
+                              final urlLogout = Uri.parse('http://${dotenv.env['IP_ADDRESS']}/api/auth/logout');
+
+                              final responseLogout = await http.post(
+                                urlLogout,
+                                headers: {
+                                  'Content-Type': 'application/json',
+                                  'Authorization': 'Bearer ${user.token}',
+                                },
+                                body: json.encode({}),
+                              );
+
+                              final responseLogoutData = json.decode(responseLogout.body);
+                              print('----responseLogoutData----');
+                              print(responseLogoutData);
+
                               ref.read(userProvider.notifier).setUserData(0, '', '');
                               ref.read(companyProvider.notifier).setCompanyData(0, '', '', '', '', 0);
                               ref.read(studentProvider.notifier).setStudentData(0, '', '', 0, [], [], [], []);

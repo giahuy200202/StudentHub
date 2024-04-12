@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:studenthub/providers/authentication/authentication.provider.dart';
 import 'package:studenthub/providers/options.provider.dart';
+import 'package:studenthub/screens/authentication/change_password.screen.dart';
+import 'package:studenthub/screens/authentication/forgot_password.screen.dart';
 import 'package:studenthub/screens/authentication/signup_step1.screen.dart';
 import 'package:studenthub/screens/authentication/signup_step2.screen.dart';
 import 'package:studenthub/screens/dashboard/send_hire_offer.screen.dart';
@@ -64,6 +66,8 @@ class _LayoutScreenState extends ConsumerState<LayoutScreen> {
       return const HomepageScreen();
     } else if (widgetOption == 'Login') {
       return const LoginScreen();
+    } else if (widgetOption == 'ForgotPassword') {
+      return const ForgotPasswordScreen();
     } else if (widgetOption == 'SignupStep1') {
       return const SignupStep1Screen();
     } else if (widgetOption == 'SignupStep2') {
@@ -84,6 +88,8 @@ class _LayoutScreenState extends ConsumerState<LayoutScreen> {
       return const ViewProfileInputScreen();
     } else if (widgetOption == 'ViewProfileStudent') {
       return const ProfileIputStudentScreen();
+    } else if (widgetOption == 'ChangePassword') {
+      return const ChangePasswordScreen();
     } else if (widgetOption == 'Dashboard') {
       setState(() {
         _selectedPageIndex = 1;
@@ -182,7 +188,7 @@ class _LayoutScreenState extends ConsumerState<LayoutScreen> {
     Widget currentScreen = getCurrentScreen(options[Option.widgetOption]!);
 
     return Scaffold(
-        appBar: options[Option.widgetOption] == "" || options[Option.widgetOption] == "Homepage" || options[Option.widgetOption] == "Welcome" || options[Option.widgetOption] == "Login" || options[Option.widgetOption] == "SignupStep1" || options[Option.widgetOption] == "SignupStep2"
+        appBar: options[Option.widgetOption] == "ForgotPassword" || options[Option.widgetOption] == "ChangePassword" || options[Option.widgetOption] == "" || options[Option.widgetOption] == "Homepage" || options[Option.widgetOption] == "Welcome" || options[Option.widgetOption] == "Login" || options[Option.widgetOption] == "SignupStep1" || options[Option.widgetOption] == "SignupStep2"
             ? null
             : PreferredSize(
                 preferredSize: const Size.fromHeight(60),
