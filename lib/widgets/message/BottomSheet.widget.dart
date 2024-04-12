@@ -28,6 +28,7 @@ class _ShowbottomSheduleWidget extends ConsumerState<ShowbottomSheduleWidget> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              const SizedBox(height: 20),
               const Text(
                 'Schedule a video call interview',
                 style: TextStyle(
@@ -95,8 +96,7 @@ class _ShowbottomSheduleWidget extends ConsumerState<ShowbottomSheduleWidget> {
                               ),
                               focusedBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(9),
-                                borderSide:
-                                    const BorderSide(color: Colors.black),
+                                borderSide: const BorderSide(color: Colors.black),
                               ),
                               contentPadding: const EdgeInsets.symmetric(
                                 vertical: 0,
@@ -104,8 +104,7 @@ class _ShowbottomSheduleWidget extends ConsumerState<ShowbottomSheduleWidget> {
                               ),
                               suffixIcon: InkWell(
                                 onTap: presentDatePicker,
-                                child:
-                                    const Icon(Icons.calendar_month_outlined),
+                                child: const Icon(Icons.calendar_month_outlined),
                               ),
                             ),
                           ),
@@ -135,8 +134,7 @@ class _ShowbottomSheduleWidget extends ConsumerState<ShowbottomSheduleWidget> {
                               ),
                               focusedBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(9),
-                                borderSide:
-                                    const BorderSide(color: Colors.black),
+                                borderSide: const BorderSide(color: Colors.black),
                               ),
                               contentPadding: const EdgeInsets.symmetric(
                                 vertical: 0,
@@ -181,8 +179,7 @@ class _ShowbottomSheduleWidget extends ConsumerState<ShowbottomSheduleWidget> {
                               ),
                               focusedBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(9),
-                                borderSide:
-                                    const BorderSide(color: Colors.black),
+                                borderSide: const BorderSide(color: Colors.black),
                               ),
                               contentPadding: const EdgeInsets.symmetric(
                                 vertical: 0,
@@ -190,8 +187,7 @@ class _ShowbottomSheduleWidget extends ConsumerState<ShowbottomSheduleWidget> {
                               ),
                               suffixIcon: InkWell(
                                 onTap: presentDatePicker,
-                                child:
-                                    const Icon(Icons.calendar_month_outlined),
+                                child: const Icon(Icons.calendar_month_outlined),
                               ),
                             ),
                           ),
@@ -221,8 +217,7 @@ class _ShowbottomSheduleWidget extends ConsumerState<ShowbottomSheduleWidget> {
                               ),
                               focusedBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(9),
-                                borderSide:
-                                    const BorderSide(color: Colors.black),
+                                borderSide: const BorderSide(color: Colors.black),
                               ),
                               contentPadding: const EdgeInsets.symmetric(
                                 vertical: 0,
@@ -354,8 +349,7 @@ class _ShowbottomSheduleWidget extends ConsumerState<ShowbottomSheduleWidget> {
     setState(() {
       selectedDate = pickedDate;
     });
-    dateController.text =
-        DateFormat('dd/MM/yyyy').format(selectedDate!).toString();
+    dateController.text = DateFormat('dd/MM/yyyy').format(selectedDate!).toString();
   }
 
   void presentTimePicker() async {
@@ -397,55 +391,57 @@ class _ShowbottomSheduleWidget extends ConsumerState<ShowbottomSheduleWidget> {
     final user = ref.watch(userProvider);
     return Scaffold(
         appBar: PreferredSize(
-            preferredSize: const Size.fromHeight(80),
+            preferredSize: const Size.fromHeight(100),
             child: Padding(
-                padding: const EdgeInsets.only(
-                    left: 20, right: 15, top: 20, bottom: 0),
-                child: Row(
+                padding: const EdgeInsets.only(left: 20, right: 15, top: 20, bottom: 0),
+                child: Column(
                   children: [
                     const SizedBox(height: 30),
-                    InkWell(
-                      onTap: () {
-                        ref
-                            .read(optionsProvider.notifier)
-                            .setWidgetOption('Message', user.role!);
-                      },
-                      child: const SizedBox(
-                        height: 20,
-                        width: 20,
-                        child: Icon(
-                          Icons.arrow_back_ios,
-                          size: 20,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(width: 10),
-                    const Text(
-                      'Luis Pham',
-                      textAlign: TextAlign.left,
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                    const Spacer(),
-                    PopupMenuButton<int>(
-                      onSelected: (item) => handleClick(item),
-                      itemBuilder: (context) => [
-                        const PopupMenuItem<int>(
-                            value: 0,
-                            child: Text(
-                              'Schedule an interview',
-                              style: TextStyle(
-                                  fontSize: 16, fontWeight: FontWeight.w400),
-                            )),
-                        const PopupMenuItem<int>(
-                          value: 1,
-                          child: Text(
-                            'Cancel',
-                            style: TextStyle(
-                                fontSize: 16, fontWeight: FontWeight.w400),
+                    Row(
+                      children: [
+                        Align(
+                          alignment: Alignment.topLeft,
+                          child: InkWell(
+                            onTap: () {
+                              ref.read(optionsProvider.notifier).setWidgetOption('Message', user.role!);
+                            },
+                            child: const Icon(
+                              Icons.arrow_back_ios,
+                              size: 25,
+                              color: Colors.grey,
+                            ),
                           ),
+                        ),
+                        const SizedBox(width: 10),
+                        const Align(
+                          alignment: Alignment.topLeft,
+                          child: Text(
+                            'Luis Pham',
+                            style: TextStyle(
+                              fontSize: 22,
+                              color: Colors.black,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ),
+                        const Spacer(),
+                        PopupMenuButton<int>(
+                          onSelected: (item) => handleClick(item),
+                          itemBuilder: (context) => [
+                            const PopupMenuItem<int>(
+                                value: 0,
+                                child: Text(
+                                  'Schedule an interview',
+                                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
+                                )),
+                            const PopupMenuItem<int>(
+                              value: 1,
+                              child: Text(
+                                'Cancel',
+                                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
+                              ),
+                            ),
+                          ],
                         ),
                       ],
                     ),

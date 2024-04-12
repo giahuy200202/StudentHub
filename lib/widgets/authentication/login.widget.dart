@@ -103,7 +103,21 @@ class _LoginWidgetState extends ConsumerState<LoginWidget> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const SizedBox(height: 100),
+                  const SizedBox(height: 60),
+                  Align(
+                    alignment: Alignment.topLeft,
+                    child: InkWell(
+                      onTap: () {
+                        ref.read(optionsProvider.notifier).setWidgetOption('', user.role!);
+                      },
+                      child: const Icon(
+                        Icons.arrow_back_ios,
+                        size: 35,
+                        color: Colors.grey,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 20),
                   const Align(
                     alignment: Alignment.topLeft,
                     child: Text(
@@ -554,7 +568,7 @@ class _LoginWidgetState extends ConsumerState<LoginWidget> {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 110),
+                  const SizedBox(height: 100),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center, //Center Column contents vertically,
                     children: [

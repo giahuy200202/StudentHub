@@ -119,7 +119,7 @@ class _ProposalsWidgetState extends ConsumerState<ProposalsWidget> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 610,
+      height: 680,
       child: SingleChildScrollView(
         child: isFetchingData
             ? const Column(

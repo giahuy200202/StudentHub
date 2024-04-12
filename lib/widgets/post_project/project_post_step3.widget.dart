@@ -34,32 +34,61 @@ class _ProjectPostStep3WidgetState extends ConsumerState<ProjectPostStep3Widget>
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const SizedBox(height: 30),
-                const Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    SizedBox(height: 30),
-                    Text(
-                      '3/4',
-                      textAlign: TextAlign.left,
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w700,
-                      ),
+                const SizedBox(height: 60),
+                Align(
+                  alignment: Alignment.topLeft,
+                  child: InkWell(
+                    onTap: () {
+                      ref.read(optionsProvider.notifier).setWidgetOption('ProjectPostStep2', user.role!);
+                    },
+                    child: const Icon(
+                      Icons.arrow_back_ios,
+                      size: 35,
+                      color: Colors.grey,
                     ),
-                    SizedBox(width: 20),
-                    Text(
-                      'Next, provide project description',
-                      textAlign: TextAlign.left,
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                  ],
+                  ),
                 ),
                 const SizedBox(height: 20),
+                const Align(
+                  alignment: Alignment.topLeft,
+                  child: Text(
+                    'Provide project description',
+                    style: TextStyle(
+                      fontSize: 27,
+                      color: Colors.black,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 10),
+                const Align(
+                  alignment: Alignment.topLeft,
+                  child: Text(
+                    'A clear project description ensures that others can accurately understand your needs and deliver the results you expect',
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: Colors.black,
+                      // fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 20),
+                Align(
+                  alignment: Alignment.topLeft,
+                  child: SizedBox(
+                    width: MediaQuery.of(context).size.width,
+                    height: 2.2,
+                    child: const ClipRRect(
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                      child: LinearProgressIndicator(
+                        value: 0.75,
+                        backgroundColor: Color.fromARGB(255, 193, 191, 191),
+                        valueColor: AlwaysStoppedAnimation<Color>(Colors.black),
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 40),
                 const Text(
                   'Students are looking for',
                   textAlign: TextAlign.left,

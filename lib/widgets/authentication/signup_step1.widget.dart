@@ -63,7 +63,21 @@ class _SignupStep1State extends ConsumerState<SignupStep1> {
             child: Center(
               child: Column(
                 children: [
-                  const SizedBox(height: 100),
+                  const SizedBox(height: 60),
+                  Align(
+                    alignment: Alignment.topLeft,
+                    child: InkWell(
+                      onTap: () {
+                        ref.read(optionsProvider.notifier).setWidgetOption('Login', user.role!);
+                      },
+                      child: const Icon(
+                        Icons.arrow_back_ios,
+                        size: 35,
+                        color: Colors.grey,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 20),
                   const Align(
                     alignment: Alignment.topLeft,
                     child: Text(

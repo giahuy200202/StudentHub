@@ -215,39 +215,39 @@ class _SendHireOfferScreenState extends ConsumerState<SendHireOfferScreen> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              const SizedBox(height: 30),
+              const SizedBox(height: 60),
               Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  const SizedBox(height: 30),
-                  InkWell(
-                    onTap: () {
-                      ref.read(optionsProvider.notifier).setWidgetOption('Dashboard', user.role!);
-                    },
-                    child: const Icon(
-                      Icons.arrow_back_ios,
-                      size: 18,
+                  Align(
+                    alignment: Alignment.topLeft,
+                    child: InkWell(
+                      onTap: () {
+                        ref.read(optionsProvider.notifier).setWidgetOption('Dashboard', user.role!);
+                      },
+                      child: const Icon(
+                        Icons.arrow_back_ios,
+                        size: 25,
+                        color: Colors.grey,
+                      ),
                     ),
                   ),
                   const SizedBox(width: 10),
-                  SizedBox(
-                    width: 320,
+                  Align(
+                    alignment: Alignment.topLeft,
                     child: Text(
                       listProjects.title,
-                      overflow: TextOverflow.ellipsis,
                       style: const TextStyle(
+                        fontSize: 22,
                         color: Colors.black,
-                        fontSize: 18,
                         fontWeight: FontWeight.w600,
                       ),
                     ),
-                  )
+                  ),
                 ],
               ),
               const SizedBox(height: 30),
               Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   TextButton(

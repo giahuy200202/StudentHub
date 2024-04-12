@@ -27,7 +27,7 @@ import 'package:studenthub/widgets/navbar/top_navbar.widget.dart';
 import 'package:studenthub/screens/profile/profileInput_2.sceen.dart';
 import 'package:studenthub/screens/profile/profileinputStudent_step1.screen.dart';
 import 'package:studenthub/screens/profile/profileinputStudent_step3.screen.dart';
-import 'package:studenthub/screens/chat/message.screen.dart';
+import 'package:studenthub/screens/message/message.screen.dart';
 import 'package:studenthub/screens/chat/message_details.screen.dart';
 import 'package:studenthub/widgets/message/videocalll.widget.dart';
 import 'package:studenthub/screens/alerts/alerts.screen.dart';
@@ -162,7 +162,7 @@ class _LayoutScreenState extends ConsumerState<LayoutScreen> {
       return const VideocallWidget();
     } else if (widgetOption == 'Alert') {
       setState(() {
-        _selectedPageIndex = 2;
+        _selectedPageIndex = 3;
       });
       return const AlertsScreen();
     }
@@ -188,7 +188,24 @@ class _LayoutScreenState extends ConsumerState<LayoutScreen> {
     Widget currentScreen = getCurrentScreen(options[Option.widgetOption]!);
 
     return Scaffold(
-        appBar: options[Option.widgetOption] == "ForgotPassword" || options[Option.widgetOption] == "ChangePassword" || options[Option.widgetOption] == "" || options[Option.widgetOption] == "Homepage" || options[Option.widgetOption] == "Welcome" || options[Option.widgetOption] == "Login" || options[Option.widgetOption] == "SignupStep1" || options[Option.widgetOption] == "SignupStep2"
+        appBar: options[Option.widgetOption] == "SavedProjects" ||
+                options[Option.widgetOption] == "ProjectDetails" ||
+                options[Option.widgetOption] == "SubmitProposal" ||
+                options[Option.widgetOption] == "Videocall" ||
+                options[Option.widgetOption] == "MessageDetails" ||
+                options[Option.widgetOption] == "SendHireOffer" ||
+                options[Option.widgetOption] == "ProjectPostStep4" ||
+                options[Option.widgetOption] == "ProjectPostStep3" ||
+                options[Option.widgetOption] == "ProjectPostStep2" ||
+                options[Option.widgetOption] == "ProjectPostStep1" ||
+                options[Option.widgetOption] == "ForgotPassword" ||
+                options[Option.widgetOption] == "ChangePassword" ||
+                options[Option.widgetOption] == "" ||
+                options[Option.widgetOption] == "Homepage" ||
+                options[Option.widgetOption] == "Welcome" ||
+                options[Option.widgetOption] == "Login" ||
+                options[Option.widgetOption] == "SignupStep1" ||
+                options[Option.widgetOption] == "SignupStep2"
             ? null
             : PreferredSize(
                 preferredSize: const Size.fromHeight(60),

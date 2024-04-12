@@ -216,7 +216,7 @@ class _DetailWidgetState extends ConsumerState<DetailWidget> {
             ],
           )
         : SizedBox(
-            height: 610,
+            height: 670,
             child: SingleChildScrollView(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,

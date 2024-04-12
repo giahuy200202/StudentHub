@@ -72,41 +72,61 @@ class _ProjectPostStep2WidgetState extends ConsumerState<ProjectPostStep2Widget>
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const SizedBox(height: 30),
-                const Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    SizedBox(height: 30),
-                    Text(
-                      '2/4',
-                      textAlign: TextAlign.left,
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w700,
-                      ),
+                const SizedBox(height: 60),
+                Align(
+                  alignment: Alignment.topLeft,
+                  child: InkWell(
+                    onTap: () {
+                      ref.read(optionsProvider.notifier).setWidgetOption('ProjectPostStep1', user.role!);
+                    },
+                    child: const Icon(
+                      Icons.arrow_back_ios,
+                      size: 35,
+                      color: Colors.grey,
                     ),
-                    SizedBox(width: 20),
-                    Text(
-                      'Next, estimate the scope of your job',
-                      textAlign: TextAlign.left,
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 20),
-                const Text(
-                  'Consider the size of your project and the timeline',
-                  textAlign: TextAlign.left,
-                  style: TextStyle(
-                    fontSize: 16,
-                    // fontWeight: FontWeight.w700,
                   ),
                 ),
                 const SizedBox(height: 20),
+                const Align(
+                  alignment: Alignment.topLeft,
+                  child: Text(
+                    'Estimate your project\'s scope',
+                    style: TextStyle(
+                      fontSize: 27,
+                      color: Colors.black,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 10),
+                const Align(
+                  alignment: Alignment.topLeft,
+                  child: Text(
+                    'Defining the project\'s scope helps ensure clarity and alignment on the objectives and deliverables from the start',
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: Colors.black,
+                      // fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 20),
+                Align(
+                  alignment: Alignment.topLeft,
+                  child: SizedBox(
+                    width: MediaQuery.of(context).size.width,
+                    height: 2.2,
+                    child: const ClipRRect(
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                      child: LinearProgressIndicator(
+                        value: 0.5,
+                        backgroundColor: Color.fromARGB(255, 193, 191, 191),
+                        valueColor: AlwaysStoppedAnimation<Color>(Colors.black),
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 30),
                 const Text(
                   'How long will your project take?',
                   textAlign: TextAlign.left,
@@ -234,7 +254,7 @@ class _ProjectPostStep2WidgetState extends ConsumerState<ProjectPostStep2Widget>
                       child: const Text(
                         'Next: Description',
                         style: TextStyle(
-                          fontSize: 18,
+                          fontSize: 16,
                           color: Color.fromARGB(255, 255, 255, 255),
                           fontWeight: FontWeight.w500,
                         ),

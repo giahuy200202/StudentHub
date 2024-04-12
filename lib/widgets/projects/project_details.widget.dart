@@ -232,28 +232,32 @@ class _ProjectDetailsWidgetState extends ConsumerState<ProjectDetailsWidget> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const SizedBox(height: 25),
+                    const SizedBox(height: 60),
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        const SizedBox(height: 30),
-                        InkWell(
-                          onTap: () {
-                            ref.read(optionsProvider.notifier).setWidgetOption('Projects', user.role!);
-                          },
-                          child: const Icon(
-                            Icons.arrow_back_ios,
-                            size: 18,
+                        Align(
+                          alignment: Alignment.topLeft,
+                          child: InkWell(
+                            onTap: () {
+                              ref.read(optionsProvider.notifier).setWidgetOption('Dashboard', user.role!);
+                            },
+                            child: const Icon(
+                              Icons.arrow_back_ios,
+                              size: 25,
+                              color: Colors.grey,
+                            ),
                           ),
                         ),
                         const SizedBox(width: 10),
-                        const Text(
-                          'Project details',
-                          textAlign: TextAlign.left,
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.w700,
+                        const Align(
+                          alignment: Alignment.topLeft,
+                          child: Text(
+                            'Project details',
+                            style: TextStyle(
+                              fontSize: 22,
+                              color: Colors.black,
+                              fontWeight: FontWeight.w600,
+                            ),
                           ),
                         ),
                       ],
@@ -483,7 +487,7 @@ class _ProjectDetailsWidgetState extends ConsumerState<ProjectDetailsWidget> {
                             child: const Text(
                               'Apply now',
                               style: TextStyle(
-                                fontSize: 18,
+                                fontSize: 16,
                                 color: Colors.black,
                                 fontWeight: FontWeight.w500,
                               ),
@@ -531,7 +535,7 @@ class _ProjectDetailsWidgetState extends ConsumerState<ProjectDetailsWidget> {
                             child: const Text(
                               'Save',
                               style: TextStyle(
-                                fontSize: 18,
+                                fontSize: 16,
                                 color: Color.fromARGB(255, 255, 255, 255),
                                 fontWeight: FontWeight.w500,
                               ),

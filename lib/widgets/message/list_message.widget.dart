@@ -18,21 +18,23 @@ class _MessageState extends ConsumerState<Message> {
   Widget build(BuildContext context) {
     final user = ref.watch(userProvider);
     return SizedBox(
-        height: 590,
-        width: 380,
+        height: 300,
+        width: MediaQuery.of(context).size.width,
         child: SingleChildScrollView(
           child: Column(
             children: [
               GestureDetector(
                 onTap: () {
-                  ref
-                      .read(optionsProvider.notifier)
-                      .setWidgetOption('MessageDetails', user.role!);
+                  ref.read(optionsProvider.notifier).setWidgetOption('MessageDetails', user.role!);
                 },
                 child: Container(
-                  decoration: const BoxDecoration(
-                    color: Color.fromARGB(255, 232, 233, 237),
-                    borderRadius: BorderRadius.all(Radius.circular(12)),
+                  decoration: BoxDecoration(
+                    // color: Color.fromARGB(255, 232, 233, 237),
+                    border: Border.all(
+                      color: Colors.black,
+                      width: 0.4,
+                    ),
+                    borderRadius: const BorderRadius.all(Radius.circular(12)),
                   ),
                   child: Padding(
                     padding: const EdgeInsets.symmetric(
@@ -44,50 +46,53 @@ class _MessageState extends ConsumerState<Message> {
                         Row(
                           children: [
                             Container(
-                              width: 60,
-                              height: 60,
+                              width: 65,
+                              height: 65,
                               padding: const EdgeInsets.all(20),
                               decoration: const BoxDecoration(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(10)),
+                                borderRadius: BorderRadius.all(Radius.circular(10)),
                                 image: DecorationImage(
                                   image: AssetImage("assets/images/avatar.jpg"),
                                   fit: BoxFit.cover,
                                 ),
                               ),
                             ),
+                            const SizedBox(width: 15),
                             const Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    SizedBox(width: 8),
-                                    SizedBox(
-                                      width: 190,
-                                      child: Text(
-                                        textAlign: TextAlign.start,
-                                        'Luis Pham',
-                                        overflow: TextOverflow.ellipsis,
-                                        style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.w600,
-                                        ),
-                                      ),
+                                SizedBox(
+                                  width: 250,
+                                  child: Text(
+                                    textAlign: TextAlign.start,
+                                    'Luis Pham',
+                                    overflow: TextOverflow.ellipsis,
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w600,
                                     ),
-                                    Text('6/6/2024'),
-                                  ],
+                                  ),
                                 ),
-                                Padding(
-                                  padding: EdgeInsets.all(8.0),
+                                SizedBox(
+                                  width: 240,
+                                  child: Text(
+                                    '12/04/2020 | 14:07',
+                                    style: TextStyle(
+                                      color: Color.fromARGB(255, 115, 114, 114),
+                                      overflow: TextOverflow.ellipsis,
+                                      fontSize: 13,
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: 240,
                                   child: Text(
                                     'Senior frontend developer (Fintech)',
                                     style: TextStyle(
                                       color: Colors.black,
                                       overflow: TextOverflow.ellipsis,
-                                      fontSize: 14,
+                                      fontSize: 16,
                                     ),
                                   ),
                                 ),
@@ -99,8 +104,7 @@ class _MessageState extends ConsumerState<Message> {
                         Container(
                           decoration: BoxDecoration(
                             border: Border.all(
-                              color: Colors
-                                  .black, //                   <--- border color
+                              color: Colors.black, //                   <--- border color
                               width: 0.3,
                             ),
                           ),
@@ -123,251 +127,6 @@ class _MessageState extends ConsumerState<Message> {
                 ),
               ),
               const SizedBox(height: 30),
-              GestureDetector(
-                onTap: () {
-                  // ref
-                  //     .read(optionsProvider.notifier)
-                  //     .setWidgetOption('ProjectDetails');
-                },
-                child: Container(
-                  decoration: const BoxDecoration(
-                    color: Color.fromARGB(255, 232, 233, 237),
-                    borderRadius: BorderRadius.all(Radius.circular(12)),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                      vertical: 20,
-                      horizontal: 20,
-                    ),
-                    child: Column(
-                      children: [
-                        const Row(
-                          children: [
-                            Align(
-                              alignment: Alignment.topLeft,
-                              child: SizedBox(
-                                width: 250,
-                                child: Text(
-                                  'Luis Pham',
-                                  overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Spacer(),
-                            Text('6/6/2024')
-                          ],
-                        ),
-                        const SizedBox(height: 2),
-                        const Align(
-                          alignment: Alignment.topLeft,
-                          child: SizedBox(
-                            width: 340,
-                            child: Text(
-                              'Senior frontend developer (Fintech)',
-                              style: TextStyle(
-                                color: Colors.black,
-                                overflow: TextOverflow.ellipsis,
-                                fontSize: 16,
-                              ),
-                            ),
-                          ),
-                        ),
-                        const SizedBox(height: 15),
-                        Container(
-                          decoration: BoxDecoration(
-                            border: Border.all(
-                              color: Colors
-                                  .black, //                   <--- border color
-                              width: 0.3,
-                            ),
-                          ),
-                        ),
-                        const SizedBox(height: 15),
-                        const Align(
-                          alignment: Alignment.topLeft,
-                          child: Text(
-                            'Clear expectation about your project or dellverables',
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 16,
-                              fontWeight: FontWeight.w400,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-              const SizedBox(height: 30),
-              GestureDetector(
-                onTap: () {
-                  // ref
-                  //     .read(optionsProvider.notifier)
-                  //     .setWidgetOption('ProjectDetails');
-                },
-                child: Container(
-                  decoration: const BoxDecoration(
-                    color: Color.fromARGB(255, 232, 233, 237),
-                    borderRadius: BorderRadius.all(Radius.circular(12)),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                      vertical: 20,
-                      horizontal: 20,
-                    ),
-                    child: Column(
-                      children: [
-                        const Row(
-                          children: [
-                            Align(
-                              alignment: Alignment.topLeft,
-                              child: SizedBox(
-                                width: 250,
-                                child: Text(
-                                  'Luis Pham',
-                                  overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Spacer(),
-                            Text('6/6/2024')
-                          ],
-                        ),
-                        const SizedBox(height: 2),
-                        const Align(
-                          alignment: Alignment.topLeft,
-                          child: SizedBox(
-                            width: 340,
-                            child: Text(
-                              'Senior frontend developer (Fintech)',
-                              style: TextStyle(
-                                color: Colors.black,
-                                overflow: TextOverflow.ellipsis,
-                                fontSize: 16,
-                              ),
-                            ),
-                          ),
-                        ),
-                        const SizedBox(height: 15),
-                        Container(
-                          decoration: BoxDecoration(
-                            border: Border.all(
-                              color: Colors
-                                  .black, //                   <--- border color
-                              width: 0.3,
-                            ),
-                          ),
-                        ),
-                        const SizedBox(height: 15),
-                        const Align(
-                          alignment: Alignment.topLeft,
-                          child: Text(
-                            'Clear expectation about your project or dellverables',
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 16,
-                              fontWeight: FontWeight.w400,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-              const SizedBox(height: 30),
-              GestureDetector(
-                onTap: () {
-                  // ref
-                  //     .read(optionsProvider.notifier)
-                  //     .setWidgetOption('ProjectDetails');
-                },
-                child: Container(
-                  decoration: const BoxDecoration(
-                    color: Color.fromARGB(255, 232, 233, 237),
-                    borderRadius: BorderRadius.all(Radius.circular(12)),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                      vertical: 20,
-                      horizontal: 20,
-                    ),
-                    child: Column(
-                      children: [
-                        const Row(
-                          children: [
-                            Align(
-                              alignment: Alignment.topLeft,
-                              child: SizedBox(
-                                width: 250,
-                                child: Text(
-                                  'Luis Pham',
-                                  overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Spacer(),
-                            Text('6/6/2024')
-                          ],
-                        ),
-                        const SizedBox(height: 2),
-                        const Align(
-                          alignment: Alignment.topLeft,
-                          child: SizedBox(
-                            width: 340,
-                            child: Text(
-                              'Senior frontend developer (Fintech)',
-                              style: TextStyle(
-                                color: Colors.black,
-                                overflow: TextOverflow.ellipsis,
-                                fontSize: 16,
-                              ),
-                            ),
-                          ),
-                        ),
-                        const SizedBox(height: 15),
-                        Container(
-                          decoration: BoxDecoration(
-                            border: Border.all(
-                              color: Colors
-                                  .black, //                   <--- border color
-                              width: 0.3,
-                            ),
-                          ),
-                        ),
-                        const SizedBox(height: 15),
-                        const Align(
-                          alignment: Alignment.topLeft,
-                          child: Text(
-                            'Clear expectation about your project or dellverables',
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 16,
-                              fontWeight: FontWeight.w400,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
             ],
           ),
         ));

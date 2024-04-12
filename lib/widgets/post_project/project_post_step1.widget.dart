@@ -35,38 +35,64 @@ class _ProjectPostStep1WidgetState extends ConsumerState<ProjectPostStep1Widget>
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const SizedBox(height: 30),
-                const Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    SizedBox(height: 30),
-                    Text(
-                      '1/4',
-                      textAlign: TextAlign.left,
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w700,
-                      ),
+                const SizedBox(height: 60),
+                Align(
+                  alignment: Alignment.topLeft,
+                  child: InkWell(
+                    onTap: () {
+                      ref.read(optionsProvider.notifier).setWidgetOption('Dashboard', user.role!);
+                    },
+                    child: const Icon(
+                      Icons.arrow_back_ios,
+                      size: 35,
+                      color: Colors.grey,
                     ),
-                    SizedBox(width: 20),
-                    Text(
-                      'Let\'s start with a strong title',
-                      textAlign: TextAlign.left,
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                  ],
+                  ),
                 ),
                 const SizedBox(height: 20),
+                const Align(
+                  alignment: Alignment.topLeft,
+                  child: Text(
+                    'Let\'s start with a strong title',
+                    style: TextStyle(
+                      fontSize: 27,
+                      color: Colors.black,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 10),
                 const Text(
                   'This helps your post stand out to the right students. It\'s the first thing they\'ll see, so make it impressive!',
                   textAlign: TextAlign.left,
                   style: TextStyle(
                     fontSize: 16,
                     // fontWeight: FontWeight.w700,
+                  ),
+                ),
+                const SizedBox(height: 20),
+                Align(
+                  alignment: Alignment.topLeft,
+                  child: SizedBox(
+                    width: MediaQuery.of(context).size.width,
+                    height: 2.2,
+                    child: const ClipRRect(
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                      child: LinearProgressIndicator(
+                        value: 0.25,
+                        backgroundColor: Color.fromARGB(255, 193, 191, 191),
+                        valueColor: AlwaysStoppedAnimation<Color>(Colors.black),
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 30),
+                const Text(
+                  'Title',
+                  textAlign: TextAlign.left,
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w700,
                   ),
                 ),
                 const SizedBox(height: 20),
@@ -163,7 +189,7 @@ class _ProjectPostStep1WidgetState extends ConsumerState<ProjectPostStep1Widget>
                     ],
                   ),
                 ),
-                const SizedBox(height: 30),
+                const SizedBox(height: 40),
                 Container(
                   alignment: Alignment.centerRight,
                   child: SizedBox(
@@ -187,7 +213,7 @@ class _ProjectPostStep1WidgetState extends ConsumerState<ProjectPostStep1Widget>
                       child: const Text(
                         'Next: Scope',
                         style: TextStyle(
-                          fontSize: 18,
+                          fontSize: 16,
                           color: Color.fromARGB(255, 255, 255, 255),
                           fontWeight: FontWeight.w500,
                         ),

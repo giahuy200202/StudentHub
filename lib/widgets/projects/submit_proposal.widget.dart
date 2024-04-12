@@ -79,33 +79,37 @@ class _SubmitProposalWidgetState extends ConsumerState<SubmitProposalWidget> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const SizedBox(height: 25),
+                const SizedBox(height: 60),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    const SizedBox(height: 30),
-                    InkWell(
-                      onTap: () {
-                        ref.read(optionsProvider.notifier).setWidgetOption('ProjectDetails', user.role!);
-                      },
-                      child: const Icon(
-                        Icons.arrow_back_ios,
-                        size: 18,
+                    Align(
+                      alignment: Alignment.topLeft,
+                      child: InkWell(
+                        onTap: () {
+                          ref.read(optionsProvider.notifier).setWidgetOption('Dashboard', user.role!);
+                        },
+                        child: const Icon(
+                          Icons.arrow_back_ios,
+                          size: 25,
+                          color: Colors.grey,
+                        ),
                       ),
                     ),
                     const SizedBox(width: 10),
-                    const Text(
-                      'Cover letter',
-                      textAlign: TextAlign.left,
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.w700,
+                    const Align(
+                      alignment: Alignment.topLeft,
+                      child: Text(
+                        'Cover letter',
+                        style: TextStyle(
+                          fontSize: 22,
+                          color: Colors.black,
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
                     ),
                   ],
                 ),
-                const SizedBox(height: 25),
+                const SizedBox(height: 30),
                 SizedBox(
                   height: 650,
                   child: SingleChildScrollView(
@@ -176,7 +180,7 @@ class _SubmitProposalWidgetState extends ConsumerState<SubmitProposalWidget> {
                                 child: const Text(
                                   'Cancel',
                                   style: TextStyle(
-                                    fontSize: 18,
+                                    fontSize: 16,
                                     color: Colors.black,
                                     fontWeight: FontWeight.w500,
                                   ),
@@ -255,7 +259,7 @@ class _SubmitProposalWidgetState extends ConsumerState<SubmitProposalWidget> {
                                     : const Text(
                                         'Submit proposal',
                                         style: TextStyle(
-                                          fontSize: 18,
+                                          fontSize: 16,
                                           color: Color.fromARGB(255, 255, 255, 255),
                                           fontWeight: FontWeight.w500,
                                         ),
