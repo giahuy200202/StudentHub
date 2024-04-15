@@ -71,6 +71,7 @@ class _ProjectPostStep4WidgetState extends ConsumerState<ProjectPostStep4Widget>
     final company = ref.watch(companyProvider);
 
     return Scaffold(
+      backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),

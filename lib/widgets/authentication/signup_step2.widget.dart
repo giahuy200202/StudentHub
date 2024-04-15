@@ -90,6 +90,7 @@ class _SignupStep2State extends ConsumerState<SignupStep2> {
           );
 
     return Scaffold(
+      backgroundColor: Colors.white,
       body: SingleChildScrollView(
           physics: const NeverScrollableScrollPhysics(),
           child: Padding(

@@ -95,6 +95,7 @@ class _LoginWidgetState extends ConsumerState<LoginWidget> {
 
     // print(user.name);
     return Scaffold(
+      backgroundColor: Colors.white,
       body: SingleChildScrollView(
           physics: const NeverScrollableScrollPhysics(),
           child: Padding(

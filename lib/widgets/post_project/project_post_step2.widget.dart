@@ -64,6 +64,7 @@ class _ProjectPostStep2WidgetState extends ConsumerState<ProjectPostStep2Widget>
     final projectPosting = ref.watch(projectPostingProvider);
     final user = ref.watch(userProvider);
     return Scaffold(
+      backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),

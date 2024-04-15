@@ -426,6 +426,7 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentWidget> {
     final studentInput = ref.watch(studentInputProvider);
 
     return Scaffold(
+      backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),

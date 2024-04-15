@@ -75,6 +75,7 @@ class _ForgotPasswordWidgetState extends ConsumerState<ForgotPasswordWidget> {
     final user = ref.watch(userProvider);
 
     return Scaffold(
+      backgroundColor: Colors.white,
       body: SingleChildScrollView(
           physics: const NeverScrollableScrollPhysics(),
           child: Padding(

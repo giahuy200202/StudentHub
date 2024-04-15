@@ -234,6 +234,7 @@ class _ProjectSearchWidgetState extends ConsumerState<ProjectSearchWidget> {
     searchController.text = searchFilter.search!;
     final user = ref.watch(userProvider);
     return Scaffold(
+      backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),

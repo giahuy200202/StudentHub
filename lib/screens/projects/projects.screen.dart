@@ -23,6 +23,7 @@ class _ProjectScreenState extends ConsumerState<ProjectScreen> {
   Widget build(BuildContext context) {
     final user = ref.watch(userProvider);
     return Scaffold(
+      backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.only(left: 20, right: 20),

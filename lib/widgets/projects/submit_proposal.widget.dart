@@ -71,6 +71,7 @@ class _SubmitProposalWidgetState extends ConsumerState<SubmitProposalWidget> {
     final projectId = ref.watch(projectIdProvider);
     final student = ref.watch(studentProvider);
     return Scaffold(
+      backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),

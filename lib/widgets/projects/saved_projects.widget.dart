@@ -156,6 +156,7 @@ class _SavedProjectsWidgetState extends ConsumerState<SavedProjectsWidget> {
     final user = ref.watch(userProvider);
     final student = ref.watch(studentProvider);
     return Scaffold(
+      backgroundColor: Colors.white,
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20),
         child: Center(

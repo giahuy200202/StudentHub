@@ -26,6 +26,7 @@ class _ProjectPostStep3WidgetState extends ConsumerState<ProjectPostStep3Widget>
   Widget build(BuildContext context) {
     final user = ref.watch(userProvider);
     return Scaffold(
+      backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),

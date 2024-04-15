@@ -38,7 +38,7 @@ class _TrasncriptInputState extends ConsumerState<TrasncriptInput> {
 
     Widget content = ElevatedButton.icon(
       icon: const Icon(Icons.camera),
-      label: const Text('Choose files to Upl'),
+      label: const Text('Choose files to Url'),
       onPressed: _takePicture,
     );
 

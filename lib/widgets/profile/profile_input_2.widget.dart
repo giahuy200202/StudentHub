@@ -113,6 +113,7 @@ class ViewProfileWidget extends ConsumerWidget {
     var selectedEmployee = ref.watch(selectedEmployeeProvider);
 
     return Scaffold(
+      backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),

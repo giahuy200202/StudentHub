@@ -19,14 +19,10 @@ class _MessageDetailsScreen extends ConsumerState<MessageDetailsScreen> {
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
-        appBar: PreferredSize(
-            preferredSize: Size.fromHeight(100),
-            child: ShowbottomSheduleWidget()),
+        backgroundColor: Colors.white,
+        appBar: PreferredSize(preferredSize: Size.fromHeight(100), child: ShowbottomSheduleWidget()),
         body: Column(
-          children: [
-            Expanded(child: ChatMessageDetailsWidget()),
-            MessageDetailsWidget()
-          ],
+          children: [Expanded(child: ChatMessageDetailsWidget()), MessageDetailsWidget()],
         ));
   }
 }

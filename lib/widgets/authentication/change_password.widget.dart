@@ -79,6 +79,7 @@ class _ChangePasswordWidgetState extends ConsumerState<ChangePasswordWidget> {
     final user = ref.watch(userProvider);
 
     return Scaffold(
+      backgroundColor: Colors.white,
       body: SingleChildScrollView(
           physics: const NeverScrollableScrollPhysics(),
           child: Padding(
@@ -91,7 +92,7 @@ class _ChangePasswordWidgetState extends ConsumerState<ChangePasswordWidget> {
                     alignment: Alignment.topLeft,
                     child: InkWell(
                       onTap: () {
-                        ref.read(optionsProvider.notifier).setWidgetOption('Login', user.role!);
+                        ref.read(optionsProvider.notifier).setWidgetOption('SwitchAccount', user.role!);
                       },
                       child: const Icon(
                         Icons.arrow_back_ios,

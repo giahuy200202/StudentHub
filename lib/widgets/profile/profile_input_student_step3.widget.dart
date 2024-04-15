@@ -69,6 +69,7 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentStep3Widget> {
     var responseCreateStudentData;
 
     return Scaffold(
+      backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),
