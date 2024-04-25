@@ -14,10 +14,10 @@ class SettingWidget extends ConsumerStatefulWidget {
 class _SettingWidget extends ConsumerState<SettingWidget> {
   @override
   Widget build(BuildContext context) {
-    final theme = ref.watch(themeProvider);
-
+    var test = ref.watch(colorProvider);
+    final tmp = ref.read(colorProvider.notifier);
     return Scaffold(
-        backgroundColor: Theme.of(context).colorScheme.background,
+        backgroundColor: test.colorBackgroundColor,
         body: SingleChildScrollView(
             child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -25,27 +25,34 @@ class _SettingWidget extends ConsumerState<SettingWidget> {
                   const SizedBox(height: 30),
                   SizedBox(
                       child: DecoratedBox(
-                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(8), border: Border.all()),
+                    decoration: BoxDecoration(
+                        color: test.colorBackgroundColor,
+                        borderRadius: BorderRadius.circular(8),
+                        border: Border.all(
+                          color: test.colorBorderSide as Color,
+                        )),
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         const SizedBox(width: 10),
-                        const Text(
+                        Text(
                           'Dark Mode',
                           style: TextStyle(
                             fontSize: 24,
                             fontWeight: FontWeight.bold,
+                            color: test.colorTitle,
                           ),
                         ),
                         const Spacer(),
                         Switch(
-                          value: theme.isDarkMode,
+                          value: tmp.isDarkMode,
                           onChanged: (enbled) {
+                            print(enbled);
                             if (enbled) {
-                              theme.setDarkTheme();
+                              tmp.setDarkMode();
                             } else {
-                              theme.setLightTheme();
+                              tmp.setLightMode();
                             }
                           },
                         ),

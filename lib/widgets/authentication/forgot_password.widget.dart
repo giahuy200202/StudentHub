@@ -14,6 +14,7 @@ import 'package:studenthub/providers/profile/student.provider.dart';
 import 'dart:convert';
 
 import 'package:toastification/toastification.dart';
+import 'package:studenthub/providers/theme/theme_provider.dart';
 
 class ForgotPasswordWidget extends ConsumerStatefulWidget {
   const ForgotPasswordWidget({super.key});
@@ -73,9 +74,10 @@ class _ForgotPasswordWidgetState extends ConsumerState<ForgotPasswordWidget> {
   Widget build(BuildContext context) {
     final userSignup = ref.watch(userSignupProvider);
     final user = ref.watch(userProvider);
+    var colorApp = ref.watch(colorProvider);
 
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: colorApp.colorBackgroundColor,
       body: SingleChildScrollView(
           physics: const NeverScrollableScrollPhysics(),
           child: Padding(
@@ -98,25 +100,25 @@ class _ForgotPasswordWidgetState extends ConsumerState<ForgotPasswordWidget> {
                     ),
                   ),
                   const SizedBox(height: 20),
-                  const Align(
+                  Align(
                     alignment: Alignment.topLeft,
                     child: Text(
                       'Forgot Password',
                       style: TextStyle(
                         fontSize: 30,
-                        color: Colors.black,
+                        color: colorApp.colorTitle,
                         fontWeight: FontWeight.w700,
                       ),
                     ),
                   ),
                   const SizedBox(height: 10),
-                  const Align(
+                  Align(
                     alignment: Alignment.topLeft,
                     child: Text(
                       'Please fill the below details',
                       style: TextStyle(
                         fontSize: 16,
-                        color: Colors.black,
+                        color: colorApp.colorText,
                         // fontWeight: FontWeight.w500,
                       ),
                     ),
@@ -134,11 +136,13 @@ class _ForgotPasswordWidgetState extends ConsumerState<ForgotPasswordWidget> {
                         }
                         setState(() {});
                       },
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 17,
+                        color: colorApp.colorText,
                       ),
                       decoration: InputDecoration(
                         labelText: 'Enter your email',
+                        labelStyle: TextStyle(color: colorApp.colorText),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(9),
                         ),
@@ -209,7 +213,8 @@ class _ForgotPasswordWidgetState extends ConsumerState<ForgotPasswordWidget> {
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8),
                         ),
-                        backgroundColor: Colors.black,
+                        backgroundColor: colorApp.colorEnableButton,
+                        disabledBackgroundColor: colorApp.colorButton,
                       ),
                       child: isSending
                           ? const SizedBox(
@@ -235,11 +240,11 @@ class _ForgotPasswordWidgetState extends ConsumerState<ForgotPasswordWidget> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center, //Center Column contents vertically,
                     children: [
-                      const Text(
+                      Text(
                         'Looking for a project?',
                         style: TextStyle(
                           fontSize: 16,
-                          color: Colors.black,
+                          color: colorApp.colorText,
                         ),
                       ),
                       const SizedBox(width: 5),

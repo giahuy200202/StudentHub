@@ -12,6 +12,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 import 'package:toastification/toastification.dart';
+import 'package:studenthub/providers/theme/theme_provider.dart';
 
 class SignupStep2 extends ConsumerStatefulWidget {
   const SignupStep2({super.key});
@@ -76,6 +77,7 @@ class _SignupStep2State extends ConsumerState<SignupStep2> {
   Widget build(BuildContext context) {
     final userSignup = ref.watch(userSignupProvider);
     final user = ref.watch(userProvider);
+    var ColorApp = ref.watch(colorProvider);
 
     Icon iconCheckedConfirm = isConfirm
         ? const Icon(
@@ -90,7 +92,7 @@ class _SignupStep2State extends ConsumerState<SignupStep2> {
           );
 
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: ColorApp.colorBackgroundColor,
       body: SingleChildScrollView(
           physics: const NeverScrollableScrollPhysics(),
           child: Padding(
@@ -113,25 +115,25 @@ class _SignupStep2State extends ConsumerState<SignupStep2> {
                     ),
                   ),
                   const SizedBox(height: 20),
-                  const Align(
+                  Align(
                     alignment: Alignment.topLeft,
                     child: Text(
                       'Register',
                       style: TextStyle(
                         fontSize: 30,
-                        color: Colors.black,
+                        color: ColorApp.colorTitle,
                         fontWeight: FontWeight.w700,
                       ),
                     ),
                   ),
                   const SizedBox(height: 10),
-                  const Align(
+                  Align(
                     alignment: Alignment.topLeft,
                     child: Text(
                       'Please fill the below details',
                       style: TextStyle(
                         fontSize: 16,
-                        color: Colors.black,
+                        color: ColorApp.colorText,
                         // fontWeight: FontWeight.w500,
                       ),
                     ),
@@ -149,8 +151,9 @@ class _SignupStep2State extends ConsumerState<SignupStep2> {
                         }
                         setState(() {});
                       },
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 17,
+                        color: ColorApp.colorText,
                       ),
                       decoration: InputDecoration(
                         labelText: 'Fullname',
@@ -182,8 +185,9 @@ class _SignupStep2State extends ConsumerState<SignupStep2> {
                         }
                         setState(() {});
                       },
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 17,
+                        color: ColorApp.colorText,
                       ),
                       decoration: InputDecoration(
                         labelText: 'Email address',
@@ -216,8 +220,9 @@ class _SignupStep2State extends ConsumerState<SignupStep2> {
                         }
                         setState(() {});
                       },
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 17,
+                        color: ColorApp.colorText,
                       ),
                       decoration: InputDecoration(
                         labelText: 'Password (8 or more characters)',
@@ -248,11 +253,9 @@ class _SignupStep2State extends ConsumerState<SignupStep2> {
                         child: iconCheckedConfirm,
                       ),
                       const SizedBox(width: 7),
-                      const Text(
+                      Text(
                         'Yes, I understand and agree to StudentHub',
-                        style: TextStyle(
-                          fontSize: 16,
-                        ),
+                        style: TextStyle(fontSize: 16, color: ColorApp.colorText),
                       ),
                     ],
                   ),
@@ -301,7 +304,8 @@ class _SignupStep2State extends ConsumerState<SignupStep2> {
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8),
                         ),
-                        backgroundColor: Colors.black,
+                        backgroundColor: ColorApp.colorEnableButton,
+                        disabledBackgroundColor: ColorApp.colorButton,
                       ),
                       child: isSending
                           ? const SizedBox(
@@ -327,11 +331,11 @@ class _SignupStep2State extends ConsumerState<SignupStep2> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center, //Center Column contents vertically,
                     children: [
-                      const Text(
+                      Text(
                         'Looking for a project?',
                         style: TextStyle(
                           fontSize: 16,
-                          color: Colors.black,
+                          color: ColorApp.colorText,
                         ),
                       ),
                       const SizedBox(width: 5),

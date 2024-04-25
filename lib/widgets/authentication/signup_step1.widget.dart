@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:studenthub/providers/authentication/authentication.provider.dart';
 import 'package:studenthub/providers/options.provider.dart';
 import 'package:studenthub/providers/authentication/signup.provider.dart';
+import 'package:studenthub/providers/theme/theme_provider.dart';
 
 class SignupStep1 extends ConsumerStatefulWidget {
   const SignupStep1({super.key});
@@ -30,12 +31,12 @@ class _SignupStep1State extends ConsumerState<SignupStep1> {
   @override
   Widget build(BuildContext context) {
     final user = ref.watch(userProvider);
-
+    var ColorApp = ref.watch(colorProvider);
     Icon iconCheckedCompany = isCompany
-        ? const Icon(
+        ? Icon(
             Icons.check_circle,
             size: 30,
-            color: Colors.black,
+            color: ColorApp.colorIcon,
           )
         : const Icon(
             Icons.circle_outlined,
@@ -44,10 +45,10 @@ class _SignupStep1State extends ConsumerState<SignupStep1> {
           );
 
     Icon iconCheckedStudent = isStudent
-        ? const Icon(
+        ? Icon(
             Icons.check_circle,
             size: 30,
-            color: Colors.black,
+            color: ColorApp.colorIcon,
           )
         : const Icon(
             Icons.circle_outlined,
@@ -56,7 +57,7 @@ class _SignupStep1State extends ConsumerState<SignupStep1> {
           );
 
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: ColorApp.colorBackgroundColor,
       body: SingleChildScrollView(
           physics: const NeverScrollableScrollPhysics(),
           child: Padding(
@@ -79,25 +80,25 @@ class _SignupStep1State extends ConsumerState<SignupStep1> {
                     ),
                   ),
                   const SizedBox(height: 20),
-                  const Align(
+                  Align(
                     alignment: Alignment.topLeft,
                     child: Text(
                       'Register',
                       style: TextStyle(
                         fontSize: 30,
-                        color: Colors.black,
+                        color: ColorApp.colorTitle,
                         fontWeight: FontWeight.w700,
                       ),
                     ),
                   ),
                   const SizedBox(height: 10),
-                  const Align(
+                  Align(
                     alignment: Alignment.topLeft,
                     child: Text(
                       'Join as company or student',
                       style: TextStyle(
                         fontSize: 18,
-                        color: Colors.black,
+                        color: ColorApp.colorText,
                         // fontWeight: FontWeight.w500,
                       ),
                     ),
@@ -105,7 +106,7 @@ class _SignupStep1State extends ConsumerState<SignupStep1> {
                   const SizedBox(height: 40),
                   Container(
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: ColorApp.colorBackgroundColor,
                       border: Border.all(color: Colors.grey),
                       borderRadius: const BorderRadius.all(Radius.circular(10)),
                     ),
@@ -118,12 +119,13 @@ class _SignupStep1State extends ConsumerState<SignupStep1> {
                         children: [
                           Row(
                             children: [
-                              const Icon(
+                              Icon(
                                 Icons.house,
                                 size: 30,
+                                color: ColorApp.colorTitle,
                               ),
                               const SizedBox(width: 8),
-                              const Align(
+                              Align(
                                 alignment: Alignment.topLeft,
                                 child: SizedBox(
                                   width: 260,
@@ -131,7 +133,7 @@ class _SignupStep1State extends ConsumerState<SignupStep1> {
                                     'Company',
                                     overflow: TextOverflow.ellipsis,
                                     style: TextStyle(
-                                      color: Colors.black,
+                                      color: ColorApp.colorTitle,
                                       fontSize: 18,
                                       fontWeight: FontWeight.w600,
                                     ),
@@ -152,14 +154,14 @@ class _SignupStep1State extends ConsumerState<SignupStep1> {
                             ],
                           ),
                           const SizedBox(height: 5),
-                          const Align(
+                          Align(
                             alignment: Alignment.topLeft,
                             child: SizedBox(
                               width: 340,
                               child: Text(
                                 'I am a company, find engineers for project',
                                 style: TextStyle(
-                                  color: Colors.black,
+                                  color: ColorApp.colorText,
                                   overflow: TextOverflow.ellipsis,
                                   fontSize: 16,
                                   fontWeight: FontWeight.w400,
@@ -174,7 +176,7 @@ class _SignupStep1State extends ConsumerState<SignupStep1> {
                   const SizedBox(height: 20),
                   Container(
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: ColorApp.colorBackgroundColor,
                       border: Border.all(color: Colors.grey),
                       borderRadius: const BorderRadius.all(Radius.circular(8)),
                     ),
@@ -187,12 +189,13 @@ class _SignupStep1State extends ConsumerState<SignupStep1> {
                         children: [
                           Row(
                             children: [
-                              const Icon(
+                              Icon(
                                 Icons.person,
                                 size: 30,
+                                color: ColorApp.colorTitle,
                               ),
                               const SizedBox(width: 8),
-                              const Align(
+                              Align(
                                 alignment: Alignment.topLeft,
                                 child: SizedBox(
                                   width: 260,
@@ -200,7 +203,7 @@ class _SignupStep1State extends ConsumerState<SignupStep1> {
                                     'Student',
                                     overflow: TextOverflow.ellipsis,
                                     style: TextStyle(
-                                      color: Colors.black,
+                                      color: ColorApp.colorTitle,
                                       fontSize: 18,
                                       fontWeight: FontWeight.w600,
                                     ),
@@ -221,14 +224,14 @@ class _SignupStep1State extends ConsumerState<SignupStep1> {
                             ],
                           ),
                           const SizedBox(height: 5),
-                          const Align(
+                          Align(
                             alignment: Alignment.topLeft,
                             child: SizedBox(
                               width: 340,
                               child: Text(
                                 'I am a student, research for project',
                                 style: TextStyle(
-                                  color: Colors.black,
+                                  color: ColorApp.colorText,
                                   overflow: TextOverflow.ellipsis,
                                   fontSize: 16,
                                   fontWeight: FontWeight.w400,
@@ -257,7 +260,8 @@ class _SignupStep1State extends ConsumerState<SignupStep1> {
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8),
                         ),
-                        backgroundColor: Colors.black,
+                        backgroundColor: ColorApp.colorEnableButton,
+                        disabledBackgroundColor: ColorApp.colorButton,
                       ),
                       child: const Text(
                         'Create account',
@@ -273,11 +277,11 @@ class _SignupStep1State extends ConsumerState<SignupStep1> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center, //Center Column contents vertically,
                     children: [
-                      const Text(
+                      Text(
                         'Already have an account?',
                         style: TextStyle(
                           fontSize: 16,
-                          color: Colors.black,
+                          color: ColorApp.colorText,
                         ),
                       ),
                       const SizedBox(width: 5),

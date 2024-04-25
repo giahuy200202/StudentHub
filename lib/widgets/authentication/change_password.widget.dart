@@ -14,6 +14,7 @@ import 'package:studenthub/providers/profile/student.provider.dart';
 import 'dart:convert';
 
 import 'package:toastification/toastification.dart';
+import 'package:studenthub/providers/theme/theme_provider.dart';
 
 class ChangePasswordWidget extends ConsumerStatefulWidget {
   const ChangePasswordWidget({super.key});
@@ -77,9 +78,10 @@ class _ChangePasswordWidgetState extends ConsumerState<ChangePasswordWidget> {
   Widget build(BuildContext context) {
     final userSignup = ref.watch(userSignupProvider);
     final user = ref.watch(userProvider);
+    var colorApp = ref.watch(colorProvider);
 
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: colorApp.colorBackgroundColor,
       body: SingleChildScrollView(
           physics: const NeverScrollableScrollPhysics(),
           child: Padding(
@@ -102,25 +104,25 @@ class _ChangePasswordWidgetState extends ConsumerState<ChangePasswordWidget> {
                     ),
                   ),
                   const SizedBox(height: 20),
-                  const Align(
+                  Align(
                     alignment: Alignment.topLeft,
                     child: Text(
                       'Change Password',
                       style: TextStyle(
                         fontSize: 30,
-                        color: Colors.black,
+                        color: colorApp.colorTitle,
                         fontWeight: FontWeight.w700,
                       ),
                     ),
                   ),
                   const SizedBox(height: 10),
-                  const Align(
+                  Align(
                     alignment: Alignment.topLeft,
                     child: Text(
                       'Please fill the below details',
                       style: TextStyle(
                         fontSize: 16,
-                        color: Colors.black,
+                        color: colorApp.colorText,
                         // fontWeight: FontWeight.w500,
                       ),
                     ),
@@ -139,11 +141,13 @@ class _ChangePasswordWidgetState extends ConsumerState<ChangePasswordWidget> {
                         }
                         setState(() {});
                       },
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 17,
+                        color: colorApp.colorText,
                       ),
                       decoration: InputDecoration(
                         labelText: 'Enter your old password',
+                        labelStyle: TextStyle(color: colorApp.colorText),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(9),
                         ),
@@ -165,13 +169,15 @@ class _ChangePasswordWidgetState extends ConsumerState<ChangePasswordWidget> {
                           child: Transform.translate(
                             offset: const Offset(0, 4.5),
                             child: isDisplayOldPassword
-                                ? const Icon(
+                                ? Icon(
                                     Icons.visibility_off_outlined,
                                     size: 21,
+                                    color: colorApp.colorIcon,
                                   )
-                                : const Icon(
+                                : Icon(
                                     Icons.visibility_outlined,
                                     size: 21,
+                                    color: colorApp.colorIcon,
                                   ),
                           ),
                         ),
@@ -192,11 +198,13 @@ class _ChangePasswordWidgetState extends ConsumerState<ChangePasswordWidget> {
                         }
                         setState(() {});
                       },
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 17,
+                        color: colorApp.colorText,
                       ),
                       decoration: InputDecoration(
                         labelText: 'Enter your new password',
+                        labelStyle: TextStyle(color: colorApp.colorText),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(9),
                         ),
@@ -218,13 +226,15 @@ class _ChangePasswordWidgetState extends ConsumerState<ChangePasswordWidget> {
                           child: Transform.translate(
                             offset: const Offset(0, 4.5),
                             child: isDisplayNewPassword
-                                ? const Icon(
+                                ? Icon(
                                     Icons.visibility_off_outlined,
                                     size: 21,
+                                    color: colorApp.colorIcon,
                                   )
-                                : const Icon(
+                                : Icon(
                                     Icons.visibility_outlined,
                                     size: 21,
+                                    color: colorApp.colorIcon,
                                   ),
                           ),
                         ),
@@ -290,7 +300,8 @@ class _ChangePasswordWidgetState extends ConsumerState<ChangePasswordWidget> {
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8),
                         ),
-                        backgroundColor: Colors.black,
+                        backgroundColor: colorApp.colorEnableButton,
+                        disabledBackgroundColor: colorApp.colorButton,
                       ),
                       child: isSending
                           ? const SizedBox(

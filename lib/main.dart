@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:studenthub/notifications/local_notification.dart';
-import 'package:studenthub/providers/theme/theme_provider.dart';
 import 'package:studenthub/screens/layout.screen.dart';
-import 'package:studenthub/utils/theme.dart';
 import 'package:timezone/data/latest.dart' as tz;
 
 void main() async {
@@ -29,11 +27,19 @@ class App extends ConsumerStatefulWidget {
 class _AppState extends ConsumerState<App> {
   @override
   Widget build(BuildContext context) {
-    final theme = ref.watch(themeProvider);
     return MaterialApp(
-      theme: AppTheme.lightMode,
-      darkTheme: AppTheme.darkMode,
-      themeMode: theme.isDarkMode ? ThemeMode.dark : ThemeMode.light,
+      theme: ThemeData(
+        // scaffoldBackgroundColor: Color.fromARGB(255, 40, 40, 40),
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: Colors.white,
+          primary: const Color.fromARGB(255, 86, 85, 85),
+          secondary: Colors.black,
+        ),
+      ),
+      // darkTheme: ThemeData(
+      //   brightness: Brightness.dark,
+      //   /* dark theme settings */
+      // ),
       home: const LayoutScreen(),
     );
   }
