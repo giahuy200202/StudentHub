@@ -7,6 +7,7 @@ import 'package:studenthub/providers/profile/company.provider.dart';
 import 'package:studenthub/providers/profile/student.provider.dart';
 import 'package:studenthub/providers/projects/project_id.provider.dart';
 import 'package:toastification/toastification.dart';
+import 'package:studenthub/providers/theme/theme_provider.dart';
 
 import '../../providers/options.provider.dart';
 
@@ -219,6 +220,7 @@ class _AllProjectsWidgetState extends ConsumerState<AllProjectsWidget> {
     final user = ref.watch(userProvider);
     final student = ref.watch(studentProvider);
     final company = ref.watch(companyProvider);
+    var colorApp = ref.watch(colorProvider);
 
     return SizedBox(
       height: 545,
@@ -243,11 +245,11 @@ class _AllProjectsWidgetState extends ConsumerState<AllProjectsWidget> {
                 ],
               )
             : listProjects.isEmpty
-                ? const Column(
+                ? Column(
                     children: [
                       Text(
                         'Empty',
-                        style: TextStyle(fontSize: 16),
+                        style: TextStyle(fontSize: 16, color: colorApp.colorText),
                       ),
                       SizedBox(height: 20),
                     ],

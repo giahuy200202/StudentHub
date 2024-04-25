@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:studenthub/providers/authentication/authentication.provider.dart';
 import '../../providers/projects/project_posting.provider.dart';
 import '../../providers/options.provider.dart';
+import 'package:studenthub/providers/theme/theme_provider.dart';
 
 class LabeledRadio<T> extends StatelessWidget {
   const LabeledRadio({
@@ -11,13 +12,14 @@ class LabeledRadio<T> extends StatelessWidget {
     required this.value,
     required this.groupValue,
     required this.onChanged,
+    this.textColor,
   }) : super(key: key);
 
   final String label;
   final T value;
   final T? groupValue;
   final ValueChanged<T?> onChanged;
-
+  final Color? textColor;
   @override
   Widget build(BuildContext context) {
     return InkWell(
@@ -32,7 +34,7 @@ class LabeledRadio<T> extends StatelessWidget {
             onChanged: onChanged,
           ),
           DefaultTextStyle(
-            style: const TextStyle(color: Colors.black, fontSize: 16),
+            style: TextStyle(color: textColor, fontSize: 16),
             child: Text(label),
           ),
         ],
@@ -63,8 +65,10 @@ class _ProjectPostStep2WidgetState extends ConsumerState<ProjectPostStep2Widget>
   Widget build(BuildContext context) {
     final projectPosting = ref.watch(projectPostingProvider);
     final user = ref.watch(userProvider);
+    var colorApp = ref.watch(colorProvider);
+
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: colorApp.colorBackgroundColor,
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -88,25 +92,25 @@ class _ProjectPostStep2WidgetState extends ConsumerState<ProjectPostStep2Widget>
                   ),
                 ),
                 const SizedBox(height: 20),
-                const Align(
+                Align(
                   alignment: Alignment.topLeft,
                   child: Text(
                     'Estimate your project\'s scope',
                     style: TextStyle(
                       fontSize: 27,
-                      color: Colors.black,
+                      color: colorApp.colorTitle,
                       fontWeight: FontWeight.w700,
                     ),
                   ),
                 ),
                 const SizedBox(height: 10),
-                const Align(
+                Align(
                   alignment: Alignment.topLeft,
                   child: Text(
                     'Defining the project\'s scope helps ensure clarity and alignment on the objectives and deliverables from the start',
                     style: TextStyle(
                       fontSize: 16,
-                      color: Colors.black,
+                      color: colorApp.colorText,
                       // fontWeight: FontWeight.w500,
                     ),
                   ),
@@ -117,23 +121,24 @@ class _ProjectPostStep2WidgetState extends ConsumerState<ProjectPostStep2Widget>
                   child: SizedBox(
                     width: MediaQuery.of(context).size.width,
                     height: 2.2,
-                    child: const ClipRRect(
+                    child: ClipRRect(
                       borderRadius: BorderRadius.all(Radius.circular(10)),
                       child: LinearProgressIndicator(
                         value: 0.5,
-                        backgroundColor: Color.fromARGB(255, 193, 191, 191),
-                        valueColor: AlwaysStoppedAnimation<Color>(Colors.black),
+                        backgroundColor: colorApp.colorClip,
+                        valueColor: AlwaysStoppedAnimation<Color>(colorApp.colorBlackWhite as Color),
                       ),
                     ),
                   ),
                 ),
                 const SizedBox(height: 30),
-                const Text(
+                Text(
                   'How long will your project take?',
                   textAlign: TextAlign.left,
                   style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w700,
+                    color: colorApp.colorTitle,
                   ),
                 ),
                 const SizedBox(height: 15),
@@ -144,6 +149,7 @@ class _ProjectPostStep2WidgetState extends ConsumerState<ProjectPostStep2Widget>
                       width: MediaQuery.of(context).size.width,
                       child: LabeledRadio(
                         label: 'Less than 1 month',
+                        textColor: colorApp.colorText,
                         value: 0,
                         groupValue: projectPosting.scope,
                         onChanged: (value) {
@@ -156,6 +162,7 @@ class _ProjectPostStep2WidgetState extends ConsumerState<ProjectPostStep2Widget>
                       width: MediaQuery.of(context).size.width,
                       child: LabeledRadio(
                         label: '1 to 3 months',
+                        textColor: colorApp.colorText,
                         value: 1,
                         groupValue: projectPosting.scope,
                         onChanged: (value) {
@@ -168,6 +175,7 @@ class _ProjectPostStep2WidgetState extends ConsumerState<ProjectPostStep2Widget>
                       width: MediaQuery.of(context).size.width,
                       child: LabeledRadio(
                         label: '3 to 6 months',
+                        textColor: colorApp.colorText,
                         value: 2,
                         groupValue: projectPosting.scope,
                         onChanged: (value) {
@@ -180,6 +188,7 @@ class _ProjectPostStep2WidgetState extends ConsumerState<ProjectPostStep2Widget>
                       width: MediaQuery.of(context).size.width,
                       child: LabeledRadio(
                         label: 'More than 6 months',
+                        textColor: colorApp.colorText,
                         value: 3,
                         groupValue: projectPosting.scope,
                         onChanged: (value) {
@@ -190,12 +199,13 @@ class _ProjectPostStep2WidgetState extends ConsumerState<ProjectPostStep2Widget>
                   ],
                 ),
                 const SizedBox(height: 20),
-                const Text(
+                Text(
                   'How many students do you want for this project?',
                   textAlign: TextAlign.left,
                   style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w700,
+                    color: colorApp.colorTitle,
                   ),
                 ),
                 const SizedBox(height: 20),
@@ -211,24 +221,27 @@ class _ProjectPostStep2WidgetState extends ConsumerState<ProjectPostStep2Widget>
                       }
                       setState(() {});
                     },
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 16,
+                      color: colorApp.colorText,
                     ),
                     decoration: InputDecoration(
-                      // labelText: 'Number of students',
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(9),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(9),
-                        borderSide: const BorderSide(color: Colors.grey),
-                      ),
-                      contentPadding: const EdgeInsets.symmetric(
-                        vertical: 15,
-                        horizontal: 15,
-                      ),
-                      hintText: 'Number of students',
-                    ),
+                        // labelText: 'Number of students',
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(9),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(9),
+                          borderSide: const BorderSide(color: Colors.grey),
+                        ),
+                        contentPadding: const EdgeInsets.symmetric(
+                          vertical: 15,
+                          horizontal: 15,
+                        ),
+                        hintText: 'Number of students',
+                        hintStyle: TextStyle(
+                          color: colorApp.colorText,
+                        )),
                   ),
                 ),
                 const SizedBox(height: 20),
@@ -250,13 +263,14 @@ class _ProjectPostStep2WidgetState extends ConsumerState<ProjectPostStep2Widget>
                           borderRadius: BorderRadius.circular(8),
                           // side: const BorderSide(color: Colors.grey),
                         ),
-                        backgroundColor: const Color.fromARGB(255, 0, 0, 0),
+                        backgroundColor: colorApp.colorBlackWhite,
+                        disabledBackgroundColor: colorApp.colorButton,
                       ),
-                      child: const Text(
+                      child: Text(
                         'Next: Description',
                         style: TextStyle(
                           fontSize: 16,
-                          color: Color.fromARGB(255, 255, 255, 255),
+                          color: colorApp.colorWhiteBlack,
                           fontWeight: FontWeight.w500,
                         ),
                       ),

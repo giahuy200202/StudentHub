@@ -19,6 +19,7 @@ class ColorApp {
   Color? colorBlackWhite;
   Color? colorBlack;
   Color? colorBorderSideMutil;
+  Color? colorClip;
 
   ColorApp({
     this.colorBackgroundColor,
@@ -38,6 +39,7 @@ class ColorApp {
     this.colorBlackWhite,
     this.colorBlack = Colors.black,
     this.colorBorderSideMutil,
+    this.colorClip,
   });
 }
 
@@ -60,6 +62,7 @@ class _ColorApp extends StateNotifier<ColorApp> {
           colorWhiteBlack: Colors.white,
           colorBlackWhite: Colors.black,
           colorBorderSideMutil: Colors.black,
+          colorClip: Color.fromARGB(255, 193, 191, 191),
         ));
 
   var isDarkMode = false;
@@ -92,6 +95,7 @@ class _ColorApp extends StateNotifier<ColorApp> {
       colorWhiteBlack: Colors.white,
       colorBlackWhite: Colors.black,
       colorBorderSideMutil: Colors.black,
+      colorClip: Color.fromARGB(255, 193, 191, 191),
     );
     state = tmp;
   }
@@ -115,6 +119,7 @@ class _ColorApp extends StateNotifier<ColorApp> {
       colorWhiteBlack: Colors.black,
       colorBlackWhite: Colors.white,
       colorBorderSideMutil: Color.fromARGB(255, 44, 44, 44),
+      colorClip: Colors.black,
     );
     state = tmp;
   }

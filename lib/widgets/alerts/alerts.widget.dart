@@ -2,6 +2,7 @@ import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:studenthub/providers/theme/theme_provider.dart';
 
 class AlertsWidget extends ConsumerStatefulWidget {
   const AlertsWidget({super.key});
@@ -15,8 +16,10 @@ class AlertsWidget extends ConsumerStatefulWidget {
 class _AlertsWidget extends ConsumerState<AlertsWidget> {
   @override
   Widget build(BuildContext context) {
+    var colorApp = ref.watch(colorProvider);
+
     return Scaffold(
-        backgroundColor: Colors.white,
+        backgroundColor: colorApp.colorBackgroundColor,
         body: Padding(
             padding: const EdgeInsets.only(left: 20, right: 20),
             child: Center(
@@ -71,7 +74,7 @@ class _AlertsWidget extends ConsumerState<AlertsWidget> {
                                           style: TextStyle(fontSize: 13, color: Colors.grey),
                                         ),
                                         const SizedBox(height: 5),
-                                        const Align(
+                                        Align(
                                           alignment: Alignment.topLeft,
                                           child: SizedBox(
                                             width: 300,
@@ -80,7 +83,7 @@ class _AlertsWidget extends ConsumerState<AlertsWidget> {
                                               'You have Invited to interview for project "Javis - AI Copllot at 14:00 March 20, Thrusday"',
                                               overflow: TextOverflow.ellipsis,
                                               style: TextStyle(
-                                                color: Colors.black,
+                                                color: colorApp.colorText,
                                                 fontSize: 16,
                                               ),
                                             ),
@@ -99,13 +102,13 @@ class _AlertsWidget extends ConsumerState<AlertsWidget> {
                                                   borderRadius: BorderRadius.circular(8),
                                                   side: const BorderSide(color: Colors.black),
                                                 ),
-                                                backgroundColor: const Color.fromARGB(255, 0, 0, 0),
+                                                backgroundColor: colorApp.colorBlackWhite,
                                               ),
-                                              child: const Text(
+                                              child: Text(
                                                 'Join',
                                                 style: TextStyle(
                                                   fontSize: 16,
-                                                  color: Color.fromARGB(255, 255, 255, 255),
+                                                  color: colorApp.colorWhiteBlack,
                                                   fontWeight: FontWeight.w500,
                                                 ),
                                               ),

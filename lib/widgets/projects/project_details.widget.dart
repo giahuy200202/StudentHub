@@ -9,6 +9,7 @@ import 'package:studenthub/providers/projects/project_id.provider.dart';
 import 'package:toastification/toastification.dart';
 import '../../providers/projects/project_posting.provider.dart';
 // import '../../providers/options_provider.dart';
+import 'package:studenthub/providers/theme/theme_provider.dart';
 
 import '../../providers/options.provider.dart';
 import 'package:http/http.dart' as http;
@@ -204,351 +205,371 @@ class _ProjectDetailsWidgetState extends ConsumerState<ProjectDetailsWidget> {
     final user = ref.watch(userProvider);
     final projectId = ref.watch(projectIdProvider);
     final student = ref.watch(studentProvider);
+    var colorApp = ref.watch(colorProvider);
 
-    return SingleChildScrollView(
-      child: isFetchingData
-          ? const Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                SizedBox(height: 365),
-                Center(
-                  child: SizedBox(
-                    height: 25,
-                    width: 25,
-                    child: CircularProgressIndicator(
-                      valueColor: AlwaysStoppedAnimation<Color>(
-                        Colors.grey,
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            )
-          : Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: Center(
-                child: Column(
+    return Scaffold(
+        backgroundColor: colorApp.colorBackgroundColor,
+        body: SingleChildScrollView(
+          child: isFetchingData
+              ? const Column(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    const SizedBox(height: 60),
-                    Row(
-                      children: [
-                        Align(
-                          alignment: Alignment.topLeft,
-                          child: InkWell(
-                            onTap: () {
-                              ref.read(optionsProvider.notifier).setWidgetOption('Dashboard', user.role!);
-                            },
-                            child: const Icon(
-                              Icons.arrow_back_ios,
-                              size: 25,
-                              color: Colors.grey,
-                            ),
+                    SizedBox(height: 365),
+                    Center(
+                      child: SizedBox(
+                        height: 25,
+                        width: 25,
+                        child: CircularProgressIndicator(
+                          valueColor: AlwaysStoppedAnimation<Color>(
+                            Colors.grey,
                           ),
                         ),
-                        const SizedBox(width: 10),
-                        const Align(
-                          alignment: Alignment.topLeft,
-                          child: Text(
-                            'Project details',
-                            style: TextStyle(
-                              fontSize: 22,
-                              color: Colors.black,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 30),
-                    Container(
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        border: Border.all(color: Colors.grey),
-                        borderRadius: const BorderRadius.all(Radius.circular(15)),
                       ),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                          vertical: 20,
-                          horizontal: 20,
-                        ),
-                        child: Column(
+                    ),
+                  ],
+                )
+              : Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const SizedBox(height: 60),
+                        Row(
                           children: [
-                            Row(
+                            Align(
+                              alignment: Alignment.topLeft,
+                              child: InkWell(
+                                onTap: () {
+                                  ref.read(optionsProvider.notifier).setWidgetOption('Dashboard', user.role!);
+                                },
+                                child: const Icon(
+                                  Icons.arrow_back_ios,
+                                  size: 25,
+                                  color: Colors.grey,
+                                ),
+                              ),
+                            ),
+                            const SizedBox(width: 10),
+                            Align(
+                              alignment: Alignment.topLeft,
+                              child: Text(
+                                'Project details',
+                                style: TextStyle(
+                                  fontSize: 22,
+                                  color: colorApp.colorTitle,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 30),
+                        Container(
+                          decoration: BoxDecoration(
+                            color: colorApp.colorBackgroundColor,
+                            border: Border.all(color: Colors.grey),
+                            borderRadius: const BorderRadius.all(Radius.circular(15)),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                              vertical: 20,
+                              horizontal: 20,
+                            ),
+                            child: Column(
                               children: [
+                                Row(
+                                  children: [
+                                    Align(
+                                      alignment: Alignment.topLeft,
+                                      child: SizedBox(
+                                        width: 300,
+                                        child: Text(
+                                          listProjects.title,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: TextStyle(
+                                            color: colorApp.colorTitle,
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    const Spacer(),
+                                    InkWell(
+                                      onTap: user.role == '0'
+                                          ? () async {
+                                              final urlFavoriteProjects = Uri.parse('http://${dotenv.env['IP_ADDRESS']}/api/favoriteProject/${student.id}?');
+
+                                              final responsePatchFavoriteProject = await http.patch(
+                                                urlFavoriteProjects,
+                                                headers: {
+                                                  'Content-Type': 'application/json',
+                                                  'Authorization': 'Bearer ${user.token!}',
+                                                },
+                                                body: json.encode({
+                                                  'projectId': listProjects.projectId,
+                                                  'disableFlag': 0,
+                                                }),
+                                              );
+
+                                              final responsePatchFavoriteProjectData = json.decode(responsePatchFavoriteProject.body);
+
+                                              print('----responsePatchFavoriteProjecData----');
+                                              print(responsePatchFavoriteProjectData);
+
+                                              ref.read(optionsProvider.notifier).setWidgetOption('Projects', user.role!);
+                                              showSuccessToast('Success', 'Project added to favorites');
+                                            }
+                                          : null,
+                                      child: Icon(
+                                        Icons.favorite_outline,
+                                        color: colorApp.colorIcon,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(height: 1),
                                 Align(
                                   alignment: Alignment.topLeft,
                                   child: SizedBox(
-                                    width: 300,
+                                    width: 340,
                                     child: Text(
-                                      listProjects.title,
-                                      overflow: TextOverflow.ellipsis,
+                                      listProjects.createTime,
                                       style: const TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.w600,
+                                        color: Color.fromARGB(255, 94, 94, 94),
+                                        overflow: TextOverflow.ellipsis,
+                                        fontSize: 13,
                                       ),
                                     ),
                                   ),
                                 ),
-                                const Spacer(),
-                                InkWell(
-                                  onTap: user.role == '0'
-                                      ? () async {
-                                          final urlFavoriteProjects = Uri.parse('http://${dotenv.env['IP_ADDRESS']}/api/favoriteProject/${student.id}?');
-
-                                          final responsePatchFavoriteProject = await http.patch(
-                                            urlFavoriteProjects,
-                                            headers: {
-                                              'Content-Type': 'application/json',
-                                              'Authorization': 'Bearer ${user.token!}',
-                                            },
-                                            body: json.encode({
-                                              'projectId': listProjects.projectId,
-                                              'disableFlag': 0,
-                                            }),
-                                          );
-
-                                          final responsePatchFavoriteProjectData = json.decode(responsePatchFavoriteProject.body);
-
-                                          print('----responsePatchFavoriteProjecData----');
-                                          print(responsePatchFavoriteProjectData);
-
-                                          ref.read(optionsProvider.notifier).setWidgetOption('Projects', user.role!);
-                                          showSuccessToast('Success', 'Project added to favorites');
-                                        }
-                                      : null,
-                                  child: const Icon(Icons.favorite_outline),
+                                const SizedBox(height: 15),
+                                Container(
+                                  decoration: BoxDecoration(
+                                    border: Border.all(
+                                      color: colorApp.colorDivider as Color, //                   <--- border color
+                                      width: 0.3,
+                                    ),
+                                  ),
                                 ),
+                                const SizedBox(height: 15),
+                                Align(
+                                  alignment: Alignment.topLeft,
+                                  child: Text(
+                                    listProjects.description,
+                                    style: TextStyle(
+                                      color: colorApp.colorText,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(height: 15),
+                                Container(
+                                  decoration: BoxDecoration(
+                                    border: Border.all(
+                                      color: colorApp.colorDivider as Color, //                   <--- border color
+                                      width: 0.3,
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(height: 20),
+                                Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Icon(
+                                          Icons.alarm,
+                                          size: 40,
+                                          color: colorApp.colorIcon,
+                                        ),
+                                        const SizedBox(width: 10),
+                                        Column(
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              'Project scope',
+                                              style: TextStyle(
+                                                color: colorApp.colorTitle,
+                                                overflow: TextOverflow.ellipsis,
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.w700,
+                                              ),
+                                            ),
+                                            Text(
+                                              listProjects.projectScopeFlag == 0
+                                                  ? 'Less than 1 month'
+                                                  : listProjects.projectScopeFlag == 1
+                                                      ? ' 1-3 months'
+                                                      : listProjects.projectScopeFlag == 2
+                                                          ? '3-6 months'
+                                                          : 'More than 6 months',
+                                              style: TextStyle(
+                                                color: colorApp.colorText,
+                                                overflow: TextOverflow.ellipsis,
+                                                fontSize: 14,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                    const SizedBox(height: 30),
+                                    Row(
+                                      children: [
+                                        Icon(
+                                          Icons.group,
+                                          size: 40,
+                                          color: colorApp.colorIcon,
+                                        ),
+                                        const SizedBox(width: 10),
+                                        Column(
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              'Student required',
+                                              style: TextStyle(
+                                                color: colorApp.colorTitle,
+                                                overflow: TextOverflow.ellipsis,
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.w700,
+                                              ),
+                                            ),
+                                            Text(
+                                              '${listProjects.numberOfStudents} students',
+                                              style: TextStyle(
+                                                color: colorApp.colorText,
+                                                overflow: TextOverflow.ellipsis,
+                                                fontSize: 14,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                )
                               ],
                             ),
-                            const SizedBox(height: 1),
-                            Align(
-                              alignment: Alignment.topLeft,
-                              child: SizedBox(
-                                width: 340,
+                          ),
+                        ),
+                        const SizedBox(height: 40),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            SizedBox(
+                              height: 46,
+                              width: 175,
+                              child: ElevatedButton(
+                                onPressed: user.role == '0'
+                                    ? () async {
+                                        // final urlFavoriteProjects = Uri.parse('http://${dotenv.env['IP_ADDRESS']}/api/favoriteProject/${student.id}?');
+
+                                        // final responsePatchFavoriteProject = await http.patch(
+                                        //   urlFavoriteProjects,
+                                        //   headers: {
+                                        //     'Content-Type': 'application/json',
+                                        //     'Authorization': 'Bearer ${user.token!}',
+                                        //   },
+                                        //   body: json.encode({
+                                        //     'projectId': listProjects.projectId,
+                                        //     'disableFlag': 0,
+                                        //   }),
+                                        // );
+
+                                        // final responsePatchFavoriteProjectData = json.decode(responsePatchFavoriteProject.body);
+
+                                        // print('----responsePatchFavoriteProjecData----');
+                                        // print(responsePatchFavoriteProjectData);
+
+                                        // showSuccessToast('Success', 'Project added to favorites');
+                                        print(projectId);
+                                        ref.read(optionsProvider.notifier).setWidgetOption('SubmitProposal', user.role!);
+                                      }
+                                    : null,
+                                style: ElevatedButton.styleFrom(
+                                  minimumSize: Size.zero, // Set this
+                                  padding: EdgeInsets.zero, // and this
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(8),
+                                    side: BorderSide(color: colorApp.colorBorderSideMutil as Color),
+                                  ),
+                                  backgroundColor: colorApp.colorWhiteBlack,
+                                  disabledBackgroundColor: colorApp.colorButton,
+                                ),
                                 child: Text(
-                                  listProjects.createTime,
-                                  style: const TextStyle(
-                                    color: Color.fromARGB(255, 94, 94, 94),
-                                    overflow: TextOverflow.ellipsis,
-                                    fontSize: 13,
+                                  'Apply now',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    color: colorApp.colorBlackWhite,
+                                    fontWeight: FontWeight.w500,
                                   ),
                                 ),
                               ),
                             ),
-                            const SizedBox(height: 15),
-                            Container(
-                              decoration: BoxDecoration(
-                                border: Border.all(
-                                  color: Colors.black, //                   <--- border color
-                                  width: 0.3,
+                            const SizedBox(width: 15),
+                            SizedBox(
+                              height: 46,
+                              width: 175,
+                              child: ElevatedButton(
+                                onPressed: user.role == '0'
+                                    ? () async {
+                                        final urlFavoriteProjects = Uri.parse('http://${dotenv.env['IP_ADDRESS']}/api/favoriteProject/${student.id}?');
+
+                                        final responsePatchFavoriteProject = await http.patch(
+                                          urlFavoriteProjects,
+                                          headers: {
+                                            'Content-Type': 'application/json',
+                                            'Authorization': 'Bearer ${user.token!}',
+                                          },
+                                          body: json.encode({
+                                            'projectId': listProjects.projectId,
+                                            'disableFlag': 0,
+                                          }),
+                                        );
+
+                                        final responsePatchFavoriteProjectData = json.decode(responsePatchFavoriteProject.body);
+
+                                        print('----responsePatchFavoriteProjecData----');
+                                        print(responsePatchFavoriteProjectData);
+
+                                        ref.read(optionsProvider.notifier).setWidgetOption('Projects', user.role!);
+                                        showSuccessToast('Success', 'Project added to favorites');
+                                      }
+                                    : null,
+                                style: ElevatedButton.styleFrom(
+                                  minimumSize: Size.zero, // Set this
+                                  padding: EdgeInsets.zero, // and this
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  backgroundColor: colorApp.colorBlackWhite,
+                                  disabledBackgroundColor: colorApp.colorButton,
+                                ),
+                                child: Text(
+                                  'Save',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    color: colorApp.colorWhiteBlack,
+                                    fontWeight: FontWeight.w500,
+                                  ),
                                 ),
                               ),
                             ),
-                            const SizedBox(height: 15),
-                            Align(
-                              alignment: Alignment.topLeft,
-                              child: Text(
-                                listProjects.description,
-                                style: const TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w400,
-                                ),
-                              ),
-                            ),
-                            const SizedBox(height: 15),
-                            Container(
-                              decoration: BoxDecoration(
-                                border: Border.all(
-                                  color: Colors.black, //                   <--- border color
-                                  width: 0.3,
-                                ),
-                              ),
-                            ),
-                            const SizedBox(height: 20),
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Row(
-                                  children: [
-                                    const Icon(
-                                      Icons.alarm,
-                                      size: 40,
-                                    ),
-                                    const SizedBox(width: 10),
-                                    Column(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        const Text(
-                                          'Project scope',
-                                          style: TextStyle(color: Colors.black, overflow: TextOverflow.ellipsis, fontSize: 16, fontWeight: FontWeight.w700),
-                                        ),
-                                        Text(
-                                          listProjects.projectScopeFlag == 0
-                                              ? 'Less than 1 month'
-                                              : listProjects.projectScopeFlag == 1
-                                                  ? ' 1-3 months'
-                                                  : listProjects.projectScopeFlag == 2
-                                                      ? '3-6 months'
-                                                      : 'More than 6 months',
-                                          style: const TextStyle(
-                                            color: Colors.black,
-                                            overflow: TextOverflow.ellipsis,
-                                            fontSize: 14,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                                const SizedBox(height: 30),
-                                Row(
-                                  children: [
-                                    const Icon(
-                                      Icons.group,
-                                      size: 40,
-                                    ),
-                                    const SizedBox(width: 10),
-                                    Column(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        const Text(
-                                          'Student required',
-                                          style: TextStyle(color: Colors.black, overflow: TextOverflow.ellipsis, fontSize: 16, fontWeight: FontWeight.w700),
-                                        ),
-                                        Text(
-                                          '${listProjects.numberOfStudents} students',
-                                          style: const TextStyle(
-                                            color: Colors.black,
-                                            overflow: TextOverflow.ellipsis,
-                                            fontSize: 14,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            )
                           ],
                         ),
-                      ),
-                    ),
-                    const SizedBox(height: 40),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        SizedBox(
-                          height: 46,
-                          width: 175,
-                          child: ElevatedButton(
-                            onPressed: user.role == '0'
-                                ? () async {
-                                    // final urlFavoriteProjects = Uri.parse('http://${dotenv.env['IP_ADDRESS']}/api/favoriteProject/${student.id}?');
-
-                                    // final responsePatchFavoriteProject = await http.patch(
-                                    //   urlFavoriteProjects,
-                                    //   headers: {
-                                    //     'Content-Type': 'application/json',
-                                    //     'Authorization': 'Bearer ${user.token!}',
-                                    //   },
-                                    //   body: json.encode({
-                                    //     'projectId': listProjects.projectId,
-                                    //     'disableFlag': 0,
-                                    //   }),
-                                    // );
-
-                                    // final responsePatchFavoriteProjectData = json.decode(responsePatchFavoriteProject.body);
-
-                                    // print('----responsePatchFavoriteProjecData----');
-                                    // print(responsePatchFavoriteProjectData);
-
-                                    // showSuccessToast('Success', 'Project added to favorites');
-                                    print(projectId);
-                                    ref.read(optionsProvider.notifier).setWidgetOption('SubmitProposal', user.role!);
-                                  }
-                                : null,
-                            style: ElevatedButton.styleFrom(
-                              minimumSize: Size.zero, // Set this
-                              padding: EdgeInsets.zero, // and this
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(8),
-                                side: const BorderSide(color: Colors.grey),
-                              ),
-                              backgroundColor: Colors.white,
-                            ),
-                            child: const Text(
-                              'Apply now',
-                              style: TextStyle(
-                                fontSize: 16,
-                                color: Colors.black,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                          ),
-                        ),
-                        const SizedBox(width: 15),
-                        SizedBox(
-                          height: 46,
-                          width: 175,
-                          child: ElevatedButton(
-                            onPressed: user.role == '0'
-                                ? () async {
-                                    final urlFavoriteProjects = Uri.parse('http://${dotenv.env['IP_ADDRESS']}/api/favoriteProject/${student.id}?');
-
-                                    final responsePatchFavoriteProject = await http.patch(
-                                      urlFavoriteProjects,
-                                      headers: {
-                                        'Content-Type': 'application/json',
-                                        'Authorization': 'Bearer ${user.token!}',
-                                      },
-                                      body: json.encode({
-                                        'projectId': listProjects.projectId,
-                                        'disableFlag': 0,
-                                      }),
-                                    );
-
-                                    final responsePatchFavoriteProjectData = json.decode(responsePatchFavoriteProject.body);
-
-                                    print('----responsePatchFavoriteProjecData----');
-                                    print(responsePatchFavoriteProjectData);
-
-                                    ref.read(optionsProvider.notifier).setWidgetOption('Projects', user.role!);
-                                    showSuccessToast('Success', 'Project added to favorites');
-                                  }
-                                : null,
-                            style: ElevatedButton.styleFrom(
-                              minimumSize: Size.zero, // Set this
-                              padding: EdgeInsets.zero, // and this
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              backgroundColor: Colors.black,
-                            ),
-                            child: const Text(
-                              'Save',
-                              style: TextStyle(
-                                fontSize: 16,
-                                color: Color.fromARGB(255, 255, 255, 255),
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                          ),
-                        ),
+                        const SizedBox(height: 30),
                       ],
                     ),
-                    const SizedBox(height: 30),
-                  ],
+                  ),
                 ),
-              ),
-            ),
-    );
+        ));
   }
 }

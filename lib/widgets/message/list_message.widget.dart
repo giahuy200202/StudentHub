@@ -18,7 +18,7 @@ class _MessageState extends ConsumerState<Message> {
   Widget build(BuildContext context) {
     final user = ref.watch(userProvider);
     return SizedBox(
-        height: 300,
+        height: 600,
         width: MediaQuery.of(context).size.width,
         child: SingleChildScrollView(
           child: Column(

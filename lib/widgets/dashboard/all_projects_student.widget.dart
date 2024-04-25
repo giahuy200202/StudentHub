@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:studenthub/providers/authentication/authentication.provider.dart';
 import 'package:studenthub/providers/profile/company.provider.dart';
 import 'package:studenthub/providers/profile/student.provider.dart';
+import 'package:studenthub/providers/theme/theme_provider.dart';
 
 import '../../providers/options.provider.dart';
 
@@ -133,6 +134,7 @@ class _AllProjectsStudentWidgetState extends ConsumerState<AllProjectsStudentWid
 
   @override
   Widget build(BuildContext context) {
+    var colorApp = ref.watch(colorProvider);
     return SizedBox(
       height: 600,
       child: SingleChildScrollView(
@@ -164,8 +166,8 @@ class _AllProjectsStudentWidgetState extends ConsumerState<AllProjectsStudentWid
                       child: Text(
                         'Active proposal (${listProjects.where((el) => el.statusFlag == 1).toList().length})',
                         overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(
-                          color: Colors.black,
+                        style: TextStyle(
+                          color: colorApp.colorTitle,
                           fontSize: 18,
                           fontWeight: FontWeight.w600,
                         ),
@@ -174,13 +176,16 @@ class _AllProjectsStudentWidgetState extends ConsumerState<AllProjectsStudentWid
                   ),
                   const SizedBox(height: 20),
                   listProjects.where((el) => el.statusFlag == 1).toList().isEmpty
-                      ? const Column(
+                      ? Column(
                           children: [
                             Align(
                               alignment: Alignment.topLeft,
                               child: Text(
                                 'Empty',
-                                style: TextStyle(fontSize: 16),
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  color: colorApp.colorText,
+                                ),
                               ),
                             ),
                             SizedBox(height: 20),
@@ -273,8 +278,8 @@ class _AllProjectsStudentWidgetState extends ConsumerState<AllProjectsStudentWid
                       child: Text(
                         'Submitted proposal (${listProjects.where((el) => el.statusFlag == 0).toList().length})',
                         overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(
-                          color: Colors.black,
+                        style: TextStyle(
+                          color: colorApp.colorTitle,
                           fontSize: 18,
                           fontWeight: FontWeight.w600,
                         ),
@@ -283,13 +288,13 @@ class _AllProjectsStudentWidgetState extends ConsumerState<AllProjectsStudentWid
                   ),
                   const SizedBox(height: 20),
                   listProjects.where((el) => el.statusFlag == 0).toList().isEmpty
-                      ? const Column(
+                      ? Column(
                           children: [
                             Align(
                               alignment: Alignment.topLeft,
                               child: Text(
                                 'Empty',
-                                style: TextStyle(fontSize: 16),
+                                style: TextStyle(fontSize: 16, color: colorApp.colorText),
                               ),
                             ),
                             SizedBox(height: 20),

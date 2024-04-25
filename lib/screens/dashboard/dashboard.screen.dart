@@ -8,6 +8,7 @@ import 'package:studenthub/widgets/dashboard/archieved_student.widget.dart';
 import 'package:studenthub/widgets/dashboard/working.widget.dart';
 import 'package:studenthub/widgets/dashboard/working_student.widget.dart';
 import '../../providers/options.provider.dart';
+import 'package:studenthub/providers/theme/theme_provider.dart';
 
 class DashboardScreen extends ConsumerStatefulWidget {
   const DashboardScreen({super.key});
@@ -30,8 +31,10 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
   @override
   Widget build(BuildContext context) {
     final user = ref.watch(userProvider);
+    var colorApp = ref.watch(colorProvider);
 
     Widget dashboardCompany = Scaffold(
+      backgroundColor: colorApp.colorBackgroundColor,
       body: Padding(
         padding: const EdgeInsets.only(left: 20, right: 20),
         child: Center(
@@ -45,12 +48,13 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   const SizedBox(height: 20),
-                  const Text(
+                  Text(
                     'Your projects',
                     textAlign: TextAlign.left,
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.w700,
+                      color: colorApp.colorTitle,
                     ),
                   ),
                   const Spacer(),
@@ -67,22 +71,22 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8),
                         ),
-                        backgroundColor: Colors.black,
+                        backgroundColor: colorApp.colorBlackWhite,
                       ),
-                      child: const Row(
+                      child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Icon(
                             Icons.add,
                             size: 22,
-                            color: Colors.white,
+                            color: colorApp.colorWhiteBlack,
                           ),
                           SizedBox(width: 5),
                           Text(
                             'Post a project',
                             style: TextStyle(
                               fontSize: 16,
-                              color: Color.fromARGB(255, 255, 255, 255),
+                              color: colorApp.colorWhiteBlack,
                               fontWeight: FontWeight.w500,
                             ),
                           ),
@@ -112,10 +116,10 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                         bottom: 1,
                       ),
                       decoration: tabWidget == 1
-                          ? const BoxDecoration(
+                          ? BoxDecoration(
                               border: Border(
                                 bottom: BorderSide(
-                                  color: Colors.black,
+                                  color: colorApp.colorBlackWhite as Color,
                                   width: 1,
                                 ),
                               ),
@@ -125,7 +129,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                         "All projects",
                         style: TextStyle(
                           fontSize: 18,
-                          color: Colors.black,
+                          color: colorApp.colorTitle,
                           fontWeight: tabWidget == 1 ? FontWeight.w600 : FontWeight.w400,
                         ),
                       ),
@@ -147,10 +151,10 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                         bottom: 1,
                       ),
                       decoration: tabWidget == 2
-                          ? const BoxDecoration(
+                          ? BoxDecoration(
                               border: Border(
                                 bottom: BorderSide(
-                                  color: Colors.black,
+                                  color: colorApp.colorBlackWhite as Color,
                                   width: 1,
                                 ),
                               ),
@@ -160,7 +164,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                         "Working",
                         style: TextStyle(
                           fontSize: 18,
-                          color: Colors.black,
+                          color: colorApp.colorBlackWhite,
                           fontWeight: tabWidget == 2 ? FontWeight.w600 : FontWeight.w400,
                         ),
                       ),
@@ -182,10 +186,10 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                         bottom: 1,
                       ),
                       decoration: tabWidget == 3
-                          ? const BoxDecoration(
+                          ? BoxDecoration(
                               border: Border(
                                 bottom: BorderSide(
-                                  color: Colors.black,
+                                  color: colorApp.colorBlackWhite as Color,
                                   width: 1,
                                 ),
                               ),
@@ -195,7 +199,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                         "Archieved",
                         style: TextStyle(
                           fontSize: 18,
-                          color: Colors.black,
+                          color: colorApp.colorBlackWhite,
                           fontWeight: tabWidget == 3 ? FontWeight.w600 : FontWeight.w400,
                         ),
                       ),
@@ -216,6 +220,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
     );
 
     Widget dashboardStudent = Scaffold(
+      backgroundColor: colorApp.colorBackgroundColor,
       body: Padding(
         padding: const EdgeInsets.only(left: 20, right: 20),
         child: Center(
@@ -255,10 +260,10 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                         bottom: 1,
                       ),
                       decoration: tabWidget == 1
-                          ? const BoxDecoration(
+                          ? BoxDecoration(
                               border: Border(
                                 bottom: BorderSide(
-                                  color: Colors.black,
+                                  color: colorApp.colorBlackWhite as Color,
                                   width: 1,
                                 ),
                               ),
@@ -268,7 +273,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                         "All projects",
                         style: TextStyle(
                           fontSize: 18,
-                          color: Colors.black,
+                          color: colorApp.colorTitle,
                           fontWeight: tabWidget == 1 ? FontWeight.w600 : FontWeight.w400,
                         ),
                       ),
@@ -290,10 +295,10 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                         bottom: 1,
                       ),
                       decoration: tabWidget == 2
-                          ? const BoxDecoration(
+                          ? BoxDecoration(
                               border: Border(
                                 bottom: BorderSide(
-                                  color: Colors.black,
+                                  color: colorApp.colorTitle as Color,
                                   width: 1,
                                 ),
                               ),
@@ -303,7 +308,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                         "Working",
                         style: TextStyle(
                           fontSize: 18,
-                          color: Colors.black,
+                          color: colorApp.colorTitle,
                           fontWeight: tabWidget == 2 ? FontWeight.w600 : FontWeight.w400,
                         ),
                       ),
@@ -325,10 +330,10 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                         bottom: 1,
                       ),
                       decoration: tabWidget == 3
-                          ? const BoxDecoration(
+                          ? BoxDecoration(
                               border: Border(
                                 bottom: BorderSide(
-                                  color: Colors.black,
+                                  color: colorApp.colorBlackWhite as Color,
                                   width: 1,
                                 ),
                               ),
@@ -338,7 +343,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                         "Archieved",
                         style: TextStyle(
                           fontSize: 18,
-                          color: Colors.black,
+                          color: colorApp.colorTitle,
                           fontWeight: tabWidget == 3 ? FontWeight.w600 : FontWeight.w400,
                         ),
                       ),

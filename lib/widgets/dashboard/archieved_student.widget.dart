@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:studenthub/providers/authentication/authentication.provider.dart';
 import 'package:studenthub/providers/profile/company.provider.dart';
 import 'package:studenthub/providers/profile/student.provider.dart';
+import 'package:studenthub/providers/theme/theme_provider.dart';
 
 import '../../providers/options.provider.dart';
 
@@ -133,6 +134,7 @@ class _ArchievedStudentWidgetState extends ConsumerState<ArchievedStudentWidget>
 
   @override
   Widget build(BuildContext context) {
+    var colorApp = ref.watch(colorProvider);
     return SizedBox(
       height: 600,
       child: SingleChildScrollView(
@@ -159,11 +161,11 @@ class _ArchievedStudentWidgetState extends ConsumerState<ArchievedStudentWidget>
                 children: [
                   const SizedBox(height: 10),
                   listProjects.where((el) => el.statusFlag == 3).toList().isEmpty
-                      ? const Column(
+                      ? Column(
                           children: [
                             Text(
                               'Empty',
-                              style: TextStyle(fontSize: 16),
+                              style: TextStyle(fontSize: 16, color: colorApp.colorText),
                             ),
                             SizedBox(height: 20),
                           ],

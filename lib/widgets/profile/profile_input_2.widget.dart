@@ -287,7 +287,7 @@ class ViewProfileWidget extends ConsumerWidget {
                         label: numOfPeople,
                         value: 1,
                         groupValue: 1,
-                        textColor: colorApp.colorTitle,
+                        textColor: colorApp.colorText,
                         radioColor: colorApp.colorIcon,
                         onChanged: (value) {
                           ref.read(selectedEmployeeProvider.notifier).selectEmployee(value!);

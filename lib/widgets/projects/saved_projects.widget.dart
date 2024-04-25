@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:studenthub/providers/authentication/authentication.provider.dart';
 import 'package:studenthub/providers/profile/student.provider.dart';
 import 'package:toastification/toastification.dart';
+import 'package:studenthub/providers/theme/theme_provider.dart';
 
 import '../../providers/options.provider.dart';
 
@@ -155,8 +156,9 @@ class _SavedProjectsWidgetState extends ConsumerState<SavedProjectsWidget> {
   Widget build(BuildContext context) {
     final user = ref.watch(userProvider);
     final student = ref.watch(studentProvider);
+    var colorApp = ref.watch(colorProvider);
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: colorApp.colorBackgroundColor,
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20),
         child: Center(
@@ -174,18 +176,20 @@ class _SavedProjectsWidgetState extends ConsumerState<SavedProjectsWidget> {
                     onTap: () {
                       ref.read(optionsProvider.notifier).setWidgetOption('Projects', user.role!);
                     },
-                    child: const Icon(
+                    child: Icon(
                       Icons.arrow_back_ios,
+                      color: colorApp.colorIcon,
                       size: 18,
                     ),
                   ),
                   const SizedBox(width: 10),
-                  const Text(
+                  Text(
                     'Saved projects',
                     textAlign: TextAlign.left,
                     style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.w700,
+                      color: colorApp.colorTitle,
                     ),
                   ),
                 ],
@@ -214,11 +218,11 @@ class _SavedProjectsWidgetState extends ConsumerState<SavedProjectsWidget> {
                           ],
                         )
                       : listProjects.isEmpty
-                          ? const Column(
+                          ? Column(
                               children: [
                                 Text(
                                   'Empty',
-                                  style: TextStyle(fontSize: 16),
+                                  style: TextStyle(fontSize: 16, color: colorApp.colorText),
                                 ),
                                 SizedBox(height: 20),
                               ],
