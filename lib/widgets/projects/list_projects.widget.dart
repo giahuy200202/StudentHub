@@ -14,7 +14,7 @@ import 'dart:convert';
 import 'dart:async';
 
 class Project {
-  final String projectId;
+  final String id;
   final String title;
   final String createTime;
   final int projectScopeFlag;
@@ -24,7 +24,7 @@ class Project {
   final bool isFavorite;
 
   Project({
-    required this.projectId,
+    required this.id,
     required this.title,
     required this.createTime,
     required this.projectScopeFlag,
@@ -35,7 +35,7 @@ class Project {
   });
 
   Project.fromJson(Map<dynamic, dynamic> json)
-      : projectId = json['projectId'],
+      : id = json['id'],
         title = json['title'],
         createTime = json['createdAt'],
         projectScopeFlag = json['projectScopeFlag'],
@@ -46,7 +46,7 @@ class Project {
 
   Map<dynamic, dynamic> toJson() {
     return {
-      'projectId': projectId,
+      'id': id,
       'title': title,
       'createdAt': createTime,
       'projectScopeFlag': projectScopeFlag,
@@ -128,7 +128,7 @@ class _ListProjectsWidgetState extends ConsumerState<ListProjectsWidget> {
     if (responseProjectsData['result'] != null) {
       for (var item in responseProjectsData['result']) {
         listProjectsGetFromRes.add(Project(
-          projectId: item['projectId'].toString(),
+          id: item['id'].toString(),
           title: item['title'],
           createTime: 'Created at ${DateFormat("dd/MM/yyyy | HH:mm").format(
                 DateTime.parse(item['createdAt']).toLocal(),
@@ -203,7 +203,9 @@ class _ListProjectsWidgetState extends ConsumerState<ListProjectsWidget> {
                             GestureDetector(
                               onTap: () {
                                 ref.read(optionsProvider.notifier).setWidgetOption('ProjectDetails', user.role!);
-                                ref.read(projectIdProvider.notifier).setProjectId(el.projectId);
+                                print('parent project id');
+                                print(el.id);
+                                ref.read(projectIdProvider.notifier).setProjectId(el.id);
                               },
                               child: Container(
                                 decoration: BoxDecoration(
@@ -251,7 +253,7 @@ class _ListProjectsWidgetState extends ConsumerState<ListProjectsWidget> {
                                                         'Authorization': 'Bearer ${user.token!}',
                                                       },
                                                       body: json.encode({
-                                                        'projectId': el.projectId,
+                                                        'projectId': el.id,
                                                         'disableFlag': el.isFavorite ? 1 : 0,
                                                       }),
                                                     );

@@ -145,6 +145,9 @@ class _ProjectDetailsWidgetState extends ConsumerState<ProjectDetailsWidget> {
       },
     );
 
+    print('----projectId----');
+    print(projectId);
+
     final responseDetailedProjectsData = json.decode(responseDetailedProjects.body);
     print('----responseDetailedProjectsData----');
     print(responseDetailedProjectsData);
