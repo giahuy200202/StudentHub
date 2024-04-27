@@ -91,7 +91,7 @@ class _ChangePasswordWidgetState extends ConsumerState<ChangePasswordWidget> {
                     alignment: Alignment.topLeft,
                     child: InkWell(
                       onTap: () {
-                        ref.read(optionsProvider.notifier).setWidgetOption('Login', user.role!);
+                        ref.read(optionsProvider.notifier).setWidgetOption('SwitchAccount', user.role!);
                       },
                       child: const Icon(
                         Icons.arrow_back_ios,
