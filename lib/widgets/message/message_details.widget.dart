@@ -11,20 +11,21 @@ class MessageDetailsWidget extends ConsumerStatefulWidget {
 }
 
 class _MessageDetailsWidget extends ConsumerState<MessageDetailsWidget> {
-  var SendMessage = TextEditingController();
+  var sendMessage = TextEditingController();
   bool enable = false;
   @override
   void dispose() {
-    SendMessage.dispose();
+    sendMessage.dispose();
     super.dispose();
   }
 
   void _submitMessage() {
-    final enterMessage = SendMessage.text;
+    final enterMessage = sendMessage.text;
+    print(enterMessage);
     if (enterMessage.trim().isEmpty) {
       return;
     }
-    SendMessage.clear();
+    sendMessage.clear();
   }
 
   @override
@@ -35,7 +36,7 @@ class _MessageDetailsWidget extends ConsumerState<MessageDetailsWidget> {
           children: [
             Expanded(
                 child: TextField(
-              controller: SendMessage,
+              controller: sendMessage,
               textCapitalization: TextCapitalization.sentences,
               autocorrect: true,
               enableSuggestions: true,

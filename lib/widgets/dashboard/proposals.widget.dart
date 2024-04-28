@@ -118,6 +118,8 @@ class _ProposalsWidgetState extends ConsumerState<ProposalsWidget> {
 
   @override
   Widget build(BuildContext context) {
+    final user = ref.watch(userProvider);
+
     return SizedBox(
       height: 680,
       child: SingleChildScrollView(
@@ -257,9 +259,7 @@ class _ProposalsWidgetState extends ConsumerState<ProposalsWidget> {
                                           width: 157,
                                           child: ElevatedButton(
                                             onPressed: () {
-                                              // ref
-                                              //     .read(optionsProvider.notifier)
-                                              //     .setWidgetOption('ProjectPostStep1');
+                                              ref.read(optionsProvider.notifier).setWidgetOption('MessageDetails', user.role!);
                                             },
                                             style: ElevatedButton.styleFrom(
                                               minimumSize: Size.zero, // Set this

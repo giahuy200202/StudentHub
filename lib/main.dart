@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:socket_io_client/socket_io_client.dart';
 import 'package:studenthub/notifications/local_notification.dart';
 import 'package:studenthub/screens/layout.screen.dart';
 import 'package:timezone/data/latest.dart' as tz;
+import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

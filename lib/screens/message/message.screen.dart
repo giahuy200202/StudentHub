@@ -68,7 +68,7 @@ class _MessageScreenState extends ConsumerState<MessageScreen> {
                   ],
                 ),
                 const SizedBox(height: 30),
-                const Message()
+                const MessageWidget()
               ],
             ))));
   }

@@ -63,10 +63,8 @@ class _SearchingWidgetState extends ConsumerState<SearchingWidget> {
                                     child: SizedBox(
                                       width: 185,
                                       child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
+                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        crossAxisAlignment: CrossAxisAlignment.center,
                                         children: [
                                           const Icon(Icons.search),
                                           const SizedBox(
@@ -103,10 +101,8 @@ class _SearchingWidgetState extends ConsumerState<SearchingWidget> {
                                     child: SizedBox(
                                       width: 175,
                                       child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
+                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        crossAxisAlignment: CrossAxisAlignment.center,
                                         children: [
                                           const Icon(Icons.search),
                                           const SizedBox(

@@ -1,19 +1,143 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:studenthub/providers/authentication/authentication.provider.dart';
 
 import '../../providers/options.provider.dart';
 
-class Message extends ConsumerStatefulWidget {
-  const Message({super.key});
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+import 'dart:async';
 
-  @override
-  ConsumerState<Message> createState() {
-    return _MessageState();
+import 'package:toastification/toastification.dart';
+
+class Message {
+  final String projectId;
+  final String projectTitle;
+  final String updateTime;
+  final String senderName;
+  final String content;
+
+  Message({
+    required this.projectId,
+    required this.projectTitle,
+    required this.updateTime,
+    required this.senderName,
+    required this.content,
+  });
+
+  Message.fromJson(Map<dynamic, dynamic> json)
+      : projectId = json['projectId'],
+        projectTitle = json['projectTitle'],
+        updateTime = json['updateTime'],
+        senderName = json['senderName'],
+        content = json['content'];
+
+  Map<dynamic, dynamic> toJson() {
+    return {
+      'projectId': projectId,
+      'projectTitle': projectTitle,
+      'updateTime': updateTime,
+      'senderName': senderName,
+      'content': content,
+    };
   }
 }
 
-class _MessageState extends ConsumerState<Message> {
+class MessageWidget extends ConsumerStatefulWidget {
+  const MessageWidget({super.key});
+
+  @override
+  ConsumerState<MessageWidget> createState() {
+    return _MessageWidgetState();
+  }
+}
+
+class _MessageWidgetState extends ConsumerState<MessageWidget> {
+  List<Message> listMessages = [];
+  bool isFetchingData = false;
+
+  void showErrorToast(title, description) {
+    toastification.show(
+      context: context,
+      type: ToastificationType.error,
+      style: ToastificationStyle.minimal,
+      title: Text(
+        title,
+        style: const TextStyle(fontWeight: FontWeight.w600),
+      ),
+      description: Text(
+        description,
+        style: const TextStyle(fontWeight: FontWeight.w400),
+      ),
+      autoCloseDuration: const Duration(seconds: 3),
+    );
+  }
+
+  void showSuccessToast(title, description) {
+    toastification.show(
+      context: context,
+      type: ToastificationType.success,
+      style: ToastificationStyle.minimal,
+      title: Text(
+        title,
+        style: const TextStyle(fontWeight: FontWeight.w600),
+      ),
+      description: Text(
+        description,
+        style: const TextStyle(fontWeight: FontWeight.w400),
+      ),
+      autoCloseDuration: const Duration(seconds: 3),
+    );
+  }
+
+  void getMessages(token) async {
+    setState(() {
+      isFetchingData = true;
+    });
+
+    final urlGetMessages = Uri.parse('http://${dotenv.env['IP_ADDRESS']}/api/message');
+
+    final responseMessages = await http.get(
+      urlGetMessages,
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $token',
+      },
+    );
+
+    final responseMessagesData = json.decode(responseMessages.body);
+    print('----responseMessagesData----');
+    print(responseMessagesData['result']);
+
+    List<Message> listMessagesGetFromRes = [];
+    // if (responseMessagesData['result'] != null) {
+    //   for (var item in responseMessagesData['result']) {
+    //     listMessagesGetFromRes.add(Message(
+    //       projectId: item['projectId'].toString(),
+    //       projectTitle: item['projectTitle'],
+    //       updateTime: 'Created at ${DateFormat("dd/MM/yyyy | HH:mm").format(
+    //             DateTime.parse(item['updateTime']).toLocal(),
+    //           ).toString()}',
+    //       senderName: item['senderName'],
+    //       content: item['content'],
+    //     ));
+    //   }
+    // }
+
+    setState(() {
+      listMessages = [...listMessagesGetFromRes];
+      isFetchingData = false;
+    });
+  }
+
+  @override
+  void initState() {
+    final user = ref.read(userProvider);
+    getMessages(user.token!);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     final user = ref.watch(userProvider);
