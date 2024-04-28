@@ -199,7 +199,7 @@ class _SubmitProposalWidgetState extends ConsumerState<SubmitProposalWidget> {
                                           isFetching = true;
                                         });
 
-                                        final urlPostProposals = Uri.parse('http://${dotenv.env['IP_ADDRESS']}/api/proposal');
+                                        final urlPostProposals = Uri.parse('${dotenv.env['IP_ADDRESS']}/api/proposal');
 
                                         final responsePostProposals = await http.post(
                                           urlPostProposals,

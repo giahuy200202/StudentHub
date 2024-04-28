@@ -241,7 +241,7 @@ class _ChangePasswordWidgetState extends ConsumerState<ChangePasswordWidget> {
                                 isSending = true;
                               });
 
-                              final url = Uri.parse('http://${dotenv.env['IP_ADDRESS']}/api/user/changePassword');
+                              final url = Uri.parse('${dotenv.env['IP_ADDRESS']}/api/user/changePassword');
                               final responseChangePassword = await http.put(url,
                                   headers: {
                                     'Content-Type': 'application/json',

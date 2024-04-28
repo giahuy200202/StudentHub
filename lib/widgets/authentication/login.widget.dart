@@ -284,7 +284,7 @@ class _LoginWidgetState extends ConsumerState<LoginWidget> {
                               setState(() {
                                 isSending = true;
                               });
-                              final urlLogin = Uri.parse('http://${dotenv.env['IP_ADDRESS']}/api/auth/sign-in');
+                              final urlLogin = Uri.parse('${dotenv.env['IP_ADDRESS']}/api/auth/sign-in');
                               final responseLogin = await http.post(urlLogin,
                                   headers: {'Content-Type': 'application/json'},
                                   body: json.encode(
@@ -301,7 +301,7 @@ class _LoginWidgetState extends ConsumerState<LoginWidget> {
                                 if (json.decode(responseLogin.body)['result'].runtimeType == String) {
                                   showErrorToast('Warning', json.decode(responseLogin.body)['result']);
                                 } else {
-                                  final urlAuthMe = Uri.parse('http://${dotenv.env['IP_ADDRESS']}/api/auth/me');
+                                  final urlAuthMe = Uri.parse('${dotenv.env['IP_ADDRESS']}/api/auth/me');
                                   final responseAuthMe = await http.get(
                                     urlAuthMe,
                                     headers: {
@@ -344,7 +344,7 @@ class _LoginWidgetState extends ConsumerState<LoginWidget> {
                                       [],
                                     );
 
-                                    final urlGetStudent = Uri.parse('http://${dotenv.env['IP_ADDRESS']}/api/profile/student/${responeAuthMeData["result"]["student"]["id"]}');
+                                    final urlGetStudent = Uri.parse('${dotenv.env['IP_ADDRESS']}/api/profile/student/${responeAuthMeData["result"]["student"]["id"]}');
 
                                     final responseStudent = await http.get(
                                       urlGetStudent,
@@ -377,7 +377,7 @@ class _LoginWidgetState extends ConsumerState<LoginWidget> {
                                     }
 
                                     //set resume
-                                    final urlResume = Uri.parse('http://${dotenv.env['IP_ADDRESS']}/api/profile/student/${responeAuthMeData["result"]["student"]["id"]}/resume');
+                                    final urlResume = Uri.parse('${dotenv.env['IP_ADDRESS']}/api/profile/student/${responeAuthMeData["result"]["student"]["id"]}/resume');
                                     final responseResumeGet = await http.get(
                                       urlResume,
                                       headers: {
@@ -393,7 +393,7 @@ class _LoginWidgetState extends ConsumerState<LoginWidget> {
                                     ref.read(studentProvider.notifier).setStudentResume(resumeData ?? '');
 
                                     //set transcript
-                                    final urlTranscript = Uri.parse('http://${dotenv.env['IP_ADDRESS']}/api/profile/student/${responeAuthMeData["result"]["student"]["id"]}/transcript');
+                                    final urlTranscript = Uri.parse('${dotenv.env['IP_ADDRESS']}/api/profile/student/${responeAuthMeData["result"]["student"]["id"]}/transcript');
                                     final responseTranscriptGet = await http.get(
                                       urlTranscript,
                                       headers: {
@@ -433,7 +433,7 @@ class _LoginWidgetState extends ConsumerState<LoginWidget> {
                                           0,
                                         );
 
-                                    final urlLogin = Uri.parse('http://${dotenv.env['IP_ADDRESS']}/api/profile/company/${responeAuthMeData["result"]["company"]["id"]}');
+                                    final urlLogin = Uri.parse('${dotenv.env['IP_ADDRESS']}/api/profile/company/${responeAuthMeData["result"]["company"]["id"]}');
 
                                     final responseCompany = await http.get(
                                       urlLogin,

@@ -150,7 +150,7 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentStep2Widget> {
   }
 
   Future<List<MultiSelectBottomSheetModel>> getSkillSet(String token) async {
-    final url = Uri.parse('http://${dotenv.env['IP_ADDRESS']}/api/skillset/getAllSkillSet');
+    final url = Uri.parse('${dotenv.env['IP_ADDRESS']}/api/skillset/getAllSkillSet');
 
     final response = await http.get(
       url,

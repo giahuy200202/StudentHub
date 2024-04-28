@@ -107,7 +107,7 @@ class _SavedProjectsWidgetState extends ConsumerState<SavedProjectsWidget> {
       isFetchingData = true;
     });
 
-    final urlGetFavoriteProjects = Uri.parse('http://${dotenv.env['IP_ADDRESS']}/api/favoriteProject/$studentId');
+    final urlGetFavoriteProjects = Uri.parse('${dotenv.env['IP_ADDRESS']}/api/favoriteProject/$studentId');
 
     final responseFavoriteProjects = await http.get(
       urlGetFavoriteProjects,
@@ -270,7 +270,7 @@ class _SavedProjectsWidgetState extends ConsumerState<SavedProjectsWidget> {
                                                       onTap: user.role == '1'
                                                           ? null
                                                           : () async {
-                                                              final urlFavoriteProjects = Uri.parse('http://${dotenv.env['IP_ADDRESS']}/api/favoriteProject/${student.id}?');
+                                                              final urlFavoriteProjects = Uri.parse('${dotenv.env['IP_ADDRESS']}/api/favoriteProject/${student.id}?');
 
                                                               final responsePatchFavoriteProject = await http.patch(
                                                                 urlFavoriteProjects,

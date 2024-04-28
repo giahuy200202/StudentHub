@@ -164,7 +164,7 @@ class _ForgotPasswordWidgetState extends ConsumerState<ForgotPasswordWidget> {
                                 isSending = true;
                               });
 
-                              final url = Uri.parse('http://${dotenv.env['IP_ADDRESS']}/api/user/forgotPassword');
+                              final url = Uri.parse('${dotenv.env['IP_ADDRESS']}/api/user/forgotPassword');
                               final responseForgotPassword = await http.post(url,
                                   headers: {'Content-Type': 'application/json'},
                                   body: json.encode(

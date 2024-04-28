@@ -353,7 +353,7 @@ class _ProfileInputWidgetState extends ConsumerState<ProfileInputWidget> {
                   child: ElevatedButton(
                     onPressed: enable && isClick
                         ? () async {
-                            final url = Uri.parse('http://${dotenv.env['IP_ADDRESS']}/api/profile/company');
+                            final url = Uri.parse('${dotenv.env['IP_ADDRESS']}/api/profile/company');
 
                             final response = await http.post(url,
                                 headers: {

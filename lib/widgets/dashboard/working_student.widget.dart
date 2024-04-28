@@ -81,7 +81,7 @@ class _WorkingStudentWidgetState extends ConsumerState<WorkingStudentWidget> {
       isFetchingData = true;
     });
 
-    final urlGetProposals = Uri.parse('http://${dotenv.env['IP_ADDRESS']}/api/proposal/project/$studentId');
+    final urlGetProposals = Uri.parse('${dotenv.env['IP_ADDRESS']}/api/proposal/project/$studentId');
 
     final responseProposals = await http.get(
       urlGetProposals,

@@ -96,7 +96,7 @@ class _MessageWidgetState extends ConsumerState<MessageWidget> {
       isFetchingData = true;
     });
 
-    final urlGetMessages = Uri.parse('http://${dotenv.env['IP_ADDRESS']}/api/message');
+    final urlGetMessages = Uri.parse('${dotenv.env['IP_ADDRESS']}/api/message');
 
     final responseMessages = await http.get(
       urlGetMessages,

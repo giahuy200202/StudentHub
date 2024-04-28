@@ -68,7 +68,9 @@ class _ProposalsWidgetState extends ConsumerState<ProposalsWidget> {
 
     print('----projectId----');
     print(projectId);
-    final urlGetProposals = Uri.parse('http://${dotenv.env['IP_ADDRESS']}/api/proposal/getByProjectId/$projectId');
+    final urlGetProposals = Uri.parse('${dotenv.env['IP_ADDRESS']}/api/proposal/getByProjectId/$projectId');
+    print('-----------------urlGetProposals-----------------');
+    print(urlGetProposals);
 
     final responseProposals = await http.get(
       urlGetProposals,

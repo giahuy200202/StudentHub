@@ -109,7 +109,7 @@ class _ListProjectsWidgetState extends ConsumerState<ListProjectsWidget> {
       isFetchingData = true;
     });
 
-    final urlGetProjects = Uri.parse('http://${dotenv.env['IP_ADDRESS']}/api/project');
+    final urlGetProjects = Uri.parse('${dotenv.env['IP_ADDRESS']}/api/project');
 
     final responseProjects = await http.get(
       urlGetProjects,
@@ -240,7 +240,7 @@ class _ListProjectsWidgetState extends ConsumerState<ListProjectsWidget> {
                                             onTap: user.role == '1'
                                                 ? null
                                                 : () async {
-                                                    final urlFavoriteProjects = Uri.parse('http://${dotenv.env['IP_ADDRESS']}/api/favoriteProject/${student.id}?');
+                                                    final urlFavoriteProjects = Uri.parse('${dotenv.env['IP_ADDRESS']}/api/favoriteProject/${student.id}?');
 
                                                     final responsePatchFavoriteProject = await http.patch(
                                                       urlFavoriteProjects,
