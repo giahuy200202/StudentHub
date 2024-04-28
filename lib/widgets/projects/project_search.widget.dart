@@ -16,7 +16,7 @@ import 'package:toastification/toastification.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class Project {
-  final String projectId;
+  final String id;
   final String title;
   final String createTime;
   final int projectScopeFlag;
@@ -26,7 +26,7 @@ class Project {
   final bool isFavorite;
 
   Project({
-    required this.projectId,
+    required this.id,
     required this.title,
     required this.createTime,
     required this.projectScopeFlag,
@@ -37,7 +37,7 @@ class Project {
   });
 
   Project.fromJson(Map<dynamic, dynamic> json)
-      : projectId = json['projectId'],
+      : id = json['id'],
         title = json['title'],
         createTime = json['createdAt'],
         projectScopeFlag = json['projectScopeFlag'],
@@ -48,7 +48,7 @@ class Project {
 
   Map<dynamic, dynamic> toJson() {
     return {
-      'projectId': projectId,
+      'id': id,
       'title': title,
       'createdAt': createTime,
       'projectScopeFlag': projectScopeFlag,
@@ -195,7 +195,7 @@ class _ProjectSearchWidgetState extends ConsumerState<ProjectSearchWidget> {
     if (responseProjectsSearchData['result'] != null) {
       for (var item in responseProjectsSearchData['result']) {
         listProjectSearchsGetFromRes.add(Project(
-          projectId: item['projectId'].toString(),
+          id: item['id'].toString(),
           title: item['title'],
           createTime: 'Created at ${DateFormat("dd/MM/yyyy | HH:mm").format(
                 DateTime.parse(item['createdAt']).toLocal(),
@@ -1107,7 +1107,7 @@ class _ProjectSearchWidgetState extends ConsumerState<ProjectSearchWidget> {
                                         GestureDetector(
                                           onTap: () {
                                             ref.read(optionsProvider.notifier).setWidgetOption('ProjectDetails', user.role!);
-                                            ref.read(projectIdProvider.notifier).setProjectId(el.projectId);
+                                            ref.read(projectIdProvider.notifier).setProjectId(el.id);
                                           },
                                           child: Container(
                                             decoration: BoxDecoration(
@@ -1155,7 +1155,7 @@ class _ProjectSearchWidgetState extends ConsumerState<ProjectSearchWidget> {
                                                                     'Authorization': 'Bearer ${user.token!}',
                                                                   },
                                                                   body: json.encode({
-                                                                    'projectId': el.projectId,
+                                                                    'id': el.id,
                                                                     'disableFlag': el.isFavorite ? 1 : 0,
                                                                   }),
                                                                 );

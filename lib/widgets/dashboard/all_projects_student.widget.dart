@@ -198,7 +198,7 @@ class _AllProjectsStudentWidgetState extends ConsumerState<AllProjectsStudentWid
                                 children: [
                                   Container(
                                     decoration: BoxDecoration(
-                                      color: Colors.white,
+                                      color: colorApp.colorBackgroundColor,
                                       border: Border.all(color: Colors.grey),
                                       borderRadius: const BorderRadius.all(Radius.circular(12)),
                                     ),
@@ -216,8 +216,8 @@ class _AllProjectsStudentWidgetState extends ConsumerState<AllProjectsStudentWid
                                               child: Text(
                                                 el.title,
                                                 overflow: TextOverflow.ellipsis,
-                                                style: const TextStyle(
-                                                  color: Colors.black,
+                                                style: TextStyle(
+                                                  color: colorApp.colorTitle,
                                                   fontSize: 18,
                                                   fontWeight: FontWeight.w600,
                                                 ),
@@ -231,8 +231,8 @@ class _AllProjectsStudentWidgetState extends ConsumerState<AllProjectsStudentWid
                                               width: 340,
                                               child: Text(
                                                 el.createTime,
-                                                style: const TextStyle(
-                                                  color: Color.fromARGB(255, 94, 94, 94),
+                                                style: TextStyle(
+                                                  color: colorApp.colorTime,
                                                   overflow: TextOverflow.ellipsis,
                                                   fontSize: 13,
                                                 ),
@@ -243,7 +243,7 @@ class _AllProjectsStudentWidgetState extends ConsumerState<AllProjectsStudentWid
                                           Container(
                                             decoration: BoxDecoration(
                                               border: Border.all(
-                                                color: Colors.black, //                   <--- border color
+                                                color: colorApp.colorDivider as Color, //                   <--- border color
                                                 width: 0.3,
                                               ),
                                             ),
@@ -253,8 +253,8 @@ class _AllProjectsStudentWidgetState extends ConsumerState<AllProjectsStudentWid
                                             alignment: Alignment.topLeft,
                                             child: Text(
                                               el.description,
-                                              style: const TextStyle(
-                                                color: Colors.black,
+                                              style: TextStyle(
+                                                color: colorApp.colorText,
                                                 fontSize: 16,
                                                 fontWeight: FontWeight.w400,
                                               ),
@@ -307,7 +307,7 @@ class _AllProjectsStudentWidgetState extends ConsumerState<AllProjectsStudentWid
                                 children: [
                                   Container(
                                     decoration: BoxDecoration(
-                                      color: Colors.white,
+                                      color: colorApp.colorBackgroundColor,
                                       border: Border.all(color: Colors.grey),
                                       borderRadius: const BorderRadius.all(Radius.circular(12)),
                                     ),
@@ -325,8 +325,8 @@ class _AllProjectsStudentWidgetState extends ConsumerState<AllProjectsStudentWid
                                               child: Text(
                                                 el.title,
                                                 overflow: TextOverflow.ellipsis,
-                                                style: const TextStyle(
-                                                  color: Colors.black,
+                                                style: TextStyle(
+                                                  color: colorApp.colorTitle,
                                                   fontSize: 18,
                                                   fontWeight: FontWeight.w600,
                                                 ),
@@ -340,8 +340,8 @@ class _AllProjectsStudentWidgetState extends ConsumerState<AllProjectsStudentWid
                                               width: 340,
                                               child: Text(
                                                 el.createTime,
-                                                style: const TextStyle(
-                                                  color: Color.fromARGB(255, 94, 94, 94),
+                                                style: TextStyle(
+                                                  color: colorApp.colorTime,
                                                   overflow: TextOverflow.ellipsis,
                                                   fontSize: 13,
                                                 ),
@@ -352,7 +352,7 @@ class _AllProjectsStudentWidgetState extends ConsumerState<AllProjectsStudentWid
                                           Container(
                                             decoration: BoxDecoration(
                                               border: Border.all(
-                                                color: Colors.black, //                   <--- border color
+                                                color: colorApp.colorDivider as Color, //                   <--- border color
                                                 width: 0.3,
                                               ),
                                             ),
@@ -362,8 +362,8 @@ class _AllProjectsStudentWidgetState extends ConsumerState<AllProjectsStudentWid
                                             alignment: Alignment.topLeft,
                                             child: Text(
                                               el.description,
-                                              style: const TextStyle(
-                                                color: Colors.black,
+                                              style: TextStyle(
+                                                color: colorApp.colorText,
                                                 fontSize: 16,
                                                 fontWeight: FontWeight.w400,
                                               ),

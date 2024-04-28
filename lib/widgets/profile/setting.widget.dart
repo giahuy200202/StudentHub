@@ -14,10 +14,10 @@ class SettingWidget extends ConsumerStatefulWidget {
 class _SettingWidget extends ConsumerState<SettingWidget> {
   @override
   Widget build(BuildContext context) {
-    var test = ref.watch(colorProvider);
+    var colorApp = ref.watch(colorProvider);
     final tmp = ref.read(colorProvider.notifier);
     return Scaffold(
-        backgroundColor: test.colorBackgroundColor,
+        backgroundColor: colorApp.colorBackgroundColor,
         body: SingleChildScrollView(
             child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -26,10 +26,10 @@ class _SettingWidget extends ConsumerState<SettingWidget> {
                   SizedBox(
                       child: DecoratedBox(
                     decoration: BoxDecoration(
-                        color: test.colorBackgroundColor,
+                        color: colorApp.colorBackgroundColor,
                         borderRadius: BorderRadius.circular(8),
                         border: Border.all(
-                          color: test.colorBorderSide as Color,
+                          color: colorApp.colorBorderSide as Color,
                         )),
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -41,7 +41,7 @@ class _SettingWidget extends ConsumerState<SettingWidget> {
                           style: TextStyle(
                             fontSize: 24,
                             fontWeight: FontWeight.bold,
-                            color: test.colorTitle,
+                            color: colorApp.colorTitle,
                           ),
                         ),
                         const Spacer(),

@@ -13,6 +13,7 @@ import 'package:studenthub/widgets/dashboard/proposals.widget.dart';
 import 'package:studenthub/widgets/dashboard/working.widget.dart';
 import 'package:toastification/toastification.dart';
 import '../../providers/options.provider.dart';
+import 'package:studenthub/providers/theme/theme_provider.dart';
 
 import '../../providers/options.provider.dart';
 import 'package:http/http.dart' as http;
@@ -207,7 +208,9 @@ class _SendHireOfferScreenState extends ConsumerState<SendHireOfferScreen> {
   @override
   Widget build(BuildContext context) {
     final user = ref.watch(userProvider);
+    var colorApp = ref.watch(colorProvider);
     return Scaffold(
+      backgroundColor: colorApp.colorBackgroundColor,
       body: Padding(
         padding: const EdgeInsets.only(left: 20, right: 20),
         child: Center(
@@ -236,9 +239,9 @@ class _SendHireOfferScreenState extends ConsumerState<SendHireOfferScreen> {
                     alignment: Alignment.topLeft,
                     child: Text(
                       listProjects.title,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 22,
-                        color: Colors.black,
+                        color: colorApp.colorTitle,
                         fontWeight: FontWeight.w600,
                       ),
                     ),
@@ -265,10 +268,10 @@ class _SendHireOfferScreenState extends ConsumerState<SendHireOfferScreen> {
                         bottom: 1,
                       ),
                       decoration: tabWidget == 1
-                          ? const BoxDecoration(
+                          ? BoxDecoration(
                               border: Border(
                                 bottom: BorderSide(
-                                  color: Colors.black,
+                                  color: colorApp.colorBlackWhite as Color,
                                   width: 1,
                                 ),
                               ),
@@ -278,7 +281,7 @@ class _SendHireOfferScreenState extends ConsumerState<SendHireOfferScreen> {
                         "Proposals",
                         style: TextStyle(
                           fontSize: 18,
-                          color: Colors.black,
+                          color: colorApp.colorBlackWhite,
                           fontWeight: tabWidget == 1 ? FontWeight.w600 : FontWeight.w400,
                         ),
                       ),
@@ -300,10 +303,10 @@ class _SendHireOfferScreenState extends ConsumerState<SendHireOfferScreen> {
                         bottom: 1,
                       ),
                       decoration: tabWidget == 2
-                          ? const BoxDecoration(
+                          ? BoxDecoration(
                               border: Border(
                                 bottom: BorderSide(
-                                  color: Colors.black,
+                                  color: colorApp.colorBlackWhite as Color,
                                   width: 1,
                                 ),
                               ),
@@ -313,7 +316,7 @@ class _SendHireOfferScreenState extends ConsumerState<SendHireOfferScreen> {
                         "Detail",
                         style: TextStyle(
                           fontSize: 18,
-                          color: Colors.black,
+                          color: colorApp.colorBlackWhite,
                           fontWeight: tabWidget == 2 ? FontWeight.w600 : FontWeight.w400,
                         ),
                       ),
@@ -335,10 +338,10 @@ class _SendHireOfferScreenState extends ConsumerState<SendHireOfferScreen> {
                         bottom: 1,
                       ),
                       decoration: tabWidget == 3
-                          ? const BoxDecoration(
+                          ? BoxDecoration(
                               border: Border(
                                 bottom: BorderSide(
-                                  color: Colors.black,
+                                  color: colorApp.colorBlackWhite as Color,
                                   width: 1,
                                 ),
                               ),
@@ -348,7 +351,7 @@ class _SendHireOfferScreenState extends ConsumerState<SendHireOfferScreen> {
                         "Message",
                         style: TextStyle(
                           fontSize: 18,
-                          color: Colors.black,
+                          color: colorApp.colorBlackWhite,
                           fontWeight: tabWidget == 3 ? FontWeight.w600 : FontWeight.w400,
                         ),
                       ),
@@ -370,10 +373,10 @@ class _SendHireOfferScreenState extends ConsumerState<SendHireOfferScreen> {
                         bottom: 1,
                       ),
                       decoration: tabWidget == 4
-                          ? const BoxDecoration(
+                          ? BoxDecoration(
                               border: Border(
                                 bottom: BorderSide(
-                                  color: Colors.black,
+                                  color: colorApp.colorBlackWhite as Color,
                                   width: 1,
                                 ),
                               ),
@@ -383,7 +386,7 @@ class _SendHireOfferScreenState extends ConsumerState<SendHireOfferScreen> {
                         "Hired",
                         style: TextStyle(
                           fontSize: 18,
-                          color: Colors.black,
+                          color: colorApp.colorBlackWhite,
                           fontWeight: tabWidget == 4 ? FontWeight.w600 : FontWeight.w400,
                         ),
                       ),

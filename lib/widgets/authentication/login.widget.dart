@@ -218,12 +218,14 @@ class _LoginWidgetState extends ConsumerState<LoginWidget> {
                           child: Transform.translate(
                             offset: const Offset(0, 4.5),
                             child: isDisplayPassword
-                                ? const Icon(
+                                ? Icon(
                                     Icons.visibility_off_outlined,
                                     size: 21,
+                                    color: ColorApp.colorText,
                                   )
-                                : const Icon(
+                                : Icon(
                                     Icons.visibility_outlined,
+                                    color: ColorApp.colorText,
                                     size: 21,
                                   ),
                           ),
