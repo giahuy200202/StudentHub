@@ -3,6 +3,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:studenthub/providers/authentication/authentication.provider.dart';
+import 'package:studenthub/providers/message/receive_id.provider.dart';
 import 'package:studenthub/providers/projects/project_id.provider.dart';
 
 import '../../providers/options.provider.dart';
@@ -12,6 +13,7 @@ import 'dart:convert';
 import 'dart:async';
 
 class Proposal {
+  final String studentId;
   final String proposalId;
   final String studentName;
   final String createTime;
@@ -20,6 +22,7 @@ class Proposal {
   final int statusFlag;
 
   Proposal({
+    required this.studentId,
     required this.proposalId,
     required this.studentName,
     required this.createTime,
@@ -29,7 +32,8 @@ class Proposal {
   });
 
   Proposal.fromJson(Map<dynamic, dynamic> json)
-      : proposalId = json['proposalId'],
+      : studentId = json['studentId'],
+        proposalId = json['proposalId'],
         studentName = json['studentName'],
         createTime = json['createTime'],
         techStackName = json['techStackName'],
@@ -38,6 +42,7 @@ class Proposal {
 
   Map<dynamic, dynamic> toJson() {
     return {
+      'studentId': studentId,
       'proposalId': proposalId,
       'studentName': studentName,
       'createTime': createTime,
@@ -89,6 +94,7 @@ class _ProposalsWidgetState extends ConsumerState<ProposalsWidget> {
     if (responseProposalsData['result'] != null) {
       for (var item in responseProposalsData['result']['items']) {
         listProposalsGetFromRes.add(Proposal(
+          studentId: item['studentId'].toString(),
           proposalId: item['id'].toString(),
           createTime: 'Submitted at ${DateFormat("dd/MM/yyyy | HH:mm").format(
                 DateTime.parse(item['createdAt']).toLocal(),
@@ -101,8 +107,8 @@ class _ProposalsWidgetState extends ConsumerState<ProposalsWidget> {
       }
     }
 
-    print('----listProjectsGetFromRes----');
-    print(listProposalsGetFromRes);
+    print('----listProposalssGetFromRes----');
+    print(json.encode(listProposalsGetFromRes));
 
     setState(() {
       listProposals = [...listProposalsGetFromRes];
@@ -261,6 +267,7 @@ class _ProposalsWidgetState extends ConsumerState<ProposalsWidget> {
                                           width: 157,
                                           child: ElevatedButton(
                                             onPressed: () {
+                                              ref.read(receiveIdProvider.notifier).setReceiveId(el.studentId);
                                               ref.read(optionsProvider.notifier).setWidgetOption('MessageDetails', user.role!);
                                             },
                                             style: ElevatedButton.styleFrom(
