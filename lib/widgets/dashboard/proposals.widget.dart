@@ -13,7 +13,7 @@ import 'dart:convert';
 import 'dart:async';
 
 class Proposal {
-  final String studentId;
+  final String userId;
   final String proposalId;
   final String studentName;
   final String createTime;
@@ -22,7 +22,7 @@ class Proposal {
   final int statusFlag;
 
   Proposal({
-    required this.studentId,
+    required this.userId,
     required this.proposalId,
     required this.studentName,
     required this.createTime,
@@ -32,7 +32,7 @@ class Proposal {
   });
 
   Proposal.fromJson(Map<dynamic, dynamic> json)
-      : studentId = json['studentId'],
+      : userId = json['userId'],
         proposalId = json['proposalId'],
         studentName = json['studentName'],
         createTime = json['createTime'],
@@ -42,7 +42,7 @@ class Proposal {
 
   Map<dynamic, dynamic> toJson() {
     return {
-      'studentId': studentId,
+      'userId': userId,
       'proposalId': proposalId,
       'studentName': studentName,
       'createTime': createTime,
@@ -94,7 +94,7 @@ class _ProposalsWidgetState extends ConsumerState<ProposalsWidget> {
     if (responseProposalsData['result'] != null) {
       for (var item in responseProposalsData['result']['items']) {
         listProposalsGetFromRes.add(Proposal(
-          studentId: item['studentId'].toString(),
+          userId: item['student']['userId'].toString(),
           proposalId: item['id'].toString(),
           createTime: 'Submitted at ${DateFormat("dd/MM/yyyy | HH:mm").format(
                 DateTime.parse(item['createdAt']).toLocal(),
@@ -267,7 +267,7 @@ class _ProposalsWidgetState extends ConsumerState<ProposalsWidget> {
                                           width: 157,
                                           child: ElevatedButton(
                                             onPressed: () {
-                                              ref.read(receiveIdProvider.notifier).setReceiveId(el.studentId);
+                                              ref.read(receiveIdProvider.notifier).setReceiveId(el.userId);
                                               ref.read(optionsProvider.notifier).setWidgetOption('MessageDetails', user.role!);
                                             },
                                             style: ElevatedButton.styleFrom(
