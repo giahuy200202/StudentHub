@@ -3,6 +3,8 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:studenthub/providers/authentication/authentication.provider.dart';
+import 'package:studenthub/providers/message/receive_id.provider.dart';
+import 'package:studenthub/providers/projects/project_id.provider.dart';
 
 import '../../providers/options.provider.dart';
 
@@ -18,6 +20,7 @@ class Message {
   final String createdAt;
   final String receiverName;
   final String content;
+  final String receiverId;
 
   Message({
     required this.projectId,
@@ -25,6 +28,7 @@ class Message {
     required this.createdAt,
     required this.receiverName,
     required this.content,
+    required this.receiverId,
   });
 
   Message.fromJson(Map<dynamic, dynamic> json)
@@ -32,7 +36,8 @@ class Message {
         projectTitle = json['projectTitle'],
         createdAt = json['createdAt'],
         receiverName = json['receiverName'],
-        content = json['content'];
+        content = json['content'],
+        receiverId = json['receiverId'];
 
   Map<dynamic, dynamic> toJson() {
     return {
@@ -41,6 +46,7 @@ class Message {
       'createdAt': createdAt,
       'receiverName': receiverName,
       'content': content,
+      'receiverId': receiverId,
     };
   }
 }
@@ -92,7 +98,7 @@ class _MessageWidgetState extends ConsumerState<MessageWidget> {
     );
   }
 
-  void getMessages(token) async {
+  void getMessages(token, userId) async {
     setState(() {
       isFetchingData = true;
     });
@@ -120,8 +126,9 @@ class _MessageWidgetState extends ConsumerState<MessageWidget> {
           createdAt: 'Created at ${DateFormat("dd/MM/yyyy | HH:mm").format(
                 DateTime.parse(item['createdAt']).toLocal(),
               ).toString()}',
-          receiverName: item['receiver']['fullname'],
+          receiverName: item['receiver']['id'] == userId ? item['sender']['fullname'] : item['receiver']['fullname'],
           content: item['content'],
+          receiverId: item['receiver']['id'] == userId ? item['sender']['id'].toString() : item['receiver']['id'].toString(),
         ));
       }
     }
@@ -135,7 +142,7 @@ class _MessageWidgetState extends ConsumerState<MessageWidget> {
   @override
   void initState() {
     final user = ref.read(userProvider);
-    getMessages(user.token!);
+    getMessages(user.token!, user.id);
     super.initState();
   }
 
@@ -173,6 +180,8 @@ class _MessageWidgetState extends ConsumerState<MessageWidget> {
                           children: [
                             GestureDetector(
                               onTap: () {
+                                ref.read(projectIdProvider.notifier).setProjectId(el.projectId);
+                                ref.read(receiveIdProvider.notifier).setReceiveId(el.receiverId);
                                 ref.read(optionsProvider.notifier).setWidgetOption('MessageDetails', user.role!);
                               },
                               child: Container(

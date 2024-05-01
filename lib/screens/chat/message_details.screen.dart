@@ -97,9 +97,9 @@ class _MessageDetailsScreen extends ConsumerState<MessageDetailsScreen> {
   }
 
   void getMessages(token, projectId, receiveId) async {
-    // setState(() {
-    //   isFetchingData = true;
-    // });
+    setState(() {
+      isFetchingData = true;
+    });
 
     final urlGetMessages = Uri.parse('${dotenv.env['IP_ADDRESS']}/api/message/$projectId/user/$receiveId');
 
@@ -131,7 +131,7 @@ class _MessageDetailsScreen extends ConsumerState<MessageDetailsScreen> {
 
     setState(() {
       listMessages = [...listMessagesGetFromRes];
-      // isFetchingData = false;
+      isFetchingData = false;
     });
   }
 
@@ -185,7 +185,7 @@ class _MessageDetailsScreen extends ConsumerState<MessageDetailsScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                SizedBox(height: 365),
+                SizedBox(height: 420),
                 Center(
                   child: SizedBox(
                     height: 25,
@@ -405,7 +405,6 @@ class _MessageDetailsScreen extends ConsumerState<MessageDetailsScreen> {
                                 ];
                               });
 
-                              getMessages(user.token, projectId, receiveId);
                               sendMessage.clear();
                             },
                             icon: const Icon(Icons.send),
