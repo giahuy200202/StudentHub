@@ -136,6 +136,13 @@ class _MessageDetailsScreen extends ConsumerState<MessageDetailsScreen> {
   }
 
   @override
+  void dispose() {
+    // TODO: implement dispose
+    sendMessage.dispose();
+    super.dispose();
+  }
+
+  @override
   void initState() {
     final user = ref.read(userProvider);
     final projectId = ref.read(projectIdProvider);
@@ -166,6 +173,19 @@ class _MessageDetailsScreen extends ConsumerState<MessageDetailsScreen> {
     //Listen to channel receive message
     socket.on('RECEIVE_MESSAGE', (data) {
       // Your code to update ui
+
+      if (mounted) {
+        setState(() {
+          listMessages = [
+            ...listMessages,
+            Message(
+              createdAt: DateFormat("dd/MM/yyyy | HH:mm").format(DateTime.parse(data['notification']['message']['createdAt']).toLocal()).toString(),
+              author: data['notification']['sender']['fullname'],
+              content: data['notification']['message']['content'],
+            )
+          ];
+        });
+      }
     });
     //Listen for error from socket
     socket.on("ERROR", (data) => print(data));
@@ -378,12 +398,6 @@ class _MessageDetailsScreen extends ConsumerState<MessageDetailsScreen> {
                               socket.onConnectError((data) => print('$data'));
                               socket.onError((data) => print(data));
 
-                              //Listen to channel receive message
-                              socket.on('RECEIVE_MESSAGE', (data) {
-                                // Your code to update ui
-                                // getMessages(user.token!, projectId, receiveId);
-                                print('update ui');
-                              });
                               //Listen for error from socket
                               socket.on("ERROR", (data) => print(data));
                               socket.emit("SEND_MESSAGE", {
@@ -392,17 +406,6 @@ class _MessageDetailsScreen extends ConsumerState<MessageDetailsScreen> {
                                 "senderId": user.id,
                                 "receiverId": receiveId,
                                 "messageFlag": 0 // default 0 for message, 1 for interview
-                              });
-
-                              setState(() {
-                                listMessages = [
-                                  ...listMessages,
-                                  Message(
-                                    createdAt: DateFormat("dd/MM/yyyy | HH:mm").format(DateTime.now().toLocal()).toString(),
-                                    author: company.companyName!,
-                                    content: enterMessage,
-                                  )
-                                ];
                               });
 
                               sendMessage.clear();
