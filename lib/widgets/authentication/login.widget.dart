@@ -11,6 +11,7 @@ import 'package:studenthub/providers/options.provider.dart';
 import 'package:http/http.dart' as http;
 import 'package:studenthub/providers/profile/company.provider.dart';
 import 'dart:convert';
+import 'package:studenthub/providers/language/language.provider.dart';
 
 import 'package:studenthub/providers/profile/student.provider.dart';
 import 'package:studenthub/providers/switch_account.provider.dart';
@@ -80,7 +81,7 @@ class _LoginWidgetState extends ConsumerState<LoginWidget> {
     final user = ref.watch(userProvider);
     final userLoginRole = ref.watch(userLoginProvider);
     final company = ref.watch(companyProvider);
-
+    var Language = ref.watch(LanguageProvider);
     Icon iconRememberPassword = isRememberPassword
         ? const Icon(
             Icons.check_box,
@@ -118,11 +119,11 @@ class _LoginWidgetState extends ConsumerState<LoginWidget> {
                     ),
                   ),
                   const SizedBox(height: 20),
-                  const Align(
+                  Align(
                     alignment: Alignment.topLeft,
                     child: Text(
-                      'Let\'s Get Started!',
-                      style: TextStyle(
+                      Language.TitleLogin,
+                      style: const TextStyle(
                         fontSize: 30,
                         color: Colors.black,
                         fontWeight: FontWeight.w700,
@@ -130,11 +131,11 @@ class _LoginWidgetState extends ConsumerState<LoginWidget> {
                     ),
                   ),
                   const SizedBox(height: 10),
-                  const Align(
+                  Align(
                     alignment: Alignment.topLeft,
                     child: Text(
-                      'Please fill the below details to Sign In your account',
-                      style: TextStyle(
+                      Language.DescriptionLogin,
+                      style: const TextStyle(
                         fontSize: 15.5,
                         color: Colors.black,
                       ),
@@ -158,7 +159,7 @@ class _LoginWidgetState extends ConsumerState<LoginWidget> {
                         fontSize: 17,
                       ),
                       decoration: InputDecoration(
-                        labelText: 'Username or email',
+                        labelText: Language.UsernameLogin,
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(9),
                         ),
@@ -192,7 +193,7 @@ class _LoginWidgetState extends ConsumerState<LoginWidget> {
                         fontSize: 17,
                       ),
                       decoration: InputDecoration(
-                        labelText: 'Password',
+                        labelText: Language.PassWordLogin,
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(9),
                         ),
@@ -244,8 +245,8 @@ class _LoginWidgetState extends ConsumerState<LoginWidget> {
                                 child: iconRememberPassword,
                               ),
                               const SizedBox(width: 5),
-                              const Text(
-                                'Remember Me',
+                              Text(
+                                Language.RememberLogin,
                                 style: TextStyle(
                                   fontSize: 15,
                                   color: Colors.black,
@@ -263,8 +264,8 @@ class _LoginWidgetState extends ConsumerState<LoginWidget> {
                                 userLoginRole,
                               );
                         },
-                        child: const Text(
-                          'Forgot Password?',
+                        child: Text(
+                          Language.ForgotLogin,
                           style: TextStyle(
                             fontSize: 15,
                             color: Colors.black,
@@ -293,13 +294,13 @@ class _LoginWidgetState extends ConsumerState<LoginWidget> {
 
                               if (json.decode(responseLogin.body).containsKey('errorDetails')) {
                                 if (json.decode(responseLogin.body)['errorDetails'].runtimeType == String) {
-                                  showErrorToast('Error', json.decode(responseLogin.body)['errorDetails']);
+                                  showErrorToast(Language.ErrorToast_1, json.decode(responseLogin.body)['errorDetails']);
                                 } else {
-                                  showErrorToast('Error', json.decode(responseLogin.body)['errorDetails'][0]);
+                                  showErrorToast(Language.ErrorToast_1, json.decode(responseLogin.body)['errorDetails'][0]);
                                 }
                               } else {
                                 if (json.decode(responseLogin.body)['result'].runtimeType == String) {
-                                  showErrorToast('Warning', json.decode(responseLogin.body)['result']);
+                                  showErrorToast(Language.ErrorToast_2, json.decode(responseLogin.body)['result']);
                                 } else {
                                   final urlAuthMe = Uri.parse('http://${dotenv.env['IP_ADDRESS']}/api/auth/me');
                                   final responseAuthMe = await http.get(
@@ -327,7 +328,7 @@ class _LoginWidgetState extends ConsumerState<LoginWidget> {
                                         userLoginRole,
                                       );
 
-                                  showSuccessToast('Success', 'Login successfully');
+                                  showSuccessToast(Language.SuccessToast_1, Language.SuccessToast_2);
 
                                   print('------------------responeAuthMeData["result"]["student"]');
                                   print(responeAuthMeData["result"]["student"]);
@@ -498,8 +499,8 @@ class _LoginWidgetState extends ConsumerState<LoginWidget> {
                                 ),
                               ),
                             )
-                          : const Text(
-                              'Sign In',
+                          : Text(
+                              Language.SignIn,
                               style: TextStyle(
                                 fontSize: 18,
                                 color: Colors.white,
@@ -509,7 +510,7 @@ class _LoginWidgetState extends ConsumerState<LoginWidget> {
                     ),
                   ),
                   const SizedBox(height: 50),
-                  const Row(
+                  Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
@@ -518,7 +519,7 @@ class _LoginWidgetState extends ConsumerState<LoginWidget> {
                       ),
                       SizedBox(width: 10),
                       Text(
-                        'Or continue with',
+                        Language.TextLogin_1,
                         style: TextStyle(
                           fontSize: 16,
                           color: Colors.black,
@@ -572,8 +573,8 @@ class _LoginWidgetState extends ConsumerState<LoginWidget> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center, //Center Column contents vertically,
                     children: [
-                      const Text(
-                        'Don\'t have an account?',
+                      Text(
+                        Language.TextLogin_2,
                         style: TextStyle(
                           fontSize: 16,
                           color: Colors.black,
@@ -603,8 +604,8 @@ class _LoginWidgetState extends ConsumerState<LoginWidget> {
                             color: Colors.blue,
                             width: 1.3,
                           ))),
-                          child: const Text(
-                            "Register",
+                          child: Text(
+                            Language.Register,
                             style: TextStyle(
                               fontSize: 16,
                               color: Colors.blue,

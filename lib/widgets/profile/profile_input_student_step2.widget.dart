@@ -12,6 +12,7 @@ import 'package:studenthub/utils/multiselect_bottom_sheet_model.dart';
 import 'package:studenthub/utils/multiselect_bottom_sheet_exp.dart';
 import 'package:http/http.dart' as http;
 import 'package:toastification/toastification.dart';
+import 'package:studenthub/providers/language/language.provider.dart';
 
 class ExperienceCreate {
   String title;
@@ -191,7 +192,6 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentStep2Widget> {
     final user = ref.read(userProvider);
     final student = ref.read(studentProvider);
     final studentInput = ref.read(studentInputProvider);
-
     getStudent(user.token!, student);
   }
 
@@ -200,7 +200,7 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentStep2Widget> {
     final user = ref.watch(userProvider);
     var studentInput = ref.watch(studentInputProvider);
     var student = ref.watch(studentProvider);
-
+    var Language = ref.watch(LanguageProvider);
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(
@@ -228,10 +228,10 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentStep2Widget> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const SizedBox(height: 30),
-                    const Align(
+                    Align(
                       alignment: Alignment.topLeft,
                       child: Text(
-                        'Experiences',
+                        Language.Experiences,
                         style: TextStyle(
                           fontSize: 26,
                           fontWeight: FontWeight.bold,
@@ -239,16 +239,16 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentStep2Widget> {
                       ),
                     ),
                     const SizedBox(height: 15),
-                    const Text(
-                      'Tell us about your self and you will be your way connect with real-world project',
+                    Text(
+                      Language.DescriptionEx,
                       style: TextStyle(fontSize: 16),
                     ),
                     const SizedBox(height: 20),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        const Text(
-                          'Projects',
+                        Text(
+                          Language.Projects,
                           style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.w600,
@@ -280,10 +280,10 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentStep2Widget> {
                                           mainAxisSize: MainAxisSize.min,
                                           children: [
                                             const SizedBox(height: 40),
-                                            const Align(
+                                            Align(
                                               alignment: Alignment.topLeft,
                                               child: Text(
-                                                "Create project",
+                                                Language.CreaProject,
                                                 style: TextStyle(
                                                   fontWeight: FontWeight.bold,
                                                   fontSize: 25,
@@ -304,10 +304,10 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentStep2Widget> {
                                               height: 580,
                                               child: Column(
                                                 children: [
-                                                  const Align(
+                                                  Align(
                                                     alignment: Alignment.topLeft,
                                                     child: Text(
-                                                      "Title",
+                                                      Language.Title,
                                                       style: TextStyle(
                                                         fontWeight: FontWeight.bold,
                                                         fontSize: 16,
@@ -342,15 +342,15 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentStep2Widget> {
                                                           vertical: 14,
                                                           horizontal: 15,
                                                         ),
-                                                        hintText: 'Enter your project\'s title',
+                                                        hintText: Language.textTitle,
                                                       ),
                                                     ),
                                                   ),
                                                   const SizedBox(height: 20),
-                                                  const Align(
+                                                  Align(
                                                     alignment: Alignment.topLeft,
                                                     child: Text(
-                                                      "Description",
+                                                      Language.textDescription,
                                                       style: TextStyle(
                                                         fontWeight: FontWeight.bold,
                                                         fontSize: 16,
@@ -385,17 +385,17 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentStep2Widget> {
                                                           vertical: 14,
                                                           horizontal: 15,
                                                         ),
-                                                        hintText: 'Enter your project\'s description',
+                                                        hintText: Language.textDescription,
                                                       ),
                                                     ),
                                                   ),
                                                   const SizedBox(height: 20),
-                                                  const Row(
+                                                  Row(
                                                     children: [
                                                       Align(
                                                         alignment: Alignment.topLeft,
                                                         child: Text(
-                                                          "Start time",
+                                                          Language.Stime,
                                                           style: TextStyle(
                                                             fontWeight: FontWeight.bold,
                                                             fontSize: 16,
@@ -406,7 +406,7 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentStep2Widget> {
                                                       Align(
                                                         alignment: Alignment.topLeft,
                                                         child: Text(
-                                                          "End time",
+                                                          Language.Etime,
                                                           style: TextStyle(
                                                             fontWeight: FontWeight.bold,
                                                             fontSize: 16,
@@ -446,7 +446,7 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentStep2Widget> {
                                                               vertical: 14,
                                                               horizontal: 15,
                                                             ),
-                                                            hintText: 'End start time',
+                                                            hintText: Language.textSTime,
                                                           ),
                                                         ),
                                                       ),
@@ -479,17 +479,17 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentStep2Widget> {
                                                               vertical: 14,
                                                               horizontal: 15,
                                                             ),
-                                                            hintText: 'Enter end time',
+                                                            hintText: Language.textETime,
                                                           ),
                                                         ),
                                                       ),
                                                     ],
                                                   ),
                                                   const SizedBox(height: 20),
-                                                  const Align(
+                                                  Align(
                                                     alignment: Alignment.topLeft,
                                                     child: Text(
-                                                      "Skillsets",
+                                                      Language.Skillset,
                                                       style: TextStyle(
                                                         fontWeight: FontWeight.bold,
                                                         fontSize: 16,
@@ -504,7 +504,7 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentStep2Widget> {
                                                     expEachElement: [],
                                                     width: MediaQuery.of(context).size.width,
                                                     bottomSheetHeight: 500 * 0.7, // required for min/max height of bottomSheet
-                                                    hint: "Select Skillset",
+                                                    hint: Language.SelectSkillset,
                                                     controller: controller,
                                                     searchTextFieldWidth: 300 * 0.96,
                                                     searchIcon: const Icon(
@@ -541,8 +541,8 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentStep2Widget> {
                                                                 ),
                                                                 backgroundColor: Colors.white,
                                                               ),
-                                                              child: const Text(
-                                                                'Cancel',
+                                                              child: Text(
+                                                                Language.cancel,
                                                                 style: TextStyle(
                                                                   fontSize: 18,
                                                                   color: Colors.black,
@@ -580,8 +580,8 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentStep2Widget> {
                                                                 ),
                                                                 backgroundColor: Colors.black,
                                                               ),
-                                                              child: const Text(
-                                                                'Save',
+                                                              child: Text(
+                                                                Language.save,
                                                                 style: TextStyle(
                                                                   fontSize: 18,
                                                                   color: Color.fromARGB(255, 255, 255, 255),
@@ -616,10 +616,10 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentStep2Widget> {
                     ),
                     const SizedBox(height: 15),
                     studentInput.experiences!.isEmpty
-                        ? const Column(
+                        ? Column(
                             children: [
                               Text(
-                                'Empty',
+                                Language.empty,
                                 style: TextStyle(fontSize: 16),
                               ),
                               SizedBox(height: 20),
@@ -696,10 +696,10 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentStep2Widget> {
                                                                       mainAxisSize: MainAxisSize.min,
                                                                       children: [
                                                                         const SizedBox(height: 40),
-                                                                        const Align(
+                                                                        Align(
                                                                           alignment: Alignment.topLeft,
                                                                           child: Text(
-                                                                            "Edit project",
+                                                                            Language.EditProject,
                                                                             style: TextStyle(
                                                                               fontWeight: FontWeight.bold,
                                                                               fontSize: 25,
@@ -720,10 +720,10 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentStep2Widget> {
                                                                           height: 580,
                                                                           child: Column(
                                                                             children: [
-                                                                              const Align(
+                                                                              Align(
                                                                                 alignment: Alignment.topLeft,
                                                                                 child: Text(
-                                                                                  "Title",
+                                                                                  Language.Title,
                                                                                   style: TextStyle(
                                                                                     fontWeight: FontWeight.bold,
                                                                                     fontSize: 16,
@@ -751,15 +751,15 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentStep2Widget> {
                                                                                       vertical: 14,
                                                                                       horizontal: 15,
                                                                                     ),
-                                                                                    hintText: 'Enter your project\'s title',
+                                                                                    hintText: Language.textTitle,
                                                                                   ),
                                                                                 ),
                                                                               ),
                                                                               const SizedBox(height: 20),
-                                                                              const Align(
+                                                                              Align(
                                                                                 alignment: Alignment.topLeft,
                                                                                 child: Text(
-                                                                                  "Description",
+                                                                                  Language.Description,
                                                                                   style: TextStyle(
                                                                                     fontWeight: FontWeight.bold,
                                                                                     fontSize: 16,
@@ -787,28 +787,30 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentStep2Widget> {
                                                                                       vertical: 14,
                                                                                       horizontal: 15,
                                                                                     ),
-                                                                                    hintText: 'Enter your project\'s description',
+                                                                                    hintText: Language.textDescription,
                                                                                   ),
                                                                                 ),
                                                                               ),
                                                                               const SizedBox(height: 20),
-                                                                              const Row(
+                                                                              Row(
                                                                                 children: [
                                                                                   Align(
                                                                                     alignment: Alignment.topLeft,
                                                                                     child: Text(
-                                                                                      "Start time",
+                                                                                      Language.Stime,
                                                                                       style: TextStyle(
                                                                                         fontWeight: FontWeight.bold,
                                                                                         fontSize: 16,
                                                                                       ),
                                                                                     ),
                                                                                   ),
-                                                                                  SizedBox(width: 118),
+                                                                                  const SizedBox(
+                                                                                    width: 118,
+                                                                                  ),
                                                                                   Align(
                                                                                     alignment: Alignment.topLeft,
                                                                                     child: Text(
-                                                                                      "End time",
+                                                                                      Language.Etime,
                                                                                       style: TextStyle(
                                                                                         fontWeight: FontWeight.bold,
                                                                                         fontSize: 16,
@@ -841,7 +843,7 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentStep2Widget> {
                                                                                           vertical: 14,
                                                                                           horizontal: 15,
                                                                                         ),
-                                                                                        hintText: 'End start time',
+                                                                                        hintText: Language.textSTime,
                                                                                       ),
                                                                                     ),
                                                                                   ),
@@ -867,17 +869,17 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentStep2Widget> {
                                                                                           vertical: 14,
                                                                                           horizontal: 15,
                                                                                         ),
-                                                                                        hintText: 'Enter end time',
+                                                                                        hintText: Language.textETime,
                                                                                       ),
                                                                                     ),
                                                                                   ),
                                                                                 ],
                                                                               ),
                                                                               const SizedBox(height: 20),
-                                                                              const Align(
+                                                                              Align(
                                                                                 alignment: Alignment.topLeft,
                                                                                 child: Text(
-                                                                                  "Skillsets",
+                                                                                  Language.Skillset,
                                                                                   style: TextStyle(
                                                                                     fontWeight: FontWeight.bold,
                                                                                     fontSize: 16,
@@ -891,7 +893,7 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentStep2Widget> {
                                                                                 width: MediaQuery.of(context).size.width,
 
                                                                                 bottomSheetHeight: 500 * 0.7, // required for min/max height of bottomSheet
-                                                                                hint: "Select Skillset",
+                                                                                hint: Language.Skillset,
                                                                                 controller: controller,
                                                                                 searchTextFieldWidth: 300 * 0.96,
                                                                                 searchIcon: const Icon(
@@ -928,8 +930,8 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentStep2Widget> {
                                                                                             ),
                                                                                             backgroundColor: Colors.white,
                                                                                           ),
-                                                                                          child: const Text(
-                                                                                            'Cancel',
+                                                                                          child: Text(
+                                                                                            Language.cancel,
                                                                                             style: TextStyle(
                                                                                               fontSize: 18,
                                                                                               color: Colors.black,
@@ -964,8 +966,8 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentStep2Widget> {
                                                                                             ),
                                                                                             backgroundColor: Colors.black,
                                                                                           ),
-                                                                                          child: const Text(
-                                                                                            'Save',
+                                                                                          child: Text(
+                                                                                            Language.save,
                                                                                             style: TextStyle(
                                                                                               fontSize: 18,
                                                                                               color: Color.fromARGB(255, 255, 255, 255),
@@ -1020,8 +1022,8 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentStep2Widget> {
                                                 ),
                                               ),
                                               const SizedBox(height: 15),
-                                              const Text(
-                                                'Skillset',
+                                              Text(
+                                                Language.Skillset,
                                                 style: TextStyle(
                                                   fontSize: 16,
                                                   fontWeight: FontWeight.w600,
@@ -1065,8 +1067,8 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentStep2Widget> {
                             ),
                             backgroundColor: const Color.fromARGB(255, 0, 0, 0),
                           ),
-                          child: const Text(
-                            'Next',
+                          child: Text(
+                            Language.Next,
                             style: TextStyle(
                               fontSize: 18,
                               color: Color.fromARGB(255, 255, 255, 255),

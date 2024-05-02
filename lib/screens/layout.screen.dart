@@ -31,6 +31,7 @@ import 'package:studenthub/screens/message/message.screen.dart';
 import 'package:studenthub/screens/chat/message_details.screen.dart';
 import 'package:studenthub/widgets/message/videocalll.widget.dart';
 import 'package:studenthub/screens/alerts/alerts.screen.dart';
+import 'package:studenthub/screens/profile/setting.screen.dart';
 
 class LayoutScreen extends ConsumerStatefulWidget {
   const LayoutScreen({super.key});
@@ -165,6 +166,8 @@ class _LayoutScreenState extends ConsumerState<LayoutScreen> {
         _selectedPageIndex = 3;
       });
       return const AlertsScreen();
+    } else if (widgetOption == 'Setting') {
+      return const SettingScreen();
     }
 
     return const HomepageScreen();

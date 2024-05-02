@@ -12,6 +12,7 @@ import 'package:studenthub/utils/resume_input.dart';
 import 'package:studenthub/utils/transcript_input.dart';
 import 'package:http/http.dart' as http;
 import 'package:toastification/toastification.dart';
+import 'package:studenthub/providers/language/language.provider.dart';
 
 class ProfileIStudentStep3Widget extends ConsumerStatefulWidget {
   const ProfileIStudentStep3Widget({super.key});
@@ -64,6 +65,8 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentStep3Widget> {
     final user = ref.watch(userProvider);
     final studentInput = ref.watch(studentInputProvider);
     var student = ref.watch(studentProvider);
+    var Language = ref.watch(LanguageProvider);
+
     var responseEditStudent;
     var responseEditStudentData;
     var responseCreateStudentData;
@@ -76,10 +79,10 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentStep3Widget> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(height: 30),
-              const Align(
+              Align(
                 alignment: Alignment.topLeft,
                 child: Text(
-                  'CV & Transcript',
+                  Language.CV,
                   style: TextStyle(
                     fontSize: 26,
                     fontWeight: FontWeight.bold,
@@ -87,16 +90,16 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentStep3Widget> {
                 ),
               ),
               const SizedBox(height: 15),
-              const Text(
-                'Tell us about your self and you will be your way connect with real-world project',
+              Text(
+                Language.DescriptionEx,
                 style: TextStyle(fontSize: 16),
               ),
               const SizedBox(height: 20),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Text(
-                    'Resume/CV',
+                  Text(
+                    Language.CV,
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w600,
@@ -139,8 +142,8 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentStep3Widget> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Text(
-                    'Transcript',
+                  Text(
+                    Language.Transcript,
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w600,
@@ -436,8 +439,8 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentStep3Widget> {
                               color: Colors.white,
                             ),
                           )
-                        : const Text(
-                            'Continue',
+                        : Text(
+                            Language.Next,
                             style: TextStyle(
                               fontSize: 18,
                               color: Color.fromARGB(255, 255, 255, 255),

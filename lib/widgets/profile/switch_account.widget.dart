@@ -6,7 +6,7 @@ import 'package:studenthub/providers/options.provider.dart';
 import 'package:studenthub/providers/profile/company.provider.dart';
 import 'package:studenthub/providers/profile/student.provider.dart';
 import 'package:studenthub/providers/switch_account.provider.dart';
-
+import 'package:studenthub/providers/language/language.provider.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'dart:async';
@@ -29,7 +29,7 @@ class _SwitchAccountWidgetState extends ConsumerState<SwitchAccountWidget> {
     final user = ref.watch(userProvider);
     final student = ref.watch(studentProvider);
     final company = ref.watch(companyProvider);
-
+    var Language = ref.watch(LanguageProvider);
     Icon icon = isChecked
         ? const Icon(Icons.keyboard_arrow_up_outlined, size: 40, color: Color.fromARGB(255, 121, 123, 125))
         : const Icon(
@@ -84,14 +84,14 @@ class _SwitchAccountWidgetState extends ConsumerState<SwitchAccountWidget> {
                                 ),
                               ),
                             ),
-                            const Padding(
+                            Padding(
                               padding: EdgeInsets.only(left: 2),
                               child: Align(
                                 alignment: Alignment.topLeft,
                                 child: SizedBox(
                                   width: 240,
                                   child: Text(
-                                    'Company',
+                                    Language.Company,
                                     overflow: TextOverflow.ellipsis,
                                     style: TextStyle(
                                       color: Color.fromARGB(255, 73, 80, 87),
@@ -164,14 +164,14 @@ class _SwitchAccountWidgetState extends ConsumerState<SwitchAccountWidget> {
                                 ),
                               ),
                             ),
-                            const Padding(
+                            Padding(
                               padding: EdgeInsets.only(left: 2),
                               child: Align(
                                 alignment: Alignment.topLeft,
                                 child: SizedBox(
                                   width: 240,
                                   child: Text(
-                                    'Student',
+                                    Language.Student,
                                     overflow: TextOverflow.ellipsis,
                                     style: TextStyle(
                                       color: Color.fromARGB(255, 73, 80, 87),
@@ -252,14 +252,14 @@ class _SwitchAccountWidgetState extends ConsumerState<SwitchAccountWidget> {
                                 ),
                               ),
                             ),
-                            const Padding(
+                            Padding(
                               padding: EdgeInsets.only(left: 2),
                               child: Align(
                                 alignment: Alignment.topLeft,
                                 child: SizedBox(
                                   width: 240,
                                   child: Text(
-                                    'Student',
+                                    Language.Student,
                                     overflow: TextOverflow.ellipsis,
                                     style: TextStyle(
                                       color: Color.fromARGB(255, 73, 80, 87),
@@ -329,14 +329,14 @@ class _SwitchAccountWidgetState extends ConsumerState<SwitchAccountWidget> {
                                 ),
                               ),
                             ),
-                            const Padding(
+                            Padding(
                               padding: EdgeInsets.only(left: 2),
                               child: Align(
                                 alignment: Alignment.topLeft,
                                 child: SizedBox(
                                   width: 240,
                                   child: Text(
-                                    'Company',
+                                    Language.Company,
                                     overflow: TextOverflow.ellipsis,
                                     style: TextStyle(
                                       color: Color.fromARGB(255, 73, 80, 87),
@@ -410,7 +410,7 @@ class _SwitchAccountWidgetState extends ConsumerState<SwitchAccountWidget> {
                             onTap: () {
                               ref.read(optionsProvider.notifier).setWidgetOption(user.role == '1' ? (company.id == null || company.id == 0 || company.id == 0 ? 'ProfileInput' : 'ViewProfile') : 'ProfileInputStudent', user.role!);
                             },
-                            child: const Padding(
+                            child: Padding(
                               padding: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
                               child: SizedBox(
                                 // width: 250,
@@ -431,7 +431,7 @@ class _SwitchAccountWidgetState extends ConsumerState<SwitchAccountWidget> {
                                           child: SizedBox(
                                             width: 240,
                                             child: Text(
-                                              'Profiles',
+                                              Language.Profiles,
                                               overflow: TextOverflow.ellipsis,
                                               style: TextStyle(
                                                 color: Color.fromARGB(255, 73, 80, 87),
@@ -450,42 +450,47 @@ class _SwitchAccountWidgetState extends ConsumerState<SwitchAccountWidget> {
                         ),
                       ],
                     ),
-                    const TableRow(
+                    TableRow(
                       children: [
                         TableCell(
                           verticalAlignment: TableCellVerticalAlignment.middle,
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
-                            child: SizedBox(
-                              // width: 250,
-                              child: Padding(
-                                padding: EdgeInsets.only(left: 8),
-                                child: Row(
-                                  children: [
-                                    Icon(
-                                      Icons.settings_outlined,
-                                      size: 40,
-                                      color: Color.fromARGB(255, 121, 123, 125),
-                                    ),
-                                    SizedBox(width: 10),
-                                    Padding(
-                                      padding: EdgeInsets.only(left: 2),
-                                      child: Align(
-                                        alignment: Alignment.topLeft,
-                                        child: SizedBox(
-                                          width: 240,
-                                          child: Text(
-                                            'Setting',
-                                            overflow: TextOverflow.ellipsis,
-                                            style: TextStyle(
-                                              color: Color.fromARGB(255, 73, 80, 87),
-                                              fontSize: 16,
+                          child: InkWell(
+                            onTap: () {
+                              ref.read(optionsProvider.notifier).setWidgetOption('Setting', user.role!);
+                            },
+                            child: Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+                              child: SizedBox(
+                                // width: 250,
+                                child: Padding(
+                                  padding: EdgeInsets.only(left: 8),
+                                  child: Row(
+                                    children: [
+                                      Icon(
+                                        Icons.settings_outlined,
+                                        size: 40,
+                                        color: Color.fromARGB(255, 121, 123, 125),
+                                      ),
+                                      SizedBox(width: 10),
+                                      Padding(
+                                        padding: EdgeInsets.only(left: 2),
+                                        child: Align(
+                                          alignment: Alignment.topLeft,
+                                          child: SizedBox(
+                                            width: 240,
+                                            child: Text(
+                                              Language.Setting,
+                                              overflow: TextOverflow.ellipsis,
+                                              style: TextStyle(
+                                                color: Color.fromARGB(255, 73, 80, 87),
+                                                fontSize: 16,
+                                              ),
                                             ),
                                           ),
                                         ),
                                       ),
-                                    ),
-                                  ],
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),
@@ -501,7 +506,7 @@ class _SwitchAccountWidgetState extends ConsumerState<SwitchAccountWidget> {
                             onTap: () {
                               ref.read(optionsProvider.notifier).setWidgetOption('ChangePassword', user.role!);
                             },
-                            child: const Padding(
+                            child: Padding(
                               padding: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
                               child: SizedBox(
                                 // width: 250,
@@ -522,7 +527,7 @@ class _SwitchAccountWidgetState extends ConsumerState<SwitchAccountWidget> {
                                           child: SizedBox(
                                             width: 240,
                                             child: Text(
-                                              'Change password',
+                                              Language.ChangPass,
                                               overflow: TextOverflow.ellipsis,
                                               style: TextStyle(
                                                 color: Color.fromARGB(255, 73, 80, 87),
@@ -567,7 +572,7 @@ class _SwitchAccountWidgetState extends ConsumerState<SwitchAccountWidget> {
                               ref.read(studentProvider.notifier).setStudentData(0, '', '', 0, [], [], [], []);
                               ref.read(optionsProvider.notifier).setWidgetOption('', user.role!);
                             },
-                            child: const Padding(
+                            child: Padding(
                               padding: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
                               child: SizedBox(
                                 // width: 250,
@@ -588,7 +593,7 @@ class _SwitchAccountWidgetState extends ConsumerState<SwitchAccountWidget> {
                                           child: SizedBox(
                                             width: 240,
                                             child: Text(
-                                              'Logout',
+                                              Language.Logout,
                                               overflow: TextOverflow.ellipsis,
                                               style: TextStyle(
                                                 color: Color.fromARGB(255, 73, 80, 87),

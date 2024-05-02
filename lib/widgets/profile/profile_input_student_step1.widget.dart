@@ -7,7 +7,7 @@ import 'package:studenthub/providers/profile/student.provider.dart';
 import 'package:studenthub/providers/profile/student_input.provider.dart';
 import 'package:studenthub/utils/multiselect_bottom_sheet_model.dart';
 import 'package:studenthub/utils/multiselect_bottom_sheet.dart';
-
+import 'package:studenthub/providers/language/language.provider.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
@@ -424,7 +424,7 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentWidget> {
     final user = ref.watch(userProvider);
     final student = ref.watch(studentProvider);
     final studentInput = ref.watch(studentInputProvider);
-
+    var Language = ref.watch(LanguageProvider);
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(
@@ -452,10 +452,10 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentWidget> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const SizedBox(height: 30),
-                    const Align(
+                    Align(
                       alignment: Alignment.topLeft,
                       child: Text(
-                        'Student profile',
+                        Language.TitleStudentProfile,
                         style: TextStyle(
                           fontSize: 26,
                           fontWeight: FontWeight.bold,
@@ -463,15 +463,15 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentWidget> {
                       ),
                     ),
                     const SizedBox(height: 10),
-                    const Text(
-                      'Tell us about yourself and you will be your way connect with real-world project',
+                    Text(
+                      Language.DescriptionStudentProfile,
                       style: TextStyle(fontSize: 16),
                     ),
                     const SizedBox(height: 20),
-                    const Align(
+                    Align(
                       alignment: Alignment.topLeft,
                       child: Text(
-                        "Fullname",
+                        Language.Fullname,
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 16,
@@ -509,13 +509,13 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentWidget> {
                             vertical: 14,
                             horizontal: 15,
                           ),
-                          hintText: 'Enter your fullname',
+                          hintText: Language.EnterFullname,
                         ),
                       ),
                     ),
                     const SizedBox(height: 20),
-                    const Text(
-                      'Techstack',
+                    Text(
+                      Language.Techstack,
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w600,
@@ -556,8 +556,8 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentWidget> {
                       }).toList(),
                     ),
                     const SizedBox(height: 20),
-                    const Text(
-                      'Skillset',
+                    Text(
+                      Language.Skillset,
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w600,
@@ -568,7 +568,7 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentWidget> {
                       items: skillSetItems, // required for Item list
                       width: 370,
                       bottomSheetHeight: 500 * 0.7, // required for min/max height of bottomSheet
-                      hint: "Select Skillset",
+                      hint: Language.SelectSkillset,
                       controller: controller,
                       searchTextFieldWidth: 300 * 0.96,
                       searchIcon: const Icon(
@@ -583,8 +583,8 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentWidget> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        const Text(
-                          'Languages',
+                        Text(
+                          Language.language,
                           style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.w600,
@@ -613,10 +613,10 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentWidget> {
                                           mainAxisSize: MainAxisSize.min,
                                           children: [
                                             const SizedBox(height: 40),
-                                            const Align(
+                                            Align(
                                               alignment: Alignment.topLeft,
                                               child: Text(
-                                                "Create languages",
+                                                Language.CreateLang,
                                                 style: TextStyle(
                                                   fontWeight: FontWeight.bold,
                                                   fontSize: 25,
@@ -637,10 +637,10 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentWidget> {
                                               height: 580,
                                               child: Column(
                                                 children: [
-                                                  const Align(
+                                                  Align(
                                                     alignment: Alignment.topLeft,
                                                     child: Text(
-                                                      "Languages",
+                                                      Language.language,
                                                       style: TextStyle(
                                                         fontWeight: FontWeight.bold,
                                                         fontSize: 16,
@@ -675,15 +675,15 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentWidget> {
                                                           vertical: 14,
                                                           horizontal: 15,
                                                         ),
-                                                        hintText: 'Enter your languages',
+                                                        hintText: Language.textLanguage,
                                                       ),
                                                     ),
                                                   ),
                                                   const SizedBox(height: 20),
-                                                  const Align(
+                                                  Align(
                                                     alignment: Alignment.topLeft,
                                                     child: Text(
-                                                      "Level",
+                                                      Language.Level,
                                                       style: TextStyle(
                                                         fontWeight: FontWeight.bold,
                                                         fontSize: 16,
@@ -718,7 +718,7 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentWidget> {
                                                           vertical: 14,
                                                           horizontal: 15,
                                                         ),
-                                                        hintText: 'Enter your language level',
+                                                        hintText: Language.textLevel,
                                                       ),
                                                     ),
                                                   ),
@@ -746,8 +746,8 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentWidget> {
                                                                 ),
                                                                 backgroundColor: Colors.white,
                                                               ),
-                                                              child: const Text(
-                                                                'Cancel',
+                                                              child: Text(
+                                                                Language.cancel,
                                                                 style: TextStyle(
                                                                   fontSize: 18,
                                                                   color: Colors.black,
@@ -780,8 +780,8 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentWidget> {
                                                                 ),
                                                                 backgroundColor: Colors.black,
                                                               ),
-                                                              child: const Text(
-                                                                'Save',
+                                                              child: Text(
+                                                                Language.save,
                                                                 style: TextStyle(
                                                                   fontSize: 18,
                                                                   color: Color.fromARGB(255, 255, 255, 255),
@@ -818,10 +818,10 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentWidget> {
 
                     //Language
                     studentInput.languages!.isEmpty
-                        ? const Column(
+                        ? Column(
                             children: [
                               Text(
-                                'Empty',
+                                Language.empty,
                                 style: TextStyle(fontSize: 16),
                               ),
                               SizedBox(height: 20),
@@ -871,10 +871,10 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentWidget> {
                                                                 mainAxisSize: MainAxisSize.min,
                                                                 children: [
                                                                   const SizedBox(height: 40),
-                                                                  const Align(
+                                                                  Align(
                                                                     alignment: Alignment.topLeft,
                                                                     child: Text(
-                                                                      "Edit languages",
+                                                                      Language.EditLang,
                                                                       style: TextStyle(
                                                                         fontWeight: FontWeight.bold,
                                                                         fontSize: 25,
@@ -895,10 +895,10 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentWidget> {
                                                                     height: 580,
                                                                     child: Column(
                                                                       children: [
-                                                                        const Align(
+                                                                        Align(
                                                                           alignment: Alignment.topLeft,
                                                                           child: Text(
-                                                                            "Languages",
+                                                                            Language.language,
                                                                             style: TextStyle(
                                                                               fontWeight: FontWeight.bold,
                                                                               fontSize: 16,
@@ -926,15 +926,15 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentWidget> {
                                                                                 vertical: 14,
                                                                                 horizontal: 15,
                                                                               ),
-                                                                              hintText: 'Enter your languages',
+                                                                              hintText: Language.textLanguage,
                                                                             ),
                                                                           ),
                                                                         ),
                                                                         const SizedBox(height: 20),
-                                                                        const Align(
+                                                                        Align(
                                                                           alignment: Alignment.topLeft,
                                                                           child: Text(
-                                                                            "Level",
+                                                                            Language.Level,
                                                                             style: TextStyle(
                                                                               fontWeight: FontWeight.bold,
                                                                               fontSize: 16,
@@ -962,7 +962,7 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentWidget> {
                                                                                 vertical: 14,
                                                                                 horizontal: 15,
                                                                               ),
-                                                                              hintText: 'Enter your language level',
+                                                                              hintText: Language.textLevel,
                                                                             ),
                                                                           ),
                                                                         ),
@@ -990,8 +990,8 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentWidget> {
                                                                                       ),
                                                                                       backgroundColor: Colors.white,
                                                                                     ),
-                                                                                    child: const Text(
-                                                                                      'Cancel',
+                                                                                    child: Text(
+                                                                                      Language.cancel,
                                                                                       style: TextStyle(
                                                                                         fontSize: 18,
                                                                                         color: Colors.black,
@@ -1021,8 +1021,8 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentWidget> {
                                                                                       ),
                                                                                       backgroundColor: Colors.black,
                                                                                     ),
-                                                                                    child: const Text(
-                                                                                      'Save',
+                                                                                    child: Text(
+                                                                                      Language.save,
                                                                                       style: TextStyle(
                                                                                         fontSize: 18,
                                                                                         color: Color.fromARGB(255, 255, 255, 255),
@@ -1082,8 +1082,8 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentWidget> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        const Text(
-                          'Education',
+                        Text(
+                          Language.Education,
                           style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.w600,
@@ -1111,10 +1111,10 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentWidget> {
                                           mainAxisSize: MainAxisSize.min,
                                           children: [
                                             const SizedBox(height: 40),
-                                            const Align(
+                                            Align(
                                               alignment: Alignment.topLeft,
                                               child: Text(
-                                                "Create education",
+                                                Language.Createeducation,
                                                 style: TextStyle(
                                                   fontWeight: FontWeight.bold,
                                                   fontSize: 25,
@@ -1135,10 +1135,10 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentWidget> {
                                               height: 580,
                                               child: Column(
                                                 children: [
-                                                  const Align(
+                                                  Align(
                                                     alignment: Alignment.topLeft,
                                                     child: Text(
-                                                      "School name",
+                                                      Language.school,
                                                       style: TextStyle(
                                                         fontWeight: FontWeight.bold,
                                                         fontSize: 16,
@@ -1173,15 +1173,15 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentWidget> {
                                                           vertical: 14,
                                                           horizontal: 15,
                                                         ),
-                                                        hintText: 'Enter your school name',
+                                                        hintText: Language.textSchool,
                                                       ),
                                                     ),
                                                   ),
                                                   const SizedBox(height: 15),
-                                                  const Align(
+                                                  Align(
                                                     alignment: Alignment.topLeft,
                                                     child: Text(
-                                                      "Start school year",
+                                                      Language.schoolyear,
                                                       style: TextStyle(
                                                         fontWeight: FontWeight.bold,
                                                         fontSize: 16,
@@ -1216,15 +1216,15 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentWidget> {
                                                           vertical: 14,
                                                           horizontal: 15,
                                                         ),
-                                                        hintText: 'Enter your start school year',
+                                                        hintText: Language.textSchoolyear,
                                                       ),
                                                     ),
                                                   ),
                                                   const SizedBox(height: 15),
-                                                  const Align(
+                                                  Align(
                                                     alignment: Alignment.topLeft,
                                                     child: Text(
-                                                      "End school year",
+                                                      Language.Endschoolyear,
                                                       style: TextStyle(
                                                         fontWeight: FontWeight.bold,
                                                         fontSize: 16,
@@ -1259,7 +1259,7 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentWidget> {
                                                           vertical: 14,
                                                           horizontal: 15,
                                                         ),
-                                                        hintText: 'Enter your end school year',
+                                                        hintText: Language.textEndSchoolyear,
                                                       ),
                                                     ),
                                                   ),
@@ -1286,8 +1286,8 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentWidget> {
                                                             ),
                                                             backgroundColor: Colors.white,
                                                           ),
-                                                          child: const Text(
-                                                            'Cancel',
+                                                          child: Text(
+                                                            Language.cancel,
                                                             style: TextStyle(
                                                               fontSize: 18,
                                                               color: Colors.black,
@@ -1321,8 +1321,8 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentWidget> {
                                                             ),
                                                             backgroundColor: Colors.black,
                                                           ),
-                                                          child: const Text(
-                                                            'Save',
+                                                          child: Text(
+                                                            Language.save,
                                                             style: TextStyle(
                                                               fontSize: 18,
                                                               color: Color.fromARGB(255, 255, 255, 255),
@@ -1357,10 +1357,10 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentWidget> {
                     const SizedBox(height: 15),
 
                     studentInput.educations!.isEmpty
-                        ? const Column(
+                        ? Column(
                             children: [
                               Text(
-                                'Empty',
+                                Language.empty,
                                 style: TextStyle(fontSize: 16),
                               ),
                               SizedBox(height: 20),
@@ -1420,10 +1420,10 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentWidget> {
                                                                 mainAxisSize: MainAxisSize.min,
                                                                 children: [
                                                                   const SizedBox(height: 40),
-                                                                  const Align(
+                                                                  Align(
                                                                     alignment: Alignment.topLeft,
                                                                     child: Text(
-                                                                      "Edit education",
+                                                                      Language.Editeducation,
                                                                       style: TextStyle(
                                                                         fontWeight: FontWeight.bold,
                                                                         fontSize: 25,
@@ -1444,10 +1444,10 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentWidget> {
                                                                     height: 580,
                                                                     child: Column(
                                                                       children: [
-                                                                        const Align(
+                                                                        Align(
                                                                           alignment: Alignment.topLeft,
                                                                           child: Text(
-                                                                            "School name",
+                                                                            Language.school,
                                                                             style: TextStyle(
                                                                               fontWeight: FontWeight.bold,
                                                                               fontSize: 16,
@@ -1475,15 +1475,15 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentWidget> {
                                                                                 vertical: 14,
                                                                                 horizontal: 15,
                                                                               ),
-                                                                              hintText: 'Enter your school name',
+                                                                              hintText: Language.textSchool,
                                                                             ),
                                                                           ),
                                                                         ),
                                                                         const SizedBox(height: 15),
-                                                                        const Align(
+                                                                        Align(
                                                                           alignment: Alignment.topLeft,
                                                                           child: Text(
-                                                                            "Start school year",
+                                                                            Language.schoolyear,
                                                                             style: TextStyle(
                                                                               fontWeight: FontWeight.bold,
                                                                               fontSize: 16,
@@ -1511,15 +1511,15 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentWidget> {
                                                                                 vertical: 14,
                                                                                 horizontal: 15,
                                                                               ),
-                                                                              hintText: 'En3ter your start school year',
+                                                                              hintText: Language.textSchoolyear,
                                                                             ),
                                                                           ),
                                                                         ),
                                                                         const SizedBox(height: 15),
-                                                                        const Align(
+                                                                        Align(
                                                                           alignment: Alignment.topLeft,
                                                                           child: Text(
-                                                                            "End school year",
+                                                                            Language.Endschoolyear,
                                                                             style: TextStyle(
                                                                               fontWeight: FontWeight.bold,
                                                                               fontSize: 16,
@@ -1547,7 +1547,7 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentWidget> {
                                                                                 vertical: 14,
                                                                                 horizontal: 15,
                                                                               ),
-                                                                              hintText: 'Endter your end school year',
+                                                                              hintText: Language.textEndSchoolyear,
                                                                             ),
                                                                           ),
                                                                         ),
@@ -1574,8 +1574,8 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentWidget> {
                                                                                   ),
                                                                                   backgroundColor: Colors.white,
                                                                                 ),
-                                                                                child: const Text(
-                                                                                  'Cancel',
+                                                                                child: Text(
+                                                                                  Language.cancel,
                                                                                   style: TextStyle(
                                                                                     fontSize: 18,
                                                                                     color: Colors.black,
@@ -1606,8 +1606,8 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentWidget> {
                                                                                   ),
                                                                                   backgroundColor: Colors.black,
                                                                                 ),
-                                                                                child: const Text(
-                                                                                  'Save',
+                                                                                child: Text(
+                                                                                  Language.save,
                                                                                   style: TextStyle(
                                                                                     fontSize: 18,
                                                                                     color: Color.fromARGB(255, 255, 255, 255),
@@ -1679,8 +1679,8 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentWidget> {
                                   ),
                                   backgroundColor: const Color.fromARGB(255, 0, 0, 0),
                                 ),
-                                child: const Text(
-                                  'Next',
+                                child: Text(
+                                  Language.Next,
                                   style: TextStyle(
                                     fontSize: 18,
                                     color: Color.fromARGB(255, 255, 255, 255),

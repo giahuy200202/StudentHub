@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:studenthub/providers/authentication/authentication.provider.dart';
 import 'package:studenthub/providers/authentication/login.provider.dart';
 import 'package:studenthub/providers/options.provider.dart';
+import 'package:studenthub/providers/language/language.provider.dart';
 
 class GradientText extends StatelessWidget {
   const GradientText(
@@ -36,6 +37,7 @@ class HomepageWidget extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     // final tasks = ref.watch(tasksProvider);
     final user = ref.watch(userProvider);
+    var Language = ref.watch(LanguageProvider);
     return Scaffold(
       body: SingleChildScrollView(
           physics: const NeverScrollableScrollPhysics(),
@@ -62,37 +64,37 @@ class HomepageWidget extends ConsumerWidget {
                   child: SizedBox(
                     width: 300,
                     child: RichText(
-                      text: const TextSpan(
-                        text: 'Build your product with ',
-                        style: TextStyle(
+                      text: TextSpan(
+                        text: Language.TitleHomePage_1,
+                        style: const TextStyle(
                           fontSize: 35,
                           color: Colors.white,
                           fontWeight: FontWeight.w800,
                         ),
                         children: [
                           TextSpan(
-                            text: 'high-skilled',
-                            style: TextStyle(
+                            text: Language.TitleHomePage_2,
+                            style: const TextStyle(
                               fontSize: 35,
                               color: Colors.blue,
                               fontWeight: FontWeight.w800,
                             ),
                           ),
-                          TextSpan(text: ' student'),
+                          TextSpan(text: Language.TitleHomePage_3),
                         ],
                       ),
                     ),
                   ),
                 ),
                 const SizedBox(height: 30),
-                const Text(
-                  'Find and onboard best-skilled student for your product. Student works to gain experience & skills from real-world projects. StudentHub is university market place to connect high-skilled student and company on a real-world project',
-                  style: TextStyle(
+                Text(
+                  Language.DescriptionHomePage,
+                  style: const TextStyle(
                     fontSize: 16,
                     color: Colors.white,
                   ),
                 ),
-                const SizedBox(height: 70),
+                const SizedBox(height: 30),
                 SizedBox(
                   height: 50,
                   width: MediaQuery.of(context).size.width,
@@ -108,9 +110,9 @@ class HomepageWidget extends ConsumerWidget {
                       ),
                       backgroundColor: Colors.white,
                     ),
-                    child: const Text(
-                      'Company',
-                      style: TextStyle(
+                    child: Text(
+                      Language.Company,
+                      style: const TextStyle(
                         fontSize: 18,
                         color: Colors.black,
                         fontWeight: FontWeight.w500,
@@ -134,9 +136,9 @@ class HomepageWidget extends ConsumerWidget {
                       ),
                       backgroundColor: Colors.white,
                     ),
-                    child: const Text(
-                      'Student',
-                      style: TextStyle(
+                    child: Text(
+                      Language.Student,
+                      style: const TextStyle(
                         fontSize: 18,
                         color: Colors.black,
                         fontWeight: FontWeight.w500,
