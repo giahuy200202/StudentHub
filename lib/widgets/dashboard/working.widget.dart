@@ -242,7 +242,7 @@ class _WorkingWidgetState extends ConsumerState<WorkingWidget> {
                   ),
                 ],
               )
-            : listProjects.where((el) => el.typeFlag == 0).isEmpty
+            : listProjects.where((el) => el.typeFlag == 1).isEmpty
                 ? const Column(
                     children: [
                       Text(
@@ -254,7 +254,7 @@ class _WorkingWidgetState extends ConsumerState<WorkingWidget> {
                   )
                 : Column(
                     children: [
-                      ...listProjects.where((el) => el.typeFlag == 0).map((el) {
+                      ...listProjects.where((el) => el.typeFlag == 1).map((el) {
                         return Column(
                           children: [
                             GestureDetector(
@@ -474,7 +474,7 @@ class _WorkingWidgetState extends ConsumerState<WorkingWidget> {
                                                                         } else {
                                                                           Navigator.pop(context);
                                                                           getProjects(user.token, company.id);
-                                                                          showSuccessToast('Success', 'Project has been archived successfully');
+                                                                          showSuccessToast('Success', 'Project has been marked to work');
                                                                         }
                                                                       },
                                                                       style: ElevatedButton.styleFrom(

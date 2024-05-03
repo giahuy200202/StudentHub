@@ -162,7 +162,7 @@ class _AllProjectsStudentWidgetState extends ConsumerState<AllProjectsStudentWid
                     child: SizedBox(
                       width: 300,
                       child: Text(
-                        'Active proposal (${listProjects.where((el) => el.statusFlag == 1).toList().length})',
+                        'Active proposal (${listProjects.where((el) => el.statusFlag == 1 || el.statusFlag == 2).toList().length})',
                         overflow: TextOverflow.ellipsis,
                         style: const TextStyle(
                           color: Colors.black,
@@ -173,7 +173,7 @@ class _AllProjectsStudentWidgetState extends ConsumerState<AllProjectsStudentWid
                     ),
                   ),
                   const SizedBox(height: 20),
-                  listProjects.where((el) => el.statusFlag == 1).toList().isEmpty
+                  listProjects.where((el) => el.statusFlag == 1 || el.statusFlag == 2).toList().isEmpty
                       ? const Column(
                           children: [
                             Align(
@@ -188,7 +188,7 @@ class _AllProjectsStudentWidgetState extends ConsumerState<AllProjectsStudentWid
                         )
                       : Column(
                           children: [
-                            ...listProjects.where((el) => el.statusFlag == 1).toList().map((el) {
+                            ...listProjects.where((el) => el.statusFlag == 1 || el.statusFlag == 2).toList().map((el) {
                               return Column(
                                 children: [
                                   Container(

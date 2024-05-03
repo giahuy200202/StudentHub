@@ -376,106 +376,305 @@ class _MessageDetailsScreen extends ConsumerState<MessageDetailsScreen> {
               ),
             ],
           )
-        : Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const SizedBox(height: 30),
-                  Row(
+        : SizedBox(
+            height: 1000,
+            child: SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Align(
-                        alignment: Alignment.topLeft,
-                        child: InkWell(
-                          onTap: () {
-                            ref.read(optionsProvider.notifier).setWidgetOption('Message', user.role!);
-                          },
-                          child: const Icon(
-                            Icons.arrow_back_ios,
-                            size: 25,
-                            color: Colors.grey,
-                          ),
-                        ),
-                      ),
-                      const SizedBox(width: 10),
-                      const Align(
-                        alignment: Alignment.topLeft,
-                        child: Text(
-                          'Message details',
-                          style: TextStyle(
-                            fontSize: 22,
-                            color: Colors.black,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 20),
-                  SizedBox(
-                    height: 670,
-                    child: SingleChildScrollView(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                      const SizedBox(height: 60),
+                      Row(
                         children: [
-                          ...listMessages.map(
-                            (el) {
-                              return Column(
-                                children: [
-                                  !el.isInterview
-                                      ? Row(
-                                          mainAxisAlignment: MainAxisAlignment.start,
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: [
-                                            Padding(
-                                              padding: const EdgeInsets.only(top: 5),
-                                              child: Container(
-                                                width: 40,
-                                                height: 40,
-                                                padding: const EdgeInsets.all(0),
-                                                decoration: const BoxDecoration(
-                                                  borderRadius: BorderRadius.all(Radius.circular(10)),
-                                                  image: DecorationImage(
-                                                    image: AssetImage("assets/images/avatar.jpg"),
-                                                    fit: BoxFit.cover,
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                            const SizedBox(width: 15),
-                                            Column(
+                          Align(
+                            alignment: Alignment.topLeft,
+                            child: InkWell(
+                              onTap: () {
+                                ref.read(optionsProvider.notifier).setWidgetOption('Message', user.role!);
+                              },
+                              child: const Icon(
+                                Icons.arrow_back_ios,
+                                size: 25,
+                                color: Colors.grey,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(width: 10),
+                          const Align(
+                            alignment: Alignment.topLeft,
+                            child: Text(
+                              'Message details',
+                              style: TextStyle(
+                                fontSize: 22,
+                                color: Colors.black,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 20),
+                      SizedBox(
+                        height: 670,
+                        child: SingleChildScrollView(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              ...listMessages.map(
+                                (el) {
+                                  return Column(
+                                    children: [
+                                      !el.isInterview
+                                          ? Row(
                                               mainAxisAlignment: MainAxisAlignment.start,
                                               crossAxisAlignment: CrossAxisAlignment.start,
                                               children: [
+                                                Padding(
+                                                  padding: const EdgeInsets.only(top: 5),
+                                                  child: Container(
+                                                    width: 40,
+                                                    height: 40,
+                                                    padding: const EdgeInsets.all(0),
+                                                    decoration: const BoxDecoration(
+                                                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                                                      image: DecorationImage(
+                                                        image: AssetImage("assets/images/avatar.jpg"),
+                                                        fit: BoxFit.cover,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                                const SizedBox(width: 15),
+                                                Column(
+                                                  mainAxisAlignment: MainAxisAlignment.start,
+                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                  children: [
+                                                    Row(
+                                                      children: [
+                                                        SizedBox(
+                                                          width: 300,
+                                                          child: Row(
+                                                            children: [
+                                                              SizedBox(
+                                                                width: 160,
+                                                                child: Text(
+                                                                  el.author,
+                                                                  overflow: TextOverflow.ellipsis,
+                                                                  style: const TextStyle(
+                                                                    color: Colors.black,
+                                                                    fontSize: 16,
+                                                                    fontWeight: FontWeight.w600,
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                              const Spacer(),
+                                                              Text(
+                                                                el.createdAt,
+                                                                overflow: TextOverflow.ellipsis,
+                                                                style: const TextStyle(
+                                                                  color: Color.fromARGB(255, 119, 118, 118),
+                                                                  fontSize: 14,
+                                                                  fontWeight: FontWeight.w600,
+                                                                ),
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    const SizedBox(height: 5),
+                                                    Align(
+                                                      alignment: Alignment.topLeft,
+                                                      child: SizedBox(
+                                                        width: 300,
+                                                        child: Text(
+                                                          el.content,
+                                                          style: const TextStyle(
+                                                            color: Colors.black,
+                                                            // overflow: TextOverflow.ellipsis,
+                                                            fontSize: 14,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ],
+                                            )
+                                          : Text('1111'),
+                                      const SizedBox(height: 30),
+                                    ],
+                                  );
+                                },
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 20),
+                      Row(
+                        children: [
+                          InkWell(
+                            onTap: () {
+                              showModalBottomSheet(
+                                isScrollControlled: true,
+                                context: context,
+                                backgroundColor: Colors.white,
+                                builder: (ctx) {
+                                  return StatefulBuilder(builder: (BuildContext context, StateSetter setState /*You can rename this!*/) {
+                                    return Padding(
+                                      padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+                                      child: SizedBox(
+                                        height: 600,
+                                        child: SingleChildScrollView(
+                                          // physics: const NeverScrollableScrollPhysics(),
+                                          child: Padding(
+                                            padding: const EdgeInsets.only(left: 20, right: 20),
+                                            child: Column(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: [
+                                                const SizedBox(height: 40),
+                                                const Align(
+                                                  alignment: Alignment.topLeft,
+                                                  child: Text(
+                                                    "Schedule a video interview",
+                                                    style: TextStyle(
+                                                      fontWeight: FontWeight.bold,
+                                                      fontSize: 25,
+                                                    ),
+                                                  ),
+                                                ),
+                                                const SizedBox(height: 15),
+                                                Container(
+                                                  decoration: BoxDecoration(
+                                                    border: Border.all(
+                                                      color: Colors.black, //                   <--- border color
+                                                      width: 0.3,
+                                                    ),
+                                                  ),
+                                                ),
+                                                const SizedBox(height: 20),
+                                                const Text(
+                                                  'Title',
+                                                  style: TextStyle(
+                                                    fontSize: 16,
+                                                    fontWeight: FontWeight.w600,
+                                                  ),
+                                                ),
+                                                const SizedBox(height: 10),
+                                                SizedBox(
+                                                  height: 60,
+                                                  child: TextField(
+                                                    style: const TextStyle(
+                                                      fontSize: 16,
+                                                    ),
+                                                    controller: videoInterviewTitleController,
+                                                    decoration: InputDecoration(
+                                                      border: OutlineInputBorder(
+                                                        borderRadius: BorderRadius.circular(9),
+                                                      ),
+                                                      focusedBorder: OutlineInputBorder(
+                                                        borderRadius: BorderRadius.circular(9),
+                                                        borderSide: const BorderSide(color: Colors.grey),
+                                                      ),
+                                                      contentPadding: const EdgeInsets.symmetric(
+                                                        vertical: 0,
+                                                        horizontal: 10,
+                                                      ),
+                                                      hintText: 'Enter video interview title',
+                                                      hintStyle: const TextStyle(
+                                                        fontSize: 16,
+                                                        color: Color.fromARGB(255, 114, 111, 111),
+                                                        fontWeight: FontWeight.w500,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                                const SizedBox(height: 10),
+                                                const Text(
+                                                  'Start time',
+                                                  style: TextStyle(
+                                                    fontSize: 16,
+                                                    fontWeight: FontWeight.w600,
+                                                  ),
+                                                ),
                                                 Row(
                                                   children: [
                                                     SizedBox(
-                                                      width: 300,
-                                                      child: Row(
+                                                      width: 170,
+                                                      child: Column(
                                                         children: [
+                                                          const SizedBox(height: 10),
                                                           SizedBox(
-                                                            width: 160,
-                                                            child: Text(
-                                                              el.author,
-                                                              overflow: TextOverflow.ellipsis,
+                                                            height: 60,
+                                                            child: TextField(
                                                               style: const TextStyle(
-                                                                color: Colors.black,
                                                                 fontSize: 16,
-                                                                fontWeight: FontWeight.w600,
+                                                                color: Color.fromARGB(255, 114, 111, 111),
+                                                                fontWeight: FontWeight.w500,
+                                                              ),
+                                                              readOnly: true,
+                                                              controller: dateControllerStart,
+                                                              decoration: InputDecoration(
+                                                                border: OutlineInputBorder(
+                                                                  borderRadius: BorderRadius.circular(9),
+                                                                ),
+                                                                focusedBorder: OutlineInputBorder(
+                                                                  borderRadius: BorderRadius.circular(9),
+                                                                  borderSide: const BorderSide(color: Colors.black),
+                                                                ),
+                                                                contentPadding: const EdgeInsets.symmetric(
+                                                                  vertical: 0,
+                                                                  horizontal: 10,
+                                                                ),
+                                                                suffixIcon: InkWell(
+                                                                  onTap: presentDatePickerStart,
+                                                                  child: const Icon(Icons.calendar_month_outlined),
+                                                                ),
                                                               ),
                                                             ),
                                                           ),
-                                                          const Spacer(),
-                                                          Text(
-                                                            el.createdAt,
-                                                            overflow: TextOverflow.ellipsis,
-                                                            style: const TextStyle(
-                                                              color: Color.fromARGB(255, 119, 118, 118),
-                                                              fontSize: 14,
-                                                              fontWeight: FontWeight.w600,
+                                                        ],
+                                                      ),
+                                                    ),
+                                                    const Spacer(),
+                                                    SizedBox(
+                                                      width: 170,
+                                                      child: Column(
+                                                        children: [
+                                                          const SizedBox(height: 10),
+                                                          SizedBox(
+                                                            height: 60,
+                                                            child: TextField(
+                                                              style: const TextStyle(
+                                                                fontSize: 16,
+                                                                color: Color.fromARGB(255, 114, 111, 111),
+                                                                fontWeight: FontWeight.w500,
+                                                              ),
+                                                              readOnly: true,
+                                                              controller: timeControllerStart,
+                                                              decoration: InputDecoration(
+                                                                border: OutlineInputBorder(
+                                                                  borderRadius: BorderRadius.circular(9),
+                                                                ),
+                                                                focusedBorder: OutlineInputBorder(
+                                                                  borderRadius: BorderRadius.circular(9),
+                                                                  borderSide: const BorderSide(color: Colors.black),
+                                                                ),
+                                                                contentPadding: const EdgeInsets.symmetric(
+                                                                  vertical: 0,
+                                                                  horizontal: 10,
+                                                                ),
+                                                                suffixIcon: InkWell(
+                                                                  onTap: presentTimePickerStart,
+                                                                  child: const Icon(Icons.timer_sharp),
+                                                                ),
+                                                              ),
                                                             ),
                                                           ),
                                                         ],
@@ -483,483 +682,289 @@ class _MessageDetailsScreen extends ConsumerState<MessageDetailsScreen> {
                                                     ),
                                                   ],
                                                 ),
-                                                const SizedBox(height: 5),
-                                                Align(
-                                                  alignment: Alignment.topLeft,
-                                                  child: SizedBox(
-                                                    width: 300,
-                                                    child: Text(
-                                                      el.content,
-                                                      style: const TextStyle(
-                                                        color: Colors.black,
-                                                        // overflow: TextOverflow.ellipsis,
-                                                        fontSize: 14,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ],
-                                        )
-                                      : Text('1111'),
-                                  const SizedBox(height: 30),
-                                ],
-                              );
-                            },
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-                  Row(
-                    children: [
-                      InkWell(
-                        onTap: () {
-                          showModalBottomSheet(
-                            isScrollControlled: true,
-                            context: context,
-                            backgroundColor: Colors.white,
-                            builder: (ctx) {
-                              return StatefulBuilder(builder: (BuildContext context, StateSetter setState /*You can rename this!*/) {
-                                return Padding(
-                                  padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
-                                  child: SizedBox(
-                                    height: 600,
-                                    child: SingleChildScrollView(
-                                      // physics: const NeverScrollableScrollPhysics(),
-                                      child: Padding(
-                                        padding: const EdgeInsets.only(left: 20, right: 20),
-                                        child: Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            const SizedBox(height: 40),
-                                            const Align(
-                                              alignment: Alignment.topLeft,
-                                              child: Text(
-                                                "Schedule a video interview",
-                                                style: TextStyle(
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 25,
-                                                ),
-                                              ),
-                                            ),
-                                            const SizedBox(height: 15),
-                                            Container(
-                                              decoration: BoxDecoration(
-                                                border: Border.all(
-                                                  color: Colors.black, //                   <--- border color
-                                                  width: 0.3,
-                                                ),
-                                              ),
-                                            ),
-                                            const SizedBox(height: 20),
-                                            const Text(
-                                              'Title',
-                                              style: TextStyle(
-                                                fontSize: 16,
-                                                fontWeight: FontWeight.w600,
-                                              ),
-                                            ),
-                                            const SizedBox(height: 10),
-                                            SizedBox(
-                                              height: 60,
-                                              child: TextField(
-                                                style: const TextStyle(
-                                                  fontSize: 16,
-                                                ),
-                                                controller: videoInterviewTitleController,
-                                                decoration: InputDecoration(
-                                                  border: OutlineInputBorder(
-                                                    borderRadius: BorderRadius.circular(9),
-                                                  ),
-                                                  focusedBorder: OutlineInputBorder(
-                                                    borderRadius: BorderRadius.circular(9),
-                                                    borderSide: const BorderSide(color: Colors.grey),
-                                                  ),
-                                                  contentPadding: const EdgeInsets.symmetric(
-                                                    vertical: 0,
-                                                    horizontal: 10,
-                                                  ),
-                                                  hintText: 'Enter video interview title',
-                                                  hintStyle: const TextStyle(
+                                                const SizedBox(height: 10),
+                                                const Text(
+                                                  'End time',
+                                                  style: TextStyle(
                                                     fontSize: 16,
-                                                    color: Color.fromARGB(255, 114, 111, 111),
-                                                    fontWeight: FontWeight.w500,
+                                                    fontWeight: FontWeight.w600,
                                                   ),
                                                 ),
-                                              ),
-                                            ),
-                                            const SizedBox(height: 10),
-                                            const Text(
-                                              'Start time',
-                                              style: TextStyle(
-                                                fontSize: 16,
-                                                fontWeight: FontWeight.w600,
-                                              ),
-                                            ),
-                                            Row(
-                                              children: [
-                                                SizedBox(
-                                                  width: 170,
-                                                  child: Column(
-                                                    children: [
-                                                      const SizedBox(height: 10),
-                                                      SizedBox(
-                                                        height: 60,
-                                                        child: TextField(
-                                                          style: const TextStyle(
-                                                            fontSize: 16,
-                                                            color: Color.fromARGB(255, 114, 111, 111),
-                                                            fontWeight: FontWeight.w500,
+                                                Row(
+                                                  children: [
+                                                    SizedBox(
+                                                      width: 170,
+                                                      child: Column(
+                                                        children: [
+                                                          const SizedBox(height: 10),
+                                                          SizedBox(
+                                                            height: 60,
+                                                            child: TextField(
+                                                              style: const TextStyle(
+                                                                fontSize: 16,
+                                                                color: Color.fromARGB(255, 114, 111, 111),
+                                                                fontWeight: FontWeight.w500,
+                                                              ),
+                                                              readOnly: true,
+                                                              controller: dateControllerEnd,
+                                                              decoration: InputDecoration(
+                                                                border: OutlineInputBorder(
+                                                                  borderRadius: BorderRadius.circular(9),
+                                                                ),
+                                                                focusedBorder: OutlineInputBorder(
+                                                                  borderRadius: BorderRadius.circular(9),
+                                                                  borderSide: const BorderSide(color: Colors.black),
+                                                                ),
+                                                                contentPadding: const EdgeInsets.symmetric(
+                                                                  vertical: 0,
+                                                                  horizontal: 10,
+                                                                ),
+                                                                suffixIcon: InkWell(
+                                                                  onTap: presentDatePickerEnd,
+                                                                  child: const Icon(Icons.calendar_month_outlined),
+                                                                ),
+                                                              ),
+                                                            ),
                                                           ),
-                                                          readOnly: true,
-                                                          controller: dateControllerStart,
-                                                          decoration: InputDecoration(
-                                                            border: OutlineInputBorder(
-                                                              borderRadius: BorderRadius.circular(9),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                    const Spacer(),
+                                                    SizedBox(
+                                                      width: 170,
+                                                      child: Column(
+                                                        children: [
+                                                          const SizedBox(height: 10),
+                                                          SizedBox(
+                                                            height: 60,
+                                                            child: TextField(
+                                                              style: const TextStyle(
+                                                                fontSize: 16,
+                                                                color: Color.fromARGB(255, 114, 111, 111),
+                                                                fontWeight: FontWeight.w500,
+                                                              ),
+                                                              readOnly: true,
+                                                              controller: timeControllerEnd,
+                                                              decoration: InputDecoration(
+                                                                border: OutlineInputBorder(
+                                                                  borderRadius: BorderRadius.circular(9),
+                                                                ),
+                                                                focusedBorder: OutlineInputBorder(
+                                                                  borderRadius: BorderRadius.circular(9),
+                                                                  borderSide: const BorderSide(color: Colors.black),
+                                                                ),
+                                                                contentPadding: const EdgeInsets.symmetric(
+                                                                  vertical: 0,
+                                                                  horizontal: 10,
+                                                                ),
+                                                                suffixIcon: InkWell(
+                                                                  onTap: presentTimePickerEnd,
+                                                                  child: const Icon(Icons.timer_sharp),
+                                                                ),
+                                                              ),
                                                             ),
-                                                            focusedBorder: OutlineInputBorder(
-                                                              borderRadius: BorderRadius.circular(9),
-                                                              borderSide: const BorderSide(color: Colors.black),
-                                                            ),
-                                                            contentPadding: const EdgeInsets.symmetric(
-                                                              vertical: 0,
-                                                              horizontal: 10,
-                                                            ),
-                                                            suffixIcon: InkWell(
-                                                              onTap: presentDatePickerStart,
-                                                              child: const Icon(Icons.calendar_month_outlined),
-                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                                const SizedBox(height: 10),
+                                                const Text(
+                                                  'Duration: 60 minutes',
+                                                  style: TextStyle(
+                                                    fontSize: 16,
+                                                    // fontWeight: FontWeight.w600,
+                                                  ),
+                                                ),
+                                                const SizedBox(height: 80),
+                                                Row(
+                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                  children: [
+                                                    SizedBox(
+                                                      height: 46,
+                                                      width: 175,
+                                                      child: ElevatedButton(
+                                                        onPressed: () {
+                                                          videoInterviewTitleController.clear();
+                                                          dateControllerStart.text = 'Select data';
+                                                          timeControllerStart.text = 'Select time';
+                                                          dateControllerEnd.text = 'Select data';
+                                                          timeControllerEnd.text = 'Select time';
+
+                                                          setState(() {
+                                                            selectedDateStart = null;
+                                                            selectedTimeStart = null;
+                                                            selectedDateEnd = null;
+                                                            selectedTimeEnd = null;
+                                                          });
+                                                        },
+                                                        style: ElevatedButton.styleFrom(
+                                                          minimumSize: Size.zero, // Set this
+                                                          padding: EdgeInsets.zero, // and this
+                                                          shape: RoundedRectangleBorder(
+                                                            borderRadius: BorderRadius.circular(8),
+                                                            side: const BorderSide(color: Colors.grey),
+                                                          ),
+                                                          backgroundColor: Colors.white,
+                                                        ),
+                                                        child: const Text(
+                                                          'Clear',
+                                                          style: TextStyle(
+                                                            fontSize: 16,
+                                                            color: Colors.black,
+                                                            fontWeight: FontWeight.w500,
                                                           ),
                                                         ),
                                                       ),
-                                                    ],
-                                                  ),
-                                                ),
-                                                const Spacer(),
-                                                SizedBox(
-                                                  width: 170,
-                                                  child: Column(
-                                                    children: [
-                                                      const SizedBox(height: 10),
-                                                      SizedBox(
-                                                        height: 60,
-                                                        child: TextField(
-                                                          style: const TextStyle(
-                                                            fontSize: 16,
-                                                            color: Color.fromARGB(255, 114, 111, 111),
-                                                            fontWeight: FontWeight.w500,
+                                                    ),
+                                                    const SizedBox(width: 15),
+                                                    SizedBox(
+                                                      height: 46,
+                                                      width: 175,
+                                                      child: ElevatedButton(
+                                                        onPressed: () {
+                                                          print('------ video interview title -------');
+                                                          print(videoInterviewTitleController.text);
+                                                          print('------ start date -------');
+                                                          print(selectedDateStart!.month);
+                                                          print('------ start time -------');
+                                                          print(selectedTimeStart);
+                                                          print('------ end date -------');
+                                                          print(selectedDateEnd);
+                                                          print('------ end time -------');
+                                                          print(selectedTimeEnd);
+
+                                                          //handle socket
+
+                                                          videoInterviewTitleController.clear();
+                                                          dateControllerStart.text = 'Select data';
+                                                          timeControllerStart.text = 'Select time';
+                                                          dateControllerEnd.text = 'Select data';
+                                                          timeControllerEnd.text = 'Select time';
+
+                                                          setState(() {
+                                                            selectedDateStart = null;
+                                                            selectedTimeStart = null;
+                                                            selectedDateEnd = null;
+                                                            selectedTimeEnd = null;
+                                                          });
+
+                                                          Navigator.pop(context);
+                                                        },
+                                                        style: ElevatedButton.styleFrom(
+                                                          minimumSize: Size.zero, // Set this
+                                                          padding: EdgeInsets.zero, // and this
+                                                          shape: RoundedRectangleBorder(
+                                                            borderRadius: BorderRadius.circular(8),
                                                           ),
-                                                          readOnly: true,
-                                                          controller: timeControllerStart,
-                                                          decoration: InputDecoration(
-                                                            border: OutlineInputBorder(
-                                                              borderRadius: BorderRadius.circular(9),
-                                                            ),
-                                                            focusedBorder: OutlineInputBorder(
-                                                              borderRadius: BorderRadius.circular(9),
-                                                              borderSide: const BorderSide(color: Colors.black),
-                                                            ),
-                                                            contentPadding: const EdgeInsets.symmetric(
-                                                              vertical: 0,
-                                                              horizontal: 10,
-                                                            ),
-                                                            suffixIcon: InkWell(
-                                                              onTap: presentTimePickerStart,
-                                                              child: const Icon(Icons.timer_sharp),
-                                                            ),
+                                                          backgroundColor: Colors.black,
+                                                        ),
+                                                        child: const Text(
+                                                          'Schedule',
+                                                          style: TextStyle(
+                                                            fontSize: 16,
+                                                            color: Color.fromARGB(255, 255, 255, 255),
+                                                            fontWeight: FontWeight.w500,
                                                           ),
                                                         ),
                                                       ),
-                                                    ],
-                                                  ),
-                                                ),
+                                                    ),
+                                                  ],
+                                                )
                                               ],
                                             ),
-                                            const SizedBox(height: 10),
-                                            const Text(
-                                              'End time',
-                                              style: TextStyle(
-                                                fontSize: 16,
-                                                fontWeight: FontWeight.w600,
-                                              ),
-                                            ),
-                                            Row(
-                                              children: [
-                                                SizedBox(
-                                                  width: 170,
-                                                  child: Column(
-                                                    children: [
-                                                      const SizedBox(height: 10),
-                                                      SizedBox(
-                                                        height: 60,
-                                                        child: TextField(
-                                                          style: const TextStyle(
-                                                            fontSize: 16,
-                                                            color: Color.fromARGB(255, 114, 111, 111),
-                                                            fontWeight: FontWeight.w500,
-                                                          ),
-                                                          readOnly: true,
-                                                          controller: dateControllerEnd,
-                                                          decoration: InputDecoration(
-                                                            border: OutlineInputBorder(
-                                                              borderRadius: BorderRadius.circular(9),
-                                                            ),
-                                                            focusedBorder: OutlineInputBorder(
-                                                              borderRadius: BorderRadius.circular(9),
-                                                              borderSide: const BorderSide(color: Colors.black),
-                                                            ),
-                                                            contentPadding: const EdgeInsets.symmetric(
-                                                              vertical: 0,
-                                                              horizontal: 10,
-                                                            ),
-                                                            suffixIcon: InkWell(
-                                                              onTap: presentDatePickerEnd,
-                                                              child: const Icon(Icons.calendar_month_outlined),
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
-                                                const Spacer(),
-                                                SizedBox(
-                                                  width: 170,
-                                                  child: Column(
-                                                    children: [
-                                                      const SizedBox(height: 10),
-                                                      SizedBox(
-                                                        height: 60,
-                                                        child: TextField(
-                                                          style: const TextStyle(
-                                                            fontSize: 16,
-                                                            color: Color.fromARGB(255, 114, 111, 111),
-                                                            fontWeight: FontWeight.w500,
-                                                          ),
-                                                          readOnly: true,
-                                                          controller: timeControllerEnd,
-                                                          decoration: InputDecoration(
-                                                            border: OutlineInputBorder(
-                                                              borderRadius: BorderRadius.circular(9),
-                                                            ),
-                                                            focusedBorder: OutlineInputBorder(
-                                                              borderRadius: BorderRadius.circular(9),
-                                                              borderSide: const BorderSide(color: Colors.black),
-                                                            ),
-                                                            contentPadding: const EdgeInsets.symmetric(
-                                                              vertical: 0,
-                                                              horizontal: 10,
-                                                            ),
-                                                            suffixIcon: InkWell(
-                                                              onTap: presentTimePickerEnd,
-                                                              child: const Icon(Icons.timer_sharp),
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                            const SizedBox(height: 10),
-                                            const Text(
-                                              'Duration: 60 minutes',
-                                              style: TextStyle(
-                                                fontSize: 16,
-                                                // fontWeight: FontWeight.w600,
-                                              ),
-                                            ),
-                                            const SizedBox(height: 80),
-                                            Row(
-                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                              children: [
-                                                SizedBox(
-                                                  height: 46,
-                                                  width: 175,
-                                                  child: ElevatedButton(
-                                                    onPressed: () {
-                                                      videoInterviewTitleController.clear();
-                                                      dateControllerStart.text = 'Select data';
-                                                      timeControllerStart.text = 'Select time';
-                                                      dateControllerEnd.text = 'Select data';
-                                                      timeControllerEnd.text = 'Select time';
-
-                                                      setState(() {
-                                                        selectedDateStart = null;
-                                                        selectedTimeStart = null;
-                                                        selectedDateEnd = null;
-                                                        selectedTimeEnd = null;
-                                                      });
-                                                    },
-                                                    style: ElevatedButton.styleFrom(
-                                                      minimumSize: Size.zero, // Set this
-                                                      padding: EdgeInsets.zero, // and this
-                                                      shape: RoundedRectangleBorder(
-                                                        borderRadius: BorderRadius.circular(8),
-                                                        side: const BorderSide(color: Colors.grey),
-                                                      ),
-                                                      backgroundColor: Colors.white,
-                                                    ),
-                                                    child: const Text(
-                                                      'Clear',
-                                                      style: TextStyle(
-                                                        fontSize: 16,
-                                                        color: Colors.black,
-                                                        fontWeight: FontWeight.w500,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                                const SizedBox(width: 15),
-                                                SizedBox(
-                                                  height: 46,
-                                                  width: 175,
-                                                  child: ElevatedButton(
-                                                    onPressed: () {
-                                                      print('------ video interview title -------');
-                                                      print(videoInterviewTitleController.text);
-                                                      print('------ start date -------');
-                                                      print(selectedDateStart);
-                                                      print('------ start time -------');
-                                                      print(selectedTimeStart);
-                                                      print('------ end date -------');
-                                                      print(selectedDateEnd);
-                                                      print('------ end time -------');
-                                                      print(selectedTimeEnd);
-
-                                                      //handle socket
-
-                                                      videoInterviewTitleController.clear();
-                                                      dateControllerStart.text = 'Select data';
-                                                      timeControllerStart.text = 'Select time';
-                                                      dateControllerEnd.text = 'Select data';
-                                                      timeControllerEnd.text = 'Select time';
-
-                                                      setState(() {
-                                                        selectedDateStart = null;
-                                                        selectedTimeStart = null;
-                                                        selectedDateEnd = null;
-                                                        selectedTimeEnd = null;
-                                                      });
-
-                                                      Navigator.pop(context);
-                                                    },
-                                                    style: ElevatedButton.styleFrom(
-                                                      minimumSize: Size.zero, // Set this
-                                                      padding: EdgeInsets.zero, // and this
-                                                      shape: RoundedRectangleBorder(
-                                                        borderRadius: BorderRadius.circular(8),
-                                                      ),
-                                                      backgroundColor: Colors.black,
-                                                    ),
-                                                    child: const Text(
-                                                      'Schedule',
-                                                      style: TextStyle(
-                                                        fontSize: 16,
-                                                        color: Color.fromARGB(255, 255, 255, 255),
-                                                        fontWeight: FontWeight.w500,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                              ],
-                                            )
-                                          ],
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                  ),
-                                );
-                              });
+                                    );
+                                  });
+                                },
+                              );
                             },
-                          );
-                        },
-                        child: const Icon(
-                          Icons.calendar_month,
-                          size: 28,
-                        ),
-                      ),
-                      const SizedBox(width: 10),
-                      Expanded(
-                        child: TextField(
-                          controller: sendMessage,
-                          style: const TextStyle(
-                            fontSize: 16,
+                            child: const Icon(
+                              Icons.calendar_month,
+                              size: 28,
+                            ),
                           ),
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(9),
+                          const SizedBox(width: 10),
+                          Expanded(
+                            child: TextField(
+                              controller: sendMessage,
+                              style: const TextStyle(
+                                fontSize: 16,
+                              ),
+                              decoration: InputDecoration(
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(9),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(9),
+                                  borderSide: const BorderSide(color: Colors.grey),
+                                ),
+                                contentPadding: const EdgeInsets.symmetric(
+                                  vertical: 10,
+                                  horizontal: 15,
+                                ),
+                                suffixIcon: const Icon(Icons.emoji_emotions_outlined),
+                                hintText: 'Type a message...',
+                              ),
                             ),
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(9),
-                              borderSide: const BorderSide(color: Colors.grey),
-                            ),
-                            contentPadding: const EdgeInsets.symmetric(
-                              vertical: 10,
-                              horizontal: 15,
-                            ),
-                            suffixIcon: const Icon(Icons.emoji_emotions_outlined),
-                            hintText: 'Type a message...',
                           ),
-                        ),
-                      ),
-                      IconButton(
-                        color: Theme.of(context).colorScheme.primary,
-                        onPressed: () {
-                          final enterMessage = sendMessage.text;
-                          print('------project id-------');
-                          print(projectId);
-                          print('------send id-------');
-                          print(user.id);
-                          print('------receive id-------');
-                          print(receiveId);
-                          if (enterMessage.trim().isEmpty) {
-                            return;
-                          }
-                          print('------------chay dc o day-------------');
+                          IconButton(
+                            color: Theme.of(context).colorScheme.primary,
+                            onPressed: () {
+                              final enterMessage = sendMessage.text;
+                              print('------project id-------');
+                              print(projectId);
+                              print('------send id-------');
+                              print(user.id);
+                              print('------receive id-------');
+                              print(receiveId);
+                              if (enterMessage.trim().isEmpty) {
+                                return;
+                              }
+                              print('------------chay dc o day-------------');
 
-                          final socket = IO.io(
-                              'https://api.studenthub.dev/', // Server url
-                              OptionBuilder().setTransports(['websocket']).disableAutoConnect().build());
+                              final socket = IO.io(
+                                  'https://api.studenthub.dev/', // Server url
+                                  OptionBuilder().setTransports(['websocket']).disableAutoConnect().build());
 
-                          //Add authorization to header
-                          socket.io.options?['extraHeaders'] = {
-                            'Authorization': 'Bearer ${user.token}',
-                          };
+                              //Add authorization to header
+                              socket.io.options?['extraHeaders'] = {
+                                'Authorization': 'Bearer ${user.token}',
+                              };
 
-                          //Add query param to url
-                          socket.io.options?['query'] = {'project_id': projectId};
+                              //Add query param to url
+                              socket.io.options?['query'] = {'project_id': projectId};
 
-                          socket.connect();
+                              socket.connect();
 
-                          socket.onConnect((data) => {print('Connected')});
-                          socket.onDisconnect((data) => {print('Disconnected')});
+                              socket.onConnect((data) => {print('Connected')});
+                              socket.onDisconnect((data) => {print('Disconnected')});
 
-                          socket.onConnectError((data) => print('$data'));
-                          socket.onError((data) => print(data));
+                              socket.onConnectError((data) => print('$data'));
+                              socket.onError((data) => print(data));
 
-                          //Listen for error from socket
-                          socket.on("ERROR", (data) => print(data));
-                          socket.emit("SEND_MESSAGE", {
-                            "content": enterMessage,
-                            "projectId": projectId,
-                            "senderId": user.id,
-                            "receiverId": receiveId,
-                            "messageFlag": 0 // default 0 for message, 1 for interview
-                          });
+                              //Listen for error from socket
+                              socket.on("ERROR", (data) => print(data));
+                              socket.emit("SEND_MESSAGE", {
+                                "content": enterMessage,
+                                "projectId": projectId,
+                                "senderId": user.id,
+                                "receiverId": receiveId,
+                                "messageFlag": 0 // default 0 for message, 1 for interview
+                              });
 
-                          sendMessage.clear();
-                        },
-                        icon: const Icon(Icons.send),
+                              sendMessage.clear();
+                            },
+                            icon: const Icon(Icons.send),
+                          )
+                        ],
                       )
                     ],
-                  )
-                ],
+                  ),
+                ),
               ),
             ),
           );

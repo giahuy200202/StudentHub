@@ -242,7 +242,7 @@ class _ArchievedWidgetState extends ConsumerState<ArchievedWidget> {
                   ),
                 ],
               )
-            : listProjects.where((el) => el.typeFlag == 1).isEmpty
+            : listProjects.where((el) => el.typeFlag == 2).isEmpty
                 ? const Column(
                     children: [
                       Text(
@@ -254,7 +254,7 @@ class _ArchievedWidgetState extends ConsumerState<ArchievedWidget> {
                   )
                 : Column(
                     children: [
-                      ...listProjects.where((el) => el.typeFlag == 1).map((el) {
+                      ...listProjects.where((el) => el.typeFlag == 2).map((el) {
                         return Column(
                           children: [
                             GestureDetector(
