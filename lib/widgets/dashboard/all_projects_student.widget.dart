@@ -7,8 +7,6 @@ import 'package:studenthub/providers/profile/company.provider.dart';
 import 'package:studenthub/providers/profile/student.provider.dart';
 
 import '../../providers/options.provider.dart';
-
-import '../../providers/options.provider.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'dart:async';
