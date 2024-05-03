@@ -21,6 +21,7 @@ class Message {
   final String receiverName;
   final String content;
   final String receiverId;
+  final bool isInterview;
 
   Message({
     required this.projectId,
@@ -29,6 +30,7 @@ class Message {
     required this.receiverName,
     required this.content,
     required this.receiverId,
+    required this.isInterview,
   });
 
   Message.fromJson(Map<dynamic, dynamic> json)
@@ -37,7 +39,8 @@ class Message {
         createdAt = json['createdAt'],
         receiverName = json['receiverName'],
         content = json['content'],
-        receiverId = json['receiverId'];
+        receiverId = json['receiverId'],
+        isInterview = json['isInterview'];
 
   Map<dynamic, dynamic> toJson() {
     return {
@@ -47,6 +50,7 @@ class Message {
       'receiverName': receiverName,
       'content': content,
       'receiverId': receiverId,
+      'isInterview': isInterview,
     };
   }
 }
@@ -129,6 +133,7 @@ class _MessageWidgetState extends ConsumerState<MessageWidget> {
           receiverName: item['receiver']['id'] == userId ? item['sender']['fullname'] : item['receiver']['fullname'],
           content: item['content'],
           receiverId: item['receiver']['id'] == userId ? item['sender']['id'].toString() : item['receiver']['id'].toString(),
+          isInterview: false,
         ));
       }
     }
@@ -150,146 +155,147 @@ class _MessageWidgetState extends ConsumerState<MessageWidget> {
   Widget build(BuildContext context) {
     final user = ref.watch(userProvider);
     return SizedBox(
-        height: 650,
-        width: MediaQuery.of(context).size.width,
-        child: isFetchingData
-            ? const Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  SizedBox(height: 0),
-                  Center(
-                    child: SizedBox(
-                      height: 25,
-                      width: 25,
-                      child: CircularProgressIndicator(
-                        valueColor: AlwaysStoppedAnimation<Color>(
-                          Colors.grey,
-                        ),
+      height: 650,
+      width: MediaQuery.of(context).size.width,
+      child: isFetchingData
+          ? const Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                SizedBox(height: 0),
+                Center(
+                  child: SizedBox(
+                    height: 25,
+                    width: 25,
+                    child: CircularProgressIndicator(
+                      valueColor: AlwaysStoppedAnimation<Color>(
+                        Colors.grey,
                       ),
                     ),
                   ),
-                ],
-              )
-            : SingleChildScrollView(
-                child: Column(
-                  children: [
-                    ...listMessages.map(
-                      (el) {
-                        return Column(
-                          children: [
-                            GestureDetector(
-                              onTap: () {
-                                ref.read(projectIdProvider.notifier).setProjectId(el.projectId);
-                                ref.read(receiveIdProvider.notifier).setReceiveId(el.receiverId);
-                                ref.read(optionsProvider.notifier).setWidgetOption('MessageDetails', user.role!);
-                              },
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  // color: Color.fromARGB(255, 232, 233, 237),
-                                  border: Border.all(
-                                    color: Colors.black,
-                                    width: 0.4,
-                                  ),
-                                  borderRadius: const BorderRadius.all(Radius.circular(12)),
+                ),
+              ],
+            )
+          : SingleChildScrollView(
+              child: Column(
+                children: [
+                  ...listMessages.map(
+                    (el) {
+                      return Column(
+                        children: [
+                          GestureDetector(
+                            onTap: () {
+                              ref.read(projectIdProvider.notifier).setProjectId(el.projectId);
+                              ref.read(receiveIdProvider.notifier).setReceiveId(el.receiverId);
+                              ref.read(optionsProvider.notifier).setWidgetOption('MessageDetails', user.role!);
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(
+                                // color: Color.fromARGB(255, 232, 233, 237),
+                                border: Border.all(
+                                  color: Colors.black,
+                                  width: 0.4,
                                 ),
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                    vertical: 20,
-                                    horizontal: 20,
-                                  ),
-                                  child: Column(
-                                    children: [
-                                      Row(
-                                        children: [
-                                          Container(
-                                            width: 65,
-                                            height: 65,
-                                            padding: const EdgeInsets.all(20),
-                                            decoration: const BoxDecoration(
-                                              borderRadius: BorderRadius.all(Radius.circular(10)),
-                                              image: DecorationImage(
-                                                image: AssetImage("assets/images/avatar.jpg"),
-                                                fit: BoxFit.cover,
-                                              ),
+                                borderRadius: const BorderRadius.all(Radius.circular(12)),
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                  vertical: 20,
+                                  horizontal: 20,
+                                ),
+                                child: Column(
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Container(
+                                          width: 65,
+                                          height: 65,
+                                          padding: const EdgeInsets.all(20),
+                                          decoration: const BoxDecoration(
+                                            borderRadius: BorderRadius.all(Radius.circular(10)),
+                                            image: DecorationImage(
+                                              image: AssetImage("assets/images/avatar.jpg"),
+                                              fit: BoxFit.cover,
                                             ),
                                           ),
-                                          const SizedBox(width: 15),
-                                          Column(
-                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                            children: [
-                                              SizedBox(
-                                                width: 250,
-                                                child: Text(
-                                                  textAlign: TextAlign.start,
-                                                  el.receiverName,
+                                        ),
+                                        const SizedBox(width: 15),
+                                        Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            SizedBox(
+                                              width: 250,
+                                              child: Text(
+                                                textAlign: TextAlign.start,
+                                                el.receiverName,
+                                                overflow: TextOverflow.ellipsis,
+                                                style: const TextStyle(
+                                                  color: Colors.black,
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.w600,
+                                                ),
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              width: 240,
+                                              child: Text(
+                                                el.createdAt,
+                                                style: const TextStyle(
+                                                  color: Color.fromARGB(255, 115, 114, 114),
                                                   overflow: TextOverflow.ellipsis,
-                                                  style: const TextStyle(
-                                                    color: Colors.black,
-                                                    fontSize: 16,
-                                                    fontWeight: FontWeight.w600,
-                                                  ),
+                                                  fontSize: 13,
                                                 ),
                                               ),
-                                              SizedBox(
-                                                width: 240,
-                                                child: Text(
-                                                  el.createdAt,
-                                                  style: const TextStyle(
-                                                    color: Color.fromARGB(255, 115, 114, 114),
-                                                    overflow: TextOverflow.ellipsis,
-                                                    fontSize: 13,
-                                                  ),
+                                            ),
+                                            SizedBox(
+                                              width: 240,
+                                              child: Text(
+                                                el.projectTitle,
+                                                style: const TextStyle(
+                                                  color: Colors.black,
+                                                  overflow: TextOverflow.ellipsis,
+                                                  fontSize: 16,
                                                 ),
                                               ),
-                                              SizedBox(
-                                                width: 240,
-                                                child: Text(
-                                                  el.projectTitle,
-                                                  style: const TextStyle(
-                                                    color: Colors.black,
-                                                    overflow: TextOverflow.ellipsis,
-                                                    fontSize: 16,
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ],
-                                      ),
-                                      const SizedBox(height: 15),
-                                      Container(
-                                        decoration: BoxDecoration(
-                                          border: Border.all(
-                                            color: Colors.black, //                   <--- border color
-                                            width: 0.3,
-                                          ),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                    const SizedBox(height: 15),
+                                    Container(
+                                      decoration: BoxDecoration(
+                                        border: Border.all(
+                                          color: Colors.black, //                   <--- border color
+                                          width: 0.3,
                                         ),
                                       ),
-                                      const SizedBox(height: 15),
-                                      Align(
-                                        alignment: Alignment.topLeft,
-                                        child: Text(
-                                          el.content,
-                                          style: const TextStyle(
-                                            color: Colors.black,
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w400,
-                                          ),
+                                    ),
+                                    const SizedBox(height: 15),
+                                    Align(
+                                      alignment: Alignment.topLeft,
+                                      child: Text(
+                                        el.content,
+                                        style: const TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w400,
                                         ),
                                       ),
-                                    ],
-                                  ),
+                                    ),
+                                  ],
                                 ),
                               ),
                             ),
-                            const SizedBox(height: 30),
-                          ],
-                        );
-                      },
-                    ),
-                  ],
-                ),
-              ));
+                          ),
+                          const SizedBox(height: 30),
+                        ],
+                      );
+                    },
+                  ),
+                ],
+              ),
+            ),
+    );
   }
 }
