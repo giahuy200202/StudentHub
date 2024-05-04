@@ -5,8 +5,11 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:socket_io_client/socket_io_client.dart';
+import 'package:studenthub/notifications/local_notification.dart';
 import 'package:studenthub/providers/authentication/authentication.provider.dart';
 import 'package:studenthub/providers/message/receive_id.provider.dart';
+import 'package:studenthub/providers/notification/messages.provider.dart';
+import 'package:studenthub/providers/notification/notifications.provider.dart';
 import 'package:studenthub/providers/profile/company.provider.dart';
 import 'package:studenthub/providers/projects/project_id.provider.dart';
 import 'package:studenthub/widgets/message/message_details.widget.dart';
@@ -63,8 +66,6 @@ class _MessageDetailsScreen extends ConsumerState<MessageDetailsScreen> {
 
   var sendMessage = TextEditingController();
   bool enable = false;
-
-  List<Message> listMessages = [];
 
   var videoInterviewTitleController = TextEditingController();
 
@@ -135,21 +136,18 @@ class _MessageDetailsScreen extends ConsumerState<MessageDetailsScreen> {
 
     List<Message> listMessagesGetFromRes = [];
     if (responseMessagesData['result'] != null) {
+      ref.read(messageProvider.notifier).clearMessageData();
       for (var item in responseMessagesData['result']) {
-        listMessagesGetFromRes.add(Message(
-          createdAt: DateFormat("dd/MM/yyyy | HH:mm").format(DateTime.parse(item['createdAt']).toLocal()).toString(),
-          author: item['sender']['fullname'],
-          content: item['content'],
-          isInterview: false,
-        ));
+        ref.read(messageProvider.notifier).pushMessageData(
+              DateFormat("dd/MM/yyyy | HH:mm").format(DateTime.parse(item['createdAt']).toLocal()).toString(),
+              item['sender']['fullname'],
+              item['content'],
+              false,
+            );
       }
     }
 
-    print('----listMessagesGetFromRes----');
-    print(json.encode(listMessagesGetFromRes));
-
     setState(() {
-      listMessages = [...listMessagesGetFromRes];
       isFetchingData = false;
     });
   }
@@ -305,49 +303,68 @@ class _MessageDetailsScreen extends ConsumerState<MessageDetailsScreen> {
 
     getMessages(user.token!, projectId, receiveId);
 
-    final socket = IO.io(
-        'https://api.studenthub.dev/', // Server url
-        OptionBuilder().setTransports(['websocket']).disableAutoConnect().build());
+    // final socket = IO.io(
+    //     'https://api.studenthub.dev/', // Server url
+    //     OptionBuilder().setTransports(['websocket']).disableAutoConnect().build());
 
-    //Add authorization to header
-    socket.io.options?['extraHeaders'] = {
-      'Authorization': 'Bearer ${user.token}',
-    };
+    // //Add authorization to header
+    // socket.io.options?['extraHeaders'] = {
+    //   'Authorization': 'Bearer ${user.token}',
+    // };
 
-    //Add query param to url
-    socket.io.options?['query'] = {'project_id': projectId};
+    // //Add query param to url
+    // socket.io.options?['query'] = {'project_id': projectId};
 
-    socket.connect();
+    // socket.connect();
 
-    socket.onConnect((data) => {print('Connected')});
-    socket.onDisconnect((data) => {print('Disconnected')});
+    // socket.onConnect((data) => {print('Connected')});
+    // socket.onDisconnect((data) => {print('Disconnected')});
 
-    socket.onConnectError((data) => print('$data'));
-    socket.onError((data) => print(data));
+    // socket.onConnectError((data) => print('$data'));
+    // socket.onError((data) => print(data));
 
-    //Listen to channel receive message
-    socket.on('RECEIVE_MESSAGE', (data) {
-      // Your code to update ui
+    // //Listen to channel receive message
+    // socket.on(
+    //   'RECEIVE_MESSAGE',
+    //   (data) {
+    //     // Your code to update ui
 
-      print('------RECEIVE_MESSAGE------');
-      print(data);
+    //     print('------RECEIVE_MESSAGE------');
+    //     print(data);
 
-      if (mounted) {
-        setState(() {
-          listMessages = [
-            ...listMessages,
-            Message(
-              createdAt: DateFormat("dd/MM/yyyy | HH:mm").format(DateTime.parse(data['notification']['message']['createdAt']).toLocal()).toString(),
-              author: data['notification']['sender']['fullname'],
-              content: data['notification']['message']['content'],
-              isInterview: false,
-            )
-          ];
-        });
-      }
-    });
-    //Listen for error from socket
-    socket.on("ERROR", (data) => print(data));
+    //     if (mounted) {
+    //       ref.read(messageProvider.notifier).pushMessageData(
+    //             DateFormat("dd/MM/yyyy | HH:mm").format(DateTime.parse(data['notification']['message']['createdAt']).toLocal()).toString(),
+    //             data['notification']['sender']['fullname'],
+    //             data['notification']['message']['content'],
+    //             false,
+    //           );
+
+    //       ref.read(notificationProvider.notifier).pushNotificationData(
+    //             data['notification']['id'].toString(),
+    //             '0',
+    //             data['notification']['message']['content'],
+    //             data['notification']['sender']['fullname'],
+    //             DateFormat("dd/MM/yyyy | HH:mm")
+    //                 .format(
+    //                   DateTime.parse(data['notification']['message']['createdAt']).toLocal(),
+    //                 )
+    //                 .toString(),
+    //           );
+
+    //       if (data['notification']['sender']['id'] != user.id) {
+    //         LocalNotifications.showSimpleNotification(
+    //           // id: tasks.length + 1,
+    //           title: 'You have a new message from ${data['notification']['sender']['fullname']}',
+    //           body: '${data['notification']['message']['content']}',
+    //           payload: 'data',
+    //         );
+    //       }
+    //     }
+    //   },
+    // );
+    // //Listen for error from socket
+    // socket.on("ERROR", (data) => print(data));
   }
 
   @override
@@ -356,6 +373,8 @@ class _MessageDetailsScreen extends ConsumerState<MessageDetailsScreen> {
     final projectId = ref.watch(projectIdProvider);
     final company = ref.watch(companyProvider);
     final receiveId = ref.watch(receiveIdProvider);
+
+    final listMessages = ref.watch(messageProvider);
 
     return isFetchingData
         ? const Column(

@@ -10,8 +10,10 @@ import 'dart:convert';
 import 'dart:async';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 import 'package:socket_io_client/socket_io_client.dart';
+import 'package:studenthub/notifications/local_notification.dart';
 import 'package:studenthub/providers/authentication/authentication.provider.dart';
 import 'package:studenthub/providers/message/receive_id.provider.dart';
+import 'package:studenthub/providers/notification/notifications.provider.dart';
 import 'package:studenthub/providers/options.provider.dart';
 import 'package:studenthub/providers/projects/project_id.provider.dart';
 
@@ -116,26 +118,25 @@ class _AlertsWidget extends ConsumerState<AlertsWidget> {
     print('----responseNotificationsData----');
     print(responseNotificationsData);
 
-    List<Notification> listNotificationsGetFromRes = [];
     if (responseNotificationsData['result'] != null) {
+      ref.read(notificationProvider.notifier).clearNotificationData();
+
       for (var item in responseNotificationsData['result']) {
-        listNotificationsGetFromRes.add(
-          Notification(
-            id: item['id'].toString(),
-            notificationType: item['notifyFlag'],
-            notificationContent: item['message']['content'],
-            senderName: item['sender']['fullname'],
-            createdAt: DateFormat("dd/MM/yyyy | HH:mm").format(DateTime.parse(item['createdAt']).toLocal()).toString(),
-          ),
-        );
+        ref.read(notificationProvider.notifier).pushNotificationData(
+              item['id'].toString(),
+              item['notifyFlag'],
+              item['message']['content'],
+              item['sender']['fullname'],
+              DateFormat("dd/MM/yyyy | HH:mm").format(DateTime.parse(item['createdAt']).toLocal()).toString(),
+            );
       }
     }
 
-    print('----listNotificationsGetFromRes----');
-    print(json.encode(listNotificationsGetFromRes));
+    // print('----listNotificationsGetFromRes----');
+    // print(json.encode(listNotificationsGetFromRes));
 
     setState(() {
-      listNotifications = [...listNotificationsGetFromRes];
+      // listNotifications = [...listNotificationsGetFromRes];
       isFetchingData = false;
     });
   }
@@ -149,64 +150,89 @@ class _AlertsWidget extends ConsumerState<AlertsWidget> {
 
     getNotifications(user.token!, projectId, user.id!);
 
-    final socket = IO.io(
-        'https://api.studenthub.dev/', // Server url
-        OptionBuilder().setTransports(['websocket']).disableAutoConnect().build());
+    // final socket = IO.io(
+    //     'https://api.studenthub.dev/', // Server url
+    //     OptionBuilder().setTransports(['websocket']).disableAutoConnect().build());
 
-    //Add authorization to header
-    socket.io.options?['extraHeaders'] = {
-      'Authorization': 'Bearer ${user.token}',
-    };
+    // //Add authorization to header
+    // socket.io.options?['extraHeaders'] = {
+    //   'Authorization': 'Bearer ${user.token}',
+    // };
 
-    //Add query param to url
-    socket.io.options?['query'] = {'project_id': projectId};
+    // //Add query param to url
+    // socket.io.options?['query'] = {'project_id': projectId};
 
-    socket.connect();
+    // socket.connect();
 
-    socket.onConnect((data) => {print('Connected notification')});
-    socket.onDisconnect((data) => {print('Disconnected notification')});
+    // socket.onConnect((data) => {print('Connected notification')});
+    // socket.onDisconnect((data) => {print('Disconnected notification')});
 
-    socket.onConnectError((data) => print('$data'));
-    socket.onError((data) => print(data));
+    // socket.onConnectError((data) => print('$data'));
+    // socket.onError((data) => print(data));
 
-    //Listen to channel receive message
-    socket.on('RECEIVE_MESSAGE', (data) {
-      // Your code to update ui
+    // //Listen to channel receive message
+    // socket.on(
+    //   'RECEIVE_MESSAGE',
+    //   (data) {
+    //     // Your code to update ui
 
-      print('------RECEIVE_NOTIFICATION------');
-      print(data);
+    //     print('------RECEIVE_NOTIFICATION------');
+    //     print(data);
 
-      if (mounted) {
-        setState(
-          () {
-            listNotifications = [
-              ...listNotifications,
-              Notification(
-                id: data['notification']['id'].toString(),
-                notificationType: '0',
-                notificationContent: data['notification']['message']['content'],
-                senderName: data['notification']['sender']['fullname'],
-                createdAt: DateFormat("dd/MM/yyyy | HH:mm")
-                    .format(DateTime.parse(
-                      data['notification']['message']['createdAt'],
-                    ).toLocal())
-                    .toString(),
-              )
-            ];
-          },
-        );
-      }
+    //     if (mounted) {
+    //       // setState(
+    //       //   () {
+    //       //     listNotifications = [
+    //       //       ...listNotifications,
+    //       //       Notification(
+    //       //         id: data['notification']['id'].toString(),
+    //       //         notificationType: '0',
+    //       //         notificationContent: data['notification']['message']['content'],
+    //       //         senderName: data['notification']['sender']['fullname'],
+    //       //         createdAt: DateFormat("dd/MM/yyyy | HH:mm")
+    //       //             .format(DateTime.parse(
+    //       //               data['notification']['message']['createdAt'],
+    //       //             ).toLocal())
+    //       //             .toString(),
+    //       //       )
+    //       //     ];
+    //       //   },
+    //       // );
 
-      print('------listNotifications------');
-      print(json.encode(listNotifications[listNotifications.length - 1]));
-    });
-    //Listen for error from socket
-    socket.on("ERROR", (data) => print(data));
+    //       ref.read(notificationProvider.notifier).pushNotificationData(
+    //             data['notification']['id'].toString(),
+    //             '0',
+    //             data['notification']['message']['content'],
+    //             data['notification']['sender']['fullname'],
+    //             DateFormat("dd/MM/yyyy | HH:mm")
+    //                 .format(
+    //                   DateTime.parse(data['notification']['message']['createdAt']).toLocal(),
+    //                 )
+    //                 .toString(),
+    //           );
+
+    //       LocalNotifications.showSimpleNotification(
+    //         // id: tasks.length + 1,
+    //         title: 'You have a new message from ${data['notification']['sender']['fullname']}',
+    //         body: '${data['notification']['message']['content']}',
+    //         payload: 'data',
+    //       );
+
+    //       print('------listNotifications------');
+    //       print(json.encode(listNotifications[listNotifications.length - 1]));
+    //     }
+    //   },
+    // );
+    // //Listen for error from socket
+    // socket.on("ERROR", (data) => print(data));
   }
 
   @override
   Widget build(BuildContext context) {
     final user = ref.watch(userProvider);
+
+    final listNotifications = ref.watch(notificationProvider);
+
     return SizedBox(
       height: 700,
       width: MediaQuery.of(context).size.width,
