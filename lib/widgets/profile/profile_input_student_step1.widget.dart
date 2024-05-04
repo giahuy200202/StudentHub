@@ -244,7 +244,7 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentWidget> {
   }
 
   Future<List<String>> getTechStack(String token) async {
-    final url = Uri.parse('http://${dotenv.env['IP_ADDRESS']}/api/techstack/getAllTechStack');
+    final url = Uri.parse('${dotenv.env['IP_ADDRESS']}/api/techstack/getAllTechStack');
     final response = await http.get(
       url,
       headers: {'Content-Type': 'application/json', 'Authorization': 'Bearer $token'},
@@ -264,7 +264,7 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentWidget> {
   }
 
   Future<List<MultiSelectBottomSheetModel>> getSkillSet(String token) async {
-    final url = Uri.parse('http://${dotenv.env['IP_ADDRESS']}/api/skillset/getAllSkillSet');
+    final url = Uri.parse('${dotenv.env['IP_ADDRESS']}/api/skillset/getAllSkillSet');
 
     final response = await http.get(
       url,
@@ -322,7 +322,7 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentWidget> {
       //set languages
       ref.read(studentInputProvider.notifier).setStudentInputLanguague([]);
 
-      final urlEducation = Uri.parse('http://${dotenv.env['IP_ADDRESS']}/api/language/getByStudentId/${student.id}');
+      final urlEducation = Uri.parse('${dotenv.env['IP_ADDRESS']}/api/language/getByStudentId/${student.id}');
       final responseEditEducations = await http.get(
         urlEducation,
         headers: {

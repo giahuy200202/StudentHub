@@ -134,7 +134,7 @@ class _ProjectDetailsWidgetState extends ConsumerState<ProjectDetailsWidget> {
       isFetchingData = true;
     });
 
-    final urlGetDetailedProjects = Uri.parse('http://${dotenv.env['IP_ADDRESS']}/api/project/$projectId');
+    final urlGetDetailedProjects = Uri.parse('${dotenv.env['IP_ADDRESS']}/api/project/$projectId');
 
     final responseDetailedProjects = await http.get(
       urlGetDetailedProjects,
@@ -211,7 +211,7 @@ class _ProjectDetailsWidgetState extends ConsumerState<ProjectDetailsWidget> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                SizedBox(height: 365),
+                SizedBox(height: 420),
                 Center(
                   child: SizedBox(
                     height: 25,
@@ -297,7 +297,7 @@ class _ProjectDetailsWidgetState extends ConsumerState<ProjectDetailsWidget> {
                                 InkWell(
                                   onTap: user.role == '0'
                                       ? () async {
-                                          final urlFavoriteProjects = Uri.parse('http://${dotenv.env['IP_ADDRESS']}/api/favoriteProject/${student.id}?');
+                                          final urlFavoriteProjects = Uri.parse('${dotenv.env['IP_ADDRESS']}/api/favoriteProject/${student.id}?');
 
                                           final responsePatchFavoriteProject = await http.patch(
                                             urlFavoriteProjects,
@@ -451,7 +451,7 @@ class _ProjectDetailsWidgetState extends ConsumerState<ProjectDetailsWidget> {
                           child: ElevatedButton(
                             onPressed: user.role == '0'
                                 ? () async {
-                                    // final urlFavoriteProjects = Uri.parse('http://${dotenv.env['IP_ADDRESS']}/api/favoriteProject/${student.id}?');
+                                    // final urlFavoriteProjects = Uri.parse('${dotenv.env['IP_ADDRESS']}/api/favoriteProject/${student.id}?');
 
                                     // final responsePatchFavoriteProject = await http.patch(
                                     //   urlFavoriteProjects,
@@ -501,7 +501,7 @@ class _ProjectDetailsWidgetState extends ConsumerState<ProjectDetailsWidget> {
                           child: ElevatedButton(
                             onPressed: user.role == '0'
                                 ? () async {
-                                    final urlFavoriteProjects = Uri.parse('http://${dotenv.env['IP_ADDRESS']}/api/favoriteProject/${student.id}?');
+                                    final urlFavoriteProjects = Uri.parse('${dotenv.env['IP_ADDRESS']}/api/favoriteProject/${student.id}?');
 
                                     final responsePatchFavoriteProject = await http.patch(
                                       urlFavoriteProjects,

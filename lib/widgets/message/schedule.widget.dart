@@ -57,8 +57,7 @@ class _ShowscheduleWidget extends ConsumerState<ShowscheduleWidget> {
     setState(() {
       selectedDate = pickedDate;
     });
-    dateController.text =
-        DateFormat('dd/MM/yyyy').format(selectedDate!).toString();
+    dateController.text = DateFormat('dd/MM/yyyy').format(selectedDate!).toString();
   }
 
   void presentTimePicker() async {
@@ -171,8 +170,7 @@ class _ShowscheduleWidget extends ConsumerState<ShowscheduleWidget> {
                               ),
                               focusedBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(9),
-                                borderSide:
-                                    const BorderSide(color: Colors.black),
+                                borderSide: const BorderSide(color: Colors.black),
                               ),
                               contentPadding: const EdgeInsets.symmetric(
                                 vertical: 0,
@@ -180,8 +178,7 @@ class _ShowscheduleWidget extends ConsumerState<ShowscheduleWidget> {
                               ),
                               suffixIcon: InkWell(
                                 onTap: presentDatePicker,
-                                child:
-                                    const Icon(Icons.calendar_month_outlined),
+                                child: const Icon(Icons.calendar_month_outlined),
                               ),
                             ),
                           ),
@@ -211,8 +208,7 @@ class _ShowscheduleWidget extends ConsumerState<ShowscheduleWidget> {
                               ),
                               focusedBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(9),
-                                borderSide:
-                                    const BorderSide(color: Colors.black),
+                                borderSide: const BorderSide(color: Colors.black),
                               ),
                               contentPadding: const EdgeInsets.symmetric(
                                 vertical: 0,
@@ -257,8 +253,7 @@ class _ShowscheduleWidget extends ConsumerState<ShowscheduleWidget> {
                               ),
                               focusedBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(9),
-                                borderSide:
-                                    const BorderSide(color: Colors.black),
+                                borderSide: const BorderSide(color: Colors.black),
                               ),
                               contentPadding: const EdgeInsets.symmetric(
                                 vertical: 0,
@@ -266,8 +261,7 @@ class _ShowscheduleWidget extends ConsumerState<ShowscheduleWidget> {
                               ),
                               suffixIcon: InkWell(
                                 onTap: presentDatePicker,
-                                child:
-                                    const Icon(Icons.calendar_month_outlined),
+                                child: const Icon(Icons.calendar_month_outlined),
                               ),
                             ),
                           ),
@@ -297,8 +291,7 @@ class _ShowscheduleWidget extends ConsumerState<ShowscheduleWidget> {
                               ),
                               focusedBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(9),
-                                borderSide:
-                                    const BorderSide(color: Colors.black),
+                                borderSide: const BorderSide(color: Colors.black),
                               ),
                               contentPadding: const EdgeInsets.symmetric(
                                 vertical: 0,
@@ -385,7 +378,7 @@ class _ShowscheduleWidget extends ConsumerState<ShowscheduleWidget> {
   Widget build(BuildContext context) {
     final user = ref.watch(userProvider);
     return SizedBox(
-      height: 300,
+      height: 220,
       child: SingleChildScrollView(
         child: Container(
           decoration: BoxDecoration(
@@ -408,14 +401,12 @@ class _ShowscheduleWidget extends ConsumerState<ShowscheduleWidget> {
                   children: [
                     Text(
                       'Catch up meeting',
-                      style:
-                          TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+                      style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
                     ),
                     Spacer(),
                     Text(
                       '60 minutes',
-                      style:
-                          TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+                      style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
                     ),
                   ],
                 ),
@@ -441,25 +432,18 @@ class _ShowscheduleWidget extends ConsumerState<ShowscheduleWidget> {
                                   value: 0,
                                   child: Text(
                                     'Re-schedule the interview',
-                                    style: TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w400),
+                                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
                                   )),
                               const PopupMenuItem<int>(
                                 value: 1,
                                 child: Text(
                                   'Cancel the meeting',
-                                  style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w400),
+                                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
                                 ),
                               ),
                             ],
                             onSelected: (item) => {
-                              if (item == 1)
-                                {setisCancel(true)}
-                              else
-                                {openMoreOverlay()}
+                              if (item == 1) {setisCancel(true)} else {openMoreOverlay()}
                             },
                           ),
                           Container(
@@ -469,17 +453,14 @@ class _ShowscheduleWidget extends ConsumerState<ShowscheduleWidget> {
                               width: 130,
                               child: ElevatedButton(
                                 onPressed: () {
-                                  ref
-                                      .read(optionsProvider.notifier)
-                                      .setWidgetOption('Videocall', user.role!);
+                                  ref.read(optionsProvider.notifier).setWidgetOption('Videocall', user.role!);
                                 },
                                 style: ElevatedButton.styleFrom(
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(8),
                                     side: const BorderSide(color: Colors.grey),
                                   ),
-                                  backgroundColor:
-                                      const Color.fromARGB(255, 0, 0, 0),
+                                  backgroundColor: const Color.fromARGB(255, 0, 0, 0),
                                 ),
                                 child: const Text(
                                   'Join',
@@ -500,10 +481,7 @@ class _ShowscheduleWidget extends ConsumerState<ShowscheduleWidget> {
                         children: [
                           Text(
                             'The meeting is cancelled',
-                            style: TextStyle(
-                                fontSize: 16,
-                                color: Colors.red,
-                                fontWeight: FontWeight.w500),
+                            style: TextStyle(fontSize: 16, color: Colors.red, fontWeight: FontWeight.w500),
                           ),
                         ],
                       )

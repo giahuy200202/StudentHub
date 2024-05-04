@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:studenthub/providers/authentication/authentication.provider.dart';
 import 'package:studenthub/providers/profile/student.provider.dart';
+import 'package:studenthub/providers/projects/project_id.provider.dart';
 import 'package:toastification/toastification.dart';
 
 import '../../providers/options.provider.dart';
@@ -14,7 +15,7 @@ import 'dart:convert';
 import 'dart:async';
 
 class Project {
-  final String projectId;
+  final String id;
   final String title;
   final String createTime;
   final int projectScopeFlag;
@@ -23,7 +24,7 @@ class Project {
   final int countProposals;
 
   Project({
-    required this.projectId,
+    required this.id,
     required this.title,
     required this.createTime,
     required this.projectScopeFlag,
@@ -33,7 +34,7 @@ class Project {
   });
 
   Project.fromJson(Map<dynamic, dynamic> json)
-      : projectId = json['projectId'],
+      : id = json['id'],
         title = json['title'],
         createTime = json['createdAt'],
         projectScopeFlag = json['projectScopeFlag'],
@@ -43,7 +44,7 @@ class Project {
 
   Map<dynamic, dynamic> toJson() {
     return {
-      'projectId': projectId,
+      'id': id,
       'title': title,
       'createdAt': createTime,
       'projectScopeFlag': projectScopeFlag,
@@ -106,7 +107,7 @@ class _SavedProjectsWidgetState extends ConsumerState<SavedProjectsWidget> {
       isFetchingData = true;
     });
 
-    final urlGetFavoriteProjects = Uri.parse('http://${dotenv.env['IP_ADDRESS']}/api/favoriteProject/$studentId');
+    final urlGetFavoriteProjects = Uri.parse('${dotenv.env['IP_ADDRESS']}/api/favoriteProject/$studentId');
 
     final responseFavoriteProjects = await http.get(
       urlGetFavoriteProjects,
@@ -124,7 +125,7 @@ class _SavedProjectsWidgetState extends ConsumerState<SavedProjectsWidget> {
     if (responseFavoriteProjectsData['result'] != null) {
       for (var item in responseFavoriteProjectsData['result']) {
         listProjectsGetFromRes.add(Project(
-          projectId: item['project']['id'].toString(),
+          id: item['project']['id'].toString(),
           title: item['project']['title'],
           createTime: 'Created at ${DateFormat("dd/MM/yyyy | HH:mm").format(
                 DateTime.parse(item['project']['createdAt']),
@@ -229,6 +230,7 @@ class _SavedProjectsWidgetState extends ConsumerState<SavedProjectsWidget> {
                                     children: [
                                       GestureDetector(
                                         onTap: () {
+                                          ref.read(projectIdProvider.notifier).setProjectId(el.id);
                                           ref.read(optionsProvider.notifier).setWidgetOption('ProjectDetails', user.role!);
                                         },
                                         child: Container(
@@ -268,7 +270,7 @@ class _SavedProjectsWidgetState extends ConsumerState<SavedProjectsWidget> {
                                                       onTap: user.role == '1'
                                                           ? null
                                                           : () async {
-                                                              final urlFavoriteProjects = Uri.parse('http://${dotenv.env['IP_ADDRESS']}/api/favoriteProject/${student.id}?');
+                                                              final urlFavoriteProjects = Uri.parse('${dotenv.env['IP_ADDRESS']}/api/favoriteProject/${student.id}?');
 
                                                               final responsePatchFavoriteProject = await http.patch(
                                                                 urlFavoriteProjects,
@@ -277,7 +279,7 @@ class _SavedProjectsWidgetState extends ConsumerState<SavedProjectsWidget> {
                                                                   'Authorization': 'Bearer ${user.token!}',
                                                                 },
                                                                 body: json.encode({
-                                                                  'projectId': el.projectId,
+                                                                  'id': el.id,
                                                                   'disableFlag': 1,
                                                                 }),
                                                               );

@@ -4,8 +4,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 class ProjectIdNotifier extends StateNotifier<String> {
   ProjectIdNotifier() : super('');
 
-  bool setProjectId(String switchOption) {
-    state = switchOption;
+  bool setProjectId(String projectId) {
+    state = projectId;
     return true;
   }
 }

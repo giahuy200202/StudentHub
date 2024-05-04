@@ -547,7 +547,7 @@ class _SwitchAccountWidgetState extends ConsumerState<SwitchAccountWidget> {
                           verticalAlignment: TableCellVerticalAlignment.middle,
                           child: InkWell(
                             onTap: () async {
-                              final urlLogout = Uri.parse('http://${dotenv.env['IP_ADDRESS']}/api/auth/logout');
+                              final urlLogout = Uri.parse('${dotenv.env['IP_ADDRESS']}/api/auth/logout');
 
                               final responseLogout = await http.post(
                                 urlLogout,

@@ -266,7 +266,7 @@ class _SignupStep2State extends ConsumerState<SignupStep2> {
                                 isSending = true;
                               });
 
-                              final url = Uri.parse('http://${dotenv.env['IP_ADDRESS']}/api/auth/sign-up');
+                              final url = Uri.parse('${dotenv.env['IP_ADDRESS']}/api/auth/sign-up');
                               final response = await http.post(url,
                                   headers: {'Content-Type': 'application/json'},
                                   body: json.encode(

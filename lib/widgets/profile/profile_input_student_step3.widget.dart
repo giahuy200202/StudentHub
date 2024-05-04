@@ -104,7 +104,7 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentStep3Widget> {
                   ),
                   InkWell(
                     onTap: () async {
-                      final deleteResumeUrl = Uri.parse('http://${dotenv.env['IP_ADDRESS']}/api/profile/student/${student.id}/resume');
+                      final deleteResumeUrl = Uri.parse('${dotenv.env['IP_ADDRESS']}/api/profile/student/${student.id}/resume');
                       final responseDeleteResume = await http.delete(deleteResumeUrl,
                           headers: {
                             'Content-Type': 'application/json',
@@ -148,7 +148,7 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentStep3Widget> {
                   ),
                   InkWell(
                     onTap: () async {
-                      final deleteTranscriptUrl = Uri.parse('http://${dotenv.env['IP_ADDRESS']}/api/profile/student/${student.id}/transcript');
+                      final deleteTranscriptUrl = Uri.parse('${dotenv.env['IP_ADDRESS']}/api/profile/student/${student.id}/transcript');
                       final responseDeleteTranscript = await http.delete(deleteTranscriptUrl,
                           headers: {
                             'Content-Type': 'application/json',
@@ -193,7 +193,7 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentStep3Widget> {
 
                             if (student.id == null || student.id == 0) {
                               //Create fullname, techStackId, skillSets
-                              final url = Uri.parse('http://${dotenv.env['IP_ADDRESS']}/api/profile/student');
+                              final url = Uri.parse('${dotenv.env['IP_ADDRESS']}/api/profile/student');
                               final responseCreateStudent = await http.post(url,
                                   headers: {
                                     'Content-Type': 'application/json',
@@ -226,7 +226,7 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentStep3Widget> {
                               }
                             } else {
                               //Edit fullname, techStackId, skillSets
-                              final url = Uri.parse('http://${dotenv.env['IP_ADDRESS']}/api/profile/student/${student.id}');
+                              final url = Uri.parse('${dotenv.env['IP_ADDRESS']}/api/profile/student/${student.id}');
                               responseEditStudent = await http.put(url,
                                   headers: {
                                     'Content-Type': 'application/json',
@@ -253,7 +253,7 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentStep3Widget> {
                             }
 
                             //Edit languages
-                            final urlEditLanguages = Uri.parse('http://${dotenv.env['IP_ADDRESS']}/api/language/updateByStudentId/${student.id}');
+                            final urlEditLanguages = Uri.parse('${dotenv.env['IP_ADDRESS']}/api/language/updateByStudentId/${student.id}');
                             final responseEditLanguages = await http.put(urlEditLanguages,
                                 headers: {
                                   'Content-Type': 'application/json',
@@ -270,7 +270,7 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentStep3Widget> {
                             print(responseEditLanguagesData);
 
                             //Edit education
-                            final urlEducation = Uri.parse('http://${dotenv.env['IP_ADDRESS']}/api/education/updateByStudentId/${student.id}');
+                            final urlEducation = Uri.parse('${dotenv.env['IP_ADDRESS']}/api/education/updateByStudentId/${student.id}');
                             final responseEditEducations = await http.put(urlEducation,
                                 headers: {
                                   'Content-Type': 'application/json',
@@ -289,7 +289,7 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentStep3Widget> {
                             print(responseEditEducationsData);
 
                             //Edit experiences
-                            final urlExperience = Uri.parse('http://${dotenv.env['IP_ADDRESS']}/api/experience/updateByStudentId/${student.id}');
+                            final urlExperience = Uri.parse('${dotenv.env['IP_ADDRESS']}/api/experience/updateByStudentId/${student.id}');
                             final responseEditExperiences = await http.put(urlExperience,
                                 headers: {
                                   'Content-Type': 'application/json',
@@ -311,7 +311,7 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentStep3Widget> {
 
                             //Set current fullname, techStackId, skillSets to provider
 
-                            final urlGetStudent = Uri.parse('http://${dotenv.env['IP_ADDRESS']}/api/profile/student/${student.id}');
+                            final urlGetStudent = Uri.parse('${dotenv.env['IP_ADDRESS']}/api/profile/student/${student.id}');
 
                             final responseStudent = await http.get(
                               urlGetStudent,
@@ -332,7 +332,7 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentStep3Widget> {
                               //update resume
                               var requestResume = http.MultipartRequest(
                                 'PUT',
-                                Uri.parse('http://${dotenv.env['IP_ADDRESS']}/api/profile/student/${student.id}/resume'),
+                                Uri.parse('${dotenv.env['IP_ADDRESS']}/api/profile/student/${student.id}/resume'),
                               );
 
                               // Add the token to the headers
@@ -348,7 +348,7 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentStep3Widget> {
                               http.Response finalResponseResume = await http.Response.fromStream(responseResume);
 
                               // set resume after update
-                              final urlResume = Uri.parse('http://${dotenv.env['IP_ADDRESS']}/api/profile/student/${student.id}/resume');
+                              final urlResume = Uri.parse('${dotenv.env['IP_ADDRESS']}/api/profile/student/${student.id}/resume');
                               final responseResumeGet = await http.get(
                                 urlResume,
                                 headers: {'Content-Type': 'application/json', 'Authorization': 'Bearer ${user.token}'},
@@ -365,7 +365,7 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentStep3Widget> {
                               print(studentInput.transcript);
                               var requestTranscript = http.MultipartRequest(
                                 'PUT',
-                                Uri.parse('http://${dotenv.env['IP_ADDRESS']}/api/profile/student/${student.id}/transcript'),
+                                Uri.parse('${dotenv.env['IP_ADDRESS']}/api/profile/student/${student.id}/transcript'),
                               );
 
                               // Add the token to the headers
@@ -381,7 +381,7 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentStep3Widget> {
                               http.Response finalResponseTranscript = await http.Response.fromStream(responseTranscript);
 
                               //set transcript after update
-                              final urlTranscript = Uri.parse('http://${dotenv.env['IP_ADDRESS']}/api/profile/student/${student.id}/transcript');
+                              final urlTranscript = Uri.parse('${dotenv.env['IP_ADDRESS']}/api/profile/student/${student.id}/transcript');
                               final responseTranscriptGet = await http.get(
                                 urlTranscript,
                                 headers: {'Content-Type': 'application/json', 'Authorization': 'Bearer ${user.token}'},

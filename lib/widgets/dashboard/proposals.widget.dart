@@ -3,7 +3,9 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:studenthub/providers/authentication/authentication.provider.dart';
+import 'package:studenthub/providers/message/receive_id.provider.dart';
 import 'package:studenthub/providers/projects/project_id.provider.dart';
+import 'package:toastification/toastification.dart';
 
 import '../../providers/options.provider.dart';
 
@@ -12,6 +14,7 @@ import 'dart:convert';
 import 'dart:async';
 
 class Proposal {
+  final String userId;
   final String proposalId;
   final String studentName;
   final String createTime;
@@ -20,6 +23,7 @@ class Proposal {
   final int statusFlag;
 
   Proposal({
+    required this.userId,
     required this.proposalId,
     required this.studentName,
     required this.createTime,
@@ -29,7 +33,8 @@ class Proposal {
   });
 
   Proposal.fromJson(Map<dynamic, dynamic> json)
-      : proposalId = json['proposalId'],
+      : userId = json['userId'],
+        proposalId = json['proposalId'],
         studentName = json['studentName'],
         createTime = json['createTime'],
         techStackName = json['techStackName'],
@@ -38,6 +43,7 @@ class Proposal {
 
   Map<dynamic, dynamic> toJson() {
     return {
+      'userId': userId,
       'proposalId': proposalId,
       'studentName': studentName,
       'createTime': createTime,
@@ -61,14 +67,33 @@ class _ProposalsWidgetState extends ConsumerState<ProposalsWidget> {
   List<Proposal> listProposals = [];
   bool isFetchingData = false;
 
-  void getProjects(token, projectId) async {
+  void showSuccessToast(title, description) {
+    toastification.show(
+      context: context,
+      type: ToastificationType.success,
+      style: ToastificationStyle.minimal,
+      title: Text(
+        title,
+        style: const TextStyle(fontWeight: FontWeight.w600),
+      ),
+      description: Text(
+        description,
+        style: const TextStyle(fontWeight: FontWeight.w400),
+      ),
+      autoCloseDuration: const Duration(seconds: 3),
+    );
+  }
+
+  void getProposals(token, projectId) async {
     setState(() {
       isFetchingData = true;
     });
 
     print('----projectId----');
     print(projectId);
-    final urlGetProposals = Uri.parse('http://${dotenv.env['IP_ADDRESS']}/api/proposal/getByProjectId/$projectId');
+    final urlGetProposals = Uri.parse('${dotenv.env['IP_ADDRESS']}/api/proposal/getByProjectId/$projectId');
+    print('-----------------urlGetProposals-----------------');
+    print(urlGetProposals);
 
     final responseProposals = await http.get(
       urlGetProposals,
@@ -87,6 +112,7 @@ class _ProposalsWidgetState extends ConsumerState<ProposalsWidget> {
     if (responseProposalsData['result'] != null) {
       for (var item in responseProposalsData['result']['items']) {
         listProposalsGetFromRes.add(Proposal(
+          userId: item['student']['userId'].toString(),
           proposalId: item['id'].toString(),
           createTime: 'Submitted at ${DateFormat("dd/MM/yyyy | HH:mm").format(
                 DateTime.parse(item['createdAt']).toLocal(),
@@ -99,8 +125,8 @@ class _ProposalsWidgetState extends ConsumerState<ProposalsWidget> {
       }
     }
 
-    print('----listProjectsGetFromRes----');
-    print(listProposalsGetFromRes);
+    print('----listProposalssGetFromRes----');
+    print(json.encode(listProposalsGetFromRes));
 
     setState(() {
       listProposals = [...listProposalsGetFromRes];
@@ -112,12 +138,15 @@ class _ProposalsWidgetState extends ConsumerState<ProposalsWidget> {
   void initState() {
     final user = ref.read(userProvider);
     final projectId = ref.read(projectIdProvider);
-    getProjects(user.token!, projectId);
+    getProposals(user.token!, projectId);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    final user = ref.watch(userProvider);
+    final projectId = ref.watch(projectIdProvider);
+
     return SizedBox(
       height: 680,
       child: SingleChildScrollView(
@@ -256,10 +285,28 @@ class _ProposalsWidgetState extends ConsumerState<ProposalsWidget> {
                                           height: 43,
                                           width: 157,
                                           child: ElevatedButton(
-                                            onPressed: () {
-                                              // ref
-                                              //     .read(optionsProvider.notifier)
-                                              //     .setWidgetOption('ProjectPostStep1');
+                                            onPressed: () async {
+                                              final urlUpdateProposals = Uri.parse('${dotenv.env['IP_ADDRESS']}/api/proposal/${el.proposalId}');
+
+                                              final responseUpdateProposals = await http.patch(
+                                                urlUpdateProposals,
+                                                headers: {
+                                                  'Content-Type': 'application/json',
+                                                  'Authorization': 'Bearer ${user.token}',
+                                                },
+                                                body: json.encode({
+                                                  "coverLetter": el.coverLetter,
+                                                  "statusFlag": 1,
+                                                  "disableFlag": 0,
+                                                }),
+                                              );
+
+                                              final responseUpdateProposalsData = json.decode(responseUpdateProposals.body);
+                                              print('----responseUpdateProposalsData----');
+                                              print(responseUpdateProposalsData);
+
+                                              ref.read(receiveIdProvider.notifier).setReceiveId(el.userId);
+                                              ref.read(optionsProvider.notifier).setWidgetOption('MessageDetails', user.role!);
                                             },
                                             style: ElevatedButton.styleFrom(
                                               minimumSize: Size.zero, // Set this
@@ -286,88 +333,108 @@ class _ProposalsWidgetState extends ConsumerState<ProposalsWidget> {
                                           height: 43,
                                           width: 157,
                                           child: ElevatedButton(
-                                            onPressed: () => showDialog(
-                                              context: context,
-                                              builder: (BuildContext context) => AlertDialog(
-                                                shape: const RoundedRectangleBorder(
-                                                  borderRadius: BorderRadius.all(
-                                                    Radius.circular(15),
-                                                  ),
-                                                ),
-                                                backgroundColor: Colors.white,
-                                                title: const Text(
-                                                  'Hired offer',
-                                                  style: TextStyle(
-                                                    fontSize: 20,
-                                                    color: Colors.black,
-                                                    fontWeight: FontWeight.w600,
-                                                  ),
-                                                ),
-                                                content: const Text(
-                                                  'Do you really want to send hired offer for student to do this project?',
-                                                  style: TextStyle(
-                                                    fontSize: 16,
-                                                    color: Colors.black,
-                                                    // fontWeight: FontWeight.w600,
-                                                  ),
-                                                ),
-                                                actionsAlignment: MainAxisAlignment.center,
-                                                actions: [
-                                                  Row(
-                                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                    children: [
-                                                      SizedBox(
-                                                        height: 43,
-                                                        width: 135,
-                                                        child: ElevatedButton(
-                                                          onPressed: () => Navigator.pop(context, 'Cancel'),
-                                                          style: ElevatedButton.styleFrom(
-                                                            minimumSize: Size.zero, // Set this
-                                                            padding: EdgeInsets.zero, // and this
-                                                            shape: RoundedRectangleBorder(
-                                                              borderRadius: BorderRadius.circular(8),
-                                                              side: const BorderSide(color: Colors.black),
-                                                            ),
-                                                            // backgroundColor: Colors.white,
-                                                          ),
-                                                          child: const Text(
-                                                            'Cancel',
-                                                            style: TextStyle(
-                                                              fontSize: 16,
-                                                              color: Colors.black,
-                                                              fontWeight: FontWeight.w500,
-                                                            ),
+                                            onPressed: el.statusFlag == 0 || el.statusFlag == 1
+                                                ? () => showDialog(
+                                                      context: context,
+                                                      builder: (BuildContext context) => AlertDialog(
+                                                        shape: const RoundedRectangleBorder(
+                                                          borderRadius: BorderRadius.all(
+                                                            Radius.circular(15),
                                                           ),
                                                         ),
-                                                      ),
-                                                      SizedBox(
-                                                        height: 43,
-                                                        width: 135,
-                                                        child: ElevatedButton(
-                                                          onPressed: () => Navigator.pop(context, 'Send'),
-                                                          style: ElevatedButton.styleFrom(
-                                                            minimumSize: Size.zero, // Set this
-                                                            padding: EdgeInsets.zero, // and this
-                                                            shape: RoundedRectangleBorder(
-                                                              borderRadius: BorderRadius.circular(8),
-                                                            ),
-                                                            backgroundColor: Colors.black,
-                                                          ),
-                                                          child: const Text(
-                                                            'Send',
-                                                            style: TextStyle(
-                                                              fontSize: 16,
-                                                              color: Color.fromARGB(255, 255, 255, 255),
-                                                              fontWeight: FontWeight.w500,
-                                                            ),
+                                                        backgroundColor: Colors.white,
+                                                        title: const Text(
+                                                          'Hired offer',
+                                                          style: TextStyle(
+                                                            fontSize: 20,
+                                                            color: Colors.black,
+                                                            fontWeight: FontWeight.w600,
                                                           ),
                                                         ),
+                                                        content: const Text(
+                                                          'Do you really want to send hired offer for student to do this project?',
+                                                          style: TextStyle(
+                                                            fontSize: 16,
+                                                            color: Colors.black,
+                                                            // fontWeight: FontWeight.w600,
+                                                          ),
+                                                        ),
+                                                        actionsAlignment: MainAxisAlignment.center,
+                                                        actions: [
+                                                          Row(
+                                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                            children: [
+                                                              SizedBox(
+                                                                height: 43,
+                                                                width: 135,
+                                                                child: ElevatedButton(
+                                                                  onPressed: () => Navigator.pop(context, 'Cancel'),
+                                                                  style: ElevatedButton.styleFrom(
+                                                                    minimumSize: Size.zero, // Set this
+                                                                    padding: EdgeInsets.zero, // and this
+                                                                    shape: RoundedRectangleBorder(
+                                                                      borderRadius: BorderRadius.circular(8),
+                                                                      side: const BorderSide(color: Colors.black),
+                                                                    ),
+                                                                    // backgroundColor: Colors.white,
+                                                                  ),
+                                                                  child: const Text(
+                                                                    'Cancel',
+                                                                    style: TextStyle(
+                                                                      fontSize: 16,
+                                                                      color: Colors.black,
+                                                                      fontWeight: FontWeight.w500,
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                              SizedBox(
+                                                                height: 43,
+                                                                width: 135,
+                                                                child: ElevatedButton(
+                                                                  onPressed: () async {
+                                                                    final urlUpdateProposals = Uri.parse('${dotenv.env['IP_ADDRESS']}/api/proposal/${el.proposalId}');
+
+                                                                    final responseUpdateProposals = await http.patch(
+                                                                      urlUpdateProposals,
+                                                                      headers: {
+                                                                        'Content-Type': 'application/json',
+                                                                        'Authorization': 'Bearer ${user.token}',
+                                                                      },
+                                                                      body: json.encode({
+                                                                        "coverLetter": el.coverLetter,
+                                                                        "statusFlag": 2,
+                                                                        "disableFlag": 0,
+                                                                      }),
+                                                                    );
+                                                                    Navigator.pop(context);
+                                                                    showSuccessToast('Success', 'Offer has been sent successfully');
+                                                                    getProposals(user.token, projectId);
+                                                                  },
+                                                                  style: ElevatedButton.styleFrom(
+                                                                    minimumSize: Size.zero, // Set this
+                                                                    padding: EdgeInsets.zero, // and this
+                                                                    shape: RoundedRectangleBorder(
+                                                                      borderRadius: BorderRadius.circular(8),
+                                                                    ),
+                                                                    backgroundColor: Colors.black,
+                                                                  ),
+                                                                  child: const Text(
+                                                                    'Send',
+                                                                    style: TextStyle(
+                                                                      fontSize: 16,
+                                                                      color: Color.fromARGB(255, 255, 255, 255),
+                                                                      fontWeight: FontWeight.w500,
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        ],
                                                       ),
-                                                    ],
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
+                                                    )
+                                                : null,
                                             style: ElevatedButton.styleFrom(
                                               minimumSize: Size.zero, // Set this
                                               padding: EdgeInsets.zero, // and this

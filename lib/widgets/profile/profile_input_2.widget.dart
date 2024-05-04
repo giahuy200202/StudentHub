@@ -309,7 +309,7 @@ class ViewProfileWidget extends ConsumerWidget {
                       width: 120,
                       child: ElevatedButton(
                         onPressed: () async {
-                          final url = Uri.parse('http://${dotenv.env['IP_ADDRESS']}/api/profile/company/${company.id}');
+                          final url = Uri.parse('${dotenv.env['IP_ADDRESS']}/api/profile/company/${company.id}');
 
                           final response = await http.put(url,
                               headers: {

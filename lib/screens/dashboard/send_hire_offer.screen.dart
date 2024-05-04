@@ -140,7 +140,7 @@ class _SendHireOfferScreenState extends ConsumerState<SendHireOfferScreen> {
       isFetchingData = true;
     });
 
-    final urlGetDetailedProjects = Uri.parse('http://${dotenv.env['IP_ADDRESS']}/api/project/$projectId');
+    final urlGetDetailedProjects = Uri.parse('${dotenv.env['IP_ADDRESS']}/api/project/$projectId');
 
     final responseDetailedProjects = await http.get(
       urlGetDetailedProjects,

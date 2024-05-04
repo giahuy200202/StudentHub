@@ -166,7 +166,7 @@ class _WorkingWidgetState extends ConsumerState<WorkingWidget> {
     print('---companyId---');
     print(companyId);
 
-    final urlGetProjects = Uri.parse('http://${dotenv.env['IP_ADDRESS']}/api/project/company/$companyId');
+    final urlGetProjects = Uri.parse('${dotenv.env['IP_ADDRESS']}/api/project/company/$companyId');
 
     final responseProjects = await http.get(
       urlGetProjects,
@@ -242,7 +242,7 @@ class _WorkingWidgetState extends ConsumerState<WorkingWidget> {
                   ),
                 ],
               )
-            : listProjects.where((el) => el.typeFlag == 0).isEmpty
+            : listProjects.where((el) => el.typeFlag == 1).isEmpty
                 ? const Column(
                     children: [
                       Text(
@@ -254,7 +254,7 @@ class _WorkingWidgetState extends ConsumerState<WorkingWidget> {
                   )
                 : Column(
                     children: [
-                      ...listProjects.where((el) => el.typeFlag == 0).map((el) {
+                      ...listProjects.where((el) => el.typeFlag == 1).map((el) {
                         return Column(
                           children: [
                             GestureDetector(
@@ -444,7 +444,7 @@ class _WorkingWidgetState extends ConsumerState<WorkingWidget> {
                                                                     width: 168,
                                                                     child: ElevatedButton(
                                                                       onPressed: () async {
-                                                                        final urlPatchprojects = Uri.parse('http://${dotenv.env['IP_ADDRESS']}/api/project');
+                                                                        final urlPatchprojects = Uri.parse('${dotenv.env['IP_ADDRESS']}/api/project');
 
                                                                         final responsePatchProjects = await http.post(
                                                                           urlPatchprojects,
@@ -474,7 +474,7 @@ class _WorkingWidgetState extends ConsumerState<WorkingWidget> {
                                                                         } else {
                                                                           Navigator.pop(context);
                                                                           getProjects(user.token, company.id);
-                                                                          showSuccessToast('Success', 'Project has been archived successfully');
+                                                                          showSuccessToast('Success', 'Project has been marked to work');
                                                                         }
                                                                       },
                                                                       style: ElevatedButton.styleFrom(
@@ -781,7 +781,7 @@ class _WorkingWidgetState extends ConsumerState<WorkingWidget> {
                                                                                                         width: 175,
                                                                                                         child: ElevatedButton(
                                                                                                           onPressed: () async {
-                                                                                                            final urlEditProjects = Uri.parse('http://${dotenv.env['IP_ADDRESS']}/api/project/${el.projectId}');
+                                                                                                            final urlEditProjects = Uri.parse('${dotenv.env['IP_ADDRESS']}/api/project/${el.projectId}');
 
                                                                                                             final responseEditProjects = await http.patch(
                                                                                                               urlEditProjects,
@@ -885,7 +885,7 @@ class _WorkingWidgetState extends ConsumerState<WorkingWidget> {
                                                                     width: 168,
                                                                     child: ElevatedButton(
                                                                       onPressed: () async {
-                                                                        final urlDeleteProjects = Uri.parse('http://${dotenv.env['IP_ADDRESS']}/api/project/${el.projectId}');
+                                                                        final urlDeleteProjects = Uri.parse('${dotenv.env['IP_ADDRESS']}/api/project/${el.projectId}');
 
                                                                         final responseDeleteProjects = await http.delete(
                                                                           urlDeleteProjects,

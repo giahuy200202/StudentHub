@@ -15,6 +15,7 @@ class TopNavbar extends ConsumerWidget {
     final student = ref.watch(studentProvider);
     final company = ref.watch(companyProvider);
     final switchAccount = ref.watch(switchAccountProvider);
+    final options = ref.watch(optionsProvider);
 
     return Padding(
       padding: const EdgeInsets.only(left: 20, right: 15, top: 50, bottom: 15),
@@ -57,9 +58,9 @@ class TopNavbar extends ConsumerWidget {
                       );
                 }
               },
-              child: const Text(
-                'StudentHub',
-                style: TextStyle(
+              child: Text(
+                options[Option.widgetOption]!,
+                style: const TextStyle(
                   fontSize: 20,
                   color: Colors.white,
                   fontWeight: FontWeight.w500,

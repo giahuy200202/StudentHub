@@ -160,7 +160,7 @@ class _LayoutScreenState extends ConsumerState<LayoutScreen> {
         _selectedPageIndex = 2;
       });
       return const VideocallWidget();
-    } else if (widgetOption == 'Alert') {
+    } else if (widgetOption == 'Notification') {
       setState(() {
         _selectedPageIndex = 3;
       });
@@ -219,7 +219,7 @@ class _LayoutScreenState extends ConsumerState<LayoutScreen> {
                 ),
               ),
         body: currentScreen,
-        bottomNavigationBar: options[Option.widgetOption] == 'Projects' || options[Option.widgetOption] == 'Dashboard' || options[Option.widgetOption] == 'Message' || options[Option.widgetOption] == 'Alert'
+        bottomNavigationBar: options[Option.widgetOption] == 'Projects' || options[Option.widgetOption] == 'Dashboard' || options[Option.widgetOption] == 'Message' || options[Option.widgetOption] == 'Notification'
             ? BottomNavigationBar(
                 onTap: (int index) {
                   setState(() {
@@ -233,7 +233,7 @@ class _LayoutScreenState extends ConsumerState<LayoutScreen> {
                   } else if (index == 2) {
                     ref.read(optionsProvider.notifier).setWidgetOption('Message', user.role!);
                   } else if (index == 3) {
-                    ref.read(optionsProvider.notifier).setWidgetOption('Alert', user.role!);
+                    ref.read(optionsProvider.notifier).setWidgetOption('Notification', user.role!);
                   }
                 },
                 currentIndex: _selectedPageIndex,
@@ -269,7 +269,7 @@ class _LayoutScreenState extends ConsumerState<LayoutScreen> {
                       padding: EdgeInsets.only(top: 6),
                       child: Icon(Icons.notifications_active, size: 30),
                     ),
-                    label: 'Alert',
+                    label: 'Notification',
                   ),
                 ],
               )

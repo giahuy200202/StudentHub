@@ -305,7 +305,7 @@ class _ProjectPostStep4WidgetState extends ConsumerState<ProjectPostStep4Widget>
                               isFetching = true;
                             });
 
-                            final urlPostprojects = Uri.parse('http://${dotenv.env['IP_ADDRESS']}/api/project');
+                            final urlPostprojects = Uri.parse('${dotenv.env['IP_ADDRESS']}/api/project');
 
                             final responsePostProjects = await http.post(
                               urlPostprojects,

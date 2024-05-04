@@ -166,7 +166,7 @@ class _AllProjectsWidgetState extends ConsumerState<AllProjectsWidget> {
     print('---companyId---');
     print(companyId);
 
-    final urlGetProjects = Uri.parse('http://${dotenv.env['IP_ADDRESS']}/api/project/company/$companyId');
+    final urlGetProjects = Uri.parse('${dotenv.env['IP_ADDRESS']}/api/project/company/$companyId');
 
     final responseProjects = await http.get(
       urlGetProjects,
@@ -444,7 +444,7 @@ class _AllProjectsWidgetState extends ConsumerState<AllProjectsWidget> {
                                                                     width: 168,
                                                                     child: ElevatedButton(
                                                                       onPressed: () async {
-                                                                        final urlPatchprojects = Uri.parse('http://${dotenv.env['IP_ADDRESS']}/api/project/${el.projectId}');
+                                                                        final urlPatchprojects = Uri.parse('${dotenv.env['IP_ADDRESS']}/api/project/${el.projectId}');
 
                                                                         final responsePatchProjects = await http.patch(
                                                                           urlPatchprojects,
@@ -457,7 +457,7 @@ class _AllProjectsWidgetState extends ConsumerState<AllProjectsWidget> {
                                                                             'title': el.title,
                                                                             'description': el.description,
                                                                             'numberOfStudents': el.numberOfStudents,
-                                                                            "typeFlag": 1,
+                                                                            "typeFlag": 2,
                                                                           }),
                                                                         );
 
@@ -781,7 +781,7 @@ class _AllProjectsWidgetState extends ConsumerState<AllProjectsWidget> {
                                                                                                         width: 175,
                                                                                                         child: ElevatedButton(
                                                                                                           onPressed: () async {
-                                                                                                            final urlEditProjects = Uri.parse('http://${dotenv.env['IP_ADDRESS']}/api/project/${el.projectId}');
+                                                                                                            final urlEditProjects = Uri.parse('${dotenv.env['IP_ADDRESS']}/api/project/${el.projectId}');
 
                                                                                                             final responseEditProjects = await http.patch(
                                                                                                               urlEditProjects,
@@ -885,7 +885,7 @@ class _AllProjectsWidgetState extends ConsumerState<AllProjectsWidget> {
                                                                     width: 168,
                                                                     child: ElevatedButton(
                                                                       onPressed: () async {
-                                                                        final urlDeleteProjects = Uri.parse('http://${dotenv.env['IP_ADDRESS']}/api/project/${el.projectId}');
+                                                                        final urlDeleteProjects = Uri.parse('${dotenv.env['IP_ADDRESS']}/api/project/${el.projectId}');
 
                                                                         final responseDeleteProjects = await http.delete(
                                                                           urlDeleteProjects,
@@ -946,7 +946,40 @@ class _AllProjectsWidgetState extends ConsumerState<AllProjectsWidget> {
                                                             height: 52,
                                                             width: MediaQuery.of(context).size.width,
                                                             child: ElevatedButton(
-                                                              onPressed: () {},
+                                                              onPressed: () async {
+                                                                final urlPatchprojects = Uri.parse('${dotenv.env['IP_ADDRESS']}/api/project/${el.projectId}');
+
+                                                                final responsePatchProjects = await http.patch(
+                                                                  urlPatchprojects,
+                                                                  headers: {
+                                                                    'Content-Type': 'application/json',
+                                                                    'Authorization': 'Bearer ${user.token}',
+                                                                  },
+                                                                  body: json.encode({
+                                                                    'projectScopeFlag': el.projectScopeFlag,
+                                                                    'title': el.title,
+                                                                    'description': el.description,
+                                                                    'numberOfStudents': el.numberOfStudents,
+                                                                    "typeFlag": 1,
+                                                                  }),
+                                                                );
+
+                                                                final responsePatchProjectsData = json.decode(responsePatchProjects.body);
+                                                                print('----responsePatchProjectsData----');
+                                                                print(responsePatchProjectsData);
+
+                                                                if (responsePatchProjectsData.containsKey('errorDetails')) {
+                                                                  if (responsePatchProjectsData['errorDetails'] is String) {
+                                                                    showErrorToast('Error', responsePatchProjectsData['errorDetails']);
+                                                                  } else {
+                                                                    showErrorToast('Error', responsePatchProjectsData['errorDetails'][0]);
+                                                                  }
+                                                                } else {
+                                                                  Navigator.pop(context);
+                                                                  getProjects(user.token, company.id);
+                                                                  showSuccessToast('Success', 'Project has been marked to work');
+                                                                }
+                                                              },
                                                               style: ElevatedButton.styleFrom(
                                                                 minimumSize: Size.zero, // Set this
                                                                 padding: EdgeInsets.zero, // and this
