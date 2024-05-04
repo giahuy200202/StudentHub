@@ -219,6 +219,7 @@ class _AllProjectsWidgetState extends ConsumerState<AllProjectsWidget> {
     final user = ref.watch(userProvider);
     final student = ref.watch(studentProvider);
     final company = ref.watch(companyProvider);
+    final projectId = ref.watch(projectIdProvider);
 
     return SizedBox(
       height: 545,
@@ -259,7 +260,9 @@ class _AllProjectsWidgetState extends ConsumerState<AllProjectsWidget> {
                           children: [
                             GestureDetector(
                               onTap: () {
-                                ref.read(projectIdProvider.notifier).setProjectId(el.projectId);
+                                if (projectId == '' || projectId != el.projectId) {
+                                  ref.read(projectIdProvider.notifier).setProjectId(el.projectId);
+                                }
                                 ref.read(optionsProvider.notifier).setWidgetOption('SendHireOffer', user.role!);
                               },
                               child: Container(

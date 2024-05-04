@@ -235,6 +235,7 @@ class _SubmitProposalWidgetState extends ConsumerState<SubmitProposalWidget> {
                                           });
 
                                           ref.read(optionsProvider.notifier).setWidgetOption('Projects', user.role!);
+
                                           showSuccessToast('Success', 'Proposal submitted successfully');
                                         }
                                       },

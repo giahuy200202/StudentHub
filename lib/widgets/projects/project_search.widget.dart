@@ -1106,7 +1106,7 @@ class _ProjectSearchWidgetState extends ConsumerState<ProjectSearchWidget> {
                                         GestureDetector(
                                           onTap: () {
                                             ref.read(optionsProvider.notifier).setWidgetOption('ProjectDetails', user.role!);
-                                            ref.read(projectIdProvider.notifier).setProjectId(el.id);
+                                            // ref.read(projectIdProvider.notifier).setProjectId(el.id);
                                           },
                                           child: Container(
                                             decoration: BoxDecoration(

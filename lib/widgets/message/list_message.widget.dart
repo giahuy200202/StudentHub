@@ -154,6 +154,7 @@ class _MessageWidgetState extends ConsumerState<MessageWidget> {
   @override
   Widget build(BuildContext context) {
     final user = ref.watch(userProvider);
+    final projectId = ref.watch(projectIdProvider);
     return SizedBox(
       height: 650,
       width: MediaQuery.of(context).size.width,
@@ -185,7 +186,10 @@ class _MessageWidgetState extends ConsumerState<MessageWidget> {
                         children: [
                           GestureDetector(
                             onTap: () {
-                              ref.read(projectIdProvider.notifier).setProjectId(el.projectId);
+                              if (projectId == '' || projectId != el.projectId) {
+                                ref.read(projectIdProvider.notifier).setProjectId(el.projectId);
+                              }
+
                               ref.read(receiveIdProvider.notifier).setReceiveId(el.receiverId);
                               ref.read(optionsProvider.notifier).setWidgetOption('MessageDetails', user.role!);
                             },

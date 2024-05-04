@@ -230,7 +230,7 @@ class _SavedProjectsWidgetState extends ConsumerState<SavedProjectsWidget> {
                                     children: [
                                       GestureDetector(
                                         onTap: () {
-                                          ref.read(projectIdProvider.notifier).setProjectId(el.id);
+                                          // ref.read(projectIdProvider.notifier).setProjectId(el.id);
                                           ref.read(optionsProvider.notifier).setWidgetOption('ProjectDetails', user.role!);
                                         },
                                         child: Container(
