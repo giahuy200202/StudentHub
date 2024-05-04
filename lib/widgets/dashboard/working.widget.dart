@@ -261,7 +261,7 @@ class _WorkingWidgetState extends ConsumerState<WorkingWidget> {
                             GestureDetector(
                               onTap: () {
                                 if (projectId == '' || projectId != el.projectId) {
-                                  ref.read(projectIdProvider.notifier).setProjectId(el.projectId);
+                                  ref.read(projectIdProvider.notifier).setProjectId(el.projectId.toString());
                                 }
                                 ref.read(optionsProvider.notifier).setWidgetOption('SendHireOffer', user.role!);
                               },

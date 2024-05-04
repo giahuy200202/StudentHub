@@ -136,6 +136,9 @@ class _ProjectDetailsWidgetState extends ConsumerState<ProjectDetailsWidget> {
 
     final urlGetDetailedProjects = Uri.parse('${dotenv.env['IP_ADDRESS']}/api/project/$projectId');
 
+    print('----project id----');
+    print(projectId);
+
     final responseDetailedProjects = await http.get(
       urlGetDetailedProjects,
       headers: {
@@ -472,11 +475,6 @@ class _ProjectDetailsWidgetState extends ConsumerState<ProjectDetailsWidget> {
 
                                     // showSuccessToast('Success', 'Project added to favorites');
                                     print(projectId);
-
-                                    if (projectId == '' || projectId != listProjects.projectId) {
-                                      ref.read(projectIdProvider.notifier).setProjectId(listProjects.projectId);
-                                    }
-
                                     ref.read(optionsProvider.notifier).setWidgetOption('SubmitProposal', user.role!);
                                   }
                                 : null,

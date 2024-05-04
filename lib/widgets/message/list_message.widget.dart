@@ -180,14 +180,14 @@ class _MessageWidgetState extends ConsumerState<MessageWidget> {
           : SingleChildScrollView(
               child: Column(
                 children: [
-                  ...listMessages.map(
+                  ...listMessages.reversed.map(
                     (el) {
                       return Column(
                         children: [
                           GestureDetector(
                             onTap: () {
                               if (projectId == '' || projectId != el.projectId) {
-                                ref.read(projectIdProvider.notifier).setProjectId(el.projectId);
+                                ref.read(projectIdProvider.notifier).setProjectId(el.projectId.toString());
                               }
 
                               ref.read(receiveIdProvider.notifier).setReceiveId(el.receiverId);

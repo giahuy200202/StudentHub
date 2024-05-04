@@ -233,6 +233,8 @@ class _ProjectSearchWidgetState extends ConsumerState<ProjectSearchWidget> {
 
     searchController.text = searchFilter.search!;
     final user = ref.watch(userProvider);
+    final projectId = ref.watch(projectIdProvider);
+
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(
@@ -1105,8 +1107,10 @@ class _ProjectSearchWidgetState extends ConsumerState<ProjectSearchWidget> {
                                       children: [
                                         GestureDetector(
                                           onTap: () {
+                                            if (projectId == '' || projectId != el.id) {
+                                              ref.read(projectIdProvider.notifier).setProjectId(el.id.toString());
+                                            }
                                             ref.read(optionsProvider.notifier).setWidgetOption('ProjectDetails', user.role!);
-                                            // ref.read(projectIdProvider.notifier).setProjectId(el.id);
                                           },
                                           child: Container(
                                             decoration: BoxDecoration(

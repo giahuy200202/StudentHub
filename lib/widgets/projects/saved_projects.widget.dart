@@ -156,6 +156,7 @@ class _SavedProjectsWidgetState extends ConsumerState<SavedProjectsWidget> {
   Widget build(BuildContext context) {
     final user = ref.watch(userProvider);
     final student = ref.watch(studentProvider);
+    final projectId = ref.watch(projectIdProvider);
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -230,7 +231,9 @@ class _SavedProjectsWidgetState extends ConsumerState<SavedProjectsWidget> {
                                     children: [
                                       GestureDetector(
                                         onTap: () {
-                                          // ref.read(projectIdProvider.notifier).setProjectId(el.id);
+                                          if (projectId == '' || projectId != el.id) {
+                                            ref.read(projectIdProvider.notifier).setProjectId(el.id.toString());
+                                          }
                                           ref.read(optionsProvider.notifier).setWidgetOption('ProjectDetails', user.role!);
                                         },
                                         child: Container(
