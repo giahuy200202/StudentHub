@@ -5,15 +5,50 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:http/http.dart' as http;
+import 'package:intl/intl.dart';
 import 'dart:convert';
 import 'dart:async';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 import 'package:socket_io_client/socket_io_client.dart';
 import 'package:studenthub/providers/authentication/authentication.provider.dart';
 import 'package:studenthub/providers/message/receive_id.provider.dart';
+import 'package:studenthub/providers/options.provider.dart';
 import 'package:studenthub/providers/projects/project_id.provider.dart';
 
 import 'package:toastification/toastification.dart';
+
+class Notification {
+  final String id;
+  final String notificationType;
+  final String notificationContent;
+  final String senderName;
+  final String createdAt;
+
+  Notification({
+    required this.id,
+    required this.notificationType,
+    required this.notificationContent,
+    required this.senderName,
+    required this.createdAt,
+  });
+
+  Notification.fromJson(Map<dynamic, dynamic> json)
+      : id = json['id'],
+        notificationType = json['notificationType'],
+        notificationContent = json['notificationContent'],
+        senderName = json['senderName'],
+        createdAt = json['createdAt'];
+
+  Map<dynamic, dynamic> toJson() {
+    return {
+      'id': id,
+      'notificationType': notificationType,
+      'notificationContent': notificationContent,
+      'senderName': senderName,
+      'createdAt': createdAt,
+    };
+  }
+}
 
 class AlertsWidget extends ConsumerStatefulWidget {
   const AlertsWidget({super.key});
@@ -26,6 +61,7 @@ class AlertsWidget extends ConsumerStatefulWidget {
 
 class _AlertsWidget extends ConsumerState<AlertsWidget> {
   bool isFetchingData = false;
+  List<Notification> listNotifications = [];
 
   void showErrorToast(title, description) {
     toastification.show(
@@ -80,23 +116,26 @@ class _AlertsWidget extends ConsumerState<AlertsWidget> {
     print('----responseNotificationsData----');
     print(responseNotificationsData);
 
-    // List<Message> listMessagesGetFromRes = [];
-    // if (responseNotificationsData['result'] != null) {
-    //   for (var item in responseNotificationsData['result']) {
-    //     listMessagesGetFromRes.add(Message(
-    //       createdAt: DateFormat("dd/MM/yyyy | HH:mm").format(DateTime.parse(item['createdAt']).toLocal()).toString(),
-    //       author: item['sender']['fullname'],
-    //       content: item['content'],
-    //       isInterview: false,
-    //     ));
-    //   }
-    // }
+    List<Notification> listNotificationsGetFromRes = [];
+    if (responseNotificationsData['result'] != null) {
+      for (var item in responseNotificationsData['result']) {
+        listNotificationsGetFromRes.add(
+          Notification(
+            id: item['id'].toString(),
+            notificationType: item['notifyFlag'],
+            notificationContent: item['message']['content'],
+            senderName: item['sender']['fullname'],
+            createdAt: DateFormat("dd/MM/yyyy | HH:mm").format(DateTime.parse(item['createdAt']).toLocal()).toString(),
+          ),
+        );
+      }
+    }
 
-    // print('----listMessagesGetFromRes----');
-    // print(json.encode(listMessagesGetFromRes));
+    print('----listNotificationsGetFromRes----');
+    print(json.encode(listNotificationsGetFromRes));
 
     setState(() {
-      // listMessages = [...listMessagesGetFromRes];
+      listNotifications = [...listNotificationsGetFromRes];
       isFetchingData = false;
     });
   }
@@ -107,7 +146,6 @@ class _AlertsWidget extends ConsumerState<AlertsWidget> {
 
     final user = ref.read(userProvider);
     final projectId = ref.read(projectIdProvider);
-    final receiveId = ref.read(receiveIdProvider);
 
     getNotifications(user.token!, projectId, user.id!);
 
@@ -125,8 +163,8 @@ class _AlertsWidget extends ConsumerState<AlertsWidget> {
 
     socket.connect();
 
-    socket.onConnect((data) => {print('Connected')});
-    socket.onDisconnect((data) => {print('Disconnected')});
+    socket.onConnect((data) => {print('Connected notification')});
+    socket.onDisconnect((data) => {print('Disconnected notification')});
 
     socket.onConnectError((data) => print('$data'));
     socket.onError((data) => print(data));
@@ -135,12 +173,32 @@ class _AlertsWidget extends ConsumerState<AlertsWidget> {
     socket.on('RECEIVE_MESSAGE', (data) {
       // Your code to update ui
 
-      print('------RECEIVE_MESSAGE------');
+      print('------RECEIVE_NOTIFICATION------');
       print(data);
 
-      // if (mounted) {
-      //   setState(() {});
-      // }
+      if (mounted) {
+        setState(
+          () {
+            listNotifications = [
+              ...listNotifications,
+              Notification(
+                id: data['notification']['id'].toString(),
+                notificationType: '0',
+                notificationContent: data['notification']['message']['content'],
+                senderName: data['notification']['sender']['fullname'],
+                createdAt: DateFormat("dd/MM/yyyy | HH:mm")
+                    .format(DateTime.parse(
+                      data['notification']['message']['createdAt'],
+                    ).toLocal())
+                    .toString(),
+              )
+            ];
+          },
+        );
+      }
+
+      print('------listNotifications------');
+      print(json.encode(listNotifications[listNotifications.length - 1]));
     });
     //Listen for error from socket
     socket.on("ERROR", (data) => print(data));
@@ -148,115 +206,146 @@ class _AlertsWidget extends ConsumerState<AlertsWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: Padding(
-            padding: const EdgeInsets.only(left: 20, right: 20),
-            child: Center(
-                child: Column(children: [
-              const SizedBox(height: 30),
-              SizedBox(
-                height: 600,
-                width: 400,
-                child: SingleChildScrollView(
-                    child: Column(
-                  children: [
-                    GestureDetector(
-                      onTap: () {},
-                      child: Container(
-                        decoration: BoxDecoration(
-                          border: Border.all(color: Colors.grey),
-                          borderRadius: BorderRadius.all(Radius.circular(12)),
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                            vertical: 20,
-                            horizontal: 20,
-                          ),
-                          child: Column(
-                            children: [
-                              Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Container(
-                                    alignment: Alignment.topLeft,
-                                    width: 70,
-                                    height: 70,
-                                    padding: const EdgeInsets.all(20),
-                                    decoration: const BoxDecoration(
-                                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                                      image: DecorationImage(
-                                        image: AssetImage("assets/images/avatar.jpg"),
-                                        fit: BoxFit.cover,
-                                      ),
-                                    ),
-                                  ),
-                                  const SizedBox(width: 10),
-                                  SizedBox(
-                                    height: 160,
-                                    width: 240,
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      mainAxisAlignment: MainAxisAlignment.start,
-                                      children: [
-                                        const Text(
-                                          '6/6/2024',
-                                          style: TextStyle(fontSize: 13, color: Colors.grey),
-                                        ),
-                                        const SizedBox(height: 5),
-                                        const Align(
-                                          alignment: Alignment.topLeft,
-                                          child: SizedBox(
-                                            width: 300,
-                                            child: Text(
-                                              maxLines: 3,
-                                              'You have Invited to interview for project "Javis - AI Copllot at 14:00 March 20, Thrusday"',
-                                              overflow: TextOverflow.ellipsis,
-                                              style: TextStyle(
-                                                color: Colors.black,
-                                                fontSize: 16,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                        const SizedBox(height: 27),
-                                        Container(
-                                          alignment: Alignment.topRight,
-                                          child: SizedBox(
-                                            height: 40,
-                                            width: 130,
-                                            child: ElevatedButton(
-                                              onPressed: () {},
-                                              style: ElevatedButton.styleFrom(
-                                                shape: RoundedRectangleBorder(
-                                                  borderRadius: BorderRadius.circular(8),
-                                                  side: const BorderSide(color: Colors.black),
-                                                ),
-                                                backgroundColor: const Color.fromARGB(255, 0, 0, 0),
-                                              ),
-                                              child: const Text(
-                                                'Join',
-                                                style: TextStyle(
-                                                  fontSize: 16,
-                                                  color: Color.fromARGB(255, 255, 255, 255),
-                                                  fontWeight: FontWeight.w500,
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
+    final user = ref.watch(userProvider);
+    return SizedBox(
+      height: 700,
+      width: MediaQuery.of(context).size.width,
+      child: isFetchingData
+          ? const Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                SizedBox(height: 50),
+                Center(
+                  child: SizedBox(
+                    height: 25,
+                    width: 25,
+                    child: CircularProgressIndicator(
+                      valueColor: AlwaysStoppedAnimation<Color>(
+                        Colors.grey,
                       ),
                     ),
+                  ),
+                ),
+              ],
+            )
+          : SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
+                child: Column(
+                  children: [
+                    ...listNotifications.reversed.map(
+                      (el) {
+                        return Column(
+                          children: [
+                            GestureDetector(
+                              onTap: () {
+                                // ref.read(optionsProvider.notifier).setWidgetOption('NotificationDetails', user.role!);
+                              },
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  // color: Color.fromARGB(255, 232, 233, 237),
+                                  border: Border.all(
+                                    color: Colors.black,
+                                    width: 0.4,
+                                  ),
+                                  borderRadius: const BorderRadius.all(Radius.circular(12)),
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                    vertical: 20,
+                                    horizontal: 20,
+                                  ),
+                                  child: Column(
+                                    children: [
+                                      Row(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Container(
+                                            width: 60,
+                                            height: 60,
+                                            margin: const EdgeInsets.only(top: 3),
+                                            padding: const EdgeInsets.all(20),
+                                            decoration: const BoxDecoration(
+                                              borderRadius: BorderRadius.all(Radius.circular(10)),
+                                              image: DecorationImage(
+                                                image: AssetImage("assets/images/avatar.jpg"),
+                                                fit: BoxFit.cover,
+                                              ),
+                                            ),
+                                          ),
+                                          const SizedBox(width: 15),
+                                          Column(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              Row(
+                                                children: [
+                                                  SizedBox(
+                                                    width: 240,
+                                                    child: Text(
+                                                      el.createdAt,
+                                                      style: const TextStyle(
+                                                        color: Color.fromARGB(255, 115, 114, 114),
+                                                        overflow: TextOverflow.ellipsis,
+                                                        fontSize: 13,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  el.notificationType == '0'
+                                                      ? const Icon(
+                                                          Icons.circle,
+                                                          color: Colors.grey,
+                                                          size: 10,
+                                                        )
+                                                      : const Icon(
+                                                          Icons.circle,
+                                                          color: Colors.white,
+                                                          size: 10,
+                                                        ),
+                                                ],
+                                              ),
+                                              SizedBox(
+                                                width: 250,
+                                                child: Text(
+                                                  textAlign: TextAlign.start,
+                                                  el.senderName,
+                                                  overflow: TextOverflow.ellipsis,
+                                                  style: const TextStyle(
+                                                    color: Colors.black,
+                                                    fontSize: 16,
+                                                    fontWeight: FontWeight.w600,
+                                                  ),
+                                                ),
+                                              ),
+                                              SizedBox(
+                                                width: 240,
+                                                child: Text(
+                                                  el.notificationContent,
+                                                  style: const TextStyle(
+                                                    color: Colors.black,
+                                                    // overflow: TextOverflow.ellipsis,
+                                                    fontSize: 16,
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                            const SizedBox(height: 30),
+                          ],
+                        );
+                      },
+                    ),
                   ],
-                )),
-              )
-            ]))));
+                ),
+              ),
+            ),
+    );
   }
 }
