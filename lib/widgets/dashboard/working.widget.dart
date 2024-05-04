@@ -265,7 +265,7 @@ class _WorkingWidgetState extends ConsumerState<WorkingWidget> {
                               },
                               child: Container(
                                 decoration: BoxDecoration(
-                                  color: Colors.white,
+                                  color: colorApp.colorBackgroundColor,
                                   border: Border.all(color: Colors.grey),
                                   borderRadius: const BorderRadius.all(Radius.circular(12)),
                                 ),
@@ -285,8 +285,8 @@ class _WorkingWidgetState extends ConsumerState<WorkingWidget> {
                                               child: Text(
                                                 el.title,
                                                 overflow: TextOverflow.ellipsis,
-                                                style: const TextStyle(
-                                                  color: Colors.black,
+                                                style: TextStyle(
+                                                  color: colorApp.colorTitle,
                                                   fontSize: 18,
                                                   fontWeight: FontWeight.w600,
                                                 ),

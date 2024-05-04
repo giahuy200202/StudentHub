@@ -20,27 +20,9 @@ class ColorApp {
   Color? colorBlack;
   Color? colorBorderSideMutil;
   Color? colorClip;
+  Color? colorTime;
 
-  ColorApp({
-    this.colorBackgroundColor,
-    this.colorTitle,
-    this.colorText,
-    this.colorBorderSide,
-    this.colorBorderBackground,
-    this.colorDivider,
-    this.colorSignIn,
-    this.colorIcon,
-    this.colorButton,
-    this.colorEnableButton,
-    this.colorBackgroundBootomSheet,
-    this.colorSelect,
-    this.colorunSelect,
-    this.colorWhiteBlack,
-    this.colorBlackWhite,
-    this.colorBlack = Colors.black,
-    this.colorBorderSideMutil,
-    this.colorClip,
-  });
+  ColorApp({this.colorBackgroundColor, this.colorTitle, this.colorText, this.colorBorderSide, this.colorBorderBackground, this.colorDivider, this.colorSignIn, this.colorIcon, this.colorButton, this.colorEnableButton, this.colorBackgroundBootomSheet, this.colorSelect, this.colorunSelect, this.colorWhiteBlack, this.colorBlackWhite, this.colorBlack = Colors.black, this.colorBorderSideMutil, this.colorClip, this.colorTime});
 }
 
 class _ColorApp extends StateNotifier<ColorApp> {
@@ -63,6 +45,7 @@ class _ColorApp extends StateNotifier<ColorApp> {
           colorBlackWhite: Colors.black,
           colorBorderSideMutil: Colors.black,
           colorClip: Color.fromARGB(255, 193, 191, 191),
+          colorTime: Color.fromARGB(255, 94, 94, 94),
         ));
 
   var isDarkMode = false;
@@ -96,6 +79,7 @@ class _ColorApp extends StateNotifier<ColorApp> {
       colorBlackWhite: Colors.black,
       colorBorderSideMutil: Colors.black,
       colorClip: Color.fromARGB(255, 193, 191, 191),
+      colorTime: Color.fromARGB(255, 94, 94, 94),
     );
     state = tmp;
   }
@@ -120,6 +104,7 @@ class _ColorApp extends StateNotifier<ColorApp> {
       colorBlackWhite: Colors.white,
       colorBorderSideMutil: Color.fromARGB(255, 44, 44, 44),
       colorClip: Colors.black,
+      colorTime: Colors.grey[300]!,
     );
     state = tmp;
   }
