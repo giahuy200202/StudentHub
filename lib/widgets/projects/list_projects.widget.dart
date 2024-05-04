@@ -6,7 +6,7 @@ import 'package:studenthub/providers/authentication/authentication.provider.dart
 import 'package:studenthub/providers/profile/student.provider.dart';
 import 'package:studenthub/providers/projects/project_id.provider.dart';
 import 'package:toastification/toastification.dart';
-
+import 'package:studenthub/providers/language/language.provider.dart';
 import '../../providers/options.provider.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -104,13 +104,11 @@ class _ListProjectsWidgetState extends ConsumerState<ListProjectsWidget> {
     );
   }
 
-  void getProjects(token) async {
+  void getProjects(token, tmp) async {
     setState(() {
       isFetchingData = true;
     });
-
     final urlGetProjects = Uri.parse('http://${dotenv.env['IP_ADDRESS']}/api/project');
-
     final responseProjects = await http.get(
       urlGetProjects,
       headers: {
@@ -118,18 +116,16 @@ class _ListProjectsWidgetState extends ConsumerState<ListProjectsWidget> {
         'Authorization': 'Bearer $token',
       },
     );
-
     final responseProjectsData = json.decode(responseProjects.body);
     print('----responseProjectsData----');
     print(responseProjectsData['result']);
-
     List<Project> listProjectsGetFromRes = [];
     if (responseProjectsData['result'] != null) {
       for (var item in responseProjectsData['result']) {
         listProjectsGetFromRes.add(Project(
           projectId: item['projectId'].toString(),
           title: item['title'],
-          createTime: 'Created at ${DateFormat("dd/MM/yyyy | HH:mm").format(
+          createTime: '${tmp.Createat} ${DateFormat("dd/MM/yyyy | HH:mm").format(
                 DateTime.parse(item['createdAt']).toLocal(),
               ).toString()}',
           projectScopeFlag: item['projectScopeFlag'],
@@ -150,7 +146,8 @@ class _ListProjectsWidgetState extends ConsumerState<ListProjectsWidget> {
   @override
   void initState() {
     final user = ref.read(userProvider);
-    getProjects(user.token!);
+    final Lang = ref.read(LanguageProvider);
+    getProjects(user.token!, Lang);
     super.initState();
   }
 
@@ -159,6 +156,7 @@ class _ListProjectsWidgetState extends ConsumerState<ListProjectsWidget> {
     final user = ref.watch(userProvider);
     final student = ref.watch(studentProvider);
     final projectId = ref.watch(projectIdProvider);
+    var Language = ref.watch(LanguageProvider);
     print(student.id);
 
     return SizedBox(
@@ -184,10 +182,10 @@ class _ListProjectsWidgetState extends ConsumerState<ListProjectsWidget> {
                 ],
               )
             : listProjects.isEmpty
-                ? const Column(
+                ? Column(
                     children: [
                       Text(
-                        'Empty',
+                        Language.empty,
                         style: TextStyle(fontSize: 16),
                       ),
                       SizedBox(height: 20),
@@ -260,7 +258,7 @@ class _ListProjectsWidgetState extends ConsumerState<ListProjectsWidget> {
                                                     print(responsePatchFavoriteProjectData);
                                                     print(student.id);
 
-                                                    getProjects(user.token!);
+                                                    getProjects(user.token!, Language);
                                                   },
                                             child: Icon(
                                               el.isFavorite ? Icons.favorite_rounded : Icons.favorite_border,
@@ -290,7 +288,9 @@ class _ListProjectsWidgetState extends ConsumerState<ListProjectsWidget> {
                                         child: SizedBox(
                                           width: 340,
                                           child: Text(
-                                            'Time: ${el.projectScopeFlag == 0 ? 'Less than 1 month' : el.projectScopeFlag == 1 ? ' 1-3 months' : el.projectScopeFlag == 2 ? '3-6 months' : 'More than 6 months'}, ${el.numberOfStudents} students needed',
+                                            Language.Time +
+                                                ': ${el.projectScopeFlag == 0 ? Language.Time_1 : el.projectScopeFlag == 1 ? Language.Time_2 : el.projectScopeFlag == 2 ? Language.Time_3 : Language.Time_4}, ${el.numberOfStudents} ' +
+                                                Language.StudentNeed,
                                             style: const TextStyle(
                                               color: Colors.black,
                                               overflow: TextOverflow.ellipsis,
@@ -341,7 +341,7 @@ class _ListProjectsWidgetState extends ConsumerState<ListProjectsWidget> {
                                           ),
                                           const SizedBox(width: 5),
                                           Text(
-                                            'Proposals: ${el.countProposals}',
+                                            Language.Proposals + ': ${el.countProposals}',
                                             style: const TextStyle(
                                               fontSize: 16,
                                               color: Colors.black,

@@ -73,6 +73,43 @@ class Language {
   String Resume;
   String Transcript;
   String Choosefile;
+  String Continue;
+  String CompanyProfile;
+  String CompanyDes;
+  String PeopleCompany;
+  String People_1;
+  String People_2;
+  String People_3;
+  String People_4;
+  String People_5;
+  String Companyname;
+  String Web;
+  String Message;
+  String Alert;
+  String Dashboard;
+  String DesRegister;
+  String RegisterCompany;
+  String RegisterStudent;
+  String CreateAccount;
+  String TextRegister;
+  String Login;
+  String DesRegister_2;
+  String TextRegister_step2;
+  String Email_2;
+  String Pass_Register;
+  String RulestRegister_step2;
+  String CreateAccount_step2;
+  String ApplyStudent;
+  String textEmail;
+  String reset_pass;
+  String Time;
+  String Proposals;
+  String Time_1;
+  String Time_2;
+  String Time_3;
+  String Time_4;
+  String StudentNeed;
+  String Createat;
 
   Language({
     required this.language,
@@ -146,6 +183,43 @@ class Language {
     required this.Resume,
     required this.Transcript,
     required this.Choosefile,
+    required this.Continue,
+    required this.CompanyDes,
+    required this.CompanyProfile,
+    required this.PeopleCompany,
+    required this.People_1,
+    required this.People_2,
+    required this.People_3,
+    required this.People_4,
+    required this.People_5,
+    required this.Companyname,
+    required this.Web,
+    required this.Alert,
+    required this.Dashboard,
+    required this.Message,
+    required this.CreateAccount,
+    required this.DesRegister,
+    required this.RegisterCompany,
+    required this.RegisterStudent,
+    required this.TextRegister,
+    required this.Login,
+    required this.ApplyStudent,
+    required this.CreateAccount_step2,
+    required this.DesRegister_2,
+    required this.Email_2,
+    required this.Pass_Register,
+    required this.RulestRegister_step2,
+    required this.TextRegister_step2,
+    required this.textEmail,
+    required this.reset_pass,
+    required this.Time,
+    required this.Proposals,
+    required this.Time_1,
+    required this.Time_2,
+    required this.Time_3,
+    required this.Time_4,
+    required this.StudentNeed,
+    required this.Createat,
   });
 
   get LanguageChange => null;
@@ -225,6 +299,43 @@ class _Language extends StateNotifier<Language> {
           Resume: 'Resume/CV',
           Transcript: 'Transcript',
           Choosefile: 'Choose files to Url',
+          Continue: 'Continue',
+          CompanyDes: 'Tell us about your company and you will be your way connect with real-world project',
+          CompanyProfile: 'Company profile',
+          PeopleCompany: 'How many people in company?',
+          People_1: 'It\'s just me',
+          People_2: '2-9 employees',
+          People_3: '10-99 employees',
+          People_4: '100-1000 employees',
+          People_5: 'More than 1000 employees',
+          Companyname: 'Compant name',
+          Web: 'Website',
+          Alert: 'Alert',
+          Message: 'Message',
+          Dashboard: 'Dashboard',
+          DesRegister: 'Join as company or student',
+          TextRegister: 'Already have an account?',
+          CreateAccount: 'Create account',
+          RegisterCompany: 'I am a company, find engineers for project',
+          RegisterStudent: 'I am a student, research for project',
+          Login: 'Login',
+          ApplyStudent: 'Apply as student',
+          DesRegister_2: 'Please fill the below details',
+          Email_2: 'Email address',
+          Pass_Register: 'Password (8 or more characters)',
+          TextRegister_step2: 'Looking for a project?',
+          RulestRegister_step2: 'Yes, i understand and agree to StudentHub',
+          CreateAccount_step2: 'Create my account',
+          textEmail: 'Enter your email',
+          reset_pass: 'Reset password',
+          Time: 'Time',
+          Proposals: 'Proposals',
+          Time_1: 'Less than 1 month',
+          Time_2: '1-3 months',
+          Time_3: '3-6 months',
+          Time_4: 'More than 6 months',
+          StudentNeed: 'students needed',
+          Createat: 'Created at',
         ));
   var LanguageChange = false;
 
@@ -311,6 +422,43 @@ class _Language extends StateNotifier<Language> {
       Resume: 'Resume/CV',
       Transcript: 'Transcript',
       Choosefile: 'Choose files to Url',
+      Continue: 'Continue',
+      CompanyDes: 'Tell us about your company and you will be your way connect with real-world project',
+      CompanyProfile: 'Company profile',
+      PeopleCompany: 'How many people in company?',
+      People_1: 'It\'s just me',
+      People_2: '2-9 employees',
+      People_3: '10-99 employees',
+      People_4: '100-1000 employees',
+      People_5: 'More than 1000 employees',
+      Companyname: 'Compant name',
+      Web: 'Website',
+      Alert: 'Alert',
+      Message: 'Message',
+      Dashboard: 'Dashboard',
+      DesRegister: 'Join as company or student',
+      TextRegister: 'Already have an account?',
+      CreateAccount: 'Create account',
+      RegisterCompany: 'I am a company, find engineers for project',
+      RegisterStudent: 'I am a student, research for project',
+      Login: 'Login',
+      ApplyStudent: 'Apply as student',
+      DesRegister_2: 'Please fill the below details',
+      Email_2: 'Email address',
+      Pass_Register: 'Password (8 or more characters)',
+      TextRegister_step2: 'Looking for a project?',
+      RulestRegister_step2: 'Yes, i understand and agree to StudentHub',
+      CreateAccount_step2: 'Create my account',
+      textEmail: 'Enter your email',
+      reset_pass: 'Reset password',
+      Time: 'Time',
+      Proposals: 'Proposals',
+      Time_1: 'Less than 1 month',
+      Time_2: '1-3 months',
+      Time_3: '3-6 months',
+      Time_4: 'More than 6 months',
+      StudentNeed: 'students needed',
+      Createat: 'Created at',
     );
     state = tmp;
   }
@@ -388,6 +536,43 @@ class _Language extends StateNotifier<Language> {
       Resume: 'Sơ yếu lý lịch',
       Transcript: 'Bảng điểm',
       Choosefile: 'Chọn tài liệu trong thư viện',
+      Continue: 'Tiếp tục',
+      CompanyDes: 'Kể về công ty bạn và cách bạn kết nối với dự án thực tế của mình',
+      CompanyProfile: 'Hồ sơ công ty',
+      PeopleCompany: 'Công ty có bao nhiêu nhân sự?',
+      People_1: 'Chỉ mình tôi',
+      People_2: '2-9 nhân viên',
+      People_3: '10-99 nhân viên',
+      People_4: '100-1000 nhân viên',
+      People_5: 'Hơn 1000 nhân viên',
+      Companyname: 'Tên công ty',
+      Web: 'Website',
+      Alert: 'Thông báo',
+      Message: 'Tin Nhắn',
+      Dashboard: 'Trang Chủ',
+      DesRegister: 'Tham gia với tư cách là sinh viên hoặc công ty',
+      TextRegister: 'Đã có tài khoản?',
+      CreateAccount: 'Tạo tài khoản',
+      RegisterCompany: 'Tôi là công ty, tìm kỹ sư cho dự án',
+      RegisterStudent: 'Tôi là sinh viên, nghiên cứu dự án',
+      Login: 'Đăng nhập',
+      ApplyStudent: 'Tiếp tục với sinh viên',
+      DesRegister_2: 'Vui lòng điền thông tin chi tiết bên dưới',
+      Email_2: 'địa chỉ email',
+      Pass_Register: 'Mật khẩu (từ 8 kí tự trở lên)',
+      TextRegister_step2: 'Đang tìm kiếm một dự án',
+      RulestRegister_step2: 'Có, tôi hiểu và đồng ý với StudentHub',
+      CreateAccount_step2: 'Tạo tài khoản của tôi',
+      textEmail: 'Nhập email của bạn',
+      reset_pass: 'Tạo lại mật khẩu',
+      Time: 'Thời gian',
+      Proposals: 'Đề nghị',
+      Time_1: 'dưới 1 tháng',
+      Time_2: '1-3 tháng',
+      Time_3: '3-6 tháng',
+      Time_4: 'hơn 6 tháng',
+      StudentNeed: 'sinh viên',
+      Createat: 'Tạo lúc:',
     );
     state = tmp;
   }

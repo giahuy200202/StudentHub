@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:studenthub/providers/authentication/authentication.provider.dart';
 import 'package:studenthub/providers/options.provider.dart';
 import 'package:studenthub/providers/authentication/signup.provider.dart';
+import 'package:studenthub/providers/language/language.provider.dart';
 
 class SignupStep1 extends ConsumerStatefulWidget {
   const SignupStep1({super.key});
@@ -30,7 +31,7 @@ class _SignupStep1State extends ConsumerState<SignupStep1> {
   @override
   Widget build(BuildContext context) {
     final user = ref.watch(userProvider);
-
+    var Language = ref.watch(LanguageProvider);
     Icon iconCheckedCompany = isCompany
         ? const Icon(
             Icons.check_circle,
@@ -78,10 +79,10 @@ class _SignupStep1State extends ConsumerState<SignupStep1> {
                     ),
                   ),
                   const SizedBox(height: 20),
-                  const Align(
+                  Align(
                     alignment: Alignment.topLeft,
                     child: Text(
-                      'Register',
+                      Language.Register,
                       style: TextStyle(
                         fontSize: 30,
                         color: Colors.black,
@@ -90,10 +91,10 @@ class _SignupStep1State extends ConsumerState<SignupStep1> {
                     ),
                   ),
                   const SizedBox(height: 10),
-                  const Align(
+                  Align(
                     alignment: Alignment.topLeft,
                     child: Text(
-                      'Join as company or student',
+                      Language.DesRegister,
                       style: TextStyle(
                         fontSize: 18,
                         color: Colors.black,
@@ -122,12 +123,12 @@ class _SignupStep1State extends ConsumerState<SignupStep1> {
                                 size: 30,
                               ),
                               const SizedBox(width: 8),
-                              const Align(
+                              Align(
                                 alignment: Alignment.topLeft,
                                 child: SizedBox(
                                   width: 260,
                                   child: Text(
-                                    'Company',
+                                    Language.Company,
                                     overflow: TextOverflow.ellipsis,
                                     style: TextStyle(
                                       color: Colors.black,
@@ -151,12 +152,12 @@ class _SignupStep1State extends ConsumerState<SignupStep1> {
                             ],
                           ),
                           const SizedBox(height: 5),
-                          const Align(
+                          Align(
                             alignment: Alignment.topLeft,
                             child: SizedBox(
                               width: 340,
                               child: Text(
-                                'I am a company, find engineers for project',
+                                Language.RegisterCompany,
                                 style: TextStyle(
                                   color: Colors.black,
                                   overflow: TextOverflow.ellipsis,
@@ -191,12 +192,12 @@ class _SignupStep1State extends ConsumerState<SignupStep1> {
                                 size: 30,
                               ),
                               const SizedBox(width: 8),
-                              const Align(
+                              Align(
                                 alignment: Alignment.topLeft,
                                 child: SizedBox(
                                   width: 260,
                                   child: Text(
-                                    'Student',
+                                    Language.Student,
                                     overflow: TextOverflow.ellipsis,
                                     style: TextStyle(
                                       color: Colors.black,
@@ -220,12 +221,12 @@ class _SignupStep1State extends ConsumerState<SignupStep1> {
                             ],
                           ),
                           const SizedBox(height: 5),
-                          const Align(
+                          Align(
                             alignment: Alignment.topLeft,
                             child: SizedBox(
                               width: 340,
                               child: Text(
-                                'I am a student, research for project',
+                                Language.RegisterStudent,
                                 style: TextStyle(
                                   color: Colors.black,
                                   overflow: TextOverflow.ellipsis,
@@ -258,8 +259,8 @@ class _SignupStep1State extends ConsumerState<SignupStep1> {
                         ),
                         backgroundColor: Colors.black,
                       ),
-                      child: const Text(
-                        'Create account',
+                      child: Text(
+                        Language.CreateAccount,
                         style: TextStyle(
                           fontSize: 18,
                           color: Colors.white,
@@ -272,8 +273,8 @@ class _SignupStep1State extends ConsumerState<SignupStep1> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center, //Center Column contents vertically,
                     children: [
-                      const Text(
-                        'Already have an account?',
+                      Text(
+                        Language.TextRegister,
                         style: TextStyle(
                           fontSize: 16,
                           color: Colors.black,
@@ -300,8 +301,8 @@ class _SignupStep1State extends ConsumerState<SignupStep1> {
                             color: Colors.blue,
                             width: 1.3,
                           ))),
-                          child: const Text(
-                            "Login",
+                          child: Text(
+                            Language.Login,
                             style: TextStyle(fontSize: 16, color: Colors.blue, fontWeight: FontWeight.w500),
                           ),
                         ),
