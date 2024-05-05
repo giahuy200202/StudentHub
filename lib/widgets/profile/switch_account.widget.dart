@@ -60,7 +60,7 @@ class _SwitchAccountWidgetState extends ConsumerState<SwitchAccountWidget> {
                         Icon(
                           Icons.person,
                           size: 40,
-                          color: ColorApp.colorIcon,
+                          color: ColorApp.colorIconSwitch,
                         ),
                         const SizedBox(width: 10),
                         Column(
@@ -95,7 +95,7 @@ class _SwitchAccountWidgetState extends ConsumerState<SwitchAccountWidget> {
                                     'Company',
                                     overflow: TextOverflow.ellipsis,
                                     style: TextStyle(
-                                      color: ColorApp.colorText,
+                                      color: ColorApp.colorTextSwitch,
                                       fontSize: 16,
                                     ),
                                   ),
@@ -140,7 +140,7 @@ class _SwitchAccountWidgetState extends ConsumerState<SwitchAccountWidget> {
                         Icon(
                           Icons.person,
                           size: 40,
-                          color: ColorApp.colorIcon,
+                          color: ColorApp.colorIconSwitch,
                         ),
                         const SizedBox(width: 10),
                         Column(
@@ -175,7 +175,7 @@ class _SwitchAccountWidgetState extends ConsumerState<SwitchAccountWidget> {
                                     'Student',
                                     overflow: TextOverflow.ellipsis,
                                     style: TextStyle(
-                                      color: ColorApp.colorText,
+                                      color: ColorApp.colorTextSwitch,
                                       fontSize: 16,
                                     ),
                                   ),
@@ -228,7 +228,7 @@ class _SwitchAccountWidgetState extends ConsumerState<SwitchAccountWidget> {
                         Icon(
                           Icons.person,
                           size: 40,
-                          color: ColorApp.colorIcon,
+                          color: ColorApp.colorIconSwitch,
                         ),
                         const SizedBox(width: 10),
                         Column(
@@ -263,7 +263,7 @@ class _SwitchAccountWidgetState extends ConsumerState<SwitchAccountWidget> {
                                     'Student',
                                     overflow: TextOverflow.ellipsis,
                                     style: TextStyle(
-                                      color: ColorApp.colorText,
+                                      color: ColorApp.colorTextSwitch,
                                       fontSize: 16,
                                     ),
                                   ),
@@ -305,7 +305,7 @@ class _SwitchAccountWidgetState extends ConsumerState<SwitchAccountWidget> {
                         Icon(
                           Icons.person,
                           size: 40,
-                          color: ColorApp.colorIcon,
+                          color: ColorApp.colorIconSwitch,
                         ),
                         const SizedBox(width: 10),
                         Column(
@@ -340,7 +340,7 @@ class _SwitchAccountWidgetState extends ConsumerState<SwitchAccountWidget> {
                                     'Company',
                                     overflow: TextOverflow.ellipsis,
                                     style: TextStyle(
-                                      color: ColorApp.colorText,
+                                      color: ColorApp.colorTextSwitch,
                                       fontSize: 16,
                                     ),
                                   ),
@@ -370,7 +370,7 @@ class _SwitchAccountWidgetState extends ConsumerState<SwitchAccountWidget> {
                 decoration: BoxDecoration(
                   border: Border.all(
                     width: 1,
-                    color: ColorApp.colorBorderSide as Color,
+                    color: ColorApp.colorBoderSwitch as Color,
                   ),
                   borderRadius: const BorderRadius.all(Radius.circular(10)),
                 ),
@@ -378,7 +378,7 @@ class _SwitchAccountWidgetState extends ConsumerState<SwitchAccountWidget> {
                   border: TableBorder(
                       horizontalInside: BorderSide(
                     width: 1,
-                    color: ColorApp.colorBorderSide as Color,
+                    color: ColorApp.colorBoderSwitch as Color,
                     style: BorderStyle.solid,
                   )),
                   columnWidths: const <int, TableColumnWidth>{
@@ -429,7 +429,7 @@ class _SwitchAccountWidgetState extends ConsumerState<SwitchAccountWidget> {
                                       Icon(
                                         Icons.person_2_outlined,
                                         size: 40,
-                                        color: ColorApp.colorIcon,
+                                        color: ColorApp.colorIconSwitch,
                                       ),
                                       SizedBox(width: 10),
                                       Padding(
@@ -443,7 +443,7 @@ class _SwitchAccountWidgetState extends ConsumerState<SwitchAccountWidget> {
                                               overflow: TextOverflow.ellipsis,
                                               style: TextStyle(
                                                 //color: Color.fromARGB(255, 73, 80, 87),
-                                                color: ColorApp.colorText,
+                                                color: ColorApp.colorTextSwitch,
                                                 fontSize: 16,
                                               ),
                                             ),
@@ -478,7 +478,7 @@ class _SwitchAccountWidgetState extends ConsumerState<SwitchAccountWidget> {
                                       Icon(
                                         Icons.settings_outlined,
                                         size: 40,
-                                        color: ColorApp.colorIcon,
+                                        color: ColorApp.colorIconSwitch,
                                       ),
                                       SizedBox(width: 10),
                                       Padding(
@@ -491,7 +491,7 @@ class _SwitchAccountWidgetState extends ConsumerState<SwitchAccountWidget> {
                                               'Setting',
                                               overflow: TextOverflow.ellipsis,
                                               style: TextStyle(
-                                                color: ColorApp.colorText,
+                                                color: ColorApp.colorTextSwitch,
                                                 fontSize: 16,
                                               ),
                                             ),
@@ -526,7 +526,7 @@ class _SwitchAccountWidgetState extends ConsumerState<SwitchAccountWidget> {
                                       Icon(
                                         Icons.key,
                                         size: 40,
-                                        color: ColorApp.colorIcon,
+                                        color: ColorApp.colorIconSwitch,
                                       ),
                                       SizedBox(width: 10),
                                       Padding(
@@ -539,7 +539,7 @@ class _SwitchAccountWidgetState extends ConsumerState<SwitchAccountWidget> {
                                               'Change password',
                                               overflow: TextOverflow.ellipsis,
                                               style: TextStyle(
-                                                color: ColorApp.colorText,
+                                                color: ColorApp.colorTextSwitch,
                                                 fontSize: 16,
                                               ),
                                             ),
@@ -592,7 +592,7 @@ class _SwitchAccountWidgetState extends ConsumerState<SwitchAccountWidget> {
                                       Icon(
                                         Icons.logout,
                                         size: 40,
-                                        color: ColorApp.colorIcon,
+                                        color: ColorApp.colorIconSwitch,
                                       ),
                                       SizedBox(width: 10),
                                       Padding(
@@ -605,7 +605,7 @@ class _SwitchAccountWidgetState extends ConsumerState<SwitchAccountWidget> {
                                               'Logout',
                                               overflow: TextOverflow.ellipsis,
                                               style: TextStyle(
-                                                color: ColorApp.colorText,
+                                                color: ColorApp.colorTextSwitch,
                                                 fontSize: 16,
                                               ),
                                             ),

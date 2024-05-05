@@ -341,8 +341,8 @@ class _ProjectDetailsWidgetState extends ConsumerState<ProjectDetailsWidget> {
                                     width: 340,
                                     child: Text(
                                       listProjects.createTime,
-                                      style: const TextStyle(
-                                        color: Color.fromARGB(255, 94, 94, 94),
+                                      style: TextStyle(
+                                        color: colorApp.colorCreate,
                                         overflow: TextOverflow.ellipsis,
                                         fontSize: 13,
                                       ),
@@ -505,7 +505,7 @@ class _ProjectDetailsWidgetState extends ConsumerState<ProjectDetailsWidget> {
                                     side: BorderSide(color: colorApp.colorBorderSideMutil as Color),
                                   ),
                                   backgroundColor: colorApp.colorWhiteBlack,
-                                  disabledBackgroundColor: colorApp.colorButton,
+                                  disabledBackgroundColor: colorApp.colorApply,
                                 ),
                                 child: Text(
                                   'Apply now',
@@ -560,7 +560,7 @@ class _ProjectDetailsWidgetState extends ConsumerState<ProjectDetailsWidget> {
                                   'Save',
                                   style: TextStyle(
                                     fontSize: 16,
-                                    color: colorApp.colorWhiteBlack,
+                                    color: user.role == '0' ? colorApp.colorWhiteBlack : colorApp.colorGrey,
                                     fontWeight: FontWeight.w500,
                                   ),
                                 ),

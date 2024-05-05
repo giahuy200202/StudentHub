@@ -21,8 +21,38 @@ class ColorApp {
   Color? colorBorderSideMutil;
   Color? colorClip;
   Color? colorTime;
-
-  ColorApp({this.colorBackgroundColor, this.colorTitle, this.colorText, this.colorBorderSide, this.colorBorderBackground, this.colorDivider, this.colorSignIn, this.colorIcon, this.colorButton, this.colorEnableButton, this.colorBackgroundBootomSheet, this.colorSelect, this.colorunSelect, this.colorWhiteBlack, this.colorBlackWhite, this.colorBlack = Colors.black, this.colorBorderSideMutil, this.colorClip, this.colorTime});
+  Color? colorBoderSwitch;
+  Color? colorTextSwitch;
+  Color? colorIconSwitch;
+  Color? colorGrey;
+  Color? colorCreate;
+  Color? colorApply;
+  ColorApp(
+      {this.colorBackgroundColor,
+      this.colorTitle,
+      this.colorText,
+      this.colorBorderSide,
+      this.colorBorderBackground,
+      this.colorDivider,
+      this.colorSignIn,
+      this.colorIcon,
+      this.colorButton,
+      this.colorEnableButton,
+      this.colorBackgroundBootomSheet,
+      this.colorSelect,
+      this.colorunSelect,
+      this.colorWhiteBlack,
+      this.colorBlackWhite,
+      this.colorBlack = Colors.black,
+      this.colorBorderSideMutil,
+      this.colorClip,
+      this.colorTime,
+      this.colorBoderSwitch,
+      this.colorTextSwitch,
+      this.colorIconSwitch,
+      this.colorGrey = Colors.grey,
+      this.colorCreate,
+      this.colorApply});
 }
 
 class _ColorApp extends StateNotifier<ColorApp> {
@@ -46,6 +76,10 @@ class _ColorApp extends StateNotifier<ColorApp> {
           colorBorderSideMutil: Colors.black,
           colorClip: Color.fromARGB(255, 193, 191, 191),
           colorTime: Color.fromARGB(255, 94, 94, 94),
+          colorBoderSwitch: Color.fromARGB(255, 73, 80, 87),
+          colorIconSwitch: Color.fromARGB(255, 121, 123, 125),
+          colorCreate: Color.fromARGB(255, 94, 94, 94),
+          colorApply: Colors.white,
         ));
 
   var isDarkMode = false;
@@ -77,9 +111,14 @@ class _ColorApp extends StateNotifier<ColorApp> {
       colorunSelect: Colors.white,
       colorWhiteBlack: Colors.white,
       colorBlackWhite: Colors.black,
-      colorBorderSideMutil: Colors.black,
+      colorBorderSideMutil: Colors.grey,
       colorClip: Color.fromARGB(255, 193, 191, 191),
       colorTime: Color.fromARGB(255, 94, 94, 94),
+      colorTextSwitch: Color.fromARGB(255, 73, 80, 87),
+      colorBoderSwitch: Color.fromARGB(255, 73, 80, 87),
+      colorIconSwitch: Color.fromARGB(255, 121, 123, 125),
+      colorCreate: Color.fromARGB(255, 94, 94, 94),
+      colorApply: Colors.white,
     );
     state = tmp;
   }
@@ -87,14 +126,14 @@ class _ColorApp extends StateNotifier<ColorApp> {
   void setcolordarktMode() {
     ColorApp tmp = ColorApp(
       colorTitle: Colors.white,
-      colorText: Colors.grey,
+      colorText: Colors.grey[300]!,
       colorBorderSide: Colors.grey,
       colorDivider: Colors.grey,
       colorBorderBackground: Colors.grey[800]!,
       colorBackgroundColor: Colors.grey[900]!,
       colorSignIn: Colors.white,
       colorIcon: Colors.grey,
-      colorButton: const Color.fromARGB(17, 158, 158, 158),
+      colorButton: Color.fromARGB(64, 158, 158, 158),
       colorEnableButton: Colors.grey[800]!,
       //mutilselect set color
       colorBackgroundBootomSheet: Color.fromARGB(255, 44, 44, 44),
@@ -105,6 +144,11 @@ class _ColorApp extends StateNotifier<ColorApp> {
       colorBorderSideMutil: Color.fromARGB(255, 44, 44, 44),
       colorClip: Colors.black,
       colorTime: Colors.grey[300]!,
+      colorTextSwitch: Colors.grey[300]!,
+      colorBoderSwitch: Colors.grey,
+      colorIconSwitch: Colors.grey[300]!,
+      colorCreate: Colors.grey[400]!,
+      colorApply: Color.fromARGB(64, 158, 158, 158),
     );
     state = tmp;
   }

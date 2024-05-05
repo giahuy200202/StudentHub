@@ -281,8 +281,8 @@ class _ListProjectsWidgetState extends ConsumerState<ListProjectsWidget> {
                                           width: 340,
                                           child: Text(
                                             el.createTime,
-                                            style: const TextStyle(
-                                              color: Color.fromARGB(255, 94, 94, 94),
+                                            style: TextStyle(
+                                              color: colorApp.colorCreate,
                                               overflow: TextOverflow.ellipsis,
                                               fontSize: 13,
                                             ),
