@@ -99,19 +99,21 @@ class _AllProjectsStudentWidgetState extends ConsumerState<AllProjectsStudentWid
     List<Project> listProjectsGetFromRes = [];
     if (responseProposalsData['result'] != null) {
       for (var item in responseProposalsData['result']) {
-        listProjectsGetFromRes.add(Project(
-          proposalId: item['proposalId'].toString(),
-          projectId: item['project']['id'].toString(),
-          title: item['project']['title'],
-          createTime: 'Submitted at ${DateFormat("dd/MM/yyyy | HH:mm").format(
-                DateTime.parse(item['createdAt']).toLocal(),
-              ).toString()}',
-          projectScopeFlag: item['project']['projectScopeFlag'],
-          numberOfStudents: item['project']['numberOfStudents'],
-          description: item['project']['description'],
-          coverLetter: item['coverLetter'],
-          statusFlag: item['statusFlag'],
-        ));
+        listProjectsGetFromRes.add(
+          Project(
+            proposalId: item['proposalId'].toString(),
+            projectId: item['project']['id'].toString(),
+            title: item['project']['title'],
+            createTime: 'Submitted at ${DateFormat("dd/MM/yyyy | HH:mm").format(
+                  DateTime.parse(item['createdAt']).toLocal(),
+                ).toString()}',
+            projectScopeFlag: item['project']['projectScopeFlag'],
+            numberOfStudents: item['project']['numberOfStudents'],
+            description: item['project']['description'],
+            coverLetter: item['coverLetter'],
+            statusFlag: item['statusFlag'],
+          ),
+        );
       }
     }
 
