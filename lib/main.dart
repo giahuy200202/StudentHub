@@ -32,74 +32,78 @@ class App extends ConsumerStatefulWidget {
 }
 
 class _AppState extends ConsumerState<App> {
+  List<String> listTriggeredSockerByProjectId = [];
   @override
   Widget build(BuildContext context) {
     final projectId = ref.watch(projectIdProvider);
     final user = ref.watch(userProvider);
 
-    if (user.id != 0 && projectId != '') {
-      final socket = IO.io(
-          'https://api.studenthub.dev/', // Server url
-          OptionBuilder().setTransports(['websocket']).disableAutoConnect().build());
+    if (!listTriggeredSockerByProjectId.contains(projectId)) {
+      listTriggeredSockerByProjectId.add(projectId);
+      if (user.id != 0 && projectId != '') {
+        final socket = IO.io(
+            'https://api.studenthub.dev/', // Server url
+            OptionBuilder().setTransports(['websocket']).disableAutoConnect().build());
 
-      //Add authorization to header
-      socket.io.options?['extraHeaders'] = {
-        'Authorization': 'Bearer ${user.token}',
-      };
+        //Add authorization to header
+        socket.io.options?['extraHeaders'] = {
+          'Authorization': 'Bearer ${user.token}',
+        };
 
-      //Add query param to url
-      socket.io.options?['query'] = {'project_id': projectId};
+        //Add query param to url
+        socket.io.options?['query'] = {'project_id': projectId};
 
-      socket.connect();
+        socket.connect();
 
-      socket.onConnect((data) => {print('Connected')});
-      socket.onDisconnect((data) => {print('Disconnected')});
+        socket.onConnect((data) => {print('Connected')});
+        socket.onDisconnect((data) => {print('Disconnected')});
 
-      socket.onConnectError((data) => print('$data'));
-      socket.onError((data) => print(data));
+        socket.onConnectError((data) => print('$data'));
+        socket.onError((data) => print(data));
 
-      //Listen to channel receive message
-      socket.on(
-        'RECEIVE_MESSAGE',
-        (data) {
-          // Your code to update ui
+        //Listen to channel receive message
+        socket.on(
+          'RECEIVE_MESSAGE',
+          (data) {
+            // Your code to update ui
 
-          print('------RECEIVE_MESSAGE------');
-          print(data);
+            print('------RECEIVE_MESSAGE------');
+            print(data);
 
-          if (mounted) {
-            ref.read(messageProvider.notifier).pushMessageData(
-                  DateFormat("dd/MM/yyyy | HH:mm").format(DateTime.parse(data['notification']['message']['createdAt']).toLocal()).toString(),
-                  data['notification']['sender']['fullname'],
-                  data['notification']['message']['content'],
-                  false,
+            if (mounted) {
+              ref.read(messageProvider.notifier).pushMessageData(
+                    DateFormat("dd/MM/yyyy | HH:mm").format(DateTime.parse(data['notification']['message']['createdAt']).toLocal()).toString(),
+                    data['notification']['sender']['fullname'],
+                    data['notification']['message']['content'],
+                    false,
+                  );
+
+              ref.read(notificationProvider.notifier).pushNotificationData(
+                    data['notification']['id'].toString(),
+                    '0',
+                    data['notification']['message']['content'],
+                    data['notification']['sender']['fullname'],
+                    DateFormat("dd/MM/yyyy | HH:mm")
+                        .format(
+                          DateTime.parse(data['notification']['message']['createdAt']).toLocal(),
+                        )
+                        .toString(),
+                  );
+
+              if (data['notification']['sender']['id'] != user.id) {
+                LocalNotifications.showSimpleNotification(
+                  // id: tasks.length + 1,
+                  title: 'You have a new message from ${data['notification']['sender']['fullname']}',
+                  body: '${data['notification']['message']['content']}',
+                  payload: 'data',
                 );
-
-            ref.read(notificationProvider.notifier).pushNotificationData(
-                  data['notification']['id'].toString(),
-                  '0',
-                  data['notification']['message']['content'],
-                  data['notification']['sender']['fullname'],
-                  DateFormat("dd/MM/yyyy | HH:mm")
-                      .format(
-                        DateTime.parse(data['notification']['message']['createdAt']).toLocal(),
-                      )
-                      .toString(),
-                );
-
-            if (data['notification']['sender']['id'] != user.id) {
-              LocalNotifications.showSimpleNotification(
-                // id: tasks.length + 1,
-                title: 'You have a new message from ${data['notification']['sender']['fullname']}',
-                body: '${data['notification']['message']['content']}',
-                payload: 'data',
-              );
+              }
             }
-          }
-        },
-      );
-      //Listen for error from socket
-      socket.on("ERROR", (data) => print(data));
+          },
+        );
+        //Listen for error from socket
+        socket.on("ERROR", (data) => print(data));
+      }
     }
 
     return MaterialApp(
