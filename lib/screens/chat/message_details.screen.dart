@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -28,19 +29,28 @@ class Message {
   final String author;
   final String content;
   final bool isInterview;
+  final String titleInterview;
+  final String startTimeInterview;
+  final String endTimeInterview;
 
   Message({
     required this.createdAt,
     required this.author,
     required this.content,
     required this.isInterview,
+    required this.titleInterview,
+    required this.startTimeInterview,
+    required this.endTimeInterview,
   });
 
   Message.fromJson(Map<dynamic, dynamic> json)
       : createdAt = json['createdAt'],
         author = json['author'],
         content = json['content'],
-        isInterview = json['isInterview'];
+        isInterview = json['isInterview'],
+        titleInterview = json['titleInterview'],
+        startTimeInterview = json['startTimeInterview'],
+        endTimeInterview = json['endTimeInterview'];
 
   Map<dynamic, dynamic> toJson() {
     return {
@@ -48,6 +58,9 @@ class Message {
       'author': author,
       'content': content,
       'isInterview': isInterview,
+      'titleInterview': titleInterview,
+      'startTimeInterview': startTimeInterview,
+      'endTimeInterview': endTimeInterview,
     };
   }
 }
@@ -80,6 +93,14 @@ class _MessageDetailsScreen extends ConsumerState<MessageDetailsScreen> {
 
   DateTime? selectedDateEnd;
   TimeOfDay? selectedTimeEnd;
+
+  bool isCancel = false;
+
+  void setIsCancel(bool value) {
+    setState(() {
+      isCancel = value;
+    });
+  }
 
   void showErrorToast(title, description) {
     toastification.show(
@@ -138,12 +159,27 @@ class _MessageDetailsScreen extends ConsumerState<MessageDetailsScreen> {
     if (responseMessagesData['result'] != null) {
       ref.read(messageProvider.notifier).clearMessageData();
       for (var item in responseMessagesData['result']) {
-        ref.read(messageProvider.notifier).pushMessageData(
-              DateFormat("dd/MM/yyyy | HH:mm").format(DateTime.parse(item['createdAt']).toLocal()).toString(),
-              item['sender']['fullname'],
-              item['content'],
-              false,
-            );
+        if (item['interview'] == null) {
+          ref.read(messageProvider.notifier).pushMessageData(
+                DateFormat("dd/MM/yyyy | HH:mm").format(DateTime.parse(item['createdAt']).toLocal()).toString(),
+                item['sender']['fullname'],
+                item['content'],
+                false,
+                '',
+                '',
+                '',
+              );
+        } else {
+          ref.read(messageProvider.notifier).pushMessageData(
+                DateFormat("dd/MM/yyyy | HH:mm").format(DateTime.parse(item['createdAt']).toLocal()).toString(),
+                item['sender']['fullname'],
+                'New interview was created',
+                true,
+                item['interview']['title'],
+                item['interview']['startTime'],
+                item['interview']['endTime'],
+              );
+        }
       }
     }
 
@@ -302,69 +338,6 @@ class _MessageDetailsScreen extends ConsumerState<MessageDetailsScreen> {
     final receiveId = ref.read(receiveIdProvider);
 
     getMessages(user.token!, projectId, receiveId);
-
-    // final socket = IO.io(
-    //     'https://api.studenthub.dev/', // Server url
-    //     OptionBuilder().setTransports(['websocket']).disableAutoConnect().build());
-
-    // //Add authorization to header
-    // socket.io.options?['extraHeaders'] = {
-    //   'Authorization': 'Bearer ${user.token}',
-    // };
-
-    // //Add query param to url
-    // socket.io.options?['query'] = {'project_id': projectId};
-
-    // socket.connect();
-
-    // socket.onConnect((data) => {print('Connected')});
-    // socket.onDisconnect((data) => {print('Disconnected')});
-
-    // socket.onConnectError((data) => print('$data'));
-    // socket.onError((data) => print(data));
-
-    // //Listen to channel receive message
-    // socket.on(
-    //   'RECEIVE_MESSAGE',
-    //   (data) {
-    //     // Your code to update ui
-
-    //     print('------RECEIVE_MESSAGE------');
-    //     print(data);
-
-    //     if (mounted) {
-    //       ref.read(messageProvider.notifier).pushMessageData(
-    //             DateFormat("dd/MM/yyyy | HH:mm").format(DateTime.parse(data['notification']['message']['createdAt']).toLocal()).toString(),
-    //             data['notification']['sender']['fullname'],
-    //             data['notification']['message']['content'],
-    //             false,
-    //           );
-
-    //       ref.read(notificationProvider.notifier).pushNotificationData(
-    //             data['notification']['id'].toString(),
-    //             '0',
-    //             data['notification']['message']['content'],
-    //             data['notification']['sender']['fullname'],
-    //             DateFormat("dd/MM/yyyy | HH:mm")
-    //                 .format(
-    //                   DateTime.parse(data['notification']['message']['createdAt']).toLocal(),
-    //                 )
-    //                 .toString(),
-    //           );
-
-    //       if (data['notification']['sender']['id'] != user.id) {
-    //         LocalNotifications.showSimpleNotification(
-    //           // id: tasks.length + 1,
-    //           title: 'You have a new message from ${data['notification']['sender']['fullname']}',
-    //           body: '${data['notification']['message']['content']}',
-    //           payload: 'data',
-    //         );
-    //       }
-    //     }
-    //   },
-    // );
-    // //Listen for error from socket
-    // socket.on("ERROR", (data) => print(data));
   }
 
   @override
@@ -524,7 +497,194 @@ class _MessageDetailsScreen extends ConsumerState<MessageDetailsScreen> {
                                                 ),
                                               ],
                                             )
-                                          : Text('1111'),
+                                          : Row(
+                                              mainAxisAlignment: MainAxisAlignment.start,
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                Padding(
+                                                  padding: const EdgeInsets.only(top: 5),
+                                                  child: Container(
+                                                    width: 40,
+                                                    height: 40,
+                                                    padding: const EdgeInsets.all(0),
+                                                    decoration: const BoxDecoration(
+                                                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                                                      image: DecorationImage(
+                                                        image: AssetImage("assets/images/avatar.jpg"),
+                                                        fit: BoxFit.cover,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                                const SizedBox(width: 15),
+                                                Column(
+                                                  mainAxisAlignment: MainAxisAlignment.start,
+                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                  children: [
+                                                    Row(
+                                                      children: [
+                                                        SizedBox(
+                                                          width: 300,
+                                                          child: Row(
+                                                            children: [
+                                                              SizedBox(
+                                                                width: 160,
+                                                                child: Text(
+                                                                  el.author,
+                                                                  overflow: TextOverflow.ellipsis,
+                                                                  style: const TextStyle(
+                                                                    color: Colors.black,
+                                                                    fontSize: 16,
+                                                                    fontWeight: FontWeight.w600,
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                              const Spacer(),
+                                                              Text(
+                                                                el.createdAt,
+                                                                overflow: TextOverflow.ellipsis,
+                                                                style: const TextStyle(
+                                                                  color: Color.fromARGB(255, 119, 118, 118),
+                                                                  fontSize: 14,
+                                                                  fontWeight: FontWeight.w600,
+                                                                ),
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    const SizedBox(height: 15),
+                                                    SizedBox(
+                                                      height: 210,
+                                                      width: 310,
+                                                      child: Container(
+                                                        decoration: BoxDecoration(
+                                                          color: Colors.white,
+                                                          border: Border.all(color: Colors.grey),
+                                                          borderRadius: const BorderRadius.all(Radius.circular(12)),
+                                                        ),
+                                                        child: Padding(
+                                                          padding: const EdgeInsets.symmetric(
+                                                            vertical: 20,
+                                                            horizontal: 20,
+                                                          ),
+                                                          child: Column(
+                                                            mainAxisAlignment: MainAxisAlignment.start,
+                                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                                            children: [
+                                                              Row(
+                                                                mainAxisAlignment: MainAxisAlignment.start,
+                                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                                children: [
+                                                                  Text(
+                                                                    el.titleInterview,
+                                                                    style: const TextStyle(
+                                                                      fontSize: 16,
+                                                                      fontWeight: FontWeight.w500,
+                                                                    ),
+                                                                  ),
+                                                                  const Spacer(),
+                                                                  Text(
+                                                                    '${DateTime.parse(el.endTimeInterview).difference(DateTime.parse(el.startTimeInterview)).inMinutes} minutes',
+                                                                    style: const TextStyle(
+                                                                      fontSize: 16,
+                                                                      fontWeight: FontWeight.w500,
+                                                                    ),
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                              const SizedBox(height: 20),
+                                                              Text(
+                                                                'Start time:   ${DateFormat("dd/MM/yyyy | HH:mm").format(DateTime.parse(el.startTimeInterview)).toString()}',
+                                                                style: const TextStyle(fontSize: 16),
+                                                              ),
+                                                              const SizedBox(height: 10),
+                                                              Text(
+                                                                'End time:   ${DateFormat("dd/MM/yyyy | HH:mm").format(DateTime.parse(el.endTimeInterview)).toString()}',
+                                                                style: const TextStyle(fontSize: 16),
+                                                              ),
+                                                              const SizedBox(height: 20),
+                                                              isCancel == false
+                                                                  ? Row(
+                                                                      mainAxisAlignment: MainAxisAlignment.end,
+                                                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                                                      children: [
+                                                                        PopupMenuButton<int>(
+                                                                          itemBuilder: (context) => [
+                                                                            const PopupMenuItem<int>(
+                                                                                value: 0,
+                                                                                child: Text(
+                                                                                  'Re-schedule the interview',
+                                                                                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
+                                                                                )),
+                                                                            const PopupMenuItem<int>(
+                                                                              value: 1,
+                                                                              child: Text(
+                                                                                'Cancel the meeting',
+                                                                                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
+                                                                              ),
+                                                                            ),
+                                                                          ],
+                                                                          onSelected: (item) => {
+                                                                            // if (item == 1)
+                                                                            //   {
+                                                                            //     setIsCancel(true),
+                                                                            //   }
+                                                                            // else
+                                                                            //   {
+                                                                            //     openMoreOverlay(),
+                                                                            //   }
+                                                                          },
+                                                                        ),
+                                                                        Container(
+                                                                          alignment: Alignment.centerRight,
+                                                                          child: SizedBox(
+                                                                            height: 40,
+                                                                            width: 110,
+                                                                            child: ElevatedButton(
+                                                                              onPressed: () {
+                                                                                ref.read(optionsProvider.notifier).setWidgetOption('Videocall', user.role!);
+                                                                              },
+                                                                              style: ElevatedButton.styleFrom(
+                                                                                shape: RoundedRectangleBorder(
+                                                                                  borderRadius: BorderRadius.circular(8),
+                                                                                  side: const BorderSide(color: Colors.grey),
+                                                                                ),
+                                                                                backgroundColor: const Color.fromARGB(255, 0, 0, 0),
+                                                                              ),
+                                                                              child: const Text(
+                                                                                'Join',
+                                                                                style: TextStyle(
+                                                                                  fontSize: 16,
+                                                                                  color: Color.fromARGB(255, 255, 255, 255),
+                                                                                  fontWeight: FontWeight.w500,
+                                                                                ),
+                                                                              ),
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                      ],
+                                                                    )
+                                                                  : const Row(
+                                                                      crossAxisAlignment: CrossAxisAlignment.end,
+                                                                      mainAxisAlignment: MainAxisAlignment.end,
+                                                                      children: [
+                                                                        Text(
+                                                                          'The meeting is cancelled',
+                                                                          style: TextStyle(fontSize: 16, color: Colors.red, fontWeight: FontWeight.w500),
+                                                                        ),
+                                                                      ],
+                                                                    )
+                                                            ],
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ],
+                                            ),
                                       const SizedBox(height: 30),
                                     ],
                                   );
@@ -842,19 +1002,119 @@ class _MessageDetailsScreen extends ConsumerState<MessageDetailsScreen> {
                                                       height: 46,
                                                       width: 175,
                                                       child: ElevatedButton(
-                                                        onPressed: () {
+                                                        onPressed: () async {
                                                           print('------ video interview title -------');
                                                           print(videoInterviewTitleController.text);
                                                           print('------ start date -------');
                                                           print(selectedDateStart!.month);
                                                           print('------ start time -------');
                                                           print(selectedTimeStart);
+                                                          print('start datetime');
+                                                          print(
+                                                            DateTime(
+                                                              selectedDateStart!.year,
+                                                              selectedDateStart!.month,
+                                                              selectedDateStart!.day,
+                                                              selectedTimeStart!.hour,
+                                                              selectedTimeStart!.minute,
+                                                            ).toString(),
+                                                          );
                                                           print('------ end date -------');
                                                           print(selectedDateEnd);
                                                           print('------ end time -------');
                                                           print(selectedTimeEnd);
+                                                          print('end datetime');
+                                                          print(
+                                                            DateTime(
+                                                              selectedDateEnd!.year,
+                                                              selectedDateEnd!.month,
+                                                              selectedDateEnd!.day,
+                                                              selectedTimeEnd!.hour,
+                                                              selectedTimeEnd!.minute,
+                                                            ).toString(),
+                                                          );
 
                                                           //handle socket
+
+                                                          print('------------ create interview -------------');
+
+                                                          final socket = IO.io(
+                                                              'https://api.studenthub.dev/', // Server url
+                                                              OptionBuilder().setTransports(['websocket']).disableAutoConnect().build());
+
+                                                          //Add authorization to header
+                                                          socket.io.options?['extraHeaders'] = {
+                                                            'Authorization': 'Bearer ${user.token}',
+                                                          };
+
+                                                          //Add query param to url
+                                                          socket.io.options?['query'] = {'project_id': projectId};
+
+                                                          socket.connect();
+
+                                                          socket.onConnect((data) => {print('Connected')});
+                                                          socket.onDisconnect((data) => {print('Disconnected')});
+
+                                                          socket.onConnectError((data) => print('$data'));
+                                                          socket.onError((data) => print(data));
+
+                                                          //Listen for error from socket
+                                                          socket.on("ERROR", (data) => print(data));
+
+                                                          final Random random = Random();
+                                                          int randomNumber = 0;
+                                                          bool isExistRandomNumber = false;
+
+                                                          do {
+                                                            randomNumber = 1000000 + random.nextInt(900000);
+                                                            print('------randomNumber------');
+                                                            print(randomNumber);
+
+                                                            final urlCheckAvailability = Uri.parse('${dotenv.env['IP_ADDRESS']}/meeting-room/check-availability?meeting_room_code=$randomNumber&meeting_room_id=$randomNumber');
+
+                                                            final responseCheckAvailability = await http.get(
+                                                              urlCheckAvailability,
+                                                              headers: {
+                                                                'Content-Type': 'application/json',
+                                                                'Authorization': 'Bearer ${user.token}',
+                                                              },
+                                                            );
+
+                                                            final responseCheckAvailabilityData = json.decode(responseCheckAvailability.body);
+                                                            print('----responseMessagesData----');
+                                                            print(responseCheckAvailabilityData);
+
+                                                            if (responseCheckAvailabilityData['result']) {
+                                                              isExistRandomNumber = true;
+                                                            }
+                                                          } while (isExistRandomNumber);
+
+                                                          socket.emit(
+                                                            "SCHEDULE_INTERVIEW",
+                                                            {
+                                                              "title": videoInterviewTitleController.text,
+                                                              "content": "New interview was created",
+                                                              "startTime": DateTime(
+                                                                selectedDateStart!.year,
+                                                                selectedDateStart!.month,
+                                                                selectedDateStart!.day,
+                                                                selectedTimeStart!.hour,
+                                                                selectedTimeStart!.minute,
+                                                              ).toString(),
+                                                              "endTime": DateTime(
+                                                                selectedDateEnd!.year,
+                                                                selectedDateEnd!.month,
+                                                                selectedDateEnd!.day,
+                                                                selectedTimeEnd!.hour,
+                                                                selectedTimeEnd!.minute,
+                                                              ).toString(),
+                                                              "projectId": projectId,
+                                                              "senderId": user.id,
+                                                              "receiverId": receiveId,
+                                                              "meeting_room_code": randomNumber.toString(),
+                                                              "meeting_room_id": randomNumber.toString(),
+                                                            },
+                                                          );
 
                                                           videoInterviewTitleController.clear();
                                                           dateControllerStart.text = 'Select data';

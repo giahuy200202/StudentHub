@@ -379,114 +379,112 @@ class _ShowscheduleWidget extends ConsumerState<ShowscheduleWidget> {
     final user = ref.watch(userProvider);
     return SizedBox(
       height: 220,
-      child: SingleChildScrollView(
-        child: Container(
-          decoration: BoxDecoration(
-            color: Colors.white,
-            border: Border.all(color: Colors.grey),
-            borderRadius: const BorderRadius.all(Radius.circular(12)),
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          border: Border.all(color: Colors.grey),
+          borderRadius: const BorderRadius.all(Radius.circular(12)),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(
+            vertical: 20,
+            horizontal: 20,
           ),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(
-              vertical: 20,
-              horizontal: 20,
-            ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Catch up meeting',
-                      style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
-                    ),
-                    Spacer(),
-                    Text(
-                      '60 minutes',
-                      style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 20),
-                const Text(
-                  'Start time: Thursday 15:00, 13/03/2024',
-                  style: TextStyle(fontSize: 16),
-                ),
-                const SizedBox(height: 10),
-                const Text(
-                  'End time:   Thursday 16:00, 13/03/2024',
-                  style: TextStyle(fontSize: 16),
-                ),
-                const SizedBox(height: 30),
-                isCancel == false
-                    ? Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          PopupMenuButton<int>(
-                            itemBuilder: (context) => [
-                              const PopupMenuItem<int>(
-                                  value: 0,
-                                  child: Text(
-                                    'Re-schedule the interview',
-                                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
-                                  )),
-                              const PopupMenuItem<int>(
-                                value: 1,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Catch up meeting',
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+                  ),
+                  Spacer(),
+                  Text(
+                    '60 minutes',
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 20),
+              const Text(
+                'Start time: Thursday 15:00, 13/03/2024',
+                style: TextStyle(fontSize: 16),
+              ),
+              const SizedBox(height: 10),
+              const Text(
+                'End time:   Thursday 16:00, 13/03/2024',
+                style: TextStyle(fontSize: 16),
+              ),
+              const SizedBox(height: 30),
+              isCancel == false
+                  ? Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        PopupMenuButton<int>(
+                          itemBuilder: (context) => [
+                            const PopupMenuItem<int>(
+                                value: 0,
                                 child: Text(
-                                  'Cancel the meeting',
+                                  'Re-schedule the interview',
                                   style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
-                                ),
+                                )),
+                            const PopupMenuItem<int>(
+                              value: 1,
+                              child: Text(
+                                'Cancel the meeting',
+                                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
                               ),
-                            ],
-                            onSelected: (item) => {
-                              if (item == 1) {setisCancel(true)} else {openMoreOverlay()}
-                            },
-                          ),
-                          Container(
-                            alignment: Alignment.centerRight,
-                            child: SizedBox(
-                              height: 46,
-                              width: 130,
-                              child: ElevatedButton(
-                                onPressed: () {
-                                  ref.read(optionsProvider.notifier).setWidgetOption('Videocall', user.role!);
-                                },
-                                style: ElevatedButton.styleFrom(
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(8),
-                                    side: const BorderSide(color: Colors.grey),
-                                  ),
-                                  backgroundColor: const Color.fromARGB(255, 0, 0, 0),
+                            ),
+                          ],
+                          onSelected: (item) => {
+                            if (item == 1) {setisCancel(true)} else {openMoreOverlay()}
+                          },
+                        ),
+                        Container(
+                          alignment: Alignment.centerRight,
+                          child: SizedBox(
+                            height: 46,
+                            width: 130,
+                            child: ElevatedButton(
+                              onPressed: () {
+                                ref.read(optionsProvider.notifier).setWidgetOption('Videocall', user.role!);
+                              },
+                              style: ElevatedButton.styleFrom(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(8),
+                                  side: const BorderSide(color: Colors.grey),
                                 ),
-                                child: const Text(
-                                  'Join',
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    color: Color.fromARGB(255, 255, 255, 255),
-                                    fontWeight: FontWeight.w500,
-                                  ),
+                                backgroundColor: const Color.fromARGB(255, 0, 0, 0),
+                              ),
+                              child: const Text(
+                                'Join',
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  color: Color.fromARGB(255, 255, 255, 255),
+                                  fontWeight: FontWeight.w500,
                                 ),
                               ),
                             ),
                           ),
-                        ],
-                      )
-                    : const Row(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          Text(
-                            'The meeting is cancelled',
-                            style: TextStyle(fontSize: 16, color: Colors.red, fontWeight: FontWeight.w500),
-                          ),
-                        ],
-                      )
-              ],
-            ),
+                        ),
+                      ],
+                    )
+                  : const Row(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Text(
+                          'The meeting is cancelled',
+                          style: TextStyle(fontSize: 16, color: Colors.red, fontWeight: FontWeight.w500),
+                        ),
+                      ],
+                    )
+            ],
           ),
         ),
       ),
