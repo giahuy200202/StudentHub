@@ -13,7 +13,7 @@ import 'package:studenthub/widgets/dashboard/proposals.widget.dart';
 import 'package:studenthub/widgets/dashboard/working.widget.dart';
 import 'package:toastification/toastification.dart';
 import '../../providers/options.provider.dart';
-
+import 'package:studenthub/providers/language/language.provider.dart';
 import '../../providers/options.provider.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -135,7 +135,7 @@ class _SendHireOfferScreenState extends ConsumerState<SendHireOfferScreen> {
     );
   }
 
-  void getProjects(token, studentId, projectId) async {
+  void getProjects(token, studentId, projectId, tmp) async {
     setState(() {
       isFetchingData = true;
     });
@@ -170,7 +170,7 @@ class _SendHireOfferScreenState extends ConsumerState<SendHireOfferScreen> {
       listProjectsGetFromRes = Project(
         projectId: responseDetailedProjectsData['result']['id'].toString(),
         title: responseDetailedProjectsData['result']['title'],
-        createTime: 'Created at ${DateFormat("dd/MM/yyyy | HH:mm").format(
+        createTime: '${tmp.Createat} ${DateFormat("dd/MM/yyyy | HH:mm").format(
               DateTime.parse(responseDetailedProjectsData['result']['createdAt']),
             ).toString()}',
         projectScopeFlag: responseDetailedProjectsData['result']['projectScopeFlag'],
@@ -194,7 +194,8 @@ class _SendHireOfferScreenState extends ConsumerState<SendHireOfferScreen> {
     final user = ref.read(userProvider);
     final student = ref.read(studentProvider);
     final projectId = ref.read(projectIdProvider);
-    getProjects(user.token!, student.id, projectId);
+    final lang = ref.read(LanguageProvider);
+    getProjects(user.token!, student.id, projectId, lang);
     super.initState();
   }
 
@@ -207,6 +208,7 @@ class _SendHireOfferScreenState extends ConsumerState<SendHireOfferScreen> {
   @override
   Widget build(BuildContext context) {
     final user = ref.watch(userProvider);
+    var Language = ref.watch(LanguageProvider);
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.only(left: 20, right: 20),
@@ -275,7 +277,7 @@ class _SendHireOfferScreenState extends ConsumerState<SendHireOfferScreen> {
                             )
                           : null,
                       child: Text(
-                        "Proposals",
+                        Language.Proposals,
                         style: TextStyle(
                           fontSize: 18,
                           color: Colors.black,
@@ -310,7 +312,7 @@ class _SendHireOfferScreenState extends ConsumerState<SendHireOfferScreen> {
                             )
                           : null,
                       child: Text(
-                        "Detail",
+                        Language.Detail,
                         style: TextStyle(
                           fontSize: 18,
                           color: Colors.black,
@@ -345,7 +347,7 @@ class _SendHireOfferScreenState extends ConsumerState<SendHireOfferScreen> {
                             )
                           : null,
                       child: Text(
-                        "Message",
+                        Language.Message,
                         style: TextStyle(
                           fontSize: 18,
                           color: Colors.black,
@@ -380,7 +382,7 @@ class _SendHireOfferScreenState extends ConsumerState<SendHireOfferScreen> {
                             )
                           : null,
                       child: Text(
-                        "Hired",
+                        Language.Hired,
                         style: TextStyle(
                           fontSize: 18,
                           color: Colors.black,

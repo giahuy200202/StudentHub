@@ -9,7 +9,7 @@ import 'package:studenthub/providers/projects/project_id.provider.dart';
 import 'package:toastification/toastification.dart';
 import '../../providers/projects/project_posting.provider.dart';
 // import '../../providers/options_provider.dart';
-
+import 'package:studenthub/providers/language/language.provider.dart';
 import '../../providers/options.provider.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -204,7 +204,7 @@ class _ProjectDetailsWidgetState extends ConsumerState<ProjectDetailsWidget> {
     final user = ref.watch(userProvider);
     final projectId = ref.watch(projectIdProvider);
     final student = ref.watch(studentProvider);
-
+    var Language = ref.watch(LanguageProvider);
     return SingleChildScrollView(
       child: isFetchingData
           ? const Column(
@@ -249,10 +249,10 @@ class _ProjectDetailsWidgetState extends ConsumerState<ProjectDetailsWidget> {
                           ),
                         ),
                         const SizedBox(width: 10),
-                        const Align(
+                        Align(
                           alignment: Alignment.topLeft,
                           child: Text(
-                            'Project details',
+                            Language.ProjectDetails,
                             style: TextStyle(
                               fontSize: 22,
                               color: Colors.black,
@@ -385,18 +385,18 @@ class _ProjectDetailsWidgetState extends ConsumerState<ProjectDetailsWidget> {
                                       mainAxisAlignment: MainAxisAlignment.center,
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
-                                        const Text(
-                                          'Project scope',
+                                        Text(
+                                          Language.ProjectScope,
                                           style: TextStyle(color: Colors.black, overflow: TextOverflow.ellipsis, fontSize: 16, fontWeight: FontWeight.w700),
                                         ),
                                         Text(
                                           listProjects.projectScopeFlag == 0
-                                              ? 'Less than 1 month'
+                                              ? Language.Time_1
                                               : listProjects.projectScopeFlag == 1
-                                                  ? ' 1-3 months'
+                                                  ? Language.Time_2
                                                   : listProjects.projectScopeFlag == 2
-                                                      ? '3-6 months'
-                                                      : 'More than 6 months',
+                                                      ? Language.Time_3
+                                                      : Language.Time_4,
                                           style: const TextStyle(
                                             color: Colors.black,
                                             overflow: TextOverflow.ellipsis,
@@ -419,12 +419,12 @@ class _ProjectDetailsWidgetState extends ConsumerState<ProjectDetailsWidget> {
                                       mainAxisAlignment: MainAxisAlignment.center,
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
-                                        const Text(
-                                          'Student required',
+                                        Text(
+                                          Language.textProjectDetails,
                                           style: TextStyle(color: Colors.black, overflow: TextOverflow.ellipsis, fontSize: 16, fontWeight: FontWeight.w700),
                                         ),
                                         Text(
-                                          '${listProjects.numberOfStudents} students',
+                                          '${listProjects.numberOfStudents} ' + Language.StudentNeed,
                                           style: const TextStyle(
                                             color: Colors.black,
                                             overflow: TextOverflow.ellipsis,
@@ -484,8 +484,8 @@ class _ProjectDetailsWidgetState extends ConsumerState<ProjectDetailsWidget> {
                               ),
                               backgroundColor: Colors.white,
                             ),
-                            child: const Text(
-                              'Apply now',
+                            child: Text(
+                              Language.ApplyNow,
                               style: TextStyle(
                                 fontSize: 16,
                                 color: Colors.black,
@@ -532,8 +532,8 @@ class _ProjectDetailsWidgetState extends ConsumerState<ProjectDetailsWidget> {
                               ),
                               backgroundColor: Colors.black,
                             ),
-                            child: const Text(
-                              'Save',
+                            child: Text(
+                              Language.save,
                               style: TextStyle(
                                 fontSize: 16,
                                 color: Color.fromARGB(255, 255, 255, 255),

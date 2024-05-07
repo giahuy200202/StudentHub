@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:studenthub/providers/language/language.provider.dart';
 
 class SearchingWidget extends ConsumerStatefulWidget {
   const SearchingWidget({super.key});
@@ -17,7 +18,7 @@ class _SearchingWidgetState extends ConsumerState<SearchingWidget> {
     final rightColumnDiscoverData = ['animation', 'riverpod', 'http requests'];
 
     var getToday = DateTime.now();
-
+    var Language = ref.watch(LanguageProvider);
     var getFormatDate = DateTime(getToday.year, getToday.month, getToday.day);
 
     return Scaffold(
@@ -34,10 +35,10 @@ class _SearchingWidgetState extends ConsumerState<SearchingWidget> {
                 child: SingleChildScrollView(
                   child: Column(
                     children: [
-                      const Align(
+                      Align(
                         alignment: Alignment.topLeft,
                         child: Text(
-                          "Discover",
+                          Language.Discover,
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 20,
@@ -63,10 +64,8 @@ class _SearchingWidgetState extends ConsumerState<SearchingWidget> {
                                     child: SizedBox(
                                       width: 185,
                                       child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
+                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        crossAxisAlignment: CrossAxisAlignment.center,
                                         children: [
                                           const Icon(Icons.search),
                                           const SizedBox(
@@ -103,10 +102,8 @@ class _SearchingWidgetState extends ConsumerState<SearchingWidget> {
                                     child: SizedBox(
                                       width: 175,
                                       child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
+                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        crossAxisAlignment: CrossAxisAlignment.center,
                                         children: [
                                           const Icon(Icons.search),
                                           const SizedBox(
@@ -131,10 +128,10 @@ class _SearchingWidgetState extends ConsumerState<SearchingWidget> {
                       const SizedBox(
                         height: 25,
                       ),
-                      const Align(
+                      Align(
                         alignment: Alignment.topLeft,
                         child: Text(
-                          "Suggested",
+                          Language.Suggested,
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 20,

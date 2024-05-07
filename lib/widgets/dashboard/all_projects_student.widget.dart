@@ -5,7 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:studenthub/providers/authentication/authentication.provider.dart';
 import 'package:studenthub/providers/profile/company.provider.dart';
 import 'package:studenthub/providers/profile/student.provider.dart';
-
+import 'package:studenthub/providers/language/language.provider.dart';
 import '../../providers/options.provider.dart';
 
 import '../../providers/options.provider.dart';
@@ -76,7 +76,7 @@ class _AllProjectsStudentWidgetState extends ConsumerState<AllProjectsStudentWid
   List<Project> listProjects = [];
   bool isFetchingData = false;
 
-  void getProjects(token, studentId) async {
+  void getProjects(token, studentId, tmp) async {
     setState(() {
       isFetchingData = true;
     });
@@ -102,7 +102,7 @@ class _AllProjectsStudentWidgetState extends ConsumerState<AllProjectsStudentWid
           proposalId: item['proposalId'].toString(),
           projectId: item['project']['id'].toString(),
           title: item['project']['title'],
-          createTime: 'Submitted at ${DateFormat("dd/MM/yyyy | HH:mm").format(
+          createTime: '${tmp.Submitted_at} ${DateFormat("dd/MM/yyyy | HH:mm").format(
                 DateTime.parse(item['createdAt']).toLocal(),
               ).toString()}',
           projectScopeFlag: item['project']['projectScopeFlag'],
@@ -127,12 +127,14 @@ class _AllProjectsStudentWidgetState extends ConsumerState<AllProjectsStudentWid
   void initState() {
     final user = ref.read(userProvider);
     final student = ref.read(studentProvider);
-    getProjects(user.token!, student.id);
+    final lang = ref.read(LanguageProvider);
+    getProjects(user.token!, student.id, lang);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    var Language = ref.watch(LanguageProvider);
     return SizedBox(
       height: 600,
       child: SingleChildScrollView(
@@ -162,7 +164,7 @@ class _AllProjectsStudentWidgetState extends ConsumerState<AllProjectsStudentWid
                     child: SizedBox(
                       width: 300,
                       child: Text(
-                        'Active proposal (${listProjects.where((el) => el.statusFlag == 1).toList().length})',
+                        Language.Active + ' (${listProjects.where((el) => el.statusFlag == 1).toList().length})',
                         overflow: TextOverflow.ellipsis,
                         style: const TextStyle(
                           color: Colors.black,
@@ -174,12 +176,12 @@ class _AllProjectsStudentWidgetState extends ConsumerState<AllProjectsStudentWid
                   ),
                   const SizedBox(height: 20),
                   listProjects.where((el) => el.statusFlag == 1).toList().isEmpty
-                      ? const Column(
+                      ? Column(
                           children: [
                             Align(
                               alignment: Alignment.topLeft,
                               child: Text(
-                                'Empty',
+                                Language.empty,
                                 style: TextStyle(fontSize: 16),
                               ),
                             ),
@@ -271,7 +273,7 @@ class _AllProjectsStudentWidgetState extends ConsumerState<AllProjectsStudentWid
                     child: SizedBox(
                       width: 300,
                       child: Text(
-                        'Submitted proposal (${listProjects.where((el) => el.statusFlag == 0).toList().length})',
+                        Language.Submitted + ' (${listProjects.where((el) => el.statusFlag == 0).toList().length})',
                         overflow: TextOverflow.ellipsis,
                         style: const TextStyle(
                           color: Colors.black,
@@ -283,12 +285,12 @@ class _AllProjectsStudentWidgetState extends ConsumerState<AllProjectsStudentWid
                   ),
                   const SizedBox(height: 20),
                   listProjects.where((el) => el.statusFlag == 0).toList().isEmpty
-                      ? const Column(
+                      ? Column(
                           children: [
                             Align(
                               alignment: Alignment.topLeft,
                               child: Text(
-                                'Empty',
+                                Language.empty,
                                 style: TextStyle(fontSize: 16),
                               ),
                             ),

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:studenthub/providers/authentication/authentication.provider.dart';
 import 'package:studenthub/providers/projects/project_posting.provider.dart';
-
+import 'package:studenthub/providers/language/language.provider.dart';
 import '../../providers/options.provider.dart';
 
 class ProjectPostStep1Widget extends ConsumerStatefulWidget {
@@ -26,6 +26,7 @@ class _ProjectPostStep1WidgetState extends ConsumerState<ProjectPostStep1Widget>
   @override
   Widget build(BuildContext context) {
     final user = ref.watch(userProvider);
+    var Language = ref.watch(LanguageProvider);
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(
@@ -50,10 +51,10 @@ class _ProjectPostStep1WidgetState extends ConsumerState<ProjectPostStep1Widget>
                   ),
                 ),
                 const SizedBox(height: 20),
-                const Align(
+                Align(
                   alignment: Alignment.topLeft,
                   child: Text(
-                    'Let\'s start with a strong title',
+                    Language.TitlePost_1,
                     style: TextStyle(
                       fontSize: 27,
                       color: Colors.black,
@@ -62,8 +63,8 @@ class _ProjectPostStep1WidgetState extends ConsumerState<ProjectPostStep1Widget>
                   ),
                 ),
                 const SizedBox(height: 10),
-                const Text(
-                  'This helps your post stand out to the right students. It\'s the first thing they\'ll see, so make it impressive!',
+                Text(
+                  Language.DescriptionPost_1,
                   textAlign: TextAlign.left,
                   style: TextStyle(
                     fontSize: 16,
@@ -87,8 +88,8 @@ class _ProjectPostStep1WidgetState extends ConsumerState<ProjectPostStep1Widget>
                   ),
                 ),
                 const SizedBox(height: 30),
-                const Text(
-                  'Title',
+                Text(
+                  Language.Title,
                   textAlign: TextAlign.left,
                   style: TextStyle(
                     fontSize: 16,
@@ -124,13 +125,13 @@ class _ProjectPostStep1WidgetState extends ConsumerState<ProjectPostStep1Widget>
                         vertical: 15,
                         horizontal: 15,
                       ),
-                      hintText: 'Write a title for your post',
+                      hintText: Language.TextTitlePost_1,
                     ),
                   ),
                 ),
                 const SizedBox(height: 5),
-                const Text(
-                  'Example titles',
+                Text(
+                  Language.ExampleTitles,
                   textAlign: TextAlign.left,
                   style: TextStyle(
                     fontSize: 16,
@@ -138,7 +139,7 @@ class _ProjectPostStep1WidgetState extends ConsumerState<ProjectPostStep1Widget>
                   ),
                 ),
                 const SizedBox(height: 20),
-                const Padding(
+                Padding(
                   padding: EdgeInsets.only(left: 20),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -153,7 +154,7 @@ class _ProjectPostStep1WidgetState extends ConsumerState<ProjectPostStep1Widget>
                       SizedBox(width: 10),
                       Flexible(
                         child: Text(
-                          'Build responsive WordPress site with booking/payment functionality',
+                          Language.TextEx_1,
                           textAlign: TextAlign.left,
                           style: TextStyle(
                             fontSize: 16,
@@ -164,7 +165,7 @@ class _ProjectPostStep1WidgetState extends ConsumerState<ProjectPostStep1Widget>
                   ),
                 ),
                 const SizedBox(height: 15),
-                const Padding(
+                Padding(
                   padding: EdgeInsets.only(left: 20),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -179,7 +180,7 @@ class _ProjectPostStep1WidgetState extends ConsumerState<ProjectPostStep1Widget>
                       SizedBox(width: 10),
                       Flexible(
                         child: Text(
-                          'Facebook ad specialist need for product launch',
+                          Language.TextEx_2,
                           textAlign: TextAlign.left,
                           style: TextStyle(
                             fontSize: 16,
@@ -210,8 +211,8 @@ class _ProjectPostStep1WidgetState extends ConsumerState<ProjectPostStep1Widget>
                         ),
                         backgroundColor: const Color.fromARGB(255, 0, 0, 0),
                       ),
-                      child: const Text(
-                        'Next: Scope',
+                      child: Text(
+                        Language.NextScope,
                         style: TextStyle(
                           fontSize: 16,
                           color: Color.fromARGB(255, 255, 255, 255),

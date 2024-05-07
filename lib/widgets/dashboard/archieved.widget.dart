@@ -7,7 +7,7 @@ import 'package:studenthub/providers/profile/company.provider.dart';
 import 'package:studenthub/providers/profile/student.provider.dart';
 import 'package:studenthub/providers/projects/project_id.provider.dart';
 import 'package:toastification/toastification.dart';
-
+import 'package:studenthub/providers/language/language.provider.dart';
 import '../../providers/options.provider.dart';
 
 import '../../providers/options.provider.dart';
@@ -158,7 +158,7 @@ class _ArchievedWidgetState extends ConsumerState<ArchievedWidget> {
     );
   }
 
-  void getProjects(token, companyId) async {
+  void getProjects(token, companyId, tmp) async {
     setState(() {
       isFetchingData = true;
     });
@@ -186,7 +186,7 @@ class _ArchievedWidgetState extends ConsumerState<ArchievedWidget> {
         listProjectsGetFromRes.add(Project(
           projectId: item['id'].toString(),
           title: item['title'],
-          createTime: 'Created at ${DateFormat("dd/MM/yyyy | HH:mm").format(
+          createTime: '${tmp.Createat} ${DateFormat("dd/MM/yyyy | HH:mm").format(
                 DateTime.parse(item['createdAt']).toLocal(),
               ).toString()}',
           projectScopeFlag: item['projectScopeFlag'],
@@ -210,7 +210,8 @@ class _ArchievedWidgetState extends ConsumerState<ArchievedWidget> {
   void initState() {
     final user = ref.read(userProvider);
     final company = ref.read(companyProvider);
-    getProjects(user.token!, company.id);
+    final lang = ref.read(LanguageProvider);
+    getProjects(user.token!, company.id, lang);
     super.initState();
   }
 
@@ -219,7 +220,7 @@ class _ArchievedWidgetState extends ConsumerState<ArchievedWidget> {
     final user = ref.watch(userProvider);
     final student = ref.watch(studentProvider);
     final company = ref.watch(companyProvider);
-
+    var Language = ref.watch(LanguageProvider);
     return SizedBox(
       height: 545,
       child: SingleChildScrollView(
@@ -243,10 +244,10 @@ class _ArchievedWidgetState extends ConsumerState<ArchievedWidget> {
                 ],
               )
             : listProjects.where((el) => el.typeFlag == 1).isEmpty
-                ? const Column(
+                ? Column(
                     children: [
                       Text(
-                        'Empty',
+                        Language.empty,
                         style: TextStyle(fontSize: 16),
                       ),
                       SizedBox(height: 20),
@@ -327,7 +328,7 @@ class _ArchievedWidgetState extends ConsumerState<ArchievedWidget> {
                                                                         ),
                                                                         backgroundColor: Colors.white,
                                                                       ),
-                                                                      child: const Padding(
+                                                                      child: Padding(
                                                                         padding: EdgeInsets.only(left: 10),
                                                                         child: Row(
                                                                           mainAxisAlignment: MainAxisAlignment.start,
@@ -340,7 +341,7 @@ class _ArchievedWidgetState extends ConsumerState<ArchievedWidget> {
                                                                             ),
                                                                             SizedBox(width: 5),
                                                                             Text(
-                                                                              'View proposals',
+                                                                              Language.Viewproposals,
                                                                               style: TextStyle(
                                                                                 fontSize: 16,
                                                                                 // color: Color.fromARGB(255, 255, 255, 255),
@@ -368,7 +369,7 @@ class _ArchievedWidgetState extends ConsumerState<ArchievedWidget> {
                                                                         ),
                                                                         backgroundColor: Colors.white,
                                                                       ),
-                                                                      child: const Padding(
+                                                                      child: Padding(
                                                                         padding: EdgeInsets.only(left: 10),
                                                                         child: Row(
                                                                           mainAxisAlignment: MainAxisAlignment.start,
@@ -381,7 +382,7 @@ class _ArchievedWidgetState extends ConsumerState<ArchievedWidget> {
                                                                             ),
                                                                             SizedBox(width: 5),
                                                                             Text(
-                                                                              'View messages',
+                                                                              Language.ViewMessage,
                                                                               style: TextStyle(
                                                                                 fontSize: 16,
                                                                                 color: Colors.black,
@@ -408,7 +409,7 @@ class _ArchievedWidgetState extends ConsumerState<ArchievedWidget> {
                                                                         ),
                                                                         backgroundColor: Colors.white,
                                                                       ),
-                                                                      child: const Padding(
+                                                                      child: Padding(
                                                                         padding: EdgeInsets.only(left: 10),
                                                                         child: Row(
                                                                           mainAxisAlignment: MainAxisAlignment.start,
@@ -421,7 +422,7 @@ class _ArchievedWidgetState extends ConsumerState<ArchievedWidget> {
                                                                             ),
                                                                             SizedBox(width: 5),
                                                                             Text(
-                                                                              'View hired',
+                                                                              Language.Viewhired,
                                                                               style: TextStyle(
                                                                                 fontSize: 16,
                                                                                 color: Colors.black,
@@ -473,7 +474,7 @@ class _ArchievedWidgetState extends ConsumerState<ArchievedWidget> {
                                                                           }
                                                                         } else {
                                                                           Navigator.pop(context);
-                                                                          getProjects(user.token, company.id);
+                                                                          getProjects(user.token, company.id, Language);
                                                                           showSuccessToast('Success', 'Project has been archived successfully');
                                                                         }
                                                                       },
@@ -486,7 +487,7 @@ class _ArchievedWidgetState extends ConsumerState<ArchievedWidget> {
                                                                         ),
                                                                         backgroundColor: Colors.white,
                                                                       ),
-                                                                      child: const Padding(
+                                                                      child: Padding(
                                                                         padding: EdgeInsets.only(left: 10),
                                                                         child: Row(
                                                                           mainAxisAlignment: MainAxisAlignment.start,
@@ -499,7 +500,7 @@ class _ArchievedWidgetState extends ConsumerState<ArchievedWidget> {
                                                                             ),
                                                                             SizedBox(width: 5),
                                                                             Text(
-                                                                              'Close project',
+                                                                              Language.CloseProject,
                                                                               style: TextStyle(
                                                                                 fontSize: 16,
                                                                                 // color: Color.fromARGB(255, 255, 255, 255),
@@ -540,10 +541,10 @@ class _ArchievedWidgetState extends ConsumerState<ArchievedWidget> {
                                                                                       mainAxisSize: MainAxisSize.min,
                                                                                       children: [
                                                                                         const SizedBox(height: 30),
-                                                                                        const Align(
+                                                                                        Align(
                                                                                           alignment: Alignment.topLeft,
                                                                                           child: Text(
-                                                                                            "Edit project",
+                                                                                            Language.EditProject,
                                                                                             style: TextStyle(
                                                                                               fontWeight: FontWeight.bold,
                                                                                               fontSize: 25,
@@ -564,10 +565,10 @@ class _ArchievedWidgetState extends ConsumerState<ArchievedWidget> {
                                                                                           height: 580,
                                                                                           child: Column(
                                                                                             children: [
-                                                                                              const Align(
+                                                                                              Align(
                                                                                                 alignment: Alignment.topLeft,
                                                                                                 child: Text(
-                                                                                                  "Title",
+                                                                                                  Language.Title,
                                                                                                   style: TextStyle(
                                                                                                     fontWeight: FontWeight.bold,
                                                                                                     fontSize: 16,
@@ -595,15 +596,15 @@ class _ArchievedWidgetState extends ConsumerState<ArchievedWidget> {
                                                                                                       vertical: 14,
                                                                                                       horizontal: 15,
                                                                                                     ),
-                                                                                                    hintText: 'Enter your languages',
+                                                                                                    hintText: Language.textLanguage,
                                                                                                   ),
                                                                                                 ),
                                                                                               ),
                                                                                               const SizedBox(height: 15),
-                                                                                              const Align(
+                                                                                              Align(
                                                                                                 alignment: Alignment.topLeft,
                                                                                                 child: Text(
-                                                                                                  'Project scope',
+                                                                                                  Language.ProjectScope,
                                                                                                   style: TextStyle(
                                                                                                     fontWeight: FontWeight.bold,
                                                                                                     fontSize: 16,
@@ -617,7 +618,7 @@ class _ArchievedWidgetState extends ConsumerState<ArchievedWidget> {
                                                                                                     height: 30,
                                                                                                     width: MediaQuery.of(context).size.width,
                                                                                                     child: LabeledRadio(
-                                                                                                      label: 'Less than 1 month',
+                                                                                                      label: Language.Time_1,
                                                                                                       value: 0,
                                                                                                       groupValue: pickedScope, //projectPosting.scope,
                                                                                                       onChanged: (value) {
@@ -631,7 +632,7 @@ class _ArchievedWidgetState extends ConsumerState<ArchievedWidget> {
                                                                                                     height: 30,
                                                                                                     width: MediaQuery.of(context).size.width,
                                                                                                     child: LabeledRadio(
-                                                                                                      label: '1 to 3 months',
+                                                                                                      label: Language.Time_2,
                                                                                                       value: 1,
                                                                                                       groupValue: pickedScope, //projectPosting.scope,
                                                                                                       onChanged: (value) {
@@ -645,7 +646,7 @@ class _ArchievedWidgetState extends ConsumerState<ArchievedWidget> {
                                                                                                     height: 30,
                                                                                                     width: MediaQuery.of(context).size.width,
                                                                                                     child: LabeledRadio(
-                                                                                                      label: '3 to 6 months',
+                                                                                                      label: Language.Time_3,
                                                                                                       value: 2,
                                                                                                       groupValue: pickedScope, //projectPosting.scope,
                                                                                                       onChanged: (value) {
@@ -659,7 +660,7 @@ class _ArchievedWidgetState extends ConsumerState<ArchievedWidget> {
                                                                                                     height: 30,
                                                                                                     width: MediaQuery.of(context).size.width,
                                                                                                     child: LabeledRadio(
-                                                                                                      label: 'More than 6 months',
+                                                                                                      label: Language.Time_4,
                                                                                                       value: 3,
                                                                                                       groupValue: pickedScope, //projectPosting.scope,
                                                                                                       onChanged: (value) {
@@ -672,10 +673,10 @@ class _ArchievedWidgetState extends ConsumerState<ArchievedWidget> {
                                                                                                 ],
                                                                                               ),
                                                                                               const SizedBox(height: 15),
-                                                                                              const Align(
+                                                                                              Align(
                                                                                                 alignment: Alignment.topLeft,
                                                                                                 child: Text(
-                                                                                                  "Number of students",
+                                                                                                  Language.TextStudent,
                                                                                                   style: TextStyle(
                                                                                                     fontWeight: FontWeight.bold,
                                                                                                     fontSize: 16,
@@ -703,15 +704,15 @@ class _ArchievedWidgetState extends ConsumerState<ArchievedWidget> {
                                                                                                       vertical: 14,
                                                                                                       horizontal: 15,
                                                                                                     ),
-                                                                                                    hintText: 'Enter your language level',
+                                                                                                    hintText: Language.textLanguage,
                                                                                                   ),
                                                                                                 ),
                                                                                               ),
                                                                                               const SizedBox(height: 15),
-                                                                                              const Align(
+                                                                                              Align(
                                                                                                 alignment: Alignment.topLeft,
                                                                                                 child: Text(
-                                                                                                  "Description",
+                                                                                                  Language.Description,
                                                                                                   style: TextStyle(
                                                                                                     fontWeight: FontWeight.bold,
                                                                                                     fontSize: 16,
@@ -739,7 +740,7 @@ class _ArchievedWidgetState extends ConsumerState<ArchievedWidget> {
                                                                                                       vertical: 14,
                                                                                                       horizontal: 15,
                                                                                                     ),
-                                                                                                    hintText: 'Enter your language level',
+                                                                                                    hintText: Language.textLevel,
                                                                                                   ),
                                                                                                 ),
                                                                                               ),
@@ -765,8 +766,8 @@ class _ArchievedWidgetState extends ConsumerState<ArchievedWidget> {
                                                                                                             ),
                                                                                                             backgroundColor: Colors.white,
                                                                                                           ),
-                                                                                                          child: const Text(
-                                                                                                            'Cancel',
+                                                                                                          child: Text(
+                                                                                                            Language.cancel,
                                                                                                             style: TextStyle(
                                                                                                               fontSize: 18,
                                                                                                               color: Colors.black,
@@ -809,7 +810,7 @@ class _ArchievedWidgetState extends ConsumerState<ArchievedWidget> {
 
                                                                                                             Navigator.pop(context);
                                                                                                             showSuccessToast('Success', 'Edit project successfully');
-                                                                                                            getProjects(user.token, company.id);
+                                                                                                            getProjects(user.token, company.id, Language);
                                                                                                           },
                                                                                                           style: ElevatedButton.styleFrom(
                                                                                                             minimumSize: Size.zero, // Set this
@@ -819,8 +820,8 @@ class _ArchievedWidgetState extends ConsumerState<ArchievedWidget> {
                                                                                                             ),
                                                                                                             backgroundColor: Colors.black,
                                                                                                           ),
-                                                                                                          child: const Text(
-                                                                                                            'Edit',
+                                                                                                          child: Text(
+                                                                                                            Language.edit,
                                                                                                             style: TextStyle(
                                                                                                               fontSize: 18,
                                                                                                               color: Color.fromARGB(255, 255, 255, 255),
@@ -854,7 +855,7 @@ class _ArchievedWidgetState extends ConsumerState<ArchievedWidget> {
                                                                         ),
                                                                         backgroundColor: Colors.white,
                                                                       ),
-                                                                      child: const Padding(
+                                                                      child: Padding(
                                                                         padding: EdgeInsets.only(left: 10),
                                                                         child: Row(
                                                                           mainAxisAlignment: MainAxisAlignment.start,
@@ -867,7 +868,7 @@ class _ArchievedWidgetState extends ConsumerState<ArchievedWidget> {
                                                                             ),
                                                                             SizedBox(width: 5),
                                                                             Text(
-                                                                              'Edit project',
+                                                                              Language.EditProject,
                                                                               style: TextStyle(
                                                                                 fontSize: 16,
                                                                                 color: Colors.black,
@@ -901,7 +902,7 @@ class _ArchievedWidgetState extends ConsumerState<ArchievedWidget> {
                                                                         print(responseDeleteProjectsData);
 
                                                                         Navigator.pop(context);
-                                                                        getProjects(user.token, company.id);
+                                                                        getProjects(user.token, company.id, Language);
                                                                       },
                                                                       style: ElevatedButton.styleFrom(
                                                                         minimumSize: Size.zero, // Set this
@@ -912,7 +913,7 @@ class _ArchievedWidgetState extends ConsumerState<ArchievedWidget> {
                                                                         ),
                                                                         backgroundColor: Colors.white,
                                                                       ),
-                                                                      child: const Padding(
+                                                                      child: Padding(
                                                                         padding: EdgeInsets.only(left: 10),
                                                                         child: Row(
                                                                           mainAxisAlignment: MainAxisAlignment.start,
@@ -925,7 +926,7 @@ class _ArchievedWidgetState extends ConsumerState<ArchievedWidget> {
                                                                             ),
                                                                             SizedBox(width: 5),
                                                                             Text(
-                                                                              'Remove posting',
+                                                                              Language.Removepost,
                                                                               style: TextStyle(
                                                                                 fontSize: 16,
                                                                                 color: Colors.red,
@@ -956,14 +957,14 @@ class _ArchievedWidgetState extends ConsumerState<ArchievedWidget> {
                                                                 ),
                                                                 backgroundColor: Colors.black,
                                                               ),
-                                                              child: const Padding(
+                                                              child: Padding(
                                                                 padding: EdgeInsets.only(left: 10),
                                                                 child: Row(
                                                                   mainAxisAlignment: MainAxisAlignment.center,
                                                                   crossAxisAlignment: CrossAxisAlignment.center,
                                                                   children: [
                                                                     Text(
-                                                                      'Start working this project',
+                                                                      Language.StartWorking,
                                                                       style: TextStyle(
                                                                         fontSize: 16,
                                                                         color: Colors.white,
@@ -1007,7 +1008,7 @@ class _ArchievedWidgetState extends ConsumerState<ArchievedWidget> {
                                         child: SizedBox(
                                           width: 340,
                                           child: Text(
-                                            'Time: ${el.projectScopeFlag == 0 ? 'Less than 1 month' : el.projectScopeFlag == 1 ? ' 1-3 months' : el.projectScopeFlag == 2 ? '3-6 months' : 'More than 6 months'}, ${el.numberOfStudents} students needed',
+                                            '${Language.Time}: ${el.projectScopeFlag == 0 ? Language.Time_1 : el.projectScopeFlag == 1 ? Language.Time_2 : el.projectScopeFlag == 2 ? Language.Time_3 : Language.Time_4}, ${el.numberOfStudents} ${Language.StudentNeed}',
                                             style: const TextStyle(
                                               color: Colors.black,
                                               overflow: TextOverflow.ellipsis,
@@ -1063,8 +1064,8 @@ class _ArchievedWidgetState extends ConsumerState<ArchievedWidget> {
                                                   fontSize: 16,
                                                 ),
                                               ),
-                                              const Text(
-                                                'Proposals',
+                                              Text(
+                                                Language.Proposals,
                                                 style: TextStyle(
                                                   color: Colors.black,
                                                   overflow: TextOverflow.ellipsis,
@@ -1086,8 +1087,8 @@ class _ArchievedWidgetState extends ConsumerState<ArchievedWidget> {
                                                   fontSize: 16,
                                                 ),
                                               ),
-                                              const Text(
-                                                'Messages',
+                                              Text(
+                                                Language.Message,
                                                 style: TextStyle(
                                                   color: Colors.black,
                                                   overflow: TextOverflow.ellipsis,
@@ -1109,8 +1110,8 @@ class _ArchievedWidgetState extends ConsumerState<ArchievedWidget> {
                                                   fontSize: 16,
                                                 ),
                                               ),
-                                              const Text(
-                                                'Hired',
+                                              Text(
+                                                Language.Hired,
                                                 style: TextStyle(
                                                   color: Colors.black,
                                                   overflow: TextOverflow.ellipsis,

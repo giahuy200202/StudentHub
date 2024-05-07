@@ -8,6 +8,7 @@ import 'package:studenthub/providers/profile/company.provider.dart';
 import 'package:toastification/toastification.dart';
 import '../../providers/projects/project_posting.provider.dart';
 import '../../providers/options.provider.dart';
+import 'package:studenthub/providers/language/language.provider.dart';
 import 'package:http/http.dart' as http;
 
 class ProjectPostStep4Widget extends ConsumerStatefulWidget {
@@ -69,7 +70,7 @@ class _ProjectPostStep4WidgetState extends ConsumerState<ProjectPostStep4Widget>
     final projectPosting = ref.watch(projectPostingProvider);
     final user = ref.watch(userProvider);
     final company = ref.watch(companyProvider);
-
+    var Language = ref.watch(LanguageProvider);
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(
@@ -94,10 +95,10 @@ class _ProjectPostStep4WidgetState extends ConsumerState<ProjectPostStep4Widget>
                   ),
                 ),
                 const SizedBox(height: 20),
-                const Align(
+                Align(
                   alignment: Alignment.topLeft,
                   child: Text(
-                    'Project details',
+                    Language.ProjectDetails,
                     style: TextStyle(
                       fontSize: 27,
                       color: Colors.black,
@@ -106,10 +107,10 @@ class _ProjectPostStep4WidgetState extends ConsumerState<ProjectPostStep4Widget>
                   ),
                 ),
                 const SizedBox(height: 10),
-                const Align(
+                Align(
                   alignment: Alignment.topLeft,
                   child: Text(
-                    'Reviewing the project before posting ensures accuracy, completeness, and clarity, setting the stage for successful collaboration.',
+                    Language.DescriptionPost_3,
                     style: TextStyle(
                       fontSize: 16,
                       color: Colors.black,
@@ -172,12 +173,12 @@ class _ProjectPostStep4WidgetState extends ConsumerState<ProjectPostStep4Widget>
                           ],
                         ),
                         const SizedBox(height: 1),
-                        const Align(
+                        Align(
                           alignment: Alignment.topLeft,
                           child: SizedBox(
                             width: 340,
                             child: Text(
-                              'Created 1 minute ago',
+                              Language.Create1m,
                               style: TextStyle(
                                 color: Color.fromARGB(255, 94, 94, 94),
                                 overflow: TextOverflow.ellipsis,
@@ -232,18 +233,18 @@ class _ProjectPostStep4WidgetState extends ConsumerState<ProjectPostStep4Widget>
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    const Text(
-                                      'Project scope',
+                                    Text(
+                                      Language.ProjectScope,
                                       style: TextStyle(color: Colors.black, overflow: TextOverflow.ellipsis, fontSize: 16, fontWeight: FontWeight.w700),
                                     ),
                                     Text(
                                       projectPosting.scope == 0
-                                          ? 'Less than 1 month'
+                                          ? Language.Time_1
                                           : projectPosting.scope == 1
-                                              ? '1 to 3 months'
+                                              ? Language.Time_2
                                               : projectPosting.scope == 2
-                                                  ? '3 to 6 months'
-                                                  : 'More than 6 months',
+                                                  ? Language.Time_3
+                                                  : Language.Time_4,
                                       style: const TextStyle(
                                         color: Colors.black,
                                         overflow: TextOverflow.ellipsis,
@@ -266,8 +267,8 @@ class _ProjectPostStep4WidgetState extends ConsumerState<ProjectPostStep4Widget>
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    const Text(
-                                      'Student required',
+                                    Text(
+                                      Language.textProjectDetails,
                                       style: TextStyle(
                                         color: Colors.black,
                                         overflow: TextOverflow.ellipsis,
@@ -276,7 +277,7 @@ class _ProjectPostStep4WidgetState extends ConsumerState<ProjectPostStep4Widget>
                                       ),
                                     ),
                                     Text(
-                                      '${projectPosting.numOfStudents} students',
+                                      '${projectPosting.numOfStudents} ${Language.students}',
                                       style: const TextStyle(
                                         color: Colors.black,
                                         overflow: TextOverflow.ellipsis,
@@ -369,14 +370,14 @@ class _ProjectPostStep4WidgetState extends ConsumerState<ProjectPostStep4Widget>
                               ),
                             ),
                           )
-                        : const Padding(
+                        : Padding(
                             padding: EdgeInsets.only(left: 10),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 Text(
-                                  'Post project',
+                                  Language.PostProject_2,
                                   style: TextStyle(
                                     fontSize: 17,
                                     color: Colors.white,

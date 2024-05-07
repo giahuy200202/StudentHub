@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:studenthub/providers/authentication/authentication.provider.dart';
 import '../../providers/projects/project_posting.provider.dart';
 import '../../providers/options.provider.dart';
+import 'package:studenthub/providers/language/language.provider.dart';
 
 class ProjectPostStep3Widget extends ConsumerStatefulWidget {
   const ProjectPostStep3Widget({super.key});
@@ -25,6 +26,7 @@ class _ProjectPostStep3WidgetState extends ConsumerState<ProjectPostStep3Widget>
   @override
   Widget build(BuildContext context) {
     final user = ref.watch(userProvider);
+    var Language = ref.watch(LanguageProvider);
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(
@@ -49,10 +51,10 @@ class _ProjectPostStep3WidgetState extends ConsumerState<ProjectPostStep3Widget>
                   ),
                 ),
                 const SizedBox(height: 20),
-                const Align(
+                Align(
                   alignment: Alignment.topLeft,
                   child: Text(
-                    'Provide project description',
+                    Language.TitlePost_3,
                     style: TextStyle(
                       fontSize: 27,
                       color: Colors.black,
@@ -61,10 +63,10 @@ class _ProjectPostStep3WidgetState extends ConsumerState<ProjectPostStep3Widget>
                   ),
                 ),
                 const SizedBox(height: 10),
-                const Align(
+                Align(
                   alignment: Alignment.topLeft,
                   child: Text(
-                    'A clear project description ensures that others can accurately understand your needs and deliver the results you expect',
+                    Language.DescriptionPost_3,
                     style: TextStyle(
                       fontSize: 16,
                       color: Colors.black,
@@ -89,8 +91,8 @@ class _ProjectPostStep3WidgetState extends ConsumerState<ProjectPostStep3Widget>
                   ),
                 ),
                 const SizedBox(height: 40),
-                const Text(
-                  'Students are looking for',
+                Text(
+                  Language.TextPost_3,
                   textAlign: TextAlign.left,
                   style: TextStyle(
                     fontSize: 16,
@@ -98,7 +100,7 @@ class _ProjectPostStep3WidgetState extends ConsumerState<ProjectPostStep3Widget>
                   ),
                 ),
                 const SizedBox(height: 10),
-                const Padding(
+                Padding(
                   padding: EdgeInsets.only(left: 20),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -113,7 +115,7 @@ class _ProjectPostStep3WidgetState extends ConsumerState<ProjectPostStep3Widget>
                       SizedBox(width: 10),
                       Flexible(
                         child: Text(
-                          'Clear expectation about your project or deliverables',
+                          Language.ExamPost3_1,
                           textAlign: TextAlign.left,
                           style: TextStyle(
                             fontSize: 16,
@@ -124,7 +126,7 @@ class _ProjectPostStep3WidgetState extends ConsumerState<ProjectPostStep3Widget>
                   ),
                 ),
                 const SizedBox(height: 10),
-                const Padding(
+                Padding(
                   padding: EdgeInsets.only(left: 20),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -139,7 +141,7 @@ class _ProjectPostStep3WidgetState extends ConsumerState<ProjectPostStep3Widget>
                       SizedBox(width: 10),
                       Flexible(
                         child: Text(
-                          'The skills required for your project',
+                          Language.ExamPost3_2,
                           textAlign: TextAlign.left,
                           style: TextStyle(
                             fontSize: 16,
@@ -150,7 +152,7 @@ class _ProjectPostStep3WidgetState extends ConsumerState<ProjectPostStep3Widget>
                   ),
                 ),
                 const SizedBox(height: 10),
-                const Padding(
+                Padding(
                   padding: EdgeInsets.only(left: 20),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -165,7 +167,7 @@ class _ProjectPostStep3WidgetState extends ConsumerState<ProjectPostStep3Widget>
                       SizedBox(width: 10),
                       Flexible(
                         child: Text(
-                          'Detail about your project',
+                          Language.ExamPost3_3,
                           textAlign: TextAlign.left,
                           style: TextStyle(
                             fontSize: 16,
@@ -176,8 +178,8 @@ class _ProjectPostStep3WidgetState extends ConsumerState<ProjectPostStep3Widget>
                   ),
                 ),
                 const SizedBox(height: 20),
-                const Text(
-                  'Describe your project',
+                Text(
+                  Language.Describe,
                   textAlign: TextAlign.left,
                   style: TextStyle(
                     fontSize: 16,
@@ -237,8 +239,8 @@ class _ProjectPostStep3WidgetState extends ConsumerState<ProjectPostStep3Widget>
                         ),
                         backgroundColor: const Color.fromARGB(255, 0, 0, 0),
                       ),
-                      child: const Text(
-                        'Review your post',
+                      child: Text(
+                        Language.Review,
                         style: TextStyle(
                           fontSize: 18,
                           color: Color.fromARGB(255, 255, 255, 255),

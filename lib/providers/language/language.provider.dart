@@ -24,6 +24,7 @@ class Language {
   String ErrorToast_2;
   String Register;
   String Profiles;
+  String SendOffer;
   String Setting;
   String ChangPass;
   String Logout;
@@ -110,8 +111,110 @@ class Language {
   String Time_4;
   String StudentNeed;
   String Createat;
-
+  String Search;
+  String textSearch;
+  String textSearch_2;
+  String Discover;
+  String Suggested;
+  String ex_1;
+  String ex_2;
+  String ex_3;
+  String Active;
+  String Submitted;
+  String Submitted_at;
+  String All;
+  String Working;
+  String Archieved;
+  String ProjectDetails;
+  String ProjectScope;
+  String textProjectDetails;
+  String ApplyNow;
+  String SaveProject;
+  String ProjectSearch;
+  String Fillter;
+  String Projectlength;
+  String ProposalsFillter;
+  String TextStudent;
+  String TextProposals;
+  String ClearFilters;
+  String apply;
+  String Viewproposals;
+  String ViewMessage;
+  String CloseProject;
+  String Viewhired;
+  String Removepost;
+  String Noproject;
+  String YourProject;
+  String PostProject;
+  String Hired;
+  String StartWorking;
+  String students;
+  String Detail;
+  String textOffer;
+  String Send;
+  String offersend;
+  String HiredOffer;
+  String textHiredoffer;
+  String TitlePost_1;
+  String DescriptionPost_1;
+  String TextTitlePost_1;
+  String ExampleTitles;
+  String TextEx_1;
+  String TextEx_2;
+  String NextScope;
+  String TitlePost_2;
+  String DescriptionPost_2;
+  String TextTimePost;
+  String TextStudentPost;
+  String NextDes;
+  String TitlePost_3;
+  String DescriptionPost_3;
+  String TextPost_3;
+  String ExamPost3_1;
+  String ExamPost3_2;
+  String ExamPost3_3;
+  String Describe;
+  String Review;
+  String DescriptionPost_4;
+  String PostProject_2;
+  String Create1m;
   Language({
+    required this.Create1m,
+    required this.PostProject_2,
+    required this.DescriptionPost_4,
+    required this.TitlePost_3,
+    required this.DescriptionPost_3,
+    required this.TextPost_3,
+    required this.ExamPost3_3,
+    required this.ExamPost3_1,
+    required this.ExamPost3_2,
+    required this.Review,
+    required this.Describe,
+    required this.TitlePost_2,
+    required this.DescriptionPost_2,
+    required this.TextTimePost,
+    required this.TextStudentPost,
+    required this.NextDes,
+    required this.TitlePost_1,
+    required this.TextTitlePost_1,
+    required this.DescriptionPost_1,
+    required this.ExampleTitles,
+    required this.TextEx_1,
+    required this.TextEx_2,
+    required this.NextScope,
+    required this.textHiredoffer,
+    required this.HiredOffer,
+    required this.offersend,
+    required this.Send,
+    required this.textOffer,
+    required this.SendOffer,
+    required this.ViewMessage,
+    required this.Viewhired,
+    required this.CloseProject,
+    required this.Viewproposals,
+    required this.Removepost,
+    required this.Noproject,
+    required this.apply,
     required this.language,
     required this.Company,
     required this.Student,
@@ -220,6 +323,38 @@ class Language {
     required this.Time_4,
     required this.StudentNeed,
     required this.Createat,
+    required this.Search,
+    required this.textSearch,
+    required this.Discover,
+    required this.Suggested,
+    required this.textSearch_2,
+    required this.ex_1,
+    required this.ex_2,
+    required this.ex_3,
+    required this.Active,
+    required this.All,
+    required this.Archieved,
+    required this.Submitted,
+    required this.Submitted_at,
+    required this.Working,
+    required this.ProjectDetails,
+    required this.ProjectScope,
+    required this.textProjectDetails,
+    required this.ApplyNow,
+    required this.SaveProject,
+    required this.ClearFilters,
+    required this.Fillter,
+    required this.ProjectSearch,
+    required this.Projectlength,
+    required this.ProposalsFillter,
+    required this.TextProposals,
+    required this.TextStudent,
+    required this.PostProject,
+    required this.YourProject,
+    required this.Hired,
+    required this.StartWorking,
+    required this.students,
+    required this.Detail,
   });
 
   get LanguageChange => null;
@@ -228,6 +363,48 @@ class Language {
 class _Language extends StateNotifier<Language> {
   _Language()
       : super(Language(
+          Create1m: 'Created 1 minute ago',
+          DescriptionPost_4: 'Reviewing the project before posting ensures accuracy, completeness, and clarity, setting the stage for successful collaboration.',
+          PostProject_2: 'Post project',
+          TitlePost_3: 'Provide project description',
+          DescriptionPost_3: 'A clear project description ensures that others can accurately understand your needs and deliver the results you expect',
+          TextPost_3: 'Students are looking for',
+          ExamPost3_1: 'Clear expectation about your project or deliverables',
+          ExamPost3_2: 'The skills required for your project',
+          ExamPost3_3: 'Detail about your project',
+          Describe: 'Describe your project',
+          Review: 'Review your post',
+          TextStudentPost: 'How many students do you want for this project?',
+          TextTimePost: 'How long will your project take?',
+          NextDes: 'Next: Description',
+          TitlePost_2: 'Estimate your project\'s scope',
+          DescriptionPost_2: 'Defining the project\'s scope helps ensure clarity and alignment on the objectives and deliverables from the start',
+          TitlePost_1: 'Let\'s start with a strong title',
+          TextTitlePost_1: 'Write a title for your post',
+          ExampleTitles: 'Example titles',
+          TextEx_1: 'Build responsive WordPress site with booking/payment functionality',
+          TextEx_2: 'Facebook ad specialist need for product launch',
+          NextScope: 'Next: Scope',
+          DescriptionPost_1: 'This helps your post stand out to the right students. It\'s the first thing they\'ll see, so make it impressive!',
+          textHiredoffer: 'Sent hired offer',
+          HiredOffer: 'Hired offer',
+          offersend: 'Offer sent',
+          Send: 'Send',
+          textOffer: 'Do you really want to send hired offer for student to do this project?',
+          SendOffer: 'Send offer',
+          Detail: 'Detail',
+          students: 'students',
+          StartWorking: 'Start working this project',
+          Removepost: 'Remove posting',
+          CloseProject: 'Close project',
+          Viewproposals: 'View proposals',
+          Viewhired: 'View hired',
+          ViewMessage: 'View messages',
+          Hired: 'Hired',
+          PostProject: 'Post a project',
+          YourProject: 'Your projects',
+          Noproject: 'No project found',
+          apply: 'Apply',
           language: 'Language',
           Company: 'Company',
           Student: 'Student',
@@ -290,8 +467,8 @@ class _Language extends StateNotifier<Language> {
           Experiences: 'Experiences',
           DescriptionEx: 'Tell us about your self and you will be your way connect with real-world project',
           Projects: 'Projects',
-          textDescription: 'Enter your project\'s title',
-          textTitle: 'Enter your project\'s description',
+          textDescription: 'Enter your project\'s description',
+          textTitle: 'Enter your project\'s title',
           textSTime: 'Enter start time',
           textETime: 'Enter end time',
           EditProject: 'Edit project',
@@ -334,8 +511,34 @@ class _Language extends StateNotifier<Language> {
           Time_2: '1-3 months',
           Time_3: '3-6 months',
           Time_4: 'More than 6 months',
-          StudentNeed: 'students needed',
+          StudentNeed: 'Students needed',
           Createat: 'Created at',
+          Search: 'Search',
+          textSearch: 'Search for projects',
+          textSearch_2: 'Titles, Contents and More',
+          Discover: 'Discover',
+          Suggested: 'Suggested',
+          ex_1: 'Created 3 days ago',
+          ex_2: 'Time: 1-3 months, 6 students needed',
+          ex_3: 'Proposals: Less than 5',
+          Active: 'Active proposal',
+          All: 'All projects',
+          Archieved: 'Archieved',
+          Submitted_at: 'Submitted at',
+          Submitted: 'Submitted proposal',
+          Working: 'Working',
+          ProjectDetails: 'Project details',
+          ProjectScope: 'Project scope',
+          textProjectDetails: 'Student required',
+          ApplyNow: 'Apply now',
+          SaveProject: 'Saved projects',
+          ProjectSearch: 'Project search',
+          Projectlength: 'Project length',
+          ProposalsFillter: 'Proposals less than',
+          Fillter: 'Fillter by',
+          ClearFilters: 'Clear fillters',
+          TextProposals: 'Number of proposals',
+          TextStudent: 'Nummber of students',
         ));
   var LanguageChange = false;
 
@@ -351,6 +554,55 @@ class _Language extends StateNotifier<Language> {
 
   void setLanguageEng() {
     Language tmp = Language(
+      Create1m: 'Created 1 minute ago',
+      DescriptionPost_4: 'Reviewing the project before posting ensures accuracy, completeness, and clarity, setting the stage for successful collaboration.',
+      PostProject_2: 'Post project',
+      TitlePost_3: 'Provide project description',
+      DescriptionPost_3: 'A clear project description ensures that others can accurately understand your needs and deliver the results you expect',
+      TextPost_3: 'Students are looking for',
+      ExamPost3_1: 'Clear expectation about your project or deliverables',
+      ExamPost3_2: 'The skills required for your project',
+      ExamPost3_3: 'Detail about your project',
+      Describe: 'Describe your project',
+      Review: 'Review your post',
+      TextStudentPost: 'How many students do you want for this project?',
+      TextTimePost: 'How long will your project take?',
+      NextDes: 'Next: Description',
+      TitlePost_2: 'Estimate your project\'s scope',
+      DescriptionPost_2: 'Defining the project\'s scope helps ensure clarity and alignment on the objectives and deliverables from the start',
+      TitlePost_1: 'Let\'s start with a strong title',
+      TextTitlePost_1: 'Write a title for your post',
+      ExampleTitles: 'Example titles',
+      TextEx_1: 'Build responsive WordPress site with booking/payment functionality',
+      TextEx_2: 'Facebook ad specialist need for product launch',
+      NextScope: 'Next: Scope',
+      DescriptionPost_1: 'This helps your post stand out to the right students. It\'s the first thing they\'ll see, so make it impressive!',
+      textHiredoffer: 'Sent hired offer',
+      HiredOffer: 'Hired offer',
+      offersend: 'Offer sent',
+      Send: 'Send',
+      textOffer: 'Do you really want to send hired offer for student to do this project?',
+      SendOffer: 'Send offer',
+      Detail: 'Detail',
+      students: 'students',
+      StartWorking: 'Start working this project',
+      Removepost: 'Remove posting',
+      CloseProject: 'Close project',
+      Viewproposals: 'View proposals',
+      Viewhired: 'View hired',
+      ViewMessage: 'View messages',
+      Hired: 'Hired',
+      PostProject: 'Post a project',
+      YourProject: 'Your projects',
+      Noproject: 'No project found',
+      apply: 'Apply',
+      TextProposals: 'Number of proposals',
+      TextStudent: 'Nummber of students',
+      ProjectSearch: 'Project search',
+      Projectlength: 'Project length',
+      ProposalsFillter: 'Proposals less than',
+      Fillter: 'Fillter by',
+      ClearFilters: 'Clear fillters',
       language: 'Language',
       Company: 'Company',
       Student: 'Student',
@@ -413,8 +665,8 @@ class _Language extends StateNotifier<Language> {
       Experiences: 'Experiences',
       DescriptionEx: 'Tell us about your self and you will be your way connect with real-world project',
       Projects: 'Projects',
-      textDescription: 'Enter your project\'s title',
-      textTitle: 'Enter your project\'s description',
+      textDescription: 'Enter your project\'s description',
+      textTitle: 'Enter your project\'s title',
       textSTime: 'Enter start time',
       textETime: 'Enter end time',
       EditProject: 'Edit project',
@@ -457,14 +709,83 @@ class _Language extends StateNotifier<Language> {
       Time_2: '1-3 months',
       Time_3: '3-6 months',
       Time_4: 'More than 6 months',
-      StudentNeed: 'students needed',
+      StudentNeed: 'Students needed',
       Createat: 'Created at',
+      Search: 'Search',
+      textSearch: 'Search for projects',
+      textSearch_2: 'Titles, Contents and More',
+      Discover: 'Discover',
+      Suggested: 'Suggested',
+      ex_1: 'Created 3 days ago',
+      ex_2: 'Time: 1-3 months, 6 students needed',
+      ex_3: 'Proposals: Less than 5',
+      Active: 'Active proposal',
+      All: 'All projects',
+      Archieved: 'Archieved',
+      Submitted_at: 'Submitted at',
+      Submitted: 'Submitted proposal',
+      Working: 'Working',
+      ProjectDetails: 'Project details',
+      ProjectScope: 'Project scope',
+      textProjectDetails: 'Student required',
+      ApplyNow: 'Apply now',
+      SaveProject: 'Saved projects',
     );
     state = tmp;
   }
 
   void setLanguageVN() {
     Language tmp = Language(
+      Create1m: 'Đã tạo 1 phút trước',
+      DescriptionPost_4: 'Việc xem xét dự án trước khi đăng đảm bảo tính chính xác, đầy đủ và rõ ràng, tạo tiền đề cho sự hợp tác thành công.',
+      PostProject_2: 'Đăng dự án',
+      TitlePost_3: 'Cung cấp mô tả dự án',
+      DescriptionPost_3: 'Mô tả dự án rõ ràng đảm bảo rằng người khác có thể hiểu chính xác nhu cầu của bạn và mang lại kết quả mà bạn mong đợi',
+      TextPost_3: 'Sinh viên đang tìm kiếm',
+      ExamPost3_1: 'Kỳ vọng rõ ràng về dự án hoặc sản phẩm của bạn',
+      ExamPost3_2: 'Các kỹ năng cần thiết cho dự án của bạn',
+      ExamPost3_3: 'Chi tiết về dự án của bạn',
+      Describe: 'Mô tả dự án của bạn',
+      Review: 'Xem lại bài đăng',
+      TextStudentPost: 'Bạn muốn có bao nhiêu sinh viên cho dự án này?',
+      TextTimePost: 'Dự án của bạn sẽ mất bao lâu?',
+      NextDes: 'Tiếp tục',
+      TitlePost_2: 'Ước tính phạm vi dự án của bạn',
+      DescriptionPost_2: 'Xác định phạm vi của dự án giúp đảm bảo sự rõ ràng và thống nhất về mục tiêu và kết quả đạt được ngay từ đầu',
+      TitlePost_1: 'Hãy bắt đầu với một tiêu đề ấn tượng',
+      TextTitlePost_1: 'Viết tiêu đề cho bài đăng của bạn',
+      ExampleTitles: 'Ví dụ tiêu đề',
+      TextEx_1: 'Xây dựng trang web WordPress đáp ứng với chức năng đặt chỗ/thanh toán',
+      TextEx_2: 'Cần chuyên viên quảng cáo Facebook để ra mắt sản phẩm',
+      NextScope: 'Tiếp tục',
+      DescriptionPost_1: 'Điều này giúp bài đăng của bạn nổi bật với sinh viên phù hợp. Đó là điều đầu tiên họ sẽ nhìn thấy, vì vậy hãy làm cho nó ấn tượng!',
+      textHiredoffer: 'Đã gửi lời mời thuê',
+      HiredOffer: 'Đề nghị việc làm',
+      offersend: 'Gửi đề nghị',
+      Send: 'Gửi',
+      textOffer: 'Bạn có thực sự muốn gửi lời mời tuyển dụng cho sinh viên để thực hiện dự án này không?',
+      SendOffer: 'Gửi đề nghị',
+      Detail: 'Chi tiết',
+      students: 'sinh viên',
+      StartWorking: 'Bắt đầu làm dự án',
+      Removepost: 'Xóa bài đăng',
+      CloseProject: 'Đóng dự án',
+      Viewproposals: 'Xem đề nghị',
+      Viewhired: 'Xem đã thuê',
+      ViewMessage: 'Xem tin nhắn',
+      Hired: 'Đã thuê',
+      PostProject: 'Đăng một dự án',
+      YourProject: 'Dự án của bạn',
+      Noproject: 'Không tìm thấy dự án',
+      apply: 'Áp dụng',
+      TextProposals: 'Số đề nghị',
+      TextStudent: 'Số sinh viên',
+      ProjectSearch: 'Tìm kiếm dự án',
+      Projectlength: 'Thời gian dự án',
+      ProposalsFillter: 'Đề nghị tối thiểu',
+      Fillter: 'Lọc bởi',
+      ClearFilters: 'Xóa bộ lọc',
+      SaveProject: 'Dự án đã lưu',
       language: 'Ngôn ngữ',
       Company: 'Công Ty',
       Student: 'Sinh viên',
@@ -527,8 +848,8 @@ class _Language extends StateNotifier<Language> {
       Experiences: 'Kinh nghiệm',
       DescriptionEx: 'Kể về bản thân bạn và cách bạn kết nối với dự án thực tế của mình',
       Projects: 'Dự án',
-      textDescription: 'Nhập tiêu đề của dự án',
-      textTitle: 'Nhập mô tả của dự án',
+      textTitle: 'Nhập tiêu đề của dự án',
+      textDescription: 'Nhập mô tả của dự án',
       textSTime: 'Bắt đầu',
       textETime: 'Kết thúc',
       EditProject: 'Chỉnh sửa dự án',
@@ -571,8 +892,26 @@ class _Language extends StateNotifier<Language> {
       Time_2: '1-3 tháng',
       Time_3: '3-6 tháng',
       Time_4: 'hơn 6 tháng',
-      StudentNeed: 'sinh viên',
+      StudentNeed: 'Sinh viên',
       Createat: 'Tạo lúc:',
+      Search: 'Tìm kiếm',
+      textSearch: 'Tìm kiếm dự án',
+      textSearch_2: 'Tiêu đề, nội dung, ..',
+      Discover: 'Khám phá',
+      Suggested: 'Gợi ý',
+      ex_1: 'Tạo lúc 3 ngày trước',
+      ex_2: 'Thời gian: 1-3 tháng, 6 sinh viên',
+      ex_3: 'Đề nghị: dưới 5',
+      Active: 'Đề nghị hoạt động',
+      All: 'Tất cả dự án',
+      Archieved: 'Đã lưu',
+      Submitted_at: 'Gửi lúc',
+      Submitted: 'Đề nghị đã gửi',
+      Working: 'Đang làm',
+      ProjectDetails: 'Chi tiết dự án',
+      ProjectScope: 'Phạm vi dự án',
+      textProjectDetails: 'Yêu cầu sinh viên',
+      ApplyNow: 'Đăng kí ngay',
     );
     state = tmp;
   }

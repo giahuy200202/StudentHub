@@ -4,6 +4,7 @@ import 'package:studenthub/providers/authentication/authentication.provider.dart
 import 'package:studenthub/providers/projects/search_filter.provider.dart';
 import 'package:studenthub/widgets/projects/list_projects.widget.dart';
 import '../../providers/options.provider.dart';
+import 'package:studenthub/providers/language/language.provider.dart';
 // import 'package:keyboard_visibility/keyboard_visibility.dart';
 
 class ProjectScreen extends ConsumerStatefulWidget {
@@ -22,6 +23,7 @@ class _ProjectScreenState extends ConsumerState<ProjectScreen> {
   @override
   Widget build(BuildContext context) {
     final user = ref.watch(userProvider);
+    var Language = ref.watch(LanguageProvider);
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(
@@ -56,10 +58,10 @@ class _ProjectScreenState extends ConsumerState<ProjectScreen> {
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
                                       const SizedBox(height: 40),
-                                      const Align(
+                                      Align(
                                         alignment: Alignment.topLeft,
                                         child: Text(
-                                          "Search",
+                                          Language.Search,
                                           style: TextStyle(
                                             fontWeight: FontWeight.bold,
                                             fontSize: 25,
@@ -102,7 +104,7 @@ class _ProjectScreenState extends ConsumerState<ProjectScreen> {
                                               },
                                               child: const Icon(Icons.clear),
                                             ),
-                                            hintText: 'Titles, Contents and More',
+                                            hintText: Language.textSearch_2,
                                             hintStyle: const TextStyle(color: Color.fromARGB(255, 114, 111, 111), fontWeight: FontWeight.w500),
                                           ),
                                         ),
@@ -113,10 +115,10 @@ class _ProjectScreenState extends ConsumerState<ProjectScreen> {
                                         child: SingleChildScrollView(
                                           child: Column(
                                             children: [
-                                              const Align(
+                                              Align(
                                                 alignment: Alignment.topLeft,
                                                 child: Text(
-                                                  "Discover",
+                                                  Language.Discover,
                                                   style: TextStyle(
                                                     fontWeight: FontWeight.bold,
                                                     fontSize: 18,
@@ -209,10 +211,10 @@ class _ProjectScreenState extends ConsumerState<ProjectScreen> {
                                               const SizedBox(
                                                 height: 10,
                                               ),
-                                              const Align(
+                                              Align(
                                                 alignment: Alignment.topLeft,
                                                 child: Text(
-                                                  "Suggested",
+                                                  Language.Suggested,
                                                   style: TextStyle(
                                                     fontWeight: FontWeight.bold,
                                                     fontSize: 18,
@@ -237,7 +239,7 @@ class _ProjectScreenState extends ConsumerState<ProjectScreen> {
                                                     children: [
                                                       Row(
                                                         children: [
-                                                          const Align(
+                                                          Align(
                                                             alignment: Alignment.topLeft,
                                                             child: SizedBox(
                                                               width: 300,
@@ -263,12 +265,12 @@ class _ProjectScreenState extends ConsumerState<ProjectScreen> {
                                                         ],
                                                       ),
                                                       const SizedBox(height: 2),
-                                                      const Align(
+                                                      Align(
                                                         alignment: Alignment.topLeft,
                                                         child: SizedBox(
                                                           width: 340,
                                                           child: Text(
-                                                            'Created 3 days ago',
+                                                            Language.ex_1,
                                                             style: TextStyle(
                                                               color: Color.fromARGB(255, 94, 94, 94),
                                                               overflow: TextOverflow.ellipsis,
@@ -278,12 +280,12 @@ class _ProjectScreenState extends ConsumerState<ProjectScreen> {
                                                         ),
                                                       ),
                                                       const SizedBox(height: 5),
-                                                      const Align(
+                                                      Align(
                                                         alignment: Alignment.topLeft,
                                                         child: SizedBox(
                                                           width: 340,
                                                           child: Text(
-                                                            'Time: 1-3 months, 6 students needed',
+                                                            Language.ex_2,
                                                             style: TextStyle(
                                                               color: Colors.black,
                                                               overflow: TextOverflow.ellipsis,
@@ -302,7 +304,7 @@ class _ProjectScreenState extends ConsumerState<ProjectScreen> {
                                                         ),
                                                       ),
                                                       const SizedBox(height: 15),
-                                                      const Row(
+                                                      Row(
                                                         mainAxisAlignment: MainAxisAlignment.start,
                                                         crossAxisAlignment: CrossAxisAlignment.center,
                                                         children: [
@@ -313,7 +315,7 @@ class _ProjectScreenState extends ConsumerState<ProjectScreen> {
                                                           ),
                                                           SizedBox(width: 5),
                                                           Text(
-                                                            'Proposals: Less than 5',
+                                                            Language.ex_3,
                                                             style: TextStyle(
                                                               fontSize: 16,
                                                               color: Colors.black,
@@ -366,12 +368,12 @@ class _ProjectScreenState extends ConsumerState<ProjectScreen> {
                                                         ],
                                                       ),
                                                       const SizedBox(height: 2),
-                                                      const Align(
+                                                      Align(
                                                         alignment: Alignment.topLeft,
                                                         child: SizedBox(
                                                           width: 340,
                                                           child: Text(
-                                                            'Created 3 days ago',
+                                                            Language.ex_1,
                                                             style: TextStyle(
                                                               color: Color.fromARGB(255, 94, 94, 94),
                                                               overflow: TextOverflow.ellipsis,
@@ -381,12 +383,12 @@ class _ProjectScreenState extends ConsumerState<ProjectScreen> {
                                                         ),
                                                       ),
                                                       const SizedBox(height: 5),
-                                                      const Align(
+                                                      Align(
                                                         alignment: Alignment.topLeft,
                                                         child: SizedBox(
                                                           width: 340,
                                                           child: Text(
-                                                            'Time: 1-3 months, 6 students needed',
+                                                            Language.ex_2,
                                                             style: TextStyle(
                                                               color: Colors.black,
                                                               overflow: TextOverflow.ellipsis,
@@ -405,7 +407,7 @@ class _ProjectScreenState extends ConsumerState<ProjectScreen> {
                                                         ),
                                                       ),
                                                       const SizedBox(height: 15),
-                                                      const Row(
+                                                      Row(
                                                         mainAxisAlignment: MainAxisAlignment.start,
                                                         crossAxisAlignment: CrossAxisAlignment.center,
                                                         children: [
@@ -416,7 +418,7 @@ class _ProjectScreenState extends ConsumerState<ProjectScreen> {
                                                           ),
                                                           SizedBox(width: 5),
                                                           Text(
-                                                            'Proposals: Less than 5',
+                                                            Language.ex_3,
                                                             style: TextStyle(
                                                               fontSize: 16,
                                                               color: Colors.black,
@@ -468,7 +470,7 @@ class _ProjectScreenState extends ConsumerState<ProjectScreen> {
                                 onTap: () {},
                                 child: const Icon(Icons.clear),
                               ),
-                              hintText: 'Search for projects',
+                              hintText: Language.textSearch,
                               hintStyle: const TextStyle(
                                 color: Color.fromARGB(255, 114, 111, 111),
                                 fontWeight: FontWeight.w500,

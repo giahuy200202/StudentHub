@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:studenthub/providers/authentication/authentication.provider.dart';
 import 'package:studenthub/providers/projects/project_id.provider.dart';
-
+import 'package:studenthub/providers/language/language.provider.dart';
 import '../../providers/options.provider.dart';
 
 import 'package:http/http.dart' as http;
@@ -61,7 +61,7 @@ class _HiredWidgetState extends ConsumerState<HiredWidget> {
   List<Proposal> listProposals = [];
   bool isFetchingData = false;
 
-  void getProjects(token, projectId) async {
+  void getProjects(token, projectId, tmp) async {
     setState(() {
       isFetchingData = true;
     });
@@ -88,7 +88,7 @@ class _HiredWidgetState extends ConsumerState<HiredWidget> {
       for (var item in responseProposalsData['result']['items']) {
         listProposalsGetFromRes.add(Proposal(
           proposalId: item['id'].toString(),
-          createTime: 'Submitted at ${DateFormat("dd/MM/yyyy | HH:mm").format(
+          createTime: '${tmp.Submitted_at} ${DateFormat("dd/MM/yyyy | HH:mm").format(
                 DateTime.parse(item['createdAt']).toLocal(),
               ).toString()}',
           studentName: item['student']['user']['fullname'] ?? 'Unknown',
@@ -112,12 +112,15 @@ class _HiredWidgetState extends ConsumerState<HiredWidget> {
   void initState() {
     final user = ref.read(userProvider);
     final projectId = ref.read(projectIdProvider);
-    getProjects(user.token!, projectId);
+    final lang = ref.read(LanguageProvider);
+    getProjects(user.token!, projectId, lang);
+
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    var Language = ref.watch(LanguageProvider);
     return SizedBox(
       height: 610,
       child: SingleChildScrollView(
@@ -141,10 +144,10 @@ class _HiredWidgetState extends ConsumerState<HiredWidget> {
                 ],
               )
             : listProposals.where((el) => el.statusFlag == 3).toList().isEmpty
-                ? const Column(
+                ? Column(
                     children: [
                       Text(
-                        'Empty',
+                        Language.empty,
                         style: TextStyle(fontSize: 16),
                       ),
                       SizedBox(height: 20),
@@ -271,8 +274,8 @@ class _HiredWidgetState extends ConsumerState<HiredWidget> {
                                               ),
                                               backgroundColor: Colors.white,
                                             ),
-                                            child: const Text(
-                                              'Message',
+                                            child: Text(
+                                              Language.Message,
                                               style: TextStyle(
                                                 fontSize: 16,
                                                 color: Colors.black,
@@ -295,16 +298,16 @@ class _HiredWidgetState extends ConsumerState<HiredWidget> {
                                                   ),
                                                 ),
                                                 backgroundColor: Colors.white,
-                                                title: const Text(
-                                                  'Hired offer',
+                                                title: Text(
+                                                  Language.HiredOffer,
                                                   style: TextStyle(
                                                     fontSize: 20,
                                                     color: Colors.black,
                                                     fontWeight: FontWeight.w600,
                                                   ),
                                                 ),
-                                                content: const Text(
-                                                  'Do you really want to send hired offer for student to do this project?',
+                                                content: Text(
+                                                  Language.textOffer,
                                                   style: TextStyle(
                                                     fontSize: 16,
                                                     color: Colors.black,
@@ -320,7 +323,7 @@ class _HiredWidgetState extends ConsumerState<HiredWidget> {
                                                         height: 43,
                                                         width: 135,
                                                         child: ElevatedButton(
-                                                          onPressed: () => Navigator.pop(context, 'Cancel'),
+                                                          onPressed: () => Navigator.pop(context, Language.cancel),
                                                           style: ElevatedButton.styleFrom(
                                                             minimumSize: Size.zero, // Set this
                                                             padding: EdgeInsets.zero, // and this
@@ -330,8 +333,8 @@ class _HiredWidgetState extends ConsumerState<HiredWidget> {
                                                             ),
                                                             // backgroundColor: Colors.white,
                                                           ),
-                                                          child: const Text(
-                                                            'Cancel',
+                                                          child: Text(
+                                                            Language.cancel,
                                                             style: TextStyle(
                                                               fontSize: 16,
                                                               color: Colors.black,
@@ -344,7 +347,7 @@ class _HiredWidgetState extends ConsumerState<HiredWidget> {
                                                         height: 43,
                                                         width: 135,
                                                         child: ElevatedButton(
-                                                          onPressed: () => Navigator.pop(context, 'Send'),
+                                                          onPressed: () => Navigator.pop(context, Language.Send),
                                                           style: ElevatedButton.styleFrom(
                                                             minimumSize: Size.zero, // Set this
                                                             padding: EdgeInsets.zero, // and this
@@ -353,8 +356,8 @@ class _HiredWidgetState extends ConsumerState<HiredWidget> {
                                                             ),
                                                             backgroundColor: Colors.black,
                                                           ),
-                                                          child: const Text(
-                                                            'Send',
+                                                          child: Text(
+                                                            Language.Send,
                                                             style: TextStyle(
                                                               fontSize: 16,
                                                               color: Color.fromARGB(255, 255, 255, 255),
@@ -376,8 +379,8 @@ class _HiredWidgetState extends ConsumerState<HiredWidget> {
                                               ),
                                               backgroundColor: Colors.black,
                                             ),
-                                            child: const Text(
-                                              'Sent hired offer',
+                                            child: Text(
+                                              Language.textHiredoffer,
                                               style: TextStyle(
                                                 fontSize: 16,
                                                 color: Color.fromARGB(255, 255, 255, 255),

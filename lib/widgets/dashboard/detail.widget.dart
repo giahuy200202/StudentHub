@@ -9,7 +9,7 @@ import 'package:studenthub/providers/projects/project_id.provider.dart';
 import 'package:toastification/toastification.dart';
 import '../../providers/projects/project_posting.provider.dart';
 // import '../../providers/options_provider.dart';
-
+import 'package:studenthub/providers/language/language.provider.dart';
 import '../../providers/options.provider.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -129,7 +129,7 @@ class _DetailWidgetState extends ConsumerState<DetailWidget> {
     );
   }
 
-  void getProjects(token, studentId, projectId) async {
+  void getProjects(token, studentId, projectId, tmp) async {
     setState(() {
       isFetchingData = true;
     });
@@ -164,7 +164,7 @@ class _DetailWidgetState extends ConsumerState<DetailWidget> {
       listProjectsGetFromRes = Project(
         projectId: responseDetailedProjectsData['result']['id'].toString(),
         title: responseDetailedProjectsData['result']['title'],
-        createTime: 'Created at ${DateFormat("dd/MM/yyyy | HH:mm").format(
+        createTime: '${tmp.Createat} ${DateFormat("dd/MM/yyyy | HH:mm").format(
               DateTime.parse(responseDetailedProjectsData['result']['createdAt']),
             ).toString()}',
         projectScopeFlag: responseDetailedProjectsData['result']['projectScopeFlag'],
@@ -188,14 +188,15 @@ class _DetailWidgetState extends ConsumerState<DetailWidget> {
     final user = ref.read(userProvider);
     final student = ref.read(studentProvider);
     final projectId = ref.read(projectIdProvider);
-    getProjects(user.token!, student.id, projectId);
+    final lang = ref.read(LanguageProvider);
+    getProjects(user.token!, student.id, projectId, lang);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     final projectPosting = ref.watch(projectPostingProvider);
-
+    var Language = ref.watch(LanguageProvider);
     return isFetchingData
         ? const Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -311,18 +312,18 @@ class _DetailWidgetState extends ConsumerState<DetailWidget> {
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
-                                      const Text(
-                                        'Project scope',
+                                      Text(
+                                        Language.ProjectScope,
                                         style: TextStyle(color: Colors.black, overflow: TextOverflow.ellipsis, fontSize: 16, fontWeight: FontWeight.w700),
                                       ),
                                       Text(
                                         listProjects.projectScopeFlag == 0
-                                            ? 'Less than 1 month'
+                                            ? Language.Time_1
                                             : listProjects.projectScopeFlag == 1
-                                                ? ' 1-3 months'
+                                                ? Language.Time_2
                                                 : listProjects.projectScopeFlag == 2
-                                                    ? '3-6 months'
-                                                    : 'More than 6 months',
+                                                    ? Language.Time_3
+                                                    : Language.Time_4,
                                         style: const TextStyle(
                                           color: Colors.black,
                                           overflow: TextOverflow.ellipsis,
@@ -345,12 +346,12 @@ class _DetailWidgetState extends ConsumerState<DetailWidget> {
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
-                                      const Text(
-                                        'Student required',
+                                      Text(
+                                        Language.textProjectDetails,
                                         style: TextStyle(color: Colors.black, overflow: TextOverflow.ellipsis, fontSize: 16, fontWeight: FontWeight.w700),
                                       ),
                                       Text(
-                                        '${listProjects.numberOfStudents} students',
+                                        '${listProjects.numberOfStudents} ' + Language.students,
                                         style: const TextStyle(
                                           color: Colors.black,
                                           overflow: TextOverflow.ellipsis,
