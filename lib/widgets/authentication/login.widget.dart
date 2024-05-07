@@ -322,6 +322,7 @@ class _LoginWidgetState extends ConsumerState<LoginWidget> {
                                         responeAuthMeData["result"]["id"],
                                         userLoginRole,
                                         json.decode(responseLogin.body)["result"]["token"],
+                                        responeAuthMeData["result"]["fullname"],
                                       );
                                   ref.read(switchAccountProvider.notifier).setSwitchAccount(
                                         userLoginRole,

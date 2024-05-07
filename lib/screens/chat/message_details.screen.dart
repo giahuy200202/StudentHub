@@ -1241,6 +1241,30 @@ class _MessageDetailsScreen extends ConsumerState<MessageDetailsScreen> {
                                                                                                             print('----responseEditInterviewData----');
                                                                                                             print(responseEditInterview);
 
+                                                                                                            // ref.read(messageProvider.notifier).pushMessageData(
+                                                                                                            //       DateFormat("dd/MM/yyyy | HH:mm").format(DateTime.now().toLocal()).toString(),
+                                                                                                            //       user.fullname!,
+                                                                                                            //       "Update interview",
+                                                                                                            //       true,
+                                                                                                            //       videoInterviewTitleControllerEdit.text,
+                                                                                                            //       DateTime(
+                                                                                                            //         selectedDateStartEdit!.year,
+                                                                                                            //         selectedDateStartEdit!.month,
+                                                                                                            //         selectedDateStartEdit!.day,
+                                                                                                            //         selectedTimeStartEdit!.hour,
+                                                                                                            //         selectedTimeStartEdit!.minute,
+                                                                                                            //       ).toString(),
+                                                                                                            //       DateTime(
+                                                                                                            //         selectedDateEndEdit!.year,
+                                                                                                            //         selectedDateEndEdit!.month,
+                                                                                                            //         selectedDateEndEdit!.day,
+                                                                                                            //         selectedTimeEndEdit!.hour,
+                                                                                                            //         selectedTimeEndEdit!.minute,
+                                                                                                            //       ).toString(),
+                                                                                                            //       el.idInterview,
+                                                                                                            //       0,
+                                                                                                            //     );
+
                                                                                                             videoInterviewTitleControllerEdit.clear();
                                                                                                             dateControllerStartEdit.text = 'Select data';
                                                                                                             timeControllerStartEdit.text = 'Select time';
@@ -1725,29 +1749,6 @@ class _MessageDetailsScreen extends ConsumerState<MessageDetailsScreen> {
 
                                                           print('------------ create interview -------------');
 
-                                                          // final socket = IO.io(
-                                                          //     'https://api.studenthub.dev/', // Server url
-                                                          //     OptionBuilder().setTransports(['websocket']).disableAutoConnect().build());
-
-                                                          // //Add authorization to header
-                                                          // socket.io.options?['extraHeaders'] = {
-                                                          //   'Authorization': 'Bearer ${user.token}',
-                                                          // };
-
-                                                          // //Add query param to url
-                                                          // socket.io.options?['query'] = {'project_id': projectId};
-
-                                                          // socket.connect();
-
-                                                          // socket.onConnect((data) => {print('Connected')});
-                                                          // socket.onDisconnect((data) => {print('Disconnected')});
-
-                                                          // socket.onConnectError((data) => print('$data'));
-                                                          // socket.onError((data) => print(data));
-
-                                                          // //Listen for error from socket
-                                                          // socket.on("ERROR", (data) => print(data));
-
                                                           final Random random = Random();
                                                           int randomNumber = 0;
                                                           bool isExistRandomNumber = false;
@@ -1813,33 +1814,6 @@ class _MessageDetailsScreen extends ConsumerState<MessageDetailsScreen> {
                                                           print('----responseScheduleInterviewData----');
                                                           print(responseScheduleInterviewData);
 
-                                                          // socket.emit(
-                                                          //   "SCHEDULE_INTERVIEW",
-                                                          //   {
-                                                          //     "title": videoInterviewTitleController.text,
-                                                          //     "content": "New interview was created",
-                                                          //     "startTime": DateTime(
-                                                          //       selectedDateStart!.year,
-                                                          //       selectedDateStart!.month,
-                                                          //       selectedDateStart!.day,
-                                                          //       selectedTimeStart!.hour,
-                                                          //       selectedTimeStart!.minute,
-                                                          //     ).toString(),
-                                                          //     "endTime": DateTime(
-                                                          //       selectedDateEnd!.year,
-                                                          //       selectedDateEnd!.month,
-                                                          //       selectedDateEnd!.day,
-                                                          //       selectedTimeEnd!.hour,
-                                                          //       selectedTimeEnd!.minute,
-                                                          //     ).toString(),
-                                                          //     "projectId": projectId,
-                                                          //     "senderId": user.id,
-                                                          //     "receiverId": receiveId,
-                                                          //     "meeting_room_code": randomNumber.toString(),
-                                                          //     "meeting_room_id": randomNumber.toString(),
-                                                          //   },
-                                                          // );
-
                                                           videoInterviewTitleController.clear();
                                                           dateControllerStart.text = 'Select data';
                                                           timeControllerStart.text = 'Select time';
@@ -1852,6 +1826,8 @@ class _MessageDetailsScreen extends ConsumerState<MessageDetailsScreen> {
                                                             selectedDateEnd = null;
                                                             selectedTimeEnd = null;
                                                           });
+
+                                                          // getMessages(user.token, projectId, receiveId);
 
                                                           Navigator.pop(context);
                                                         },
@@ -1929,36 +1905,6 @@ class _MessageDetailsScreen extends ConsumerState<MessageDetailsScreen> {
                               }
                               print('------------send message api-------------');
 
-                              // final socket = IO.io(
-                              //     'https://api.studenthub.dev/', // Server url
-                              //     OptionBuilder().setTransports(['websocket']).disableAutoConnect().build());
-
-                              // //Add authorization to header
-                              // socket.io.options?['extraHeaders'] = {
-                              //   'Authorization': 'Bearer ${user.token}',
-                              // };
-
-                              // //Add query param to url
-                              // socket.io.options?['query'] = {'project_id': projectId};
-
-                              // socket.connect();
-
-                              // socket.onConnect((data) => {print('Connected')});
-                              // socket.onDisconnect((data) => {print('Disconnected')});
-
-                              // socket.onConnectError((data) => print('$data'));
-                              // socket.onError((data) => print(data));
-
-                              // //Listen for error from socket
-                              // socket.on("ERROR", (data) => print(data));
-                              // socket.emit("SEND_MESSAGE", {
-                              //   "content": enterMessage,
-                              //   "projectId": projectId,
-                              //   "senderId": user.id,
-                              //   "receiverId": receiveId,
-                              //   "messageFlag": 0 // default 0 for message, 1 for interview
-                              // });
-
                               final urlSendMessage = Uri.parse('${dotenv.env['IP_ADDRESS']}/api/message/sendMessage');
 
                               final responseSendMessage = await http.post(
@@ -1979,6 +1925,18 @@ class _MessageDetailsScreen extends ConsumerState<MessageDetailsScreen> {
                               final responseSendMessageData = json.decode(responseSendMessage.body);
                               print('----responseSendMessageData----');
                               print(responseSendMessageData);
+
+                              // ref.read(messageProvider.notifier).pushMessageData(
+                              //       DateFormat("dd/MM/yyyy | HH:mm").format(DateTime.now().toLocal()).toString(),
+                              //       user.fullname!,
+                              //       enterMessage,
+                              //       false,
+                              //       '',
+                              //       '',
+                              //       '',
+                              //       '',
+                              //       1,
+                              //     );
 
                               sendMessage.clear();
                             },

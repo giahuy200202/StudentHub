@@ -44,6 +44,7 @@ class _AppState extends ConsumerState<App> {
       listTriggeredSockerByUserId.add(user.id.toString());
 
       if (user.id != 0 && projectId != '') {
+        print('------SOCKET NOTIFICATION------');
         final socket = IO.io(
           'https://api.studenthub.dev/', // Server url
           OptionBuilder().setTransports(['websocket']).disableAutoConnect().build(),
@@ -55,7 +56,7 @@ class _AppState extends ConsumerState<App> {
         };
 
         //Add query param to url
-        socket.io.options?['query'] = {'project_id': projectId};
+        // socket.io.options?['query'] = {'project_id': projectId};
 
         socket.connect();
 
@@ -97,7 +98,7 @@ class _AppState extends ConsumerState<App> {
                 ref.read(notificationProvider.notifier).pushNotificationData(
                       data['notification']['id'].toString(),
                       '0',
-                      'You have a new interview schedule "${data['notification']['message']['interview']['title']}"',
+                      '${data['notification']['message']['interview']['title']}',
                       data['notification']['sender']['fullname'],
                       DateFormat("dd/MM/yyyy | HH:mm")
                           .format(
@@ -134,7 +135,29 @@ class _AppState extends ConsumerState<App> {
           },
         );
 
-        socket.on(
+        print('------SOCKET------');
+        final socketMessageInterview = IO.io(
+          'https://api.studenthub.dev/', // Server url
+          OptionBuilder().setTransports(['websocket']).disableAutoConnect().build(),
+        );
+
+        //Add authorization to header
+        socketMessageInterview.io.options?['extraHeaders'] = {
+          'Authorization': 'Bearer ${user.token}',
+        };
+
+        //Add query param to url
+        socketMessageInterview.io.options?['query'] = {'project_id': projectId};
+
+        socketMessageInterview.connect();
+
+        socketMessageInterview.onConnect((data) => {print('Connected')});
+        socketMessageInterview.onDisconnect((data) => {print('Disconnected')});
+
+        socketMessageInterview.onConnectError((data) => print('$data'));
+        socketMessageInterview.onError((data) => print(data));
+
+        socketMessageInterview.on(
           'RECEIVE_MESSAGE',
           (data) {
             // Your code to update ui
@@ -161,7 +184,7 @@ class _AppState extends ConsumerState<App> {
           },
         );
 
-        socket.on(
+        socketMessageInterview.on(
           'RECEIVE_INTERVIEW',
           (data) {
             // Your code to update ui
@@ -182,17 +205,6 @@ class _AppState extends ConsumerState<App> {
                     data['notification']['message']['interview']['id'].toString(),
                     data['notification']['message']['interview']['disableFlag'],
                   );
-              // ref.read(notificationProvider.notifier).pushNotificationData(
-              //       data['notification']['id'].toString(),
-              //       '0',
-              //       'You have a new interview schedule "${data['notification']['message']['interview']['title']}"',
-              //       data['notification']['sender']['fullname'],
-              //       DateFormat("dd/MM/yyyy | HH:mm")
-              //           .format(
-              //             DateTime.parse(data['notification']['message']['interview']['createdAt']).toLocal(),
-              //           )
-              //           .toString(),
-              //     );
             }
           },
         );
@@ -200,73 +212,7 @@ class _AppState extends ConsumerState<App> {
         //Listen for error from socket
         socket.on("ERROR", (data) => print(data));
 
-        // //interview
-        // final socketInterview = IO.io(
-        //     'https://api.studenthub.dev/', // Server url
-        //     OptionBuilder().setTransports(['websocket']).disableAutoConnect().build());
-
-        // //Add authorization to header
-        // socketInterview.io.options?['extraHeaders'] = {
-        //   'Authorization': 'Bearer ${user.token}',
-        // };
-
-        // //Add query param to url
-        // socketInterview.io.options?['query'] = {'project_id': projectId};
-
-        // socketInterview.connect();
-
-        // socketInterview.onConnect((data) => {print('Connected')});
-        // socketInterview.onDisconnect((data) => {print('Disconnected')});
-
-        // socketInterview.onConnectError((data) => print('$data'));
-        // socketInterview.onError((data) => print(data));
-
-        // //Listen to channel receive message
-        // socketInterview.on(
-        //   'RECEIVE_INTERVIEW',
-        //   (data) {
-        //     // Your code to update ui
-
-        //     print('------RECEIVE_INTERVIEW------');
-        //     // print(data);
-
-        //     if (mounted) {
-        //       ref.read(messageProvider.notifier).pushMessageData(
-        //             DateFormat("dd/MM/yyyy | HH:mm").format(DateTime.parse(data['notification']['message']['createdAt']).toLocal()).toString(),
-        //             data['notification']['sender']['fullname'],
-        //             data['notification']['message']['content'],
-        //             true,
-        //             data['notification']['interview']['title'],
-        //             data['notification']['interview']['startTime'],
-        //             data['notification']['interview']['endTime'],
-        //             data['notification']['interview']['id'].toString(),
-        //           );
-        //       ref.read(notificationProvider.notifier).pushNotificationData(
-        //             data['notification']['id'].toString(),
-        //             '0',
-        //             'You have a new interview schedule "${data['notification']['interview']['title']}"',
-        //             data['notification']['sender']['fullname'],
-        //             DateFormat("dd/MM/yyyy | HH:mm")
-        //                 .format(
-        //                   DateTime.parse(data['notification']['createdAt']).toLocal(),
-        //                 )
-        //                 .toString(),
-        //           );
-
-        //       if (data['notification']['sender']['id'] != user.id) {
-        //         LocalNotifications.showSimpleNotification(
-        //           // id: tasks.length + 1,
-        //           title: 'You have a new interview schedule created by ${data['notification']['sender']['fullname']}',
-        //           body: '${data['notification']['interview']['title']}',
-        //           payload: 'data',
-        //         );
-        //       }
-        //     }
-        //   },
-        // );
-
-        // //Listen for error from socket
-        // socketInterview.on("ERROR", (data) => print(data));
+        socketMessageInterview.on("ERROR", (data) => print(data));
       }
     }
 

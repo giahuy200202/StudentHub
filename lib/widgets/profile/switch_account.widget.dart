@@ -562,7 +562,7 @@ class _SwitchAccountWidgetState extends ConsumerState<SwitchAccountWidget> {
                               print('----responseLogoutData----');
                               print(responseLogoutData);
 
-                              ref.read(userProvider.notifier).setUserData(0, '', '');
+                              ref.read(userProvider.notifier).setUserData(0, '', '', '');
                               ref.read(companyProvider.notifier).setCompanyData(0, '', '', '', '', 0);
                               ref.read(studentProvider.notifier).setStudentData(0, '', '', 0, [], [], [], []);
                               ref.read(optionsProvider.notifier).setWidgetOption('', user.role!);
