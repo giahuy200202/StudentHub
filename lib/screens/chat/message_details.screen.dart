@@ -32,6 +32,7 @@ class Message {
   final String titleInterview;
   final String startTimeInterview;
   final String endTimeInterview;
+  final String idInterview;
 
   Message({
     required this.createdAt,
@@ -41,6 +42,7 @@ class Message {
     required this.titleInterview,
     required this.startTimeInterview,
     required this.endTimeInterview,
+    required this.idInterview,
   });
 
   Message.fromJson(Map<dynamic, dynamic> json)
@@ -50,7 +52,8 @@ class Message {
         isInterview = json['isInterview'],
         titleInterview = json['titleInterview'],
         startTimeInterview = json['startTimeInterview'],
-        endTimeInterview = json['endTimeInterview'];
+        endTimeInterview = json['endTimeInterview'],
+        idInterview = json['idInterview'];
 
   Map<dynamic, dynamic> toJson() {
     return {
@@ -61,6 +64,7 @@ class Message {
       'titleInterview': titleInterview,
       'startTimeInterview': startTimeInterview,
       'endTimeInterview': endTimeInterview,
+      'idInterview': idInterview,
     };
   }
 }
@@ -95,6 +99,20 @@ class _MessageDetailsScreen extends ConsumerState<MessageDetailsScreen> {
   TimeOfDay? selectedTimeEnd;
 
   bool isCancel = false;
+
+  var videoInterviewTitleControllerEdit = TextEditingController();
+
+  var dateControllerStartEdit = TextEditingController(text: 'Select Date');
+  var timeControllerStartEdit = TextEditingController(text: 'Select Time');
+
+  DateTime? selectedDateStartEdit;
+  TimeOfDay? selectedTimeStartEdit;
+
+  var dateControllerEndEdit = TextEditingController(text: 'Select Date');
+  var timeControllerEndEdit = TextEditingController(text: 'Select Time');
+
+  DateTime? selectedDateEndEdit;
+  TimeOfDay? selectedTimeEndEdit;
 
   void setIsCancel(bool value) {
     setState(() {
@@ -168,6 +186,7 @@ class _MessageDetailsScreen extends ConsumerState<MessageDetailsScreen> {
                 '',
                 '',
                 '',
+                '',
               );
         } else {
           ref.read(messageProvider.notifier).pushMessageData(
@@ -178,6 +197,7 @@ class _MessageDetailsScreen extends ConsumerState<MessageDetailsScreen> {
                 item['interview']['title'],
                 item['interview']['startTime'],
                 item['interview']['endTime'],
+                item['interview']['id'].toString(),
               );
         }
       }
@@ -259,7 +279,7 @@ class _MessageDetailsScreen extends ConsumerState<MessageDetailsScreen> {
       selectedTimeStart = pickedTime;
     });
 
-    timeControllerStart.text = '${pickedTime!.hour}:${pickedTime.minute}';
+    timeControllerStart.text = DateFormat('HH:mm').format(DateTime(0, 0, 0, selectedTimeStart!.hour, selectedTimeStart!.minute)).toString();
   }
 
   void presentDatePickerEnd() async {
@@ -326,7 +346,7 @@ class _MessageDetailsScreen extends ConsumerState<MessageDetailsScreen> {
       selectedTimeEnd = pickedTime;
     });
 
-    timeControllerEnd.text = '${pickedTime!.hour <= 9 && pickedTime.hour >= 0 ? pickedTime.hour : pickedTime.hour}:${pickedTime.minute}';
+    timeControllerEnd.text = DateFormat('HH:mm').format(DateTime(0, 0, 0, selectedTimeEnd!.hour, selectedTimeEnd!.minute)).toString();
   }
 
   @override
@@ -410,7 +430,7 @@ class _MessageDetailsScreen extends ConsumerState<MessageDetailsScreen> {
                       ),
                       const SizedBox(height: 20),
                       SizedBox(
-                        height: 670,
+                        height: 660,
                         child: SingleChildScrollView(
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.start,
@@ -448,7 +468,7 @@ class _MessageDetailsScreen extends ConsumerState<MessageDetailsScreen> {
                                                     Row(
                                                       children: [
                                                         SizedBox(
-                                                          width: 300,
+                                                          width: 310,
                                                           child: Row(
                                                             children: [
                                                               SizedBox(
@@ -524,7 +544,7 @@ class _MessageDetailsScreen extends ConsumerState<MessageDetailsScreen> {
                                                     Row(
                                                       children: [
                                                         SizedBox(
-                                                          width: 300,
+                                                          width: 310,
                                                           child: Row(
                                                             children: [
                                                               SizedBox(
@@ -577,11 +597,15 @@ class _MessageDetailsScreen extends ConsumerState<MessageDetailsScreen> {
                                                                 mainAxisAlignment: MainAxisAlignment.start,
                                                                 crossAxisAlignment: CrossAxisAlignment.start,
                                                                 children: [
-                                                                  Text(
-                                                                    el.titleInterview,
-                                                                    style: const TextStyle(
-                                                                      fontSize: 16,
-                                                                      fontWeight: FontWeight.w500,
+                                                                  SizedBox(
+                                                                    width: 140,
+                                                                    child: Text(
+                                                                      el.titleInterview,
+                                                                      style: const TextStyle(
+                                                                        overflow: TextOverflow.ellipsis,
+                                                                        fontSize: 16,
+                                                                        fontWeight: FontWeight.w500,
+                                                                      ),
                                                                     ),
                                                                   ),
                                                                   const Spacer(),
@@ -596,12 +620,12 @@ class _MessageDetailsScreen extends ConsumerState<MessageDetailsScreen> {
                                                               ),
                                                               const SizedBox(height: 20),
                                                               Text(
-                                                                'Start time:   ${DateFormat("dd/MM/yyyy | HH:mm").format(DateTime.parse(el.startTimeInterview)).toString()}',
+                                                                'Start time:  ${DateFormat("dd/MM/yyyy | HH:mm").format(DateTime.parse(el.startTimeInterview)).toString()}',
                                                                 style: const TextStyle(fontSize: 16),
                                                               ),
                                                               const SizedBox(height: 10),
                                                               Text(
-                                                                'End time:   ${DateFormat("dd/MM/yyyy | HH:mm").format(DateTime.parse(el.endTimeInterview)).toString()}',
+                                                                'End time:  ${DateFormat("dd/MM/yyyy | HH:mm").format(DateTime.parse(el.endTimeInterview)).toString()}',
                                                                 style: const TextStyle(fontSize: 16),
                                                               ),
                                                               const SizedBox(height: 20),
@@ -627,14 +651,587 @@ class _MessageDetailsScreen extends ConsumerState<MessageDetailsScreen> {
                                                                             ),
                                                                           ],
                                                                           onSelected: (item) => {
-                                                                            // if (item == 1)
-                                                                            //   {
-                                                                            //     setIsCancel(true),
-                                                                            //   }
-                                                                            // else
-                                                                            //   {
-                                                                            //     openMoreOverlay(),
-                                                                            //   }
+                                                                            if (item == 0)
+                                                                              {
+                                                                                showModalBottomSheet(
+                                                                                  isScrollControlled: true,
+                                                                                  context: context,
+                                                                                  backgroundColor: Colors.white,
+                                                                                  builder: (ctx) {
+                                                                                    //edit
+                                                                                    void presentDatePickerStartEdit() async {
+                                                                                      final now = DateTime.now();
+                                                                                      final pickedDate = await showDatePicker(
+                                                                                        context: context,
+                                                                                        initialEntryMode: DatePickerEntryMode.calendarOnly,
+                                                                                        initialDate: now,
+                                                                                        firstDate: now,
+                                                                                        lastDate: DateTime(3000),
+                                                                                        builder: (context, child) {
+                                                                                          return Theme(
+                                                                                            data: ThemeData.dark().copyWith(
+                                                                                              colorScheme: const ColorScheme.light(
+                                                                                                primary: Colors.black,
+                                                                                                onPrimary: Colors.white,
+                                                                                                surface: Colors.white,
+                                                                                                onSurface: Colors.black,
+                                                                                              ),
+                                                                                              textButtonTheme: TextButtonThemeData(
+                                                                                                style: TextButton.styleFrom(
+                                                                                                  foregroundColor: Colors.black, // button text color
+                                                                                                ),
+                                                                                              ),
+                                                                                            ),
+                                                                                            child: child!,
+                                                                                          );
+                                                                                        },
+                                                                                      );
+                                                                                      setState(() {
+                                                                                        selectedDateStart = pickedDate;
+                                                                                      });
+                                                                                      dateControllerStart.text = DateFormat('dd/MM/yyyy').format(selectedDateStart!).toString();
+                                                                                    }
+
+                                                                                    void presentTimePickerStartEdit() async {
+                                                                                      final pickedTime = await showTimePicker(
+                                                                                        context: context,
+                                                                                        initialTime: TimeOfDay.now(),
+                                                                                        builder: (context, child) {
+                                                                                          return MediaQuery(
+                                                                                            data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true),
+                                                                                            child: Theme(
+                                                                                              data: ThemeData.dark().copyWith(
+                                                                                                colorScheme: const ColorScheme.light(
+                                                                                                  primary: Colors.black,
+                                                                                                  onPrimary: Colors.white,
+                                                                                                  surface: Colors.white,
+                                                                                                  onSurface: Colors.black,
+                                                                                                ),
+                                                                                                textButtonTheme: TextButtonThemeData(
+                                                                                                  style: TextButton.styleFrom(
+                                                                                                    foregroundColor: Colors.black, // button text color
+                                                                                                  ),
+                                                                                                ),
+                                                                                              ),
+                                                                                              child: child!,
+                                                                                            ),
+                                                                                          );
+                                                                                        },
+                                                                                      );
+
+                                                                                      setState(() {
+                                                                                        selectedTimeStart = pickedTime;
+                                                                                      });
+
+                                                                                      timeControllerStart.text = DateFormat('HH:mm').format(DateTime(0, 0, 0, selectedTimeStart!.hour, selectedTimeStart!.minute)).toString();
+                                                                                    }
+
+                                                                                    void presentDatePickerEndEdit() async {
+                                                                                      final now = DateTime.now();
+                                                                                      final pickedDate = await showDatePicker(
+                                                                                        context: context,
+                                                                                        initialEntryMode: DatePickerEntryMode.calendarOnly,
+                                                                                        initialDate: now,
+                                                                                        firstDate: now,
+                                                                                        lastDate: DateTime(3000),
+                                                                                        builder: (context, child) {
+                                                                                          return Theme(
+                                                                                            data: ThemeData.dark().copyWith(
+                                                                                              colorScheme: const ColorScheme.light(
+                                                                                                primary: Colors.black,
+                                                                                                onPrimary: Colors.white,
+                                                                                                surface: Colors.white,
+                                                                                                onSurface: Colors.black,
+                                                                                              ),
+                                                                                              textButtonTheme: TextButtonThemeData(
+                                                                                                style: TextButton.styleFrom(
+                                                                                                  foregroundColor: Colors.black, // button text color
+                                                                                                ),
+                                                                                              ),
+                                                                                            ),
+                                                                                            child: child!,
+                                                                                          );
+                                                                                        },
+                                                                                      );
+                                                                                      setState(() {
+                                                                                        selectedDateEnd = pickedDate;
+                                                                                      });
+                                                                                      dateControllerEnd.text = DateFormat('dd/MM/yyyy').format(selectedDateEnd!).toString();
+                                                                                    }
+
+                                                                                    void presentTimePickerEndEdit() async {
+                                                                                      final pickedTime = await showTimePicker(
+                                                                                        context: context,
+                                                                                        initialTime: TimeOfDay.now(),
+                                                                                        builder: (context, child) {
+                                                                                          return MediaQuery(
+                                                                                            data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true),
+                                                                                            child: Theme(
+                                                                                              data: ThemeData.dark().copyWith(
+                                                                                                colorScheme: const ColorScheme.light(
+                                                                                                  primary: Colors.black,
+                                                                                                  onPrimary: Colors.white,
+                                                                                                  surface: Colors.white,
+                                                                                                  onSurface: Colors.black,
+                                                                                                ),
+                                                                                                textButtonTheme: TextButtonThemeData(
+                                                                                                  style: TextButton.styleFrom(
+                                                                                                    foregroundColor: Colors.black, // button text color
+                                                                                                  ),
+                                                                                                ),
+                                                                                              ),
+                                                                                              child: child!,
+                                                                                            ),
+                                                                                          );
+                                                                                        },
+                                                                                      );
+
+                                                                                      setState(() {
+                                                                                        selectedTimeEnd = pickedTime;
+                                                                                      });
+
+                                                                                      timeControllerEnd.text = DateFormat('HH:mm').format(DateTime(0, 0, 0, selectedTimeEnd!.hour, selectedTimeEnd!.minute)).toString();
+                                                                                    }
+
+                                                                                    videoInterviewTitleControllerEdit.text = el.titleInterview;
+                                                                                    dateControllerStartEdit.text = DateFormat('dd/MM/yyyy').format(DateTime.parse(el.startTimeInterview)).toString();
+                                                                                    timeControllerStartEdit.text = DateFormat('HH:mm').format(DateTime.parse(el.startTimeInterview)).toString();
+                                                                                    dateControllerEndEdit.text = DateFormat('dd/MM/yyyy').format(DateTime.parse(el.endTimeInterview)).toString();
+                                                                                    timeControllerEndEdit.text = DateFormat('HH:mm').format(DateTime.parse(el.endTimeInterview)).toString();
+                                                                                    selectedDateStartEdit = DateTime.parse(el.startTimeInterview);
+                                                                                    selectedTimeStartEdit = TimeOfDay.fromDateTime(DateTime.parse(el.startTimeInterview));
+                                                                                    selectedDateEndEdit = DateTime.parse(el.endTimeInterview);
+                                                                                    selectedTimeEndEdit = TimeOfDay.fromDateTime(DateTime.parse(el.endTimeInterview));
+
+                                                                                    return StatefulBuilder(builder: (BuildContext context, StateSetter setState /*You can rename this!*/) {
+                                                                                      return Padding(
+                                                                                        padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+                                                                                        child: SizedBox(
+                                                                                          height: 600,
+                                                                                          child: SingleChildScrollView(
+                                                                                            // physics: const NeverScrollableScrollPhysics(),
+                                                                                            child: Padding(
+                                                                                              padding: const EdgeInsets.only(left: 20, right: 20),
+                                                                                              child: Column(
+                                                                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                                                                mainAxisSize: MainAxisSize.min,
+                                                                                                children: [
+                                                                                                  const SizedBox(height: 40),
+                                                                                                  const Align(
+                                                                                                    alignment: Alignment.topLeft,
+                                                                                                    child: Text(
+                                                                                                      "Reschedule a video interview",
+                                                                                                      style: TextStyle(
+                                                                                                        fontWeight: FontWeight.bold,
+                                                                                                        fontSize: 25,
+                                                                                                      ),
+                                                                                                    ),
+                                                                                                  ),
+                                                                                                  const SizedBox(height: 15),
+                                                                                                  Container(
+                                                                                                    decoration: BoxDecoration(
+                                                                                                      border: Border.all(
+                                                                                                        color: Colors.black, //                   <--- border color
+                                                                                                        width: 0.3,
+                                                                                                      ),
+                                                                                                    ),
+                                                                                                  ),
+                                                                                                  const SizedBox(height: 20),
+                                                                                                  const Text(
+                                                                                                    'Title',
+                                                                                                    style: TextStyle(
+                                                                                                      fontSize: 16,
+                                                                                                      fontWeight: FontWeight.w600,
+                                                                                                    ),
+                                                                                                  ),
+                                                                                                  const SizedBox(height: 10),
+                                                                                                  SizedBox(
+                                                                                                    height: 60,
+                                                                                                    child: TextField(
+                                                                                                      style: const TextStyle(
+                                                                                                        fontSize: 16,
+                                                                                                      ),
+                                                                                                      controller: videoInterviewTitleControllerEdit,
+                                                                                                      decoration: InputDecoration(
+                                                                                                        border: OutlineInputBorder(
+                                                                                                          borderRadius: BorderRadius.circular(9),
+                                                                                                        ),
+                                                                                                        focusedBorder: OutlineInputBorder(
+                                                                                                          borderRadius: BorderRadius.circular(9),
+                                                                                                          borderSide: const BorderSide(color: Colors.grey),
+                                                                                                        ),
+                                                                                                        contentPadding: const EdgeInsets.symmetric(
+                                                                                                          vertical: 0,
+                                                                                                          horizontal: 10,
+                                                                                                        ),
+                                                                                                        hintText: 'Enter video interview title',
+                                                                                                        hintStyle: const TextStyle(
+                                                                                                          fontSize: 16,
+                                                                                                          color: Color.fromARGB(255, 114, 111, 111),
+                                                                                                          fontWeight: FontWeight.w500,
+                                                                                                        ),
+                                                                                                      ),
+                                                                                                    ),
+                                                                                                  ),
+                                                                                                  const SizedBox(height: 10),
+                                                                                                  const Text(
+                                                                                                    'Start time',
+                                                                                                    style: TextStyle(
+                                                                                                      fontSize: 16,
+                                                                                                      fontWeight: FontWeight.w600,
+                                                                                                    ),
+                                                                                                  ),
+                                                                                                  Row(
+                                                                                                    children: [
+                                                                                                      SizedBox(
+                                                                                                        width: 170,
+                                                                                                        child: Column(
+                                                                                                          children: [
+                                                                                                            const SizedBox(height: 10),
+                                                                                                            SizedBox(
+                                                                                                              height: 60,
+                                                                                                              child: TextField(
+                                                                                                                style: const TextStyle(
+                                                                                                                  fontSize: 16,
+                                                                                                                  color: Color.fromARGB(255, 114, 111, 111),
+                                                                                                                  fontWeight: FontWeight.w500,
+                                                                                                                ),
+                                                                                                                readOnly: true,
+                                                                                                                controller: dateControllerStartEdit,
+                                                                                                                decoration: InputDecoration(
+                                                                                                                  border: OutlineInputBorder(
+                                                                                                                    borderRadius: BorderRadius.circular(9),
+                                                                                                                  ),
+                                                                                                                  focusedBorder: OutlineInputBorder(
+                                                                                                                    borderRadius: BorderRadius.circular(9),
+                                                                                                                    borderSide: const BorderSide(color: Colors.black),
+                                                                                                                  ),
+                                                                                                                  contentPadding: const EdgeInsets.symmetric(
+                                                                                                                    vertical: 0,
+                                                                                                                    horizontal: 10,
+                                                                                                                  ),
+                                                                                                                  suffixIcon: InkWell(
+                                                                                                                    onTap: presentDatePickerStartEdit,
+                                                                                                                    child: const Icon(Icons.calendar_month_outlined),
+                                                                                                                  ),
+                                                                                                                ),
+                                                                                                              ),
+                                                                                                            ),
+                                                                                                          ],
+                                                                                                        ),
+                                                                                                      ),
+                                                                                                      const Spacer(),
+                                                                                                      SizedBox(
+                                                                                                        width: 170,
+                                                                                                        child: Column(
+                                                                                                          children: [
+                                                                                                            const SizedBox(height: 10),
+                                                                                                            SizedBox(
+                                                                                                              height: 60,
+                                                                                                              child: TextField(
+                                                                                                                style: const TextStyle(
+                                                                                                                  fontSize: 16,
+                                                                                                                  color: Color.fromARGB(255, 114, 111, 111),
+                                                                                                                  fontWeight: FontWeight.w500,
+                                                                                                                ),
+                                                                                                                readOnly: true,
+                                                                                                                controller: timeControllerStartEdit,
+                                                                                                                decoration: InputDecoration(
+                                                                                                                  border: OutlineInputBorder(
+                                                                                                                    borderRadius: BorderRadius.circular(9),
+                                                                                                                  ),
+                                                                                                                  focusedBorder: OutlineInputBorder(
+                                                                                                                    borderRadius: BorderRadius.circular(9),
+                                                                                                                    borderSide: const BorderSide(color: Colors.black),
+                                                                                                                  ),
+                                                                                                                  contentPadding: const EdgeInsets.symmetric(
+                                                                                                                    vertical: 0,
+                                                                                                                    horizontal: 10,
+                                                                                                                  ),
+                                                                                                                  suffixIcon: InkWell(
+                                                                                                                    onTap: presentTimePickerStartEdit,
+                                                                                                                    child: const Icon(Icons.timer_sharp),
+                                                                                                                  ),
+                                                                                                                ),
+                                                                                                              ),
+                                                                                                            ),
+                                                                                                          ],
+                                                                                                        ),
+                                                                                                      ),
+                                                                                                    ],
+                                                                                                  ),
+                                                                                                  const SizedBox(height: 10),
+                                                                                                  const Text(
+                                                                                                    'End time',
+                                                                                                    style: TextStyle(
+                                                                                                      fontSize: 16,
+                                                                                                      fontWeight: FontWeight.w600,
+                                                                                                    ),
+                                                                                                  ),
+                                                                                                  Row(
+                                                                                                    children: [
+                                                                                                      SizedBox(
+                                                                                                        width: 170,
+                                                                                                        child: Column(
+                                                                                                          children: [
+                                                                                                            const SizedBox(height: 10),
+                                                                                                            SizedBox(
+                                                                                                              height: 60,
+                                                                                                              child: TextField(
+                                                                                                                style: const TextStyle(
+                                                                                                                  fontSize: 16,
+                                                                                                                  color: Color.fromARGB(255, 114, 111, 111),
+                                                                                                                  fontWeight: FontWeight.w500,
+                                                                                                                ),
+                                                                                                                readOnly: true,
+                                                                                                                controller: dateControllerEndEdit,
+                                                                                                                decoration: InputDecoration(
+                                                                                                                  border: OutlineInputBorder(
+                                                                                                                    borderRadius: BorderRadius.circular(9),
+                                                                                                                  ),
+                                                                                                                  focusedBorder: OutlineInputBorder(
+                                                                                                                    borderRadius: BorderRadius.circular(9),
+                                                                                                                    borderSide: const BorderSide(color: Colors.black),
+                                                                                                                  ),
+                                                                                                                  contentPadding: const EdgeInsets.symmetric(
+                                                                                                                    vertical: 0,
+                                                                                                                    horizontal: 10,
+                                                                                                                  ),
+                                                                                                                  suffixIcon: InkWell(
+                                                                                                                    onTap: presentDatePickerEndEdit,
+                                                                                                                    child: const Icon(Icons.calendar_month_outlined),
+                                                                                                                  ),
+                                                                                                                ),
+                                                                                                              ),
+                                                                                                            ),
+                                                                                                          ],
+                                                                                                        ),
+                                                                                                      ),
+                                                                                                      const Spacer(),
+                                                                                                      SizedBox(
+                                                                                                        width: 170,
+                                                                                                        child: Column(
+                                                                                                          children: [
+                                                                                                            const SizedBox(height: 10),
+                                                                                                            SizedBox(
+                                                                                                              height: 60,
+                                                                                                              child: TextField(
+                                                                                                                style: const TextStyle(
+                                                                                                                  fontSize: 16,
+                                                                                                                  color: Color.fromARGB(255, 114, 111, 111),
+                                                                                                                  fontWeight: FontWeight.w500,
+                                                                                                                ),
+                                                                                                                readOnly: true,
+                                                                                                                controller: timeControllerEndEdit,
+                                                                                                                decoration: InputDecoration(
+                                                                                                                  border: OutlineInputBorder(
+                                                                                                                    borderRadius: BorderRadius.circular(9),
+                                                                                                                  ),
+                                                                                                                  focusedBorder: OutlineInputBorder(
+                                                                                                                    borderRadius: BorderRadius.circular(9),
+                                                                                                                    borderSide: const BorderSide(color: Colors.black),
+                                                                                                                  ),
+                                                                                                                  contentPadding: const EdgeInsets.symmetric(
+                                                                                                                    vertical: 0,
+                                                                                                                    horizontal: 10,
+                                                                                                                  ),
+                                                                                                                  suffixIcon: InkWell(
+                                                                                                                    onTap: presentTimePickerEndEdit,
+                                                                                                                    child: const Icon(Icons.timer_sharp),
+                                                                                                                  ),
+                                                                                                                ),
+                                                                                                              ),
+                                                                                                            ),
+                                                                                                          ],
+                                                                                                        ),
+                                                                                                      ),
+                                                                                                    ],
+                                                                                                  ),
+                                                                                                  const SizedBox(height: 110),
+                                                                                                  Row(
+                                                                                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                                                    children: [
+                                                                                                      SizedBox(
+                                                                                                        height: 46,
+                                                                                                        width: 175,
+                                                                                                        child: ElevatedButton(
+                                                                                                          onPressed: () {
+                                                                                                            videoInterviewTitleControllerEdit.clear();
+                                                                                                            dateControllerStartEdit.text = 'Select Date';
+                                                                                                            timeControllerStartEdit.text = 'Select Time';
+                                                                                                            dateControllerEndEdit.text = 'Select Date';
+                                                                                                            timeControllerEndEdit.text = 'Select Time';
+
+                                                                                                            setState(() {
+                                                                                                              selectedDateStartEdit = null;
+                                                                                                              selectedTimeStartEdit = null;
+                                                                                                              selectedDateEndEdit = null;
+                                                                                                              selectedTimeEndEdit = null;
+                                                                                                            });
+                                                                                                          },
+                                                                                                          style: ElevatedButton.styleFrom(
+                                                                                                            minimumSize: Size.zero, // Set this
+                                                                                                            padding: EdgeInsets.zero, // and this
+                                                                                                            shape: RoundedRectangleBorder(
+                                                                                                              borderRadius: BorderRadius.circular(8),
+                                                                                                              side: const BorderSide(color: Colors.grey),
+                                                                                                            ),
+                                                                                                            backgroundColor: Colors.white,
+                                                                                                          ),
+                                                                                                          child: const Text(
+                                                                                                            'Clear',
+                                                                                                            style: TextStyle(
+                                                                                                              fontSize: 16,
+                                                                                                              color: Colors.black,
+                                                                                                              fontWeight: FontWeight.w500,
+                                                                                                            ),
+                                                                                                          ),
+                                                                                                        ),
+                                                                                                      ),
+                                                                                                      const SizedBox(width: 15),
+                                                                                                      SizedBox(
+                                                                                                        height: 46,
+                                                                                                        width: 175,
+                                                                                                        child: ElevatedButton(
+                                                                                                          onPressed: () async {
+                                                                                                            print('------ interview id ------');
+                                                                                                            print(el.idInterview);
+                                                                                                            print('------ Edit video interview title -------');
+                                                                                                            print(videoInterviewTitleControllerEdit.text);
+                                                                                                            print('------ Edit start date -------');
+                                                                                                            print(selectedDateStartEdit);
+                                                                                                            print('------ Edit start time -------');
+                                                                                                            print(selectedTimeStartEdit);
+                                                                                                            print('Edit start datetime');
+                                                                                                            print(
+                                                                                                              DateTime(
+                                                                                                                selectedDateStartEdit!.year,
+                                                                                                                selectedDateStartEdit!.month,
+                                                                                                                selectedDateStartEdit!.day,
+                                                                                                                selectedTimeStartEdit!.hour,
+                                                                                                                selectedTimeStartEdit!.minute,
+                                                                                                              ).toString(),
+                                                                                                            );
+                                                                                                            print('------ end date -------');
+                                                                                                            print(selectedDateEndEdit);
+                                                                                                            print('------ end time -------');
+                                                                                                            print(selectedTimeEndEdit);
+                                                                                                            print('end datetime');
+                                                                                                            print(
+                                                                                                              DateTime(
+                                                                                                                selectedDateEndEdit!.year,
+                                                                                                                selectedDateEndEdit!.month,
+                                                                                                                selectedDateEndEdit!.day,
+                                                                                                                selectedTimeEndEdit!.hour,
+                                                                                                                selectedTimeEndEdit!.minute,
+                                                                                                              ).toString(),
+                                                                                                            );
+
+                                                                                                            //handle socket
+
+                                                                                                            print('------------ Edit interview -------------');
+
+                                                                                                            final socket = IO.io(
+                                                                                                                'https://api.studenthub.dev/', // Server url
+                                                                                                                OptionBuilder().setTransports(['websocket']).disableAutoConnect().build());
+
+                                                                                                            //Add authorization to header
+                                                                                                            socket.io.options?['extraHeaders'] = {
+                                                                                                              'Authorization': 'Bearer ${user.token}',
+                                                                                                            };
+
+                                                                                                            //Add query param to url
+                                                                                                            socket.io.options?['query'] = {'project_id': projectId};
+
+                                                                                                            socket.connect();
+
+                                                                                                            socket.onConnect((data) => {print('Connected')});
+                                                                                                            socket.onDisconnect((data) => {print('Disconnected')});
+
+                                                                                                            socket.onConnectError((data) => print('$data'));
+                                                                                                            socket.onError((data) => print(data));
+
+                                                                                                            //Listen for error from socket
+                                                                                                            socket.on("ERROR", (data) => print(data));
+
+                                                                                                            final Random random = Random();
+                                                                                                            int randomNumber = 0;
+                                                                                                            bool isExistRandomNumber = false;
+
+                                                                                                            socket.emit(
+                                                                                                              "UPDATE_INTERVIEW",
+                                                                                                              {
+                                                                                                                "interviewId": el.idInterview,
+                                                                                                                "title": 'videoInterviewTitleControllerEdit.text',
+                                                                                                                "content": "New interview was created",
+                                                                                                                "startTime": DateTime(
+                                                                                                                  selectedDateStartEdit!.year,
+                                                                                                                  selectedDateStartEdit!.month,
+                                                                                                                  selectedDateStartEdit!.day,
+                                                                                                                  selectedTimeStartEdit!.hour,
+                                                                                                                  selectedTimeStartEdit!.minute,
+                                                                                                                ).toString(),
+                                                                                                                "endTime": DateTime(
+                                                                                                                  selectedDateEndEdit!.year,
+                                                                                                                  selectedDateEndEdit!.month,
+                                                                                                                  selectedDateEndEdit!.day,
+                                                                                                                  selectedTimeEndEdit!.hour,
+                                                                                                                  selectedTimeEndEdit!.minute,
+                                                                                                                ).toString(),
+                                                                                                                "projectId": projectId,
+                                                                                                                "senderId": user.id,
+                                                                                                                "receiverId": receiveId,
+                                                                                                                "updateAction": true
+                                                                                                              },
+                                                                                                            );
+
+                                                                                                            videoInterviewTitleControllerEdit.clear();
+                                                                                                            dateControllerStartEdit.text = 'Select data';
+                                                                                                            timeControllerStartEdit.text = 'Select time';
+                                                                                                            dateControllerEndEdit.text = 'Select data';
+                                                                                                            timeControllerEndEdit.text = 'Select time';
+
+                                                                                                            setState(() {
+                                                                                                              selectedDateStartEdit = null;
+                                                                                                              selectedTimeStartEdit = null;
+                                                                                                              selectedDateEndEdit = null;
+                                                                                                              selectedTimeEndEdit = null;
+                                                                                                            });
+
+                                                                                                            Navigator.pop(context);
+                                                                                                          },
+                                                                                                          style: ElevatedButton.styleFrom(
+                                                                                                            minimumSize: Size.zero, // Set this
+                                                                                                            padding: EdgeInsets.zero, // and this
+                                                                                                            shape: RoundedRectangleBorder(
+                                                                                                              borderRadius: BorderRadius.circular(8),
+                                                                                                            ),
+                                                                                                            backgroundColor: Colors.black,
+                                                                                                          ),
+                                                                                                          child: const Text(
+                                                                                                            'Schedule',
+                                                                                                            style: TextStyle(
+                                                                                                              fontSize: 16,
+                                                                                                              color: Color.fromARGB(255, 255, 255, 255),
+                                                                                                              fontWeight: FontWeight.w500,
+                                                                                                            ),
+                                                                                                          ),
+                                                                                                        ),
+                                                                                                      ),
+                                                                                                    ],
+                                                                                                  )
+                                                                                                ],
+                                                                                              ),
+                                                                                            ),
+                                                                                          ),
+                                                                                        ),
+                                                                                      );
+                                                                                    });
+                                                                                  },
+                                                                                )
+                                                                              }
+                                                                            else
+                                                                              {setIsCancel(true)}
                                                                           },
                                                                         ),
                                                                         Container(
@@ -753,6 +1350,14 @@ class _MessageDetailsScreen extends ConsumerState<MessageDetailsScreen> {
                                                       fontSize: 16,
                                                     ),
                                                     controller: videoInterviewTitleController,
+                                                    // onChanged: (data) {
+                                                    //   if (videoInterviewTitleController.text.isEmpty || dateControllerStart.text == 'Select Date' || dateControllerEnd.text == 'Select Date' || timeControllerStart.text == 'Select Time' || timeControllerEnd.text == 'Select Time') {
+                                                    //     isFillShedule = false;
+                                                    //   } else {
+                                                    //     isFillShedule = true;
+                                                    //   }
+                                                    //   setState(() {});
+                                                    // },
                                                     decoration: InputDecoration(
                                                       border: OutlineInputBorder(
                                                         borderRadius: BorderRadius.circular(9),
@@ -799,6 +1404,14 @@ class _MessageDetailsScreen extends ConsumerState<MessageDetailsScreen> {
                                                               ),
                                                               readOnly: true,
                                                               controller: dateControllerStart,
+                                                              // onChanged: (data) {
+                                                              //   if (videoInterviewTitleController.text.isEmpty || dateControllerStart.text == 'Select Date' || dateControllerEnd.text == 'Select Date' || timeControllerStart.text == 'Select Time' || timeControllerEnd.text == 'Select Time') {
+                                                              //     isFillShedule = false;
+                                                              //   } else {
+                                                              //     isFillShedule = true;
+                                                              //   }
+                                                              //   setState(() {});
+                                                              // },
                                                               decoration: InputDecoration(
                                                                 border: OutlineInputBorder(
                                                                   borderRadius: BorderRadius.circular(9),
@@ -837,6 +1450,14 @@ class _MessageDetailsScreen extends ConsumerState<MessageDetailsScreen> {
                                                               ),
                                                               readOnly: true,
                                                               controller: timeControllerStart,
+                                                              // onChanged: (data) {
+                                                              //   if (videoInterviewTitleController.text.isEmpty || dateControllerStart.text == 'Select Date' || dateControllerEnd.text == 'Select Date' || timeControllerStart.text == 'Select Time' || timeControllerEnd.text == 'Select Time') {
+                                                              //     isFillShedule = false;
+                                                              //   } else {
+                                                              //     isFillShedule = true;
+                                                              //   }
+                                                              //   setState(() {});
+                                                              // },
                                                               decoration: InputDecoration(
                                                                 border: OutlineInputBorder(
                                                                   borderRadius: BorderRadius.circular(9),
@@ -886,6 +1507,14 @@ class _MessageDetailsScreen extends ConsumerState<MessageDetailsScreen> {
                                                               ),
                                                               readOnly: true,
                                                               controller: dateControllerEnd,
+                                                              // onChanged: (data) {
+                                                              //   if (videoInterviewTitleController.text.isEmpty || dateControllerStart.text == 'Select Date' || dateControllerEnd.text == 'Select Date' || timeControllerStart.text == 'Select Time' || timeControllerEnd.text == 'Select Time') {
+                                                              //     isFillShedule = false;
+                                                              //   } else {
+                                                              //     isFillShedule = true;
+                                                              //   }
+                                                              //   setState(() {});
+                                                              // },
                                                               decoration: InputDecoration(
                                                                 border: OutlineInputBorder(
                                                                   borderRadius: BorderRadius.circular(9),
@@ -924,6 +1553,14 @@ class _MessageDetailsScreen extends ConsumerState<MessageDetailsScreen> {
                                                               ),
                                                               readOnly: true,
                                                               controller: timeControllerEnd,
+                                                              // onChanged: (data) {
+                                                              //   if (videoInterviewTitleController.text.isEmpty || dateControllerStart.text == 'Select Date' || dateControllerEnd.text == 'Select Date' || timeControllerStart.text == 'Select Time' || timeControllerEnd.text == 'Select Time') {
+                                                              //     isFillShedule = false;
+                                                              //   } else {
+                                                              //     isFillShedule = true;
+                                                              //   }
+                                                              //   setState(() {});
+                                                              // },
                                                               decoration: InputDecoration(
                                                                 border: OutlineInputBorder(
                                                                   borderRadius: BorderRadius.circular(9),
@@ -948,15 +1585,7 @@ class _MessageDetailsScreen extends ConsumerState<MessageDetailsScreen> {
                                                     ),
                                                   ],
                                                 ),
-                                                const SizedBox(height: 10),
-                                                const Text(
-                                                  'Duration: 60 minutes',
-                                                  style: TextStyle(
-                                                    fontSize: 16,
-                                                    // fontWeight: FontWeight.w600,
-                                                  ),
-                                                ),
-                                                const SizedBox(height: 80),
+                                                const SizedBox(height: 110),
                                                 Row(
                                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                   children: [
@@ -966,10 +1595,10 @@ class _MessageDetailsScreen extends ConsumerState<MessageDetailsScreen> {
                                                       child: ElevatedButton(
                                                         onPressed: () {
                                                           videoInterviewTitleController.clear();
-                                                          dateControllerStart.text = 'Select data';
-                                                          timeControllerStart.text = 'Select time';
-                                                          dateControllerEnd.text = 'Select data';
-                                                          timeControllerEnd.text = 'Select time';
+                                                          dateControllerStart.text = 'Select Date';
+                                                          timeControllerStart.text = 'Select Time';
+                                                          dateControllerEnd.text = 'Select Date';
+                                                          timeControllerEnd.text = 'Select Time';
 
                                                           setState(() {
                                                             selectedDateStart = null;
@@ -1038,28 +1667,28 @@ class _MessageDetailsScreen extends ConsumerState<MessageDetailsScreen> {
 
                                                           print('------------ create interview -------------');
 
-                                                          final socket = IO.io(
-                                                              'https://api.studenthub.dev/', // Server url
-                                                              OptionBuilder().setTransports(['websocket']).disableAutoConnect().build());
+                                                          // final socket = IO.io(
+                                                          //     'https://api.studenthub.dev/', // Server url
+                                                          //     OptionBuilder().setTransports(['websocket']).disableAutoConnect().build());
 
-                                                          //Add authorization to header
-                                                          socket.io.options?['extraHeaders'] = {
-                                                            'Authorization': 'Bearer ${user.token}',
-                                                          };
+                                                          // //Add authorization to header
+                                                          // socket.io.options?['extraHeaders'] = {
+                                                          //   'Authorization': 'Bearer ${user.token}',
+                                                          // };
 
-                                                          //Add query param to url
-                                                          socket.io.options?['query'] = {'project_id': projectId};
+                                                          // //Add query param to url
+                                                          // socket.io.options?['query'] = {'project_id': projectId};
 
-                                                          socket.connect();
+                                                          // socket.connect();
 
-                                                          socket.onConnect((data) => {print('Connected')});
-                                                          socket.onDisconnect((data) => {print('Disconnected')});
+                                                          // socket.onConnect((data) => {print('Connected')});
+                                                          // socket.onDisconnect((data) => {print('Disconnected')});
 
-                                                          socket.onConnectError((data) => print('$data'));
-                                                          socket.onError((data) => print(data));
+                                                          // socket.onConnectError((data) => print('$data'));
+                                                          // socket.onError((data) => print(data));
 
-                                                          //Listen for error from socket
-                                                          socket.on("ERROR", (data) => print(data));
+                                                          // //Listen for error from socket
+                                                          // socket.on("ERROR", (data) => print(data));
 
                                                           final Random random = Random();
                                                           int randomNumber = 0;
@@ -1081,7 +1710,7 @@ class _MessageDetailsScreen extends ConsumerState<MessageDetailsScreen> {
                                                             );
 
                                                             final responseCheckAvailabilityData = json.decode(responseCheckAvailability.body);
-                                                            print('----responseMessagesData----');
+                                                            print('----responseCheckAvailabilityData----');
                                                             print(responseCheckAvailabilityData);
 
                                                             if (responseCheckAvailabilityData['result']) {
@@ -1089,9 +1718,15 @@ class _MessageDetailsScreen extends ConsumerState<MessageDetailsScreen> {
                                                             }
                                                           } while (isExistRandomNumber);
 
-                                                          socket.emit(
-                                                            "SCHEDULE_INTERVIEW",
-                                                            {
+                                                          final urlScheduleInterview = Uri.parse('${dotenv.env['IP_ADDRESS']}/api/interview');
+
+                                                          final responseScheduleInterview = await http.post(
+                                                            urlScheduleInterview,
+                                                            headers: {
+                                                              'Content-Type': 'application/json',
+                                                              'Authorization': 'Bearer ${user.token}',
+                                                            },
+                                                            body: json.encode({
                                                               "title": videoInterviewTitleController.text,
                                                               "content": "New interview was created",
                                                               "startTime": DateTime(
@@ -1113,8 +1748,39 @@ class _MessageDetailsScreen extends ConsumerState<MessageDetailsScreen> {
                                                               "receiverId": receiveId,
                                                               "meeting_room_code": randomNumber.toString(),
                                                               "meeting_room_id": randomNumber.toString(),
-                                                            },
+                                                            }),
                                                           );
+
+                                                          final responseScheduleInterviewData = json.decode(responseScheduleInterview.body);
+                                                          print('----responseScheduleInterviewData----');
+                                                          print(responseScheduleInterviewData);
+
+                                                          // socket.emit(
+                                                          //   "SCHEDULE_INTERVIEW",
+                                                          //   {
+                                                          //     "title": videoInterviewTitleController.text,
+                                                          //     "content": "New interview was created",
+                                                          //     "startTime": DateTime(
+                                                          //       selectedDateStart!.year,
+                                                          //       selectedDateStart!.month,
+                                                          //       selectedDateStart!.day,
+                                                          //       selectedTimeStart!.hour,
+                                                          //       selectedTimeStart!.minute,
+                                                          //     ).toString(),
+                                                          //     "endTime": DateTime(
+                                                          //       selectedDateEnd!.year,
+                                                          //       selectedDateEnd!.month,
+                                                          //       selectedDateEnd!.day,
+                                                          //       selectedTimeEnd!.hour,
+                                                          //       selectedTimeEnd!.minute,
+                                                          //     ).toString(),
+                                                          //     "projectId": projectId,
+                                                          //     "senderId": user.id,
+                                                          //     "receiverId": receiveId,
+                                                          //     "meeting_room_code": randomNumber.toString(),
+                                                          //     "meeting_room_id": randomNumber.toString(),
+                                                          //   },
+                                                          // );
 
                                                           videoInterviewTitleController.clear();
                                                           dateControllerStart.text = 'Select data';
@@ -1192,7 +1858,7 @@ class _MessageDetailsScreen extends ConsumerState<MessageDetailsScreen> {
                           ),
                           IconButton(
                             color: Theme.of(context).colorScheme.primary,
-                            onPressed: () {
+                            onPressed: () async {
                               final enterMessage = sendMessage.text;
                               print('------project id-------');
                               print(projectId);
@@ -1203,37 +1869,69 @@ class _MessageDetailsScreen extends ConsumerState<MessageDetailsScreen> {
                               if (enterMessage.trim().isEmpty) {
                                 return;
                               }
-                              print('------------chay dc o day-------------');
+                              print('------------send message api-------------');
 
-                              final socket = IO.io(
-                                  'https://api.studenthub.dev/', // Server url
-                                  OptionBuilder().setTransports(['websocket']).disableAutoConnect().build());
+                              // final socket = IO.io(
+                              //     'https://api.studenthub.dev/', // Server url
+                              //     OptionBuilder().setTransports(['websocket']).disableAutoConnect().build());
 
-                              //Add authorization to header
-                              socket.io.options?['extraHeaders'] = {
-                                'Authorization': 'Bearer ${user.token}',
-                              };
+                              // //Add authorization to header
+                              // socket.io.options?['extraHeaders'] = {
+                              //   'Authorization': 'Bearer ${user.token}',
+                              // };
 
-                              //Add query param to url
-                              socket.io.options?['query'] = {'project_id': projectId};
+                              // //Add query param to url
+                              // socket.io.options?['query'] = {'project_id': projectId};
 
-                              socket.connect();
+                              // socket.connect();
 
-                              socket.onConnect((data) => {print('Connected')});
-                              socket.onDisconnect((data) => {print('Disconnected')});
+                              // socket.onConnect((data) => {print('Connected')});
+                              // socket.onDisconnect((data) => {print('Disconnected')});
 
-                              socket.onConnectError((data) => print('$data'));
-                              socket.onError((data) => print(data));
+                              // socket.onConnectError((data) => print('$data'));
+                              // socket.onError((data) => print(data));
 
-                              //Listen for error from socket
-                              socket.on("ERROR", (data) => print(data));
-                              socket.emit("SEND_MESSAGE", {
-                                "content": enterMessage,
-                                "projectId": projectId,
-                                "senderId": user.id,
-                                "receiverId": receiveId,
-                                "messageFlag": 0 // default 0 for message, 1 for interview
-                              });
+                              // //Listen for error from socket
+                              // socket.on("ERROR", (data) => print(data));
+                              // socket.emit("SEND_MESSAGE", {
+                              //   "content": enterMessage,
+                              //   "projectId": projectId,
+                              //   "senderId": user.id,
+                              //   "receiverId": receiveId,
+                              //   "messageFlag": 0 // default 0 for message, 1 for interview
+                              // });
+
+                              final urlSendMessage = Uri.parse('${dotenv.env['IP_ADDRESS']}/api/message/sendMessage');
+
+                              final responseSendMessage = await http.post(
+                                urlSendMessage,
+                                headers: {
+                                  'Content-Type': 'application/json',
+                                  'Authorization': 'Bearer ${user.token}',
+                                },
+                                body: json.encode({
+                                  "content": enterMessage,
+                                  "projectId": projectId,
+                                  "senderId": user.id,
+                                  "receiverId": receiveId,
+                                  "messageFlag": 0 // default 0 for message, 1 for interview
+                                }),
+                              );
+
+                              final responseSendMessageData = json.decode(responseSendMessage.body);
+                              print('----responseSendMessageData----');
+                              print(responseSendMessageData);
+
+                              // ref.read(messageProvider.notifier).pushMessageData(
+                              //       DateFormat("dd/MM/yyyy | HH:mm").format(DateTime.now().toLocal()).toString(),
+                              //       user.fullName,
+                              //       enterMessage,
+                              //       false,
+                              //       '',
+                              //       '',
+                              //       '',
+                              //       '',
+                              //     );
 
                               sendMessage.clear();
                             },

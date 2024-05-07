@@ -8,6 +8,7 @@ class Message {
   final String titleInterview;
   final String startTimeInterview;
   final String endTimeInterview;
+  final String idInterview;
 
   Message({
     required this.createdAt,
@@ -17,6 +18,7 @@ class Message {
     required this.titleInterview,
     required this.startTimeInterview,
     required this.endTimeInterview,
+    required this.idInterview,
   });
 
   Message.fromJson(Map<dynamic, dynamic> json)
@@ -26,7 +28,8 @@ class Message {
         isInterview = json['isInterview'],
         titleInterview = json['titleInterview'],
         startTimeInterview = json['startTimeInterview'],
-        endTimeInterview = json['endTimeInterview'];
+        endTimeInterview = json['endTimeInterview'],
+        idInterview = json['idInterview'];
 
   Map<dynamic, dynamic> toJson() {
     return {
@@ -37,6 +40,7 @@ class Message {
       'titleInterview': titleInterview,
       'startTimeInterview': startTimeInterview,
       'endTimeInterview': endTimeInterview,
+      'idInterview': idInterview,
     };
   }
 }
@@ -52,6 +56,7 @@ class MessageNotifier extends StateNotifier<List<Message>> {
     String titleInterview,
     String startTimeInterview,
     String endTimeInterview,
+    String idInterview,
   ) {
     state = [
       ...state,
@@ -63,6 +68,7 @@ class MessageNotifier extends StateNotifier<List<Message>> {
         titleInterview: titleInterview,
         startTimeInterview: startTimeInterview,
         endTimeInterview: endTimeInterview,
+        idInterview: idInterview,
       )
     ];
   }

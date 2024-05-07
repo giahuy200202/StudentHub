@@ -270,7 +270,12 @@ class _SignupStep2State extends ConsumerState<SignupStep2> {
                               final response = await http.post(url,
                                   headers: {'Content-Type': 'application/json'},
                                   body: json.encode(
-                                    {"fullname": fullnameController.text, "email": emailController.text, "password": passwordController.text, "role": userSignup.role},
+                                    {
+                                      "fullname": fullnameController.text,
+                                      "email": emailController.text,
+                                      "password": passwordController.text,
+                                      "role": userSignup.role,
+                                    },
                                   ));
 
                               setState(() {
