@@ -651,6 +651,15 @@ class _MessageDetailsScreen extends ConsumerState<MessageDetailsScreen> {
                                                                             ),
                                                                           ],
                                                                           onSelected: (item) => {
+                                                                            videoInterviewTitleControllerEdit.text = el.titleInterview,
+                                                                            dateControllerStartEdit.text = DateFormat('dd/MM/yyyy').format(DateTime.parse(el.startTimeInterview)).toString(),
+                                                                            timeControllerStartEdit.text = DateFormat('HH:mm').format(DateTime.parse(el.startTimeInterview)).toString(),
+                                                                            dateControllerEndEdit.text = DateFormat('dd/MM/yyyy').format(DateTime.parse(el.endTimeInterview)).toString(),
+                                                                            timeControllerEndEdit.text = DateFormat('HH:mm').format(DateTime.parse(el.endTimeInterview)).toString(),
+                                                                            selectedDateStartEdit = DateTime.parse(el.startTimeInterview),
+                                                                            selectedTimeStartEdit = TimeOfDay.fromDateTime(DateTime.parse(el.startTimeInterview)),
+                                                                            selectedDateEndEdit = DateTime.parse(el.endTimeInterview),
+                                                                            selectedTimeEndEdit = TimeOfDay.fromDateTime(DateTime.parse(el.endTimeInterview)),
                                                                             if (item == 0)
                                                                               {
                                                                                 showModalBottomSheet(
@@ -687,9 +696,9 @@ class _MessageDetailsScreen extends ConsumerState<MessageDetailsScreen> {
                                                                                         },
                                                                                       );
                                                                                       setState(() {
-                                                                                        selectedDateStart = pickedDate;
+                                                                                        selectedDateStartEdit = pickedDate;
                                                                                       });
-                                                                                      dateControllerStart.text = DateFormat('dd/MM/yyyy').format(selectedDateStart!).toString();
+                                                                                      dateControllerStartEdit.text = DateFormat('dd/MM/yyyy').format(selectedDateStartEdit!).toString();
                                                                                     }
 
                                                                                     void presentTimePickerStartEdit() async {
@@ -720,10 +729,10 @@ class _MessageDetailsScreen extends ConsumerState<MessageDetailsScreen> {
                                                                                       );
 
                                                                                       setState(() {
-                                                                                        selectedTimeStart = pickedTime;
+                                                                                        selectedTimeStartEdit = pickedTime;
                                                                                       });
 
-                                                                                      timeControllerStart.text = DateFormat('HH:mm').format(DateTime(0, 0, 0, selectedTimeStart!.hour, selectedTimeStart!.minute)).toString();
+                                                                                      timeControllerStartEdit.text = DateFormat('HH:mm').format(DateTime(0, 0, 0, selectedTimeStartEdit!.hour, selectedTimeStartEdit!.minute)).toString();
                                                                                     }
 
                                                                                     void presentDatePickerEndEdit() async {
@@ -754,9 +763,9 @@ class _MessageDetailsScreen extends ConsumerState<MessageDetailsScreen> {
                                                                                         },
                                                                                       );
                                                                                       setState(() {
-                                                                                        selectedDateEnd = pickedDate;
+                                                                                        selectedDateEndEdit = pickedDate;
                                                                                       });
-                                                                                      dateControllerEnd.text = DateFormat('dd/MM/yyyy').format(selectedDateEnd!).toString();
+                                                                                      dateControllerEndEdit.text = DateFormat('dd/MM/yyyy').format(selectedDateEndEdit!).toString();
                                                                                     }
 
                                                                                     void presentTimePickerEndEdit() async {
@@ -787,21 +796,21 @@ class _MessageDetailsScreen extends ConsumerState<MessageDetailsScreen> {
                                                                                       );
 
                                                                                       setState(() {
-                                                                                        selectedTimeEnd = pickedTime;
+                                                                                        selectedTimeEndEdit = pickedTime;
                                                                                       });
 
-                                                                                      timeControllerEnd.text = DateFormat('HH:mm').format(DateTime(0, 0, 0, selectedTimeEnd!.hour, selectedTimeEnd!.minute)).toString();
+                                                                                      timeControllerEndEdit.text = DateFormat('HH:mm').format(DateTime(0, 0, 0, selectedTimeEndEdit!.hour, selectedTimeEndEdit!.minute)).toString();
                                                                                     }
 
-                                                                                    videoInterviewTitleControllerEdit.text = el.titleInterview;
-                                                                                    dateControllerStartEdit.text = DateFormat('dd/MM/yyyy').format(DateTime.parse(el.startTimeInterview)).toString();
-                                                                                    timeControllerStartEdit.text = DateFormat('HH:mm').format(DateTime.parse(el.startTimeInterview)).toString();
-                                                                                    dateControllerEndEdit.text = DateFormat('dd/MM/yyyy').format(DateTime.parse(el.endTimeInterview)).toString();
-                                                                                    timeControllerEndEdit.text = DateFormat('HH:mm').format(DateTime.parse(el.endTimeInterview)).toString();
-                                                                                    selectedDateStartEdit = DateTime.parse(el.startTimeInterview);
-                                                                                    selectedTimeStartEdit = TimeOfDay.fromDateTime(DateTime.parse(el.startTimeInterview));
-                                                                                    selectedDateEndEdit = DateTime.parse(el.endTimeInterview);
-                                                                                    selectedTimeEndEdit = TimeOfDay.fromDateTime(DateTime.parse(el.endTimeInterview));
+                                                                                    // videoInterviewTitleControllerEdit.text = el.titleInterview;
+                                                                                    // dateControllerStartEdit.text = DateFormat('dd/MM/yyyy').format(DateTime.parse(el.startTimeInterview)).toString();
+                                                                                    // timeControllerStartEdit.text = DateFormat('HH:mm').format(DateTime.parse(el.startTimeInterview)).toString();
+                                                                                    // dateControllerEndEdit.text = DateFormat('dd/MM/yyyy').format(DateTime.parse(el.endTimeInterview)).toString();
+                                                                                    // timeControllerEndEdit.text = DateFormat('HH:mm').format(DateTime.parse(el.endTimeInterview)).toString();
+                                                                                    // selectedDateStartEdit = DateTime.parse(el.startTimeInterview);
+                                                                                    // selectedTimeStartEdit = TimeOfDay.fromDateTime(DateTime.parse(el.startTimeInterview));
+                                                                                    // selectedDateEndEdit = DateTime.parse(el.endTimeInterview);
+                                                                                    // selectedTimeEndEdit = TimeOfDay.fromDateTime(DateTime.parse(el.endTimeInterview));
 
                                                                                     return StatefulBuilder(builder: (BuildContext context, StateSetter setState /*You can rename this!*/) {
                                                                                       return Padding(
@@ -1131,59 +1140,90 @@ class _MessageDetailsScreen extends ConsumerState<MessageDetailsScreen> {
 
                                                                                                             print('------------ Edit interview -------------');
 
-                                                                                                            final socket = IO.io(
-                                                                                                                'https://api.studenthub.dev/', // Server url
-                                                                                                                OptionBuilder().setTransports(['websocket']).disableAutoConnect().build());
+                                                                                                            // final socket = IO.io(
+                                                                                                            //     'https://api.studenthub.dev/', // Server url
+                                                                                                            //     OptionBuilder().setTransports(['websocket']).disableAutoConnect().build());
 
-                                                                                                            //Add authorization to header
-                                                                                                            socket.io.options?['extraHeaders'] = {
-                                                                                                              'Authorization': 'Bearer ${user.token}',
-                                                                                                            };
+                                                                                                            // //Add authorization to header
+                                                                                                            // socket.io.options?['extraHeaders'] = {
+                                                                                                            //   'Authorization': 'Bearer ${user.token}',
+                                                                                                            // };
 
-                                                                                                            //Add query param to url
-                                                                                                            socket.io.options?['query'] = {'project_id': projectId};
+                                                                                                            // //Add query param to url
+                                                                                                            // socket.io.options?['query'] = {'project_id': projectId};
 
-                                                                                                            socket.connect();
+                                                                                                            // socket.connect();
 
-                                                                                                            socket.onConnect((data) => {print('Connected')});
-                                                                                                            socket.onDisconnect((data) => {print('Disconnected')});
+                                                                                                            // socket.onConnect((data) => {print('Connected')});
+                                                                                                            // socket.onDisconnect((data) => {print('Disconnected')});
 
-                                                                                                            socket.onConnectError((data) => print('$data'));
-                                                                                                            socket.onError((data) => print(data));
+                                                                                                            // socket.onConnectError((data) => print('$data'));
+                                                                                                            // socket.onError((data) => print(data));
 
-                                                                                                            //Listen for error from socket
-                                                                                                            socket.on("ERROR", (data) => print(data));
+                                                                                                            // //Listen for error from socket
+                                                                                                            // socket.on("ERROR", (data) => print(data));
 
                                                                                                             final Random random = Random();
-                                                                                                            int randomNumber = 0;
-                                                                                                            bool isExistRandomNumber = false;
 
-                                                                                                            socket.emit(
-                                                                                                              "UPDATE_INTERVIEW",
-                                                                                                              {
-                                                                                                                "interviewId": el.idInterview,
-                                                                                                                "title": 'videoInterviewTitleControllerEdit.text',
-                                                                                                                "content": "New interview was created",
-                                                                                                                "startTime": DateTime(
-                                                                                                                  selectedDateStartEdit!.year,
-                                                                                                                  selectedDateStartEdit!.month,
-                                                                                                                  selectedDateStartEdit!.day,
-                                                                                                                  selectedTimeStartEdit!.hour,
-                                                                                                                  selectedTimeStartEdit!.minute,
-                                                                                                                ).toString(),
-                                                                                                                "endTime": DateTime(
-                                                                                                                  selectedDateEndEdit!.year,
-                                                                                                                  selectedDateEndEdit!.month,
-                                                                                                                  selectedDateEndEdit!.day,
-                                                                                                                  selectedTimeEndEdit!.hour,
-                                                                                                                  selectedTimeEndEdit!.minute,
-                                                                                                                ).toString(),
-                                                                                                                "projectId": projectId,
-                                                                                                                "senderId": user.id,
-                                                                                                                "receiverId": receiveId,
-                                                                                                                "updateAction": true
+                                                                                                            // socket.emit(
+                                                                                                            //   "UPDATE_INTERVIEW",
+                                                                                                            //   {
+                                                                                                            //     "interviewId": el.idInterview,
+                                                                                                            //     "title": 'videoInterviewTitleControllerEdit.text',
+                                                                                                            //     "content": "New interview was created",
+                                                                                                            //     "startTime": DateTime(
+                                                                                                            //       selectedDateStartEdit!.year,
+                                                                                                            //       selectedDateStartEdit!.month,
+                                                                                                            //       selectedDateStartEdit!.day,
+                                                                                                            //       selectedTimeStartEdit!.hour,
+                                                                                                            //       selectedTimeStartEdit!.minute,
+                                                                                                            //     ).toString(),
+                                                                                                            //     "endTime": DateTime(
+                                                                                                            //       selectedDateEndEdit!.year,
+                                                                                                            //       selectedDateEndEdit!.month,
+                                                                                                            //       selectedDateEndEdit!.day,
+                                                                                                            //       selectedTimeEndEdit!.hour,
+                                                                                                            //       selectedTimeEndEdit!.minute,
+                                                                                                            //     ).toString(),
+                                                                                                            //     "projectId": projectId,
+                                                                                                            //     "senderId": user.id,
+                                                                                                            //     "receiverId": receiveId,
+                                                                                                            //     "updateAction": true
+                                                                                                            //   },
+                                                                                                            // );
+
+                                                                                                            final urlEditInterview = Uri.parse('${dotenv.env['IP_ADDRESS']}/api/interview/${el.idInterview}');
+
+                                                                                                            final responseEditInterview = await http.patch(
+                                                                                                              urlEditInterview,
+                                                                                                              headers: {
+                                                                                                                'Content-Type': 'application/json',
+                                                                                                                'Authorization': 'Bearer ${user.token}',
                                                                                                               },
+                                                                                                              body: json.encode(
+                                                                                                                {
+                                                                                                                  "title": videoInterviewTitleControllerEdit.text,
+                                                                                                                  "startTime": DateTime(
+                                                                                                                    selectedDateStartEdit!.year,
+                                                                                                                    selectedDateStartEdit!.month,
+                                                                                                                    selectedDateStartEdit!.day,
+                                                                                                                    selectedTimeStartEdit!.hour,
+                                                                                                                    selectedTimeStartEdit!.minute,
+                                                                                                                  ).toString(),
+                                                                                                                  "endTime": DateTime(
+                                                                                                                    selectedDateEndEdit!.year,
+                                                                                                                    selectedDateEndEdit!.month,
+                                                                                                                    selectedDateEndEdit!.day,
+                                                                                                                    selectedTimeEndEdit!.hour,
+                                                                                                                    selectedTimeEndEdit!.minute,
+                                                                                                                  ).toString(),
+                                                                                                                },
+                                                                                                              ),
                                                                                                             );
+
+                                                                                                            final responseEditInterviewData = json.decode(responseEditInterview.body);
+                                                                                                            print('----responseEditInterviewData----');
+                                                                                                            print(responseEditInterview);
 
                                                                                                             videoInterviewTitleControllerEdit.clear();
                                                                                                             dateControllerStartEdit.text = 'Select data';
@@ -1921,17 +1961,6 @@ class _MessageDetailsScreen extends ConsumerState<MessageDetailsScreen> {
                               final responseSendMessageData = json.decode(responseSendMessage.body);
                               print('----responseSendMessageData----');
                               print(responseSendMessageData);
-
-                              // ref.read(messageProvider.notifier).pushMessageData(
-                              //       DateFormat("dd/MM/yyyy | HH:mm").format(DateTime.now().toLocal()).toString(),
-                              //       user.fullName,
-                              //       enterMessage,
-                              //       false,
-                              //       '',
-                              //       '',
-                              //       '',
-                              //       '',
-                              //     );
 
                               sendMessage.clear();
                             },
