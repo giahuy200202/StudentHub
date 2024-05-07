@@ -186,9 +186,7 @@ class _MessageWidgetState extends ConsumerState<MessageWidget> {
                         children: [
                           GestureDetector(
                             onTap: () {
-                              if (projectId == '' || projectId != el.projectId) {
-                                ref.read(projectIdProvider.notifier).setProjectId(el.projectId.toString());
-                              }
+                              ref.read(projectIdProvider.notifier).setProjectId(el.projectId.toString());
 
                               ref.read(receiveIdProvider.notifier).setReceiveId(el.receiverId);
                               ref.read(optionsProvider.notifier).setWidgetOption('MessageDetails', user.role!);

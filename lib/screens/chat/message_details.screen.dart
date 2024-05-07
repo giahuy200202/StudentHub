@@ -33,6 +33,7 @@ class Message {
   final String startTimeInterview;
   final String endTimeInterview;
   final String idInterview;
+  final int disableFlag;
 
   Message({
     required this.createdAt,
@@ -43,6 +44,7 @@ class Message {
     required this.startTimeInterview,
     required this.endTimeInterview,
     required this.idInterview,
+    required this.disableFlag,
   });
 
   Message.fromJson(Map<dynamic, dynamic> json)
@@ -53,7 +55,8 @@ class Message {
         titleInterview = json['titleInterview'],
         startTimeInterview = json['startTimeInterview'],
         endTimeInterview = json['endTimeInterview'],
-        idInterview = json['idInterview'];
+        idInterview = json['idInterview'],
+        disableFlag = json['disableFlag'];
 
   Map<dynamic, dynamic> toJson() {
     return {
@@ -65,6 +68,7 @@ class Message {
       'startTimeInterview': startTimeInterview,
       'endTimeInterview': endTimeInterview,
       'idInterview': idInterview,
+      'disableFlag': disableFlag,
     };
   }
 }
@@ -114,10 +118,20 @@ class _MessageDetailsScreen extends ConsumerState<MessageDetailsScreen> {
   DateTime? selectedDateEndEdit;
   TimeOfDay? selectedTimeEndEdit;
 
-  void setIsCancel(bool value) {
-    setState(() {
-      isCancel = value;
-    });
+  void setIsCancel(String interviewId, String userToken) async {
+    final urlCancelInterview = Uri.parse('${dotenv.env['IP_ADDRESS']}/api/interview/${interviewId}/disable');
+
+    final responseCancelInterview = await http.patch(
+      urlCancelInterview,
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ${userToken}',
+      },
+    );
+
+    final responseCancelInterviewData = json.decode(responseCancelInterview.body);
+    print('----responseCancelInterviewData----');
+    print(responseCancelInterviewData);
   }
 
   void showErrorToast(title, description) {
@@ -187,6 +201,7 @@ class _MessageDetailsScreen extends ConsumerState<MessageDetailsScreen> {
                 '',
                 '',
                 '',
+                1,
               );
         } else {
           ref.read(messageProvider.notifier).pushMessageData(
@@ -198,6 +213,7 @@ class _MessageDetailsScreen extends ConsumerState<MessageDetailsScreen> {
                 item['interview']['startTime'],
                 item['interview']['endTime'],
                 item['interview']['id'].toString(),
+                item['interview']['disableFlag'],
               );
         }
       }
@@ -629,7 +645,7 @@ class _MessageDetailsScreen extends ConsumerState<MessageDetailsScreen> {
                                                                 style: const TextStyle(fontSize: 16),
                                                               ),
                                                               const SizedBox(height: 20),
-                                                              isCancel == false
+                                                              el.disableFlag == 0
                                                                   ? Row(
                                                                       mainAxisAlignment: MainAxisAlignment.end,
                                                                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -1271,7 +1287,9 @@ class _MessageDetailsScreen extends ConsumerState<MessageDetailsScreen> {
                                                                                 )
                                                                               }
                                                                             else
-                                                                              {setIsCancel(true)}
+                                                                              {
+                                                                                setIsCancel(el.idInterview, user.token!),
+                                                                              }
                                                                           },
                                                                         ),
                                                                         Container(

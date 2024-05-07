@@ -39,7 +39,7 @@ class _AppState extends ConsumerState<App> {
     final projectId = ref.watch(projectIdProvider);
     final user = ref.watch(userProvider);
 
-    if (!listTriggeredSockerByProjectId.contains(projectId) && !listTriggeredSockerByUserId.contains(user.id.toString())) {
+    if (!listTriggeredSockerByProjectId.contains(projectId) || !listTriggeredSockerByUserId.contains(user.id.toString())) {
       listTriggeredSockerByProjectId.add(projectId);
       listTriggeredSockerByUserId.add(user.id.toString());
 
@@ -75,17 +75,61 @@ class _AppState extends ConsumerState<App> {
             print(data);
 
             if (mounted) {
-              ref.read(notificationProvider.notifier).pushNotificationData(
-                    data['notification']['id'].toString(),
-                    '0',
-                    '${data['notification']['message']['content']}',
-                    data['notification']['sender']['fullname'],
-                    DateFormat("dd/MM/yyyy | HH:mm")
-                        .format(
-                          DateTime.parse(data['notification']['message']['createdAt']).toLocal(),
-                        )
-                        .toString(),
-                  );
+              if (data['notification']['proposal'] != null) {
+                ref.read(notificationProvider.notifier).pushNotificationData(
+                      data['notification']['id'].toString(),
+                      '0',
+                      "${data['notification']['title']}",
+                      data['notification']['sender']['fullname'],
+                      DateFormat("dd/MM/yyyy | HH:mm")
+                          .format(
+                            DateTime.parse(data['notification']['proposal']['createdAt']).toLocal(),
+                          )
+                          .toString(),
+                    );
+                LocalNotifications.showSimpleNotification(
+                  // id: tasks.length + 1,
+                  title: '${data['notification']['title']}',
+                  body: '${data['notification']['proposal']['coverLetter']}',
+                  payload: 'data',
+                );
+              } else if (data['notification']['message']['interview'] != null) {
+                ref.read(notificationProvider.notifier).pushNotificationData(
+                      data['notification']['id'].toString(),
+                      '0',
+                      'You have a new interview schedule "${data['notification']['message']['interview']['title']}"',
+                      data['notification']['sender']['fullname'],
+                      DateFormat("dd/MM/yyyy | HH:mm")
+                          .format(
+                            DateTime.parse(data['notification']['message']['interview']['createdAt']).toLocal(),
+                          )
+                          .toString(),
+                    );
+                LocalNotifications.showSimpleNotification(
+                  // id: tasks.length + 1,
+                  title: '${data['notification']['content']}',
+                  body: '${data['notification']['message']['interview']['title']}',
+                  payload: 'data',
+                );
+              } else if (data['notification']['message'] != null) {
+                ref.read(notificationProvider.notifier).pushNotificationData(
+                      data['notification']['id'].toString(),
+                      '0',
+                      data['notification']['message']['content'],
+                      data['notification']['sender']['fullname'],
+                      DateFormat("dd/MM/yyyy | HH:mm")
+                          .format(
+                            DateTime.parse(data['notification']['message']['createdAt']).toLocal(),
+                          )
+                          .toString(),
+                    );
+                LocalNotifications.showSimpleNotification(
+                  // id: tasks.length + 1,
+                  title: '${data['notification']['title']}',
+                  body: '${data['notification']['message']['content']}',
+                  payload: 'data',
+                );
+              }
             }
           },
         );
@@ -111,27 +155,8 @@ class _AppState extends ConsumerState<App> {
                     '',
                     '',
                     '',
+                    1,
                   );
-              // ref.read(notificationProvider.notifier).pushNotificationData(
-              //       data['notification']['id'].toString(),
-              //       '0',
-              //       data['notification']['message']['content'],
-              //       data['notification']['sender']['fullname'],
-              //       DateFormat("dd/MM/yyyy | HH:mm")
-              //           .format(
-              //             DateTime.parse(data['notification']['message']['createdAt']).toLocal(),
-              //           )
-              //           .toString(),
-              //     );
-
-              if (data['notification']['sender']['id'] != user.id) {
-                LocalNotifications.showSimpleNotification(
-                  // id: tasks.length + 1,
-                  title: 'You have a new message from ${data['notification']['sender']['fullname']}',
-                  body: '${data['notification']['message']['content']}',
-                  payload: 'data',
-                );
-              }
             }
           },
         );
@@ -155,6 +180,7 @@ class _AppState extends ConsumerState<App> {
                     data['notification']['message']['interview']['startTime'],
                     data['notification']['message']['interview']['endTime'],
                     data['notification']['message']['interview']['id'].toString(),
+                    data['notification']['message']['interview']['disableFlag'],
                   );
               // ref.read(notificationProvider.notifier).pushNotificationData(
               //       data['notification']['id'].toString(),
@@ -167,15 +193,6 @@ class _AppState extends ConsumerState<App> {
               //           )
               //           .toString(),
               //     );
-
-              if (data['notification']['sender']['id'] != user.id) {
-                LocalNotifications.showSimpleNotification(
-                  // id: tasks.length + 1,
-                  title: 'You have a new interview schedule created by ${data['notification']['sender']['fullname']}',
-                  body: '${data['notification']['message']['interview']['title']}',
-                  payload: 'data',
-                );
-              }
             }
           },
         );

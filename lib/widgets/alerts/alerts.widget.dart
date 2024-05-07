@@ -125,7 +125,7 @@ class _AlertsWidget extends ConsumerState<AlertsWidget> {
         ref.read(notificationProvider.notifier).pushNotificationData(
               item['id'].toString(),
               item['notifyFlag'],
-              item['message']['content'],
+              item['content'],
               item['sender']['fullname'],
               DateFormat("dd/MM/yyyy | HH:mm").format(DateTime.parse(item['createdAt']).toLocal()).toString(),
             );
@@ -149,82 +149,6 @@ class _AlertsWidget extends ConsumerState<AlertsWidget> {
     final projectId = ref.read(projectIdProvider);
 
     getNotifications(user.token!, projectId, user.id!);
-
-    // final socket = IO.io(
-    //     'https://api.studenthub.dev/', // Server url
-    //     OptionBuilder().setTransports(['websocket']).disableAutoConnect().build());
-
-    // //Add authorization to header
-    // socket.io.options?['extraHeaders'] = {
-    //   'Authorization': 'Bearer ${user.token}',
-    // };
-
-    // //Add query param to url
-    // socket.io.options?['query'] = {'project_id': projectId};
-
-    // socket.connect();
-
-    // socket.onConnect((data) => {print('Connected notification')});
-    // socket.onDisconnect((data) => {print('Disconnected notification')});
-
-    // socket.onConnectError((data) => print('$data'));
-    // socket.onError((data) => print(data));
-
-    // //Listen to channel receive message
-    // socket.on(
-    //   'RECEIVE_MESSAGE',
-    //   (data) {
-    //     // Your code to update ui
-
-    //     print('------RECEIVE_NOTIFICATION------');
-    //     print(data);
-
-    //     if (mounted) {
-    //       // setState(
-    //       //   () {
-    //       //     listNotifications = [
-    //       //       ...listNotifications,
-    //       //       Notification(
-    //       //         id: data['notification']['id'].toString(),
-    //       //         notificationType: '0',
-    //       //         notificationContent: data['notification']['message']['content'],
-    //       //         senderName: data['notification']['sender']['fullname'],
-    //       //         createdAt: DateFormat("dd/MM/yyyy | HH:mm")
-    //       //             .format(DateTime.parse(
-    //       //               data['notification']['message']['createdAt'],
-    //       //             ).toLocal())
-    //       //             .toString(),
-    //       //       )
-    //       //     ];
-    //       //   },
-    //       // );
-
-    //       ref.read(notificationProvider.notifier).pushNotificationData(
-    //             data['notification']['id'].toString(),
-    //             '0',
-    //             data['notification']['message']['content'],
-    //             data['notification']['sender']['fullname'],
-    //             DateFormat("dd/MM/yyyy | HH:mm")
-    //                 .format(
-    //                   DateTime.parse(data['notification']['message']['createdAt']).toLocal(),
-    //                 )
-    //                 .toString(),
-    //           );
-
-    //       LocalNotifications.showSimpleNotification(
-    //         // id: tasks.length + 1,
-    //         title: 'You have a new message from ${data['notification']['sender']['fullname']}',
-    //         body: '${data['notification']['message']['content']}',
-    //         payload: 'data',
-    //       );
-
-    //       print('------listNotifications------');
-    //       print(json.encode(listNotifications[listNotifications.length - 1]));
-    //     }
-    //   },
-    // );
-    // //Listen for error from socket
-    // socket.on("ERROR", (data) => print(data));
   }
 
   @override

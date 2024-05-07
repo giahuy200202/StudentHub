@@ -393,6 +393,8 @@ class _ProposalsWidgetState extends ConsumerState<ProposalsWidget> {
                                                                 width: 135,
                                                                 child: ElevatedButton(
                                                                   onPressed: () async {
+                                                                    print('------proposal id ------');
+                                                                    print(el.proposalId);
                                                                     final urlUpdateProposals = Uri.parse('${dotenv.env['IP_ADDRESS']}/api/proposal/${el.proposalId}');
 
                                                                     final responseUpdateProposals = await http.patch(
@@ -407,6 +409,8 @@ class _ProposalsWidgetState extends ConsumerState<ProposalsWidget> {
                                                                         "disableFlag": 0,
                                                                       }),
                                                                     );
+                                                                    print('----responseUpdateProposals----');
+                                                                    print(json.decode(responseUpdateProposals.body));
                                                                     Navigator.pop(context);
                                                                     showSuccessToast('Success', 'Offer has been sent successfully');
                                                                     getProposals(user.token, projectId);
