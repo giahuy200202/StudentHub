@@ -6,6 +6,10 @@ class Notification {
   final String notificationContent;
   final String senderName;
   final String createdAt;
+  final String typeNotifyFlag;
+  final String proposalId;
+  final String coverLetter;
+  final String statusFlag;
 
   Notification({
     required this.id,
@@ -13,6 +17,10 @@ class Notification {
     required this.notificationContent,
     required this.senderName,
     required this.createdAt,
+    required this.typeNotifyFlag,
+    required this.proposalId,
+    required this.coverLetter,
+    required this.statusFlag,
   });
 
   Notification.fromJson(Map<dynamic, dynamic> json)
@@ -20,7 +28,11 @@ class Notification {
         notificationType = json['notificationType'],
         notificationContent = json['notificationContent'],
         senderName = json['senderName'],
-        createdAt = json['createdAt'];
+        createdAt = json['createdAt'],
+        typeNotifyFlag = json['typeNotifyFlag'],
+        proposalId = json['proposalId'],
+        coverLetter = json['coverLetter'],
+        statusFlag = json['statusFlag'];
 
   Map<dynamic, dynamic> toJson() {
     return {
@@ -29,6 +41,10 @@ class Notification {
       'notificationContent': notificationContent,
       'senderName': senderName,
       'createdAt': createdAt,
+      'typeNotifyFlag': typeNotifyFlag,
+      'proposalId': proposalId,
+      'coverLetter': coverLetter,
+      'statusFlag': statusFlag,
     };
   }
 }
@@ -42,6 +58,10 @@ class NotificationNotifier extends StateNotifier<List<Notification>> {
     String notificationContent,
     String senderName,
     String createdAt,
+    String typeNotifyFlag,
+    String proposalId,
+    String coverLetter,
+    String statusFlag,
   ) {
     state = [
       ...state,
@@ -51,6 +71,10 @@ class NotificationNotifier extends StateNotifier<List<Notification>> {
         notificationContent: notificationContent,
         senderName: senderName,
         createdAt: createdAt,
+        typeNotifyFlag: typeNotifyFlag,
+        proposalId: proposalId,
+        coverLetter: coverLetter,
+        statusFlag: statusFlag,
       )
     ];
   }
@@ -60,4 +84,6 @@ class NotificationNotifier extends StateNotifier<List<Notification>> {
   }
 }
 
-final notificationProvider = StateNotifierProvider<NotificationNotifier, List<Notification>>((ref) => NotificationNotifier());
+final notificationProvider = StateNotifierProvider<NotificationNotifier, List<Notification>>(
+  (ref) => NotificationNotifier(),
+);
