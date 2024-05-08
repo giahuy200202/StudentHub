@@ -188,7 +188,8 @@ class _LayoutScreenState extends ConsumerState<LayoutScreen> {
     Widget currentScreen = getCurrentScreen(options[Option.widgetOption]!);
 
     return Scaffold(
-        appBar: options[Option.widgetOption] == "SavedProjects" ||
+        appBar: options[Option.widgetOption] == "ProjectSearch" ||
+                options[Option.widgetOption] == "SavedProjects" ||
                 options[Option.widgetOption] == "ProjectDetails" ||
                 options[Option.widgetOption] == "SubmitProposal" ||
                 options[Option.widgetOption] == "Videocall" ||

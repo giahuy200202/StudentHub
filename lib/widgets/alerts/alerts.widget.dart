@@ -125,7 +125,15 @@ class _AlertsWidget extends ConsumerState<AlertsWidget> {
         ref.read(notificationProvider.notifier).pushNotificationData(
               item['id'].toString(),
               item['notifyFlag'],
-              item['content'],
+              item['proposal'] != null
+                  ? '${item['content']}'
+                  : item['message']['interview'] != null
+                      ? '${item['content']}\nTitle: ${item['message']['interview']['title']}\nStart time: ${DateFormat("dd/MM/yyyy | HH:mm").format(
+                            DateTime.parse(item['message']['interview']['startTime']),
+                          ).toString()}\nEnd time: ${DateFormat("dd/MM/yyyy | HH:mm").format(
+                            DateTime.parse(item['message']['interview']['endTime']),
+                          ).toString()}\nMeeting room code: ${item['message']['interview']['meetingRoom']['meeting_room_code']}\nMeeting room id: ${item['message']['interview']['meetingRoomId']}'
+                      : '${item['content']}\n${item['message']['content']}',
               item['sender']['fullname'],
               DateFormat("dd/MM/yyyy | HH:mm").format(DateTime.parse(item['createdAt']).toLocal()).toString(),
             );

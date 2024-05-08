@@ -241,7 +241,11 @@ class _ListProjectsWidgetState extends ConsumerState<ListProjectsWidget> {
                                             onTap: user.role == '1'
                                                 ? null
                                                 : () async {
-                                                    final urlFavoriteProjects = Uri.parse('${dotenv.env['IP_ADDRESS']}/api/favoriteProject/${student.id}?');
+                                                    print('-------project id-------');
+                                                    print(el.id);
+                                                    print('-------student id-------');
+                                                    print(student.id);
+                                                    final urlFavoriteProjects = Uri.parse('${dotenv.env['IP_ADDRESS']}/api/favoriteProject/${student.id}');
 
                                                     final responsePatchFavoriteProject = await http.patch(
                                                       urlFavoriteProjects,
@@ -250,7 +254,7 @@ class _ListProjectsWidgetState extends ConsumerState<ListProjectsWidget> {
                                                         'Authorization': 'Bearer ${user.token!}',
                                                       },
                                                       body: json.encode({
-                                                        'id': el.id,
+                                                        'projectId': el.id,
                                                         'disableFlag': el.isFavorite ? 1 : 0,
                                                       }),
                                                     );

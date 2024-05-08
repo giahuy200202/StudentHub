@@ -165,19 +165,19 @@ class _SavedProjectsWidgetState extends ConsumerState<SavedProjectsWidget> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const SizedBox(height: 25),
+              const SizedBox(height: 60),
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  const SizedBox(height: 30),
+                  const SizedBox(height: 20),
                   InkWell(
                     onTap: () {
                       ref.read(optionsProvider.notifier).setWidgetOption('Projects', user.role!);
                     },
                     child: const Icon(
                       Icons.arrow_back_ios,
-                      size: 18,
+                      size: 25,
                     ),
                   ),
                   const SizedBox(width: 10),
@@ -185,7 +185,7 @@ class _SavedProjectsWidgetState extends ConsumerState<SavedProjectsWidget> {
                     'Saved projects',
                     textAlign: TextAlign.left,
                     style: TextStyle(
-                      fontSize: 20,
+                      fontSize: 22,
                       fontWeight: FontWeight.w700,
                     ),
                   ),
@@ -193,7 +193,7 @@ class _SavedProjectsWidgetState extends ConsumerState<SavedProjectsWidget> {
               ),
               const SizedBox(height: 25),
               SizedBox(
-                height: 650,
+                height: 720,
                 child: SingleChildScrollView(
                   child: isFetchingData
                       ? const Column(
@@ -272,7 +272,7 @@ class _SavedProjectsWidgetState extends ConsumerState<SavedProjectsWidget> {
                                                       onTap: user.role == '1'
                                                           ? null
                                                           : () async {
-                                                              final urlFavoriteProjects = Uri.parse('${dotenv.env['IP_ADDRESS']}/api/favoriteProject/${student.id}?');
+                                                              final urlFavoriteProjects = Uri.parse('${dotenv.env['IP_ADDRESS']}/api/favoriteProject/${student.id}');
 
                                                               final responsePatchFavoriteProject = await http.patch(
                                                                 urlFavoriteProjects,
@@ -281,7 +281,7 @@ class _SavedProjectsWidgetState extends ConsumerState<SavedProjectsWidget> {
                                                                   'Authorization': 'Bearer ${user.token!}',
                                                                 },
                                                                 body: json.encode({
-                                                                  'id': el.id,
+                                                                  'projectId': el.id,
                                                                   'disableFlag': 1,
                                                                 }),
                                                               );

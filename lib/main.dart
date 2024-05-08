@@ -34,6 +34,7 @@ class App extends ConsumerStatefulWidget {
 class _AppState extends ConsumerState<App> {
   List<String> listTriggeredSockerByProjectId = [];
   List<String> listTriggeredSockerByUserId = [];
+  bool isRunNotification = true;
   @override
   Widget build(BuildContext context) {
     final projectId = ref.watch(projectIdProvider);
@@ -44,96 +45,107 @@ class _AppState extends ConsumerState<App> {
       listTriggeredSockerByUserId.add(user.id.toString());
 
       if (user.id != 0 && projectId != '') {
-        print('------SOCKET NOTIFICATION------');
-        final socket = IO.io(
-          'https://api.studenthub.dev/', // Server url
-          OptionBuilder().setTransports(['websocket']).disableAutoConnect().build(),
-        );
+        if (isRunNotification) {
+          print('------SOCKET NOTIFICATION------');
+          final socket = IO.io(
+            'https://api.studenthub.dev/', // Server url
+            OptionBuilder().setTransports(['websocket']).disableAutoConnect().build(),
+          );
 
-        //Add authorization to header
-        socket.io.options?['extraHeaders'] = {
-          'Authorization': 'Bearer ${user.token}',
-        };
+          //Add authorization to header
+          socket.io.options?['extraHeaders'] = {
+            'Authorization': 'Bearer ${user.token}',
+          };
 
-        //Add query param to url
-        // socket.io.options?['query'] = {'project_id': projectId};
+          //Add query param to url
+          // socket.io.options?['query'] = {'project_id': projectId};
 
-        socket.connect();
+          socket.connect();
 
-        socket.onConnect((data) => {print('Connected')});
-        socket.onDisconnect((data) => {print('Disconnected')});
+          socket.onConnect((data) => {print('Connected')});
+          socket.onDisconnect((data) => {print('Disconnected')});
 
-        socket.onConnectError((data) => print('$data'));
-        socket.onError((data) => print(data));
+          socket.onConnectError((data) => print('$data'));
+          socket.onError((data) => print(data));
 
-        //Listen to channel receive message
-        socket.on(
-          'NOTI_${user.id}',
-          (data) {
-            // Your code to update ui
+          //Listen to channel receive message
+          socket.on(
+            'NOTI_${user.id}',
+            (data) {
+              // Your code to update ui
 
-            print('------RECEIVE_NOTIFICATION------');
-            print(data);
+              print('------RECEIVE_NOTIFICATION------');
+              print(data);
 
-            if (mounted) {
-              if (data['notification']['proposal'] != null) {
-                ref.read(notificationProvider.notifier).pushNotificationData(
-                      data['notification']['id'].toString(),
-                      '0',
-                      "${data['notification']['title']}",
-                      data['notification']['sender']['fullname'],
-                      DateFormat("dd/MM/yyyy | HH:mm")
-                          .format(
-                            DateTime.parse(data['notification']['proposal']['createdAt']).toLocal(),
-                          )
-                          .toString(),
-                    );
-                LocalNotifications.showSimpleNotification(
-                  // id: tasks.length + 1,
-                  title: '${data['notification']['title']}',
-                  body: '${data['notification']['proposal']['coverLetter']}',
-                  payload: 'data',
-                );
-              } else if (data['notification']['message']['interview'] != null) {
-                ref.read(notificationProvider.notifier).pushNotificationData(
-                      data['notification']['id'].toString(),
-                      '0',
-                      '${data['notification']['message']['interview']['title']}',
-                      data['notification']['sender']['fullname'],
-                      DateFormat("dd/MM/yyyy | HH:mm")
-                          .format(
-                            DateTime.parse(data['notification']['message']['interview']['createdAt']).toLocal(),
-                          )
-                          .toString(),
-                    );
-                LocalNotifications.showSimpleNotification(
-                  // id: tasks.length + 1,
-                  title: '${data['notification']['content']}',
-                  body: '${data['notification']['message']['interview']['title']}',
-                  payload: 'data',
-                );
-              } else if (data['notification']['message'] != null) {
-                ref.read(notificationProvider.notifier).pushNotificationData(
-                      data['notification']['id'].toString(),
-                      '0',
-                      data['notification']['message']['content'],
-                      data['notification']['sender']['fullname'],
-                      DateFormat("dd/MM/yyyy | HH:mm")
-                          .format(
-                            DateTime.parse(data['notification']['message']['createdAt']).toLocal(),
-                          )
-                          .toString(),
-                    );
-                LocalNotifications.showSimpleNotification(
-                  // id: tasks.length + 1,
-                  title: '${data['notification']['title']}',
-                  body: '${data['notification']['message']['content']}',
-                  payload: 'data',
-                );
+              if (mounted) {
+                if (data['notification']['proposal'] != null) {
+                  ref.read(notificationProvider.notifier).pushNotificationData(
+                        data['notification']['id'].toString(),
+                        '0',
+                        "${data['notification']['content']}",
+                        data['notification']['sender']['fullname'],
+                        DateFormat("dd/MM/yyyy | HH:mm")
+                            .format(
+                              DateTime.parse(data['notification']['proposal']['createdAt']).toLocal(),
+                            )
+                            .toString(),
+                      );
+                  LocalNotifications.showSimpleNotification(
+                    // id: tasks.length + 1,
+                    title: '${data['notification']['title']}',
+                    body: '${data['notification']['proposal']['coverLetter']}',
+                    payload: 'data',
+                  );
+                } else if (data['notification']['message']['interview'] != null) {
+                  ref.read(notificationProvider.notifier).pushNotificationData(
+                        data['notification']['id'].toString(),
+                        '0',
+                        '${data['notification']['content']}\nTitle: ${data['notification']['message']['interview']['title']}\nStart time: ${DateFormat("dd/MM/yyyy | HH:mm").format(
+                              DateTime.parse(data['notification']['message']['interview']['startTime']),
+                            ).toString()}\nEnd time: ${DateFormat("dd/MM/yyyy | HH:mm").format(
+                              DateTime.parse(data['notification']['message']['interview']['endTime']),
+                            ).toString()}\nMeeting room code: ${data['notification']['message']['interview']['meetingRoom']['meeting_room_code']}\nMeeting room id: ${data['notification']['message']['interview']['meetingRoomId']}',
+                        data['notification']['sender']['fullname'],
+                        DateFormat("dd/MM/yyyy | HH:mm")
+                            .format(
+                              DateTime.parse(data['notification']['message']['interview']['createdAt']).toLocal(),
+                            )
+                            .toString(),
+                      );
+                  LocalNotifications.showSimpleNotification(
+                    // id: tasks.length + 1,
+                    title: '${data['notification']['content']}',
+                    body: '${data['notification']['message']['interview']['title']}',
+                    payload: 'data',
+                  );
+                } else if (data['notification']['message'] != null) {
+                  ref.read(notificationProvider.notifier).pushNotificationData(
+                        data['notification']['id'].toString(),
+                        '0',
+                        '${data['notification']['content']}\n${data['notification']['message']['content']}',
+                        data['notification']['sender']['fullname'],
+                        DateFormat("dd/MM/yyyy | HH:mm")
+                            .format(
+                              DateTime.parse(data['notification']['message']['createdAt']).toLocal(),
+                            )
+                            .toString(),
+                      );
+                  LocalNotifications.showSimpleNotification(
+                    // id: tasks.length + 1,
+                    title: '${data['notification']['title']}',
+                    body: '${data['notification']['message']['content']}',
+                    payload: 'data',
+                  );
+                }
               }
-            }
-          },
-        );
+            },
+          );
+          //Listen for error from socket
+          socket.on("ERROR", (data) => print(data));
+          setState(() {
+            isRunNotification = false;
+          });
+        }
 
         print('------SOCKET------');
         final socketMessageInterview = IO.io(
@@ -208,9 +220,6 @@ class _AppState extends ConsumerState<App> {
             }
           },
         );
-
-        //Listen for error from socket
-        socket.on("ERROR", (data) => print(data));
 
         socketMessageInterview.on("ERROR", (data) => print(data));
       }
