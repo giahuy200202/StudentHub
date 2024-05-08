@@ -181,17 +181,7 @@ class _AppState extends ConsumerState<App> {
               print('------RECEIVE_MESSAGE------');
               print(data);
 
-              ref.read(messageProvider.notifier).pushMessageData(
-                    DateFormat("dd/MM/yyyy | HH:mm").format(DateTime.parse(data['notification']['message']['createdAt']).toLocal()).toString(),
-                    data['notification']['sender']['fullname'],
-                    data['notification']['message']['content'],
-                    false,
-                    '',
-                    '',
-                    '',
-                    '',
-                    1,
-                  );
+              ref.read(messageProvider.notifier).pushMessageData(DateFormat("dd/MM/yyyy | HH:mm").format(DateTime.parse(data['notification']['message']['createdAt']).toLocal()).toString(), data['notification']['sender']['fullname'], data['notification']['message']['content'], false, '', '', '', '', 1, '');
             }
           },
         );
@@ -216,6 +206,7 @@ class _AppState extends ConsumerState<App> {
                     data['notification']['message']['interview']['endTime'],
                     data['notification']['message']['interview']['id'].toString(),
                     data['notification']['message']['interview']['disableFlag'],
+                    data['notification']['message']['interview']['meetingRoom']['meeting_room_code'],
                   );
             }
           },

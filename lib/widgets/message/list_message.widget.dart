@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:studenthub/providers/authentication/authentication.provider.dart';
 import 'package:studenthub/providers/message/receive_id.provider.dart';
 import 'package:studenthub/providers/projects/project_id.provider.dart';
+import 'package:studenthub/screens/message/video_conference.screen.dart';
 
 import '../../providers/options.provider.dart';
 
@@ -183,13 +184,17 @@ class _MessageWidgetState extends ConsumerState<MessageWidget> {
                 DateTime.parse(item['createdAt']).toLocal(),
               ).toString()}',
           interviewTitle: item['title'],
-          startTime: 'Start at ${DateFormat("dd/MM/yyyy | HH:mm").format(
+          startTime: DateFormat("dd/MM/yyyy | HH:mm")
+              .format(
                 DateTime.parse(item['startTime']).toLocal(),
-              ).toString()}',
-          endTime: 'End at ${DateFormat("dd/MM/yyyy | HH:mm").format(
+              )
+              .toString(),
+          endTime: DateFormat("dd/MM/yyyy | HH:mm")
+              .format(
                 DateTime.parse(item['endTime']).toLocal(),
-              ).toString()}',
-          meetingRoomId: item['meetingRoom']['id'].toString(),
+              )
+              .toString(),
+          meetingRoomId: item['meetingRoom']['meeting_room_id'].toString(),
           meetingRoomCode: item['meetingRoom']['meeting_room_code'],
           duration: '${DateTime.parse(item['endTime']).difference(DateTime.parse(item['startTime'])).inMinutes} minutes',
         ));
@@ -556,7 +561,16 @@ class _MessageWidgetState extends ConsumerState<MessageWidget> {
                                                     width: 110,
                                                     child: ElevatedButton(
                                                       onPressed: () {
-                                                        ref.read(optionsProvider.notifier).setWidgetOption('Videocall', user.role!);
+                                                        Navigator.push(
+                                                          context,
+                                                          MaterialPageRoute(
+                                                            builder: (context) => VideoConferencePage(
+                                                              conferenceID: el.meetingRoomCode,
+                                                              userId: user.id.toString(),
+                                                              fullname: user.fullname!.length > 16 ? '${user.fullname!.substring(0, 16)}...' : user.fullname!,
+                                                            ),
+                                                          ),
+                                                        );
                                                       },
                                                       style: ElevatedButton.styleFrom(
                                                         shape: RoundedRectangleBorder(

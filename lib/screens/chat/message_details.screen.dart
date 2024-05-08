@@ -13,6 +13,7 @@ import 'package:studenthub/providers/notification/messages.provider.dart';
 import 'package:studenthub/providers/notification/notifications.provider.dart';
 import 'package:studenthub/providers/profile/company.provider.dart';
 import 'package:studenthub/providers/projects/project_id.provider.dart';
+import 'package:studenthub/screens/message/video_conference.screen.dart';
 import 'package:studenthub/widgets/message/message_details.widget.dart';
 import 'package:studenthub/widgets/message/body_message.widget.dart';
 import 'package:studenthub/providers/options.provider.dart';
@@ -34,6 +35,7 @@ class Message {
   final String endTimeInterview;
   final String idInterview;
   final int disableFlag;
+  final String meetingRoomCode;
 
   Message({
     required this.createdAt,
@@ -45,6 +47,7 @@ class Message {
     required this.endTimeInterview,
     required this.idInterview,
     required this.disableFlag,
+    required this.meetingRoomCode,
   });
 
   Message.fromJson(Map<dynamic, dynamic> json)
@@ -56,7 +59,8 @@ class Message {
         startTimeInterview = json['startTimeInterview'],
         endTimeInterview = json['endTimeInterview'],
         idInterview = json['idInterview'],
-        disableFlag = json['disableFlag'];
+        disableFlag = json['disableFlag'],
+        meetingRoomCode = json['meetingRoomCode'];
 
   Map<dynamic, dynamic> toJson() {
     return {
@@ -69,6 +73,7 @@ class Message {
       'endTimeInterview': endTimeInterview,
       'idInterview': idInterview,
       'disableFlag': disableFlag,
+      'meetingRoomCode': meetingRoomCode,
     };
   }
 }
@@ -202,6 +207,7 @@ class _MessageDetailsScreen extends ConsumerState<MessageDetailsScreen> {
                 '',
                 '',
                 1,
+                '',
               );
         } else {
           ref.read(messageProvider.notifier).pushMessageData(
@@ -214,6 +220,7 @@ class _MessageDetailsScreen extends ConsumerState<MessageDetailsScreen> {
                 item['interview']['endTime'],
                 item['interview']['id'].toString(),
                 item['interview']['disableFlag'],
+                item['interview']['meetingRoom']['meeting_room_code'],
               );
         }
       }
@@ -295,7 +302,15 @@ class _MessageDetailsScreen extends ConsumerState<MessageDetailsScreen> {
       selectedTimeStart = pickedTime;
     });
 
-    timeControllerStart.text = DateFormat('HH:mm').format(DateTime(0, 0, 0, selectedTimeStart!.hour, selectedTimeStart!.minute)).toString();
+    timeControllerStart.text = DateFormat('HH:mm')
+        .format(DateTime(
+          0,
+          0,
+          0,
+          selectedTimeStart!.hour,
+          selectedTimeStart!.minute,
+        ))
+        .toString();
   }
 
   void presentDatePickerEnd() async {
@@ -1249,7 +1264,16 @@ class _MessageDetailsScreen extends ConsumerState<MessageDetailsScreen> {
                                                                             width: 110,
                                                                             child: ElevatedButton(
                                                                               onPressed: () {
-                                                                                ref.read(optionsProvider.notifier).setWidgetOption('Videocall', user.role!);
+                                                                                Navigator.push(
+                                                                                  context,
+                                                                                  MaterialPageRoute(
+                                                                                    builder: (context) => VideoConferencePage(
+                                                                                      conferenceID: el.meetingRoomCode,
+                                                                                      userId: user.id.toString(),
+                                                                                      fullname: user.fullname!.length > 16 ? '${user.fullname!.substring(0, 16)}...' : user.fullname!,
+                                                                                    ),
+                                                                                  ),
+                                                                                );
                                                                               },
                                                                               style: ElevatedButton.styleFrom(
                                                                                 shape: RoundedRectangleBorder(
@@ -1700,6 +1724,8 @@ class _MessageDetailsScreen extends ConsumerState<MessageDetailsScreen> {
 
                                                             if (responseCheckAvailabilityData['result']) {
                                                               isExistRandomNumber = true;
+                                                            } else {
+                                                              isExistRandomNumber = false;
                                                             }
                                                           } while (isExistRandomNumber);
 

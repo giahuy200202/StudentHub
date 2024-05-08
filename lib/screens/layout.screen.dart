@@ -9,6 +9,7 @@ import 'package:studenthub/screens/dashboard/send_hire_offer.screen.dart';
 import 'package:studenthub/screens/homepage/homepage.screen.dart';
 import 'package:studenthub/screens/authentication/login.screen.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:studenthub/screens/message/video_conference.screen.dart';
 import 'package:studenthub/screens/post_project/project_post_step1.screen.dart';
 import 'package:studenthub/screens/post_project/project_post_step2.screen.dart';
 import 'package:studenthub/screens/post_project/project_post_step3.screen.dart';
