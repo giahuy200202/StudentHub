@@ -3,7 +3,7 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
-
+import 'package:studenthub/providers/language/language.provider.dart';
 import 'package:studenthub/providers/profile/student_input.provider.dart';
 import 'package:studenthub/providers/theme/theme_provider.dart';
 
@@ -38,9 +38,14 @@ class _ResumeInputState extends ConsumerState<ResumeInput> {
     final studentInput = ref.watch(studentInputProvider);
     var colorApp = ref.watch(colorProvider);
 
+    // Widget content = ElevatedButton.icon(
+    //   icon: const Icon(Icons.camera),
+    //   label: const Text('Choose files to Url'),
+    var Language = ref.watch(LanguageProvider);
+
     Widget content = ElevatedButton.icon(
       icon: const Icon(Icons.camera),
-      label: const Text('Choose files to Url'),
+      label: Text(Language.Choosefile),
       onPressed: _takePicture,
     );
 

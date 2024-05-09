@@ -12,7 +12,7 @@ import 'package:http/http.dart' as http;
 import 'package:studenthub/providers/profile/company.provider.dart';
 import 'package:studenthub/providers/profile/student.provider.dart';
 import 'dart:convert';
-
+import 'package:studenthub/providers/language/language.provider.dart';
 import 'package:toastification/toastification.dart';
 import 'package:studenthub/providers/theme/theme_provider.dart';
 
@@ -76,6 +76,7 @@ class _ForgotPasswordWidgetState extends ConsumerState<ForgotPasswordWidget> {
     final user = ref.watch(userProvider);
     var colorApp = ref.watch(colorProvider);
 
+    var Language = ref.watch(LanguageProvider);
     return Scaffold(
       backgroundColor: colorApp.colorBackgroundColor,
       body: SingleChildScrollView(
@@ -103,7 +104,7 @@ class _ForgotPasswordWidgetState extends ConsumerState<ForgotPasswordWidget> {
                   Align(
                     alignment: Alignment.topLeft,
                     child: Text(
-                      'Forgot Password',
+                      Language.ForgotLogin,
                       style: TextStyle(
                         fontSize: 30,
                         color: colorApp.colorTitle,
@@ -115,7 +116,7 @@ class _ForgotPasswordWidgetState extends ConsumerState<ForgotPasswordWidget> {
                   Align(
                     alignment: Alignment.topLeft,
                     child: Text(
-                      'Please fill the below details',
+                      Language.DesRegister_2,
                       style: TextStyle(
                         fontSize: 16,
                         color: colorApp.colorText,
@@ -141,8 +142,9 @@ class _ForgotPasswordWidgetState extends ConsumerState<ForgotPasswordWidget> {
                         color: colorApp.colorText,
                       ),
                       decoration: InputDecoration(
-                        labelText: 'Enter your email',
+                        // labelText: 'Enter your email',
                         labelStyle: TextStyle(color: colorApp.colorText),
+                        labelText: Language.textEmail,
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(9),
                         ),
@@ -226,8 +228,8 @@ class _ForgotPasswordWidgetState extends ConsumerState<ForgotPasswordWidget> {
                                 ),
                               ),
                             )
-                          : const Text(
-                              'Reset password',
+                          : Text(
+                              Language.reset_pass,
                               style: TextStyle(
                                 fontSize: 16,
                                 color: Colors.white,
@@ -241,7 +243,7 @@ class _ForgotPasswordWidgetState extends ConsumerState<ForgotPasswordWidget> {
                     mainAxisAlignment: MainAxisAlignment.center, //Center Column contents vertically,
                     children: [
                       Text(
-                        'Looking for a project?',
+                        Language.TextRegister_step2,
                         style: TextStyle(
                           fontSize: 16,
                           color: colorApp.colorText,
@@ -266,8 +268,8 @@ class _ForgotPasswordWidgetState extends ConsumerState<ForgotPasswordWidget> {
                             color: Colors.blue,
                             width: 1.3,
                           ))),
-                          child: const Text(
-                            "Apply as student",
+                          child: Text(
+                            Language.ApplyStudent,
                             style: TextStyle(fontSize: 16, color: Colors.blue, fontWeight: FontWeight.w500),
                           ),
                         ),

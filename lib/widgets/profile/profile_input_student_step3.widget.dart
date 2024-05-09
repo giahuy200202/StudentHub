@@ -13,6 +13,7 @@ import 'package:studenthub/utils/transcript_input.dart';
 import 'package:http/http.dart' as http;
 import 'package:toastification/toastification.dart';
 import 'package:studenthub/providers/theme/theme_provider.dart';
+import 'package:studenthub/providers/language/language.provider.dart';
 
 class ProfileIStudentStep3Widget extends ConsumerStatefulWidget {
   const ProfileIStudentStep3Widget({super.key});
@@ -65,6 +66,8 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentStep3Widget> {
     final user = ref.watch(userProvider);
     final studentInput = ref.watch(studentInputProvider);
     var student = ref.watch(studentProvider);
+    var Language = ref.watch(LanguageProvider);
+
     var responseEditStudent;
     var responseEditStudentData;
     var responseCreateStudentData;
@@ -82,7 +85,7 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentStep3Widget> {
               Align(
                 alignment: Alignment.topLeft,
                 child: Text(
-                  'CV & Transcript',
+                  Language.CV,
                   style: TextStyle(
                     fontSize: 26,
                     fontWeight: FontWeight.bold,
@@ -92,15 +95,15 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentStep3Widget> {
               ),
               const SizedBox(height: 15),
               Text(
-                'Tell us about your self and you will be your way connect with real-world project',
-                style: TextStyle(fontSize: 16, color: colorApp.colorText),
+                Language.DescriptionEx,
+                style: TextStyle(fontSize: 16),
               ),
               const SizedBox(height: 20),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    'Resume/CV',
+                    Language.CV,
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w600,
@@ -145,7 +148,7 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentStep3Widget> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    'Transcript',
+                    Language.Transcript,
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w600,
@@ -443,7 +446,7 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentStep3Widget> {
                             ),
                           )
                         : Text(
-                            'Continue',
+                            Language.Next,
                             style: TextStyle(
                               fontSize: 18,
                               color: colorApp.colorWhiteBlack,

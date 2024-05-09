@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:studenthub/providers/language/language.provider.dart';
 import 'package:studenthub/providers/theme/theme_provider.dart';
 
 class SettingWidget extends ConsumerStatefulWidget {
@@ -16,6 +17,7 @@ class _SettingWidget extends ConsumerState<SettingWidget> {
   Widget build(BuildContext context) {
     var colorApp = ref.watch(colorProvider);
     final tmp = ref.read(colorProvider.notifier);
+    final lan = ref.read(LanguageProvider.notifier);
     return Scaffold(
       backgroundColor: colorApp.colorBackgroundColor,
       body: SingleChildScrollView(
@@ -52,9 +54,9 @@ class _SettingWidget extends ConsumerState<SettingWidget> {
                         onChanged: (enbled) {
                           print(enbled);
                           if (enbled) {
-                            tmp.setDarkMode();
+                            lan.setLanguageVN();
                           } else {
-                            tmp.setLightMode();
+                            lan.setLanguageEng();
                           }
                         },
                       ),

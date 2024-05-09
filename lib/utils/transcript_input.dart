@@ -6,6 +6,7 @@ import 'dart:io';
 
 import 'package:studenthub/providers/profile/student_input.provider.dart';
 import 'package:studenthub/providers/theme/theme_provider.dart';
+import 'package:studenthub/providers/language/language.provider.dart';
 
 class TrasncriptInput extends ConsumerStatefulWidget {
   const TrasncriptInput({super.key});
@@ -38,9 +39,13 @@ class _TrasncriptInputState extends ConsumerState<TrasncriptInput> {
     final studentInput = ref.watch(studentInputProvider);
     var colorApp = ref.watch(colorProvider);
 
+    // Widget content = ElevatedButton.icon(
+    //   icon: const Icon(Icons.camera),
+    //   label: const Text('Choose files to Url'),
+    var Language = ref.watch(LanguageProvider);
     Widget content = ElevatedButton.icon(
       icon: const Icon(Icons.camera),
-      label: const Text('Choose files to Url'),
+      label: Text(Language.Choosefile),
       onPressed: _takePicture,
     );
 

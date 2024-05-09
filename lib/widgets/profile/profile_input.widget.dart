@@ -12,6 +12,7 @@ import 'package:studenthub/providers/profile/profiles.provider.dart';
 import 'package:http/http.dart' as http;
 import 'package:toastification/toastification.dart';
 import 'package:studenthub/providers/theme/theme_provider.dart';
+import 'package:studenthub/providers/language/language.provider.dart';
 
 class LabeledRadio<T> extends StatelessWidget {
   const LabeledRadio({
@@ -119,6 +120,7 @@ class _ProfileInputWidgetState extends ConsumerState<ProfileInputWidget> {
     final company = ref.watch(companyProvider);
     var colorApp = ref.watch(colorProvider);
 
+    var Language = ref.watch(LanguageProvider);
     return Scaffold(
       backgroundColor: colorApp.colorBackgroundColor,
       body: SingleChildScrollView(
@@ -131,7 +133,7 @@ class _ProfileInputWidgetState extends ConsumerState<ProfileInputWidget> {
               Align(
                 alignment: Alignment.topLeft,
                 child: Text(
-                  'Company profile',
+                  Language.Companyname,
                   style: TextStyle(
                     fontSize: 26,
                     fontWeight: FontWeight.bold,
@@ -141,7 +143,7 @@ class _ProfileInputWidgetState extends ConsumerState<ProfileInputWidget> {
               ),
               const SizedBox(height: 10),
               Text(
-                'Tell us about your company and you will be your way connect with real-world project',
+                Language.CompanyDes,
                 style: TextStyle(
                   fontSize: 16,
                   color: colorApp.colorText,
@@ -149,7 +151,7 @@ class _ProfileInputWidgetState extends ConsumerState<ProfileInputWidget> {
               ),
               const SizedBox(height: 20),
               Text(
-                'How many people in company?',
+                Language.PeopleCompany,
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w600,
@@ -165,7 +167,7 @@ class _ProfileInputWidgetState extends ConsumerState<ProfileInputWidget> {
                     height: 30,
                     width: MediaQuery.of(context).size.width,
                     child: LabeledRadio(
-                      label: 'It\'s just me',
+                      label: Language.People_1,
                       value: 1,
                       groupValue: selectedEmployee,
                       textColor: colorApp.colorText,
@@ -179,7 +181,7 @@ class _ProfileInputWidgetState extends ConsumerState<ProfileInputWidget> {
                     height: 30,
                     width: MediaQuery.of(context).size.width,
                     child: LabeledRadio(
-                      label: '2-9 employees',
+                      label: Language.People_2,
                       value: 2,
                       groupValue: selectedEmployee,
                       textColor: colorApp.colorText,
@@ -193,7 +195,7 @@ class _ProfileInputWidgetState extends ConsumerState<ProfileInputWidget> {
                     height: 30,
                     width: MediaQuery.of(context).size.width,
                     child: LabeledRadio(
-                      label: '10-99 employees',
+                      label: Language.People_3,
                       value: 3,
                       groupValue: selectedEmployee,
                       textColor: colorApp.colorText,
@@ -207,7 +209,7 @@ class _ProfileInputWidgetState extends ConsumerState<ProfileInputWidget> {
                     height: 30,
                     width: MediaQuery.of(context).size.width,
                     child: LabeledRadio(
-                      label: "100-1000 employees",
+                      label: Language.People_4,
                       value: 4,
                       groupValue: selectedEmployee,
                       textColor: colorApp.colorText,
@@ -221,7 +223,7 @@ class _ProfileInputWidgetState extends ConsumerState<ProfileInputWidget> {
                     height: 25,
                     width: MediaQuery.of(context).size.width,
                     child: LabeledRadio(
-                      label: 'More than 1000 employees',
+                      label: Language.People_5,
                       value: 5,
                       groupValue: selectedEmployee,
                       textColor: colorApp.colorText,
@@ -237,7 +239,7 @@ class _ProfileInputWidgetState extends ConsumerState<ProfileInputWidget> {
               //////////////////////////////////////
               const SizedBox(height: 15),
               Text(
-                'Company name',
+                Language.Companyname,
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w600,
@@ -279,7 +281,7 @@ class _ProfileInputWidgetState extends ConsumerState<ProfileInputWidget> {
               ),
               //////
               Text(
-                'Website',
+                Language.Web,
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w600,
@@ -323,7 +325,7 @@ class _ProfileInputWidgetState extends ConsumerState<ProfileInputWidget> {
               Container(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  'Description',
+                  Language.Description,
                   style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w600,
@@ -439,7 +441,7 @@ class _ProfileInputWidgetState extends ConsumerState<ProfileInputWidget> {
                       backgroundColor: colorApp.colorBlackWhite,
                     ),
                     child: Text(
-                      'Continue',
+                      Language.Continue,
                       style: TextStyle(
                         fontSize: 18,
                         color: colorApp.colorWhiteBlack,
