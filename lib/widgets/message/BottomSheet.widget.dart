@@ -235,7 +235,7 @@ class _ShowbottomSheduleWidget extends ConsumerState<ShowbottomSheduleWidget> {
                   ),
                 ],
               ),
-              const SizedBox(height: 60),
+              const SizedBox(height: 40),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [

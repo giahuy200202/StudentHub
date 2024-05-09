@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:studenthub/providers/authentication/authentication.provider.dart';
 import 'package:studenthub/providers/profile/company.provider.dart';
 import 'package:studenthub/providers/profile/student.provider.dart';
+import 'package:studenthub/providers/theme/theme_provider.dart';
 
 import '../../providers/options.provider.dart';
 import 'package:http/http.dart' as http;
@@ -96,19 +97,21 @@ class _AllProjectsStudentWidgetState extends ConsumerState<AllProjectsStudentWid
     List<Project> listProjectsGetFromRes = [];
     if (responseProposalsData['result'] != null) {
       for (var item in responseProposalsData['result']) {
-        listProjectsGetFromRes.add(Project(
-          proposalId: item['proposalId'].toString(),
-          projectId: item['project']['id'].toString(),
-          title: item['project']['title'],
-          createTime: 'Submitted at ${DateFormat("dd/MM/yyyy | HH:mm").format(
-                DateTime.parse(item['createdAt']).toLocal(),
-              ).toString()}',
-          projectScopeFlag: item['project']['projectScopeFlag'],
-          numberOfStudents: item['project']['numberOfStudents'],
-          description: item['project']['description'],
-          coverLetter: item['coverLetter'],
-          statusFlag: item['statusFlag'],
-        ));
+        listProjectsGetFromRes.add(
+          Project(
+            proposalId: item['proposalId'].toString(),
+            projectId: item['project']['id'].toString(),
+            title: item['project']['title'],
+            createTime: 'Submitted at ${DateFormat("dd/MM/yyyy | HH:mm").format(
+                  DateTime.parse(item['createdAt']).toLocal(),
+                ).toString()}',
+            projectScopeFlag: item['project']['projectScopeFlag'],
+            numberOfStudents: item['project']['numberOfStudents'],
+            description: item['project']['description'],
+            coverLetter: item['coverLetter'],
+            statusFlag: item['statusFlag'],
+          ),
+        );
       }
     }
 
@@ -131,6 +134,8 @@ class _AllProjectsStudentWidgetState extends ConsumerState<AllProjectsStudentWid
 
   @override
   Widget build(BuildContext context) {
+    var colorApp = ref.watch(colorProvider);
+
     return SizedBox(
       height: 600,
       child: SingleChildScrollView(
@@ -162,8 +167,8 @@ class _AllProjectsStudentWidgetState extends ConsumerState<AllProjectsStudentWid
                       child: Text(
                         'Active proposal (${listProjects.where((el) => el.statusFlag == 1 || el.statusFlag == 2).toList().length})',
                         overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(
-                          color: Colors.black,
+                        style: TextStyle(
+                          color: colorApp.colorTitle,
                           fontSize: 18,
                           fontWeight: FontWeight.w600,
                         ),
@@ -172,16 +177,19 @@ class _AllProjectsStudentWidgetState extends ConsumerState<AllProjectsStudentWid
                   ),
                   const SizedBox(height: 20),
                   listProjects.where((el) => el.statusFlag == 1 || el.statusFlag == 2).toList().isEmpty
-                      ? const Column(
+                      ? Column(
                           children: [
                             Align(
                               alignment: Alignment.topLeft,
                               child: Text(
                                 'Empty',
-                                style: TextStyle(fontSize: 16),
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  color: colorApp.colorText,
+                                ),
                               ),
                             ),
-                            SizedBox(height: 20),
+                            const SizedBox(height: 20),
                           ],
                         )
                       : Column(
@@ -191,7 +199,7 @@ class _AllProjectsStudentWidgetState extends ConsumerState<AllProjectsStudentWid
                                 children: [
                                   Container(
                                     decoration: BoxDecoration(
-                                      color: Colors.white,
+                                      color: colorApp.colorBackgroundColor,
                                       border: Border.all(color: Colors.grey),
                                       borderRadius: const BorderRadius.all(Radius.circular(12)),
                                     ),
@@ -209,8 +217,8 @@ class _AllProjectsStudentWidgetState extends ConsumerState<AllProjectsStudentWid
                                               child: Text(
                                                 el.title,
                                                 overflow: TextOverflow.ellipsis,
-                                                style: const TextStyle(
-                                                  color: Colors.black,
+                                                style: TextStyle(
+                                                  color: colorApp.colorTitle,
                                                   fontSize: 18,
                                                   fontWeight: FontWeight.w600,
                                                 ),
@@ -224,8 +232,8 @@ class _AllProjectsStudentWidgetState extends ConsumerState<AllProjectsStudentWid
                                               width: 340,
                                               child: Text(
                                                 el.createTime,
-                                                style: const TextStyle(
-                                                  color: Color.fromARGB(255, 94, 94, 94),
+                                                style: TextStyle(
+                                                  color: colorApp.colorTime,
                                                   overflow: TextOverflow.ellipsis,
                                                   fontSize: 13,
                                                 ),
@@ -236,7 +244,7 @@ class _AllProjectsStudentWidgetState extends ConsumerState<AllProjectsStudentWid
                                           Container(
                                             decoration: BoxDecoration(
                                               border: Border.all(
-                                                color: Colors.black, //                   <--- border color
+                                                color: colorApp.colorDivider as Color, //                   <--- border color
                                                 width: 0.3,
                                               ),
                                             ),
@@ -246,8 +254,8 @@ class _AllProjectsStudentWidgetState extends ConsumerState<AllProjectsStudentWid
                                             alignment: Alignment.topLeft,
                                             child: Text(
                                               el.description,
-                                              style: const TextStyle(
-                                                color: Colors.black,
+                                              style: TextStyle(
+                                                color: colorApp.colorText,
                                                 fontSize: 16,
                                                 fontWeight: FontWeight.w400,
                                               ),
@@ -271,8 +279,8 @@ class _AllProjectsStudentWidgetState extends ConsumerState<AllProjectsStudentWid
                       child: Text(
                         'Submitted proposal (${listProjects.where((el) => el.statusFlag == 0).toList().length})',
                         overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(
-                          color: Colors.black,
+                        style: TextStyle(
+                          color: colorApp.colorTitle,
                           fontSize: 18,
                           fontWeight: FontWeight.w600,
                         ),
@@ -281,13 +289,13 @@ class _AllProjectsStudentWidgetState extends ConsumerState<AllProjectsStudentWid
                   ),
                   const SizedBox(height: 20),
                   listProjects.where((el) => el.statusFlag == 0).toList().isEmpty
-                      ? const Column(
+                      ? Column(
                           children: [
                             Align(
                               alignment: Alignment.topLeft,
                               child: Text(
                                 'Empty',
-                                style: TextStyle(fontSize: 16),
+                                style: TextStyle(fontSize: 16, color: colorApp.colorText),
                               ),
                             ),
                             SizedBox(height: 20),
@@ -300,7 +308,7 @@ class _AllProjectsStudentWidgetState extends ConsumerState<AllProjectsStudentWid
                                 children: [
                                   Container(
                                     decoration: BoxDecoration(
-                                      color: Colors.white,
+                                      color: colorApp.colorBackgroundColor,
                                       border: Border.all(color: Colors.grey),
                                       borderRadius: const BorderRadius.all(Radius.circular(12)),
                                     ),
@@ -318,8 +326,8 @@ class _AllProjectsStudentWidgetState extends ConsumerState<AllProjectsStudentWid
                                               child: Text(
                                                 el.title,
                                                 overflow: TextOverflow.ellipsis,
-                                                style: const TextStyle(
-                                                  color: Colors.black,
+                                                style: TextStyle(
+                                                  color: colorApp.colorTitle,
                                                   fontSize: 18,
                                                   fontWeight: FontWeight.w600,
                                                 ),
@@ -333,8 +341,8 @@ class _AllProjectsStudentWidgetState extends ConsumerState<AllProjectsStudentWid
                                               width: 340,
                                               child: Text(
                                                 el.createTime,
-                                                style: const TextStyle(
-                                                  color: Color.fromARGB(255, 94, 94, 94),
+                                                style: TextStyle(
+                                                  color: colorApp.colorTime,
                                                   overflow: TextOverflow.ellipsis,
                                                   fontSize: 13,
                                                 ),
@@ -345,7 +353,7 @@ class _AllProjectsStudentWidgetState extends ConsumerState<AllProjectsStudentWid
                                           Container(
                                             decoration: BoxDecoration(
                                               border: Border.all(
-                                                color: Colors.black, //                   <--- border color
+                                                color: colorApp.colorDivider as Color, //                   <--- border color
                                                 width: 0.3,
                                               ),
                                             ),
@@ -355,8 +363,8 @@ class _AllProjectsStudentWidgetState extends ConsumerState<AllProjectsStudentWid
                                             alignment: Alignment.topLeft,
                                             child: Text(
                                               el.description,
-                                              style: const TextStyle(
-                                                color: Colors.black,
+                                              style: TextStyle(
+                                                color: colorApp.colorText,
                                                 fontSize: 16,
                                                 fontWeight: FontWeight.w400,
                                               ),

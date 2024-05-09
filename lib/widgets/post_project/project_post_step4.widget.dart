@@ -8,6 +8,8 @@ import 'package:studenthub/providers/profile/company.provider.dart';
 import 'package:toastification/toastification.dart';
 import '../../providers/projects/project_posting.provider.dart';
 import '../../providers/options.provider.dart';
+import 'package:studenthub/providers/theme/theme_provider.dart';
+
 import 'package:http/http.dart' as http;
 
 class ProjectPostStep4Widget extends ConsumerStatefulWidget {
@@ -69,8 +71,10 @@ class _ProjectPostStep4WidgetState extends ConsumerState<ProjectPostStep4Widget>
     final projectPosting = ref.watch(projectPostingProvider);
     final user = ref.watch(userProvider);
     final company = ref.watch(companyProvider);
+    var colorApp = ref.watch(colorProvider);
 
     return Scaffold(
+      backgroundColor: colorApp.colorBackgroundColor,
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -94,25 +98,25 @@ class _ProjectPostStep4WidgetState extends ConsumerState<ProjectPostStep4Widget>
                   ),
                 ),
                 const SizedBox(height: 20),
-                const Align(
+                Align(
                   alignment: Alignment.topLeft,
                   child: Text(
                     'Project details',
                     style: TextStyle(
                       fontSize: 27,
-                      color: Colors.black,
+                      color: colorApp.colorTitle,
                       fontWeight: FontWeight.w700,
                     ),
                   ),
                 ),
                 const SizedBox(height: 10),
-                const Align(
+                Align(
                   alignment: Alignment.topLeft,
                   child: Text(
                     'Reviewing the project before posting ensures accuracy, completeness, and clarity, setting the stage for successful collaboration.',
                     style: TextStyle(
                       fontSize: 16,
-                      color: Colors.black,
+                      color: colorApp.colorText,
                       // fontWeight: FontWeight.w500,
                     ),
                   ),
@@ -123,12 +127,12 @@ class _ProjectPostStep4WidgetState extends ConsumerState<ProjectPostStep4Widget>
                   child: SizedBox(
                     width: MediaQuery.of(context).size.width,
                     height: 2.2,
-                    child: const ClipRRect(
+                    child: ClipRRect(
                       borderRadius: BorderRadius.all(Radius.circular(10)),
                       child: LinearProgressIndicator(
                         value: 1,
-                        backgroundColor: Color.fromARGB(255, 193, 191, 191),
-                        valueColor: AlwaysStoppedAnimation<Color>(Colors.black),
+                        backgroundColor: colorApp.colorClip,
+                        valueColor: AlwaysStoppedAnimation<Color>(colorApp.colorBlackWhite as Color),
                       ),
                     ),
                   ),
@@ -136,7 +140,7 @@ class _ProjectPostStep4WidgetState extends ConsumerState<ProjectPostStep4Widget>
                 const SizedBox(height: 40),
                 Container(
                   decoration: BoxDecoration(
-                    color: Colors.white,
+                    color: colorApp.colorBackgroundColor,
                     border: Border.all(color: Colors.grey),
                     borderRadius: const BorderRadius.all(Radius.circular(15)),
                   ),
@@ -156,8 +160,8 @@ class _ProjectPostStep4WidgetState extends ConsumerState<ProjectPostStep4Widget>
                                 child: Text(
                                   projectPosting.title!,
                                   overflow: TextOverflow.ellipsis,
-                                  style: const TextStyle(
-                                    color: Colors.black,
+                                  style: TextStyle(
+                                    color: colorApp.colorTitle,
                                     fontSize: 18,
                                     fontWeight: FontWeight.w600,
                                   ),
@@ -167,7 +171,10 @@ class _ProjectPostStep4WidgetState extends ConsumerState<ProjectPostStep4Widget>
                             const Spacer(),
                             InkWell(
                               onTap: () {},
-                              child: const Icon(Icons.more_horiz),
+                              child: Icon(
+                                Icons.more_horiz,
+                                color: colorApp.colorIcon,
+                              ),
                             ),
                           ],
                         ),
@@ -190,7 +197,7 @@ class _ProjectPostStep4WidgetState extends ConsumerState<ProjectPostStep4Widget>
                         Container(
                           decoration: BoxDecoration(
                             border: Border.all(
-                              color: Colors.black, //                   <--- border color
+                              color: colorApp.colorBorderSide as Color, //                   <--- border color
                               width: 0.3,
                             ),
                           ),
@@ -200,8 +207,8 @@ class _ProjectPostStep4WidgetState extends ConsumerState<ProjectPostStep4Widget>
                           alignment: Alignment.topLeft,
                           child: Text(
                             projectPosting.description!,
-                            style: const TextStyle(
-                              color: Colors.black,
+                            style: TextStyle(
+                              color: colorApp.colorText,
                               fontSize: 16,
                               fontWeight: FontWeight.w400,
                             ),
@@ -211,7 +218,7 @@ class _ProjectPostStep4WidgetState extends ConsumerState<ProjectPostStep4Widget>
                         Container(
                           decoration: BoxDecoration(
                             border: Border.all(
-                              color: Colors.black, //                   <--- border color
+                              color: colorApp.colorBorderSide as Color, //                   <--- border color
                               width: 0.3,
                             ),
                           ),
@@ -223,18 +230,24 @@ class _ProjectPostStep4WidgetState extends ConsumerState<ProjectPostStep4Widget>
                           children: [
                             Row(
                               children: [
-                                const Icon(
+                                Icon(
                                   Icons.alarm,
                                   size: 40,
+                                  color: colorApp.colorIcon,
                                 ),
                                 const SizedBox(width: 10),
                                 Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    const Text(
+                                    Text(
                                       'Project scope',
-                                      style: TextStyle(color: Colors.black, overflow: TextOverflow.ellipsis, fontSize: 16, fontWeight: FontWeight.w700),
+                                      style: TextStyle(
+                                        color: colorApp.colorTitle,
+                                        overflow: TextOverflow.ellipsis,
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w700,
+                                      ),
                                     ),
                                     Text(
                                       projectPosting.scope == 0
@@ -244,8 +257,8 @@ class _ProjectPostStep4WidgetState extends ConsumerState<ProjectPostStep4Widget>
                                               : projectPosting.scope == 2
                                                   ? '3 to 6 months'
                                                   : 'More than 6 months',
-                                      style: const TextStyle(
-                                        color: Colors.black,
+                                      style: TextStyle(
+                                        color: colorApp.colorText,
                                         overflow: TextOverflow.ellipsis,
                                         fontSize: 14,
                                       ),
@@ -257,19 +270,20 @@ class _ProjectPostStep4WidgetState extends ConsumerState<ProjectPostStep4Widget>
                             const SizedBox(height: 30),
                             Row(
                               children: [
-                                const Icon(
+                                Icon(
                                   Icons.group,
                                   size: 40,
+                                  color: colorApp.colorIcon,
                                 ),
                                 const SizedBox(width: 10),
                                 Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    const Text(
+                                    Text(
                                       'Student required',
                                       style: TextStyle(
-                                        color: Colors.black,
+                                        color: colorApp.colorTitle,
                                         overflow: TextOverflow.ellipsis,
                                         fontSize: 16,
                                         fontWeight: FontWeight.w700,
@@ -277,8 +291,8 @@ class _ProjectPostStep4WidgetState extends ConsumerState<ProjectPostStep4Widget>
                                     ),
                                     Text(
                                       '${projectPosting.numOfStudents} students',
-                                      style: const TextStyle(
-                                        color: Colors.black,
+                                      style: TextStyle(
+                                        color: colorApp.colorText,
                                         overflow: TextOverflow.ellipsis,
                                         fontSize: 14,
                                       ),
@@ -357,7 +371,7 @@ class _ProjectPostStep4WidgetState extends ConsumerState<ProjectPostStep4Widget>
                         borderRadius: BorderRadius.circular(8),
                         // side: const BorderSide(color: Colors.grey),
                       ),
-                      backgroundColor: Colors.black,
+                      backgroundColor: colorApp.colorBlackWhite,
                     ),
                     child: isFetching
                         ? const SizedBox(
@@ -369,7 +383,7 @@ class _ProjectPostStep4WidgetState extends ConsumerState<ProjectPostStep4Widget>
                               ),
                             ),
                           )
-                        : const Padding(
+                        : Padding(
                             padding: EdgeInsets.only(left: 10),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -379,7 +393,7 @@ class _ProjectPostStep4WidgetState extends ConsumerState<ProjectPostStep4Widget>
                                   'Post project',
                                   style: TextStyle(
                                     fontSize: 17,
-                                    color: Colors.white,
+                                    color: colorApp.colorWhiteBlack,
                                     fontWeight: FontWeight.w600,
                                   ),
                                 ),

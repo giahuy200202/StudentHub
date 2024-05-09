@@ -5,6 +5,7 @@ import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 
 import 'package:studenthub/providers/profile/student_input.provider.dart';
+import 'package:studenthub/providers/theme/theme_provider.dart';
 
 class TrasncriptInput extends ConsumerStatefulWidget {
   const TrasncriptInput({super.key});
@@ -35,10 +36,11 @@ class _TrasncriptInputState extends ConsumerState<TrasncriptInput> {
   @override
   Widget build(BuildContext context) {
     final studentInput = ref.watch(studentInputProvider);
+    var colorApp = ref.watch(colorProvider);
 
     Widget content = ElevatedButton.icon(
       icon: const Icon(Icons.camera),
-      label: const Text('Choose files to Upl'),
+      label: const Text('Choose files to Url'),
       onPressed: _takePicture,
     );
 
@@ -53,6 +55,7 @@ class _TrasncriptInputState extends ConsumerState<TrasncriptInput> {
       }
     }
     return DottedBorder(
+      color: colorApp.colorBorderSide as Color,
       borderType: BorderType.RRect,
       radius: const Radius.circular(12),
       padding: const EdgeInsets.all(6),

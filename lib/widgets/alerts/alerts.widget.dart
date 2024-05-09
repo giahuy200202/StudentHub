@@ -3,6 +3,7 @@ import 'dart:ffi';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:studenthub/providers/theme/theme_provider.dart';
 
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
@@ -140,20 +141,18 @@ class _AlertsWidget extends ConsumerState<AlertsWidget> {
       ref.read(notificationProvider.notifier).clearNotificationData();
 
       for (var item in responseNotificationsData['result']) {
-        print('----item type notify flag----');
-        print(item['typeNotifyFlag']);
         ref.read(notificationProvider.notifier).pushNotificationData(
               item['id'].toString(),
               item['notifyFlag'],
               item['typeNotifyFlag'] == '2' || item['typeNotifyFlag'] == '0' || item['typeNotifyFlag'] == '4'
-                  ? '${item['content']}'
+                  ? '${item['title']}'
                   : item['typeNotifyFlag'] == '1'
                       ? '${item['content']}\nTitle: ${item['message']['interview']['title']}\nStart time: ${DateFormat("dd/MM/yyyy | HH:mm").format(
                             DateTime.parse(item['message']['interview']['startTime']),
                           ).toString()}\nEnd time: ${DateFormat("dd/MM/yyyy | HH:mm").format(
                             DateTime.parse(item['message']['interview']['endTime']),
                           ).toString()}\nMeeting room code: ${item['message']['interview']['meetingRoom']['meeting_room_code']}\nMeeting room id: ${item['message']['interview']['meetingRoom']['meeting_room_id']}'
-                      : '${item['content']}\n${item['message']['content']}',
+                      : '${item['title']}\n${item['message']['content']}',
               item['sender']['fullname'],
               DateFormat("dd/MM/yyyy | HH:mm").format(DateTime.parse(item['createdAt']).toLocal()).toString(),
               item['typeNotifyFlag'],

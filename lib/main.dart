@@ -86,7 +86,7 @@ class _AppState extends ConsumerState<App> {
                   ref.read(notificationProvider.notifier).pushNotificationData(
                         data['notification']['id'].toString(),
                         '0',
-                        "${data['notification']['content']}",
+                        "${data['notification']['title']}",
                         data['notification']['sender']['fullname'],
                         DateFormat("dd/MM/yyyy | HH:mm")
                             .format(
@@ -129,7 +129,7 @@ class _AppState extends ConsumerState<App> {
                       );
                   LocalNotifications.showSimpleNotification(
                     // id: tasks.length + 1,
-                    title: '${data['notification']['content']}',
+                    title: '${data['notification']['title']}',
                     body: '${data['notification']['message']['interview']['title']}',
                     payload: 'data',
                   );
@@ -139,7 +139,7 @@ class _AppState extends ConsumerState<App> {
                   ref.read(notificationProvider.notifier).pushNotificationData(
                         data['notification']['id'].toString(),
                         '0',
-                        '${data['notification']['content']}\n${data['notification']['message']['content']}',
+                        '${data['notification']['title']}\n${data['notification']['message']['content']}',
                         data['notification']['sender']['fullname'],
                         DateFormat("dd/MM/yyyy | HH:mm")
                             .format(

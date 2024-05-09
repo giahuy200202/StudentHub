@@ -236,6 +236,7 @@ class _ProjectSearchWidgetState extends ConsumerState<ProjectSearchWidget> {
     final projectId = ref.watch(projectIdProvider);
 
     return Scaffold(
+      backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),

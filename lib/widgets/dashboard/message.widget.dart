@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
+import 'package:studenthub/providers/theme/theme_provider.dart';
 import '../../providers/options.provider.dart';
 
 class MessageWidget extends ConsumerStatefulWidget {
@@ -15,6 +15,10 @@ class MessageWidget extends ConsumerStatefulWidget {
 class _MessageWidgetState extends ConsumerState<MessageWidget> {
   @override
   Widget build(BuildContext context) {
-    return const Text('Message');
+    var colorApp = ref.watch(colorProvider);
+    return Text(
+      'Message',
+      style: TextStyle(color: colorApp.colorText),
+    );
   }
 }

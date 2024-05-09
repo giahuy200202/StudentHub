@@ -12,6 +12,7 @@ import 'package:studenthub/utils/multiselect_bottom_sheet_model.dart';
 import 'package:studenthub/utils/multiselect_bottom_sheet_exp.dart';
 import 'package:http/http.dart' as http;
 import 'package:toastification/toastification.dart';
+import 'package:studenthub/providers/theme/theme_provider.dart';
 
 class ExperienceCreate {
   String title;
@@ -200,8 +201,10 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentStep2Widget> {
     final user = ref.watch(userProvider);
     var studentInput = ref.watch(studentInputProvider);
     var student = ref.watch(studentProvider);
+    var colorApp = ref.watch(colorProvider);
 
     return Scaffold(
+      backgroundColor: colorApp.colorBackgroundColor,
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -228,30 +231,35 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentStep2Widget> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const SizedBox(height: 30),
-                    const Align(
+                    Align(
                       alignment: Alignment.topLeft,
                       child: Text(
                         'Experiences',
                         style: TextStyle(
                           fontSize: 26,
                           fontWeight: FontWeight.bold,
+                          color: colorApp.colorTitle,
                         ),
                       ),
                     ),
                     const SizedBox(height: 15),
-                    const Text(
+                    Text(
                       'Tell us about your self and you will be your way connect with real-world project',
-                      style: TextStyle(fontSize: 16),
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: colorApp.colorText,
+                      ),
                     ),
                     const SizedBox(height: 20),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        const Text(
+                        Text(
                           'Projects',
                           style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.w600,
+                            color: colorApp.colorTitle,
                           ),
                         ),
                         InkWell(
@@ -264,7 +272,7 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentStep2Widget> {
                             showModalBottomSheet(
                               isScrollControlled: true,
                               context: context,
-                              backgroundColor: Colors.white,
+                              backgroundColor: colorApp.colorBackgroundBootomSheet,
                               builder: (ctx) {
                                 return StatefulBuilder(builder: (BuildContext context, StateSetter setState /*You can rename this!*/) {
                                   // bool enable = false;
@@ -280,13 +288,14 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentStep2Widget> {
                                           mainAxisSize: MainAxisSize.min,
                                           children: [
                                             const SizedBox(height: 40),
-                                            const Align(
+                                            Align(
                                               alignment: Alignment.topLeft,
                                               child: Text(
                                                 "Create project",
                                                 style: TextStyle(
                                                   fontWeight: FontWeight.bold,
                                                   fontSize: 25,
+                                                  color: colorApp.colorTitle,
                                                 ),
                                               ),
                                             ),
@@ -294,7 +303,7 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentStep2Widget> {
                                             Container(
                                               decoration: BoxDecoration(
                                                 border: Border.all(
-                                                  color: Colors.black, //                   <--- border color
+                                                  color: colorApp.colorDivider as Color, //                   <--- border color
                                                   width: 0.3,
                                                 ),
                                               ),
@@ -304,13 +313,14 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentStep2Widget> {
                                               height: 580,
                                               child: Column(
                                                 children: [
-                                                  const Align(
+                                                  Align(
                                                     alignment: Alignment.topLeft,
                                                     child: Text(
                                                       "Title",
                                                       style: TextStyle(
                                                         fontWeight: FontWeight.bold,
                                                         fontSize: 16,
+                                                        color: colorApp.colorTitle,
                                                       ),
                                                     ),
                                                   ),
@@ -326,34 +336,38 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentStep2Widget> {
                                                         }
                                                         setState(() {});
                                                       },
-                                                      style: const TextStyle(
+                                                      style: TextStyle(
                                                         fontSize: 16,
+                                                        color: colorApp.colorText,
                                                       ),
                                                       decoration: InputDecoration(
-                                                        // labelText: 'Number of students',
-                                                        border: OutlineInputBorder(
-                                                          borderRadius: BorderRadius.circular(9),
-                                                        ),
-                                                        focusedBorder: OutlineInputBorder(
-                                                          borderRadius: BorderRadius.circular(9),
-                                                          borderSide: const BorderSide(color: Colors.black),
-                                                        ),
-                                                        contentPadding: const EdgeInsets.symmetric(
-                                                          vertical: 14,
-                                                          horizontal: 15,
-                                                        ),
-                                                        hintText: 'Enter your project\'s title',
-                                                      ),
+                                                          // labelText: 'Number of students',
+                                                          border: OutlineInputBorder(
+                                                            borderRadius: BorderRadius.circular(9),
+                                                          ),
+                                                          focusedBorder: OutlineInputBorder(
+                                                            borderRadius: BorderRadius.circular(9),
+                                                            borderSide: const BorderSide(color: Colors.black),
+                                                          ),
+                                                          contentPadding: const EdgeInsets.symmetric(
+                                                            vertical: 14,
+                                                            horizontal: 15,
+                                                          ),
+                                                          hintText: 'Enter your project\'s title',
+                                                          hintStyle: TextStyle(
+                                                            color: colorApp.colorText,
+                                                          )),
                                                     ),
                                                   ),
                                                   const SizedBox(height: 20),
-                                                  const Align(
+                                                  Align(
                                                     alignment: Alignment.topLeft,
                                                     child: Text(
                                                       "Description",
                                                       style: TextStyle(
                                                         fontWeight: FontWeight.bold,
                                                         fontSize: 16,
+                                                        color: colorApp.colorTitle,
                                                       ),
                                                     ),
                                                   ),
@@ -373,24 +387,26 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentStep2Widget> {
                                                         fontSize: 16,
                                                       ),
                                                       decoration: InputDecoration(
-                                                        // labelText: 'Number of students',
-                                                        border: OutlineInputBorder(
-                                                          borderRadius: BorderRadius.circular(9),
-                                                        ),
-                                                        focusedBorder: OutlineInputBorder(
-                                                          borderRadius: BorderRadius.circular(9),
-                                                          borderSide: const BorderSide(color: Colors.black),
-                                                        ),
-                                                        contentPadding: const EdgeInsets.symmetric(
-                                                          vertical: 14,
-                                                          horizontal: 15,
-                                                        ),
-                                                        hintText: 'Enter your project\'s description',
-                                                      ),
+                                                          // labelText: 'Number of students',
+                                                          border: OutlineInputBorder(
+                                                            borderRadius: BorderRadius.circular(9),
+                                                          ),
+                                                          focusedBorder: OutlineInputBorder(
+                                                            borderRadius: BorderRadius.circular(9),
+                                                            borderSide: const BorderSide(color: Colors.black),
+                                                          ),
+                                                          contentPadding: const EdgeInsets.symmetric(
+                                                            vertical: 14,
+                                                            horizontal: 15,
+                                                          ),
+                                                          hintText: 'Enter your project\'s description',
+                                                          hintStyle: TextStyle(
+                                                            color: colorApp.colorText,
+                                                          )),
                                                     ),
                                                   ),
                                                   const SizedBox(height: 20),
-                                                  const Row(
+                                                  Row(
                                                     children: [
                                                       Align(
                                                         alignment: Alignment.topLeft,
@@ -399,6 +415,7 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentStep2Widget> {
                                                           style: TextStyle(
                                                             fontWeight: FontWeight.bold,
                                                             fontSize: 16,
+                                                            color: colorApp.colorTitle,
                                                           ),
                                                         ),
                                                       ),
@@ -410,6 +427,7 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentStep2Widget> {
                                                           style: TextStyle(
                                                             fontWeight: FontWeight.bold,
                                                             fontSize: 16,
+                                                            color: colorApp.colorTitle,
                                                           ),
                                                         ),
                                                       ),
@@ -434,20 +452,22 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentStep2Widget> {
                                                             fontSize: 16,
                                                           ),
                                                           decoration: InputDecoration(
-                                                            // labelText: 'Number of students',
-                                                            border: OutlineInputBorder(
-                                                              borderRadius: BorderRadius.circular(9),
-                                                            ),
-                                                            focusedBorder: OutlineInputBorder(
-                                                              borderRadius: BorderRadius.circular(9),
-                                                              borderSide: const BorderSide(color: Colors.black),
-                                                            ),
-                                                            contentPadding: const EdgeInsets.symmetric(
-                                                              vertical: 14,
-                                                              horizontal: 15,
-                                                            ),
-                                                            hintText: 'End start time',
-                                                          ),
+                                                              // labelText: 'Number of students',
+                                                              border: OutlineInputBorder(
+                                                                borderRadius: BorderRadius.circular(9),
+                                                              ),
+                                                              focusedBorder: OutlineInputBorder(
+                                                                borderRadius: BorderRadius.circular(9),
+                                                                borderSide: const BorderSide(color: Colors.black),
+                                                              ),
+                                                              contentPadding: const EdgeInsets.symmetric(
+                                                                vertical: 14,
+                                                                horizontal: 15,
+                                                              ),
+                                                              hintText: 'End start time',
+                                                              hintStyle: TextStyle(
+                                                                color: colorApp.colorText,
+                                                              )),
                                                         ),
                                                       ),
                                                       const SizedBox(width: 15),
@@ -467,32 +487,35 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentStep2Widget> {
                                                             fontSize: 16,
                                                           ),
                                                           decoration: InputDecoration(
-                                                            // labelText: 'Number of students',
-                                                            border: OutlineInputBorder(
-                                                              borderRadius: BorderRadius.circular(9),
-                                                            ),
-                                                            focusedBorder: OutlineInputBorder(
-                                                              borderRadius: BorderRadius.circular(9),
-                                                              borderSide: const BorderSide(color: Colors.black),
-                                                            ),
-                                                            contentPadding: const EdgeInsets.symmetric(
-                                                              vertical: 14,
-                                                              horizontal: 15,
-                                                            ),
-                                                            hintText: 'Enter end time',
-                                                          ),
+                                                              // labelText: 'Number of students',
+                                                              border: OutlineInputBorder(
+                                                                borderRadius: BorderRadius.circular(9),
+                                                              ),
+                                                              focusedBorder: OutlineInputBorder(
+                                                                borderRadius: BorderRadius.circular(9),
+                                                                borderSide: const BorderSide(color: Colors.black),
+                                                              ),
+                                                              contentPadding: const EdgeInsets.symmetric(
+                                                                vertical: 14,
+                                                                horizontal: 15,
+                                                              ),
+                                                              hintText: 'Enter end time',
+                                                              hintStyle: TextStyle(
+                                                                color: colorApp.colorText,
+                                                              )),
                                                         ),
                                                       ),
                                                     ],
                                                   ),
                                                   const SizedBox(height: 20),
-                                                  const Align(
+                                                  Align(
                                                     alignment: Alignment.topLeft,
                                                     child: Text(
                                                       "Skillsets",
                                                       style: TextStyle(
                                                         fontWeight: FontWeight.bold,
                                                         fontSize: 16,
+                                                        color: colorApp.colorTitle,
                                                       ),
                                                     ),
                                                   ),
@@ -505,15 +528,17 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentStep2Widget> {
                                                     width: MediaQuery.of(context).size.width,
                                                     bottomSheetHeight: 500 * 0.7, // required for min/max height of bottomSheet
                                                     hint: "Select Skillset",
+                                                    hintColor: colorApp.colorText as Color,
+
                                                     controller: controller,
                                                     searchTextFieldWidth: 300 * 0.96,
-                                                    searchIcon: const Icon(
+                                                    searchIcon: Icon(
                                                         // required for searchIcon
                                                         Icons.search,
-                                                        color: Colors.black87,
+                                                        color: colorApp.colorText,
                                                         size: 22),
-                                                    selectTextStyle: const TextStyle(color: Colors.white, fontSize: 17),
-                                                    unSelectTextStyle: const TextStyle(color: Colors.black, fontSize: 17),
+                                                    selectedBackgroundColor: colorApp.colorBackgroundColor as Color,
+                                                    // unSelectTextStyle: const TextStyle(color: Colors.black, fontSize: 17),
                                                   ),
                                                   const SizedBox(height: 40),
                                                   Column(
@@ -537,15 +562,15 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentStep2Widget> {
                                                                 padding: EdgeInsets.zero, // and this
                                                                 shape: RoundedRectangleBorder(
                                                                   borderRadius: BorderRadius.circular(8),
-                                                                  side: const BorderSide(color: Colors.black),
+                                                                  side: BorderSide(color: colorApp.colorBorderSideMutil as Color),
                                                                 ),
-                                                                backgroundColor: Colors.white,
+                                                                backgroundColor: colorApp.colorunSelect,
                                                               ),
-                                                              child: const Text(
+                                                              child: Text(
                                                                 'Cancel',
                                                                 style: TextStyle(
                                                                   fontSize: 18,
-                                                                  color: Colors.black,
+                                                                  color: colorApp.colorBlackWhite,
                                                                   fontWeight: FontWeight.w500,
                                                                 ),
                                                               ),
@@ -578,13 +603,14 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentStep2Widget> {
                                                                 shape: RoundedRectangleBorder(
                                                                   borderRadius: BorderRadius.circular(8),
                                                                 ),
-                                                                backgroundColor: Colors.black,
+                                                                backgroundColor: colorApp.colorBlackWhite,
+                                                                disabledBackgroundColor: colorApp.colorButton,
                                                               ),
-                                                              child: const Text(
+                                                              child: Text(
                                                                 'Save',
                                                                 style: TextStyle(
                                                                   fontSize: 18,
-                                                                  color: Color.fromARGB(255, 255, 255, 255),
+                                                                  color: colorApp.colorWhiteBlack,
                                                                   fontWeight: FontWeight.w500,
                                                                 ),
                                                               ),
@@ -606,9 +632,9 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentStep2Widget> {
                               },
                             );
                           },
-                          child: const Icon(
+                          child: Icon(
                             Icons.add_circle,
-                            color: Colors.black,
+                            color: colorApp.colorIcon,
                             size: 25,
                           ),
                         ),
@@ -616,11 +642,14 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentStep2Widget> {
                     ),
                     const SizedBox(height: 15),
                     studentInput.experiences!.isEmpty
-                        ? const Column(
+                        ? Column(
                             children: [
                               Text(
                                 'Empty',
-                                style: TextStyle(fontSize: 16),
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  color: colorApp.colorText,
+                                ),
                               ),
                               SizedBox(height: 20),
                             ],
@@ -1061,15 +1090,14 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentStep2Widget> {
                           style: ElevatedButton.styleFrom(
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(8),
-                              side: const BorderSide(color: Colors.grey),
                             ),
-                            backgroundColor: const Color.fromARGB(255, 0, 0, 0),
+                            backgroundColor: colorApp.colorBlackWhite,
                           ),
-                          child: const Text(
+                          child: Text(
                             'Next',
                             style: TextStyle(
                               fontSize: 18,
-                              color: Color.fromARGB(255, 255, 255, 255),
+                              color: colorApp.colorWhiteBlack,
                               fontWeight: FontWeight.w500,
                             ),
                           ),

@@ -15,6 +15,7 @@ import 'dart:convert';
 import 'package:studenthub/providers/profile/student.provider.dart';
 import 'package:studenthub/providers/switch_account.provider.dart';
 import 'package:toastification/toastification.dart';
+import 'package:studenthub/providers/theme/theme_provider.dart';
 
 class LoginWidget extends ConsumerStatefulWidget {
   const LoginWidget({super.key});
@@ -80,7 +81,7 @@ class _LoginWidgetState extends ConsumerState<LoginWidget> {
     final user = ref.watch(userProvider);
     final userLoginRole = ref.watch(userLoginProvider);
     final company = ref.watch(companyProvider);
-
+    var ColorApp = ref.watch(colorProvider);
     Icon iconRememberPassword = isRememberPassword
         ? const Icon(
             Icons.check_box,
@@ -95,6 +96,7 @@ class _LoginWidgetState extends ConsumerState<LoginWidget> {
 
     // print(user.name);
     return Scaffold(
+      backgroundColor: ColorApp.colorBackgroundColor,
       body: SingleChildScrollView(
           physics: const NeverScrollableScrollPhysics(),
           child: Padding(
@@ -118,25 +120,25 @@ class _LoginWidgetState extends ConsumerState<LoginWidget> {
                     ),
                   ),
                   const SizedBox(height: 20),
-                  const Align(
+                  Align(
                     alignment: Alignment.topLeft,
                     child: Text(
                       'Let\'s Get Started!',
                       style: TextStyle(
                         fontSize: 30,
-                        color: Colors.black,
+                        color: ColorApp.colorTitle,
                         fontWeight: FontWeight.w700,
                       ),
                     ),
                   ),
                   const SizedBox(height: 10),
-                  const Align(
+                  Align(
                     alignment: Alignment.topLeft,
                     child: Text(
                       'Please fill the below details to Sign In your account',
                       style: TextStyle(
                         fontSize: 15.5,
-                        color: Colors.black,
+                        color: ColorApp.colorText,
                       ),
                     ),
                   ),
@@ -154,11 +156,12 @@ class _LoginWidgetState extends ConsumerState<LoginWidget> {
                         }
                         setState(() {});
                       },
-                      style: const TextStyle(
-                        fontSize: 17,
-                      ),
+                      style: TextStyle(fontSize: 17, color: ColorApp.colorText),
                       decoration: InputDecoration(
                         labelText: 'Username or email',
+                        labelStyle: TextStyle(
+                          color: ColorApp.colorText,
+                        ),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(9),
                         ),
@@ -188,11 +191,12 @@ class _LoginWidgetState extends ConsumerState<LoginWidget> {
                         }
                         setState(() {});
                       },
-                      style: const TextStyle(
-                        fontSize: 17,
-                      ),
+                      style: TextStyle(fontSize: 17, color: ColorApp.colorText),
                       decoration: InputDecoration(
                         labelText: 'Password',
+                        labelStyle: TextStyle(
+                          color: ColorApp.colorText,
+                        ),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(9),
                         ),
@@ -214,12 +218,14 @@ class _LoginWidgetState extends ConsumerState<LoginWidget> {
                           child: Transform.translate(
                             offset: const Offset(0, 4.5),
                             child: isDisplayPassword
-                                ? const Icon(
+                                ? Icon(
                                     Icons.visibility_off_outlined,
                                     size: 21,
+                                    color: ColorApp.colorText,
                                   )
-                                : const Icon(
+                                : Icon(
                                     Icons.visibility_outlined,
+                                    color: ColorApp.colorText,
                                     size: 21,
                                   ),
                           ),
@@ -244,11 +250,11 @@ class _LoginWidgetState extends ConsumerState<LoginWidget> {
                                 child: iconRememberPassword,
                               ),
                               const SizedBox(width: 5),
-                              const Text(
+                              Text(
                                 'Remember Me',
                                 style: TextStyle(
                                   fontSize: 15,
-                                  color: Colors.black,
+                                  color: ColorApp.colorText,
                                   // fontWeight: FontWeight.w700,
                                 ),
                               ),
@@ -263,11 +269,11 @@ class _LoginWidgetState extends ConsumerState<LoginWidget> {
                                 userLoginRole,
                               );
                         },
-                        child: const Text(
+                        child: Text(
                           'Forgot Password?',
                           style: TextStyle(
                             fontSize: 15,
-                            color: Colors.black,
+                            color: ColorApp.colorText,
                             fontWeight: FontWeight.w700,
                           ),
                         ),
@@ -487,7 +493,8 @@ class _LoginWidgetState extends ConsumerState<LoginWidget> {
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8),
                         ),
-                        backgroundColor: Colors.black,
+                        backgroundColor: ColorApp.colorEnableButton,
+                        disabledBackgroundColor: ColorApp.colorButton,
                       ),
                       child: isSending
                           ? const SizedBox(
@@ -499,36 +506,36 @@ class _LoginWidgetState extends ConsumerState<LoginWidget> {
                                 ),
                               ),
                             )
-                          : const Text(
+                          : Text(
                               'Sign In',
                               style: TextStyle(
                                 fontSize: 18,
-                                color: Colors.white,
+                                color: ColorApp.colorSignIn,
                                 fontWeight: FontWeight.w500,
                               ),
                             ),
                     ),
                   ),
                   const SizedBox(height: 50),
-                  const Row(
+                  Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Expanded(
-                        child: Divider(color: Colors.black),
+                        child: Divider(color: ColorApp.colorDivider),
                       ),
-                      SizedBox(width: 10),
+                      const SizedBox(width: 10),
                       Text(
                         'Or continue with',
                         style: TextStyle(
                           fontSize: 16,
-                          color: Colors.black,
+                          color: ColorApp.colorText,
                         ),
                         textAlign: TextAlign.center,
                       ),
                       SizedBox(width: 10),
                       Expanded(
-                        child: Divider(color: Colors.black),
+                        child: Divider(color: ColorApp.colorDivider),
                       ),
                     ],
                   ),
@@ -550,9 +557,10 @@ class _LoginWidgetState extends ConsumerState<LoginWidget> {
                       const SizedBox(width: 30),
                       Transform.translate(
                         offset: const Offset(0, -4),
-                        child: const Icon(
+                        child: Icon(
                           Icons.apple,
                           size: 65,
+                          color: ColorApp.colorIcon,
                         ),
                       ),
                       const SizedBox(width: 30),
@@ -573,11 +581,11 @@ class _LoginWidgetState extends ConsumerState<LoginWidget> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center, //Center Column contents vertically,
                     children: [
-                      const Text(
+                      Text(
                         'Don\'t have an account?',
                         style: TextStyle(
                           fontSize: 16,
-                          color: Colors.black,
+                          color: ColorApp.colorText as Color,
                         ),
                       ),
                       const SizedBox(width: 5),

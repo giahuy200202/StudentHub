@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:motion_toast/motion_toast.dart';
+// import 'package:provider/provider.dart';
 import 'package:studenthub/providers/authentication/authentication.provider.dart';
 import 'package:studenthub/providers/options.provider.dart';
 import 'package:studenthub/providers/profile/company.provider.dart';
@@ -11,6 +13,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:toastification/toastification.dart';
+import 'package:studenthub/providers/theme/theme_provider.dart';
 
 class LabeledRadio<T> extends StatelessWidget {
   const LabeledRadio({
@@ -19,12 +22,16 @@ class LabeledRadio<T> extends StatelessWidget {
     required this.value,
     required this.groupValue,
     required this.onChanged,
+    this.textColor,
+    this.radioColor,
   }) : super(key: key);
 
   final String label;
   final T value;
   final T? groupValue;
   final ValueChanged<T?> onChanged;
+  final Color? textColor;
+  final Color? radioColor;
 
   @override
   Widget build(BuildContext context) {
@@ -38,9 +45,12 @@ class LabeledRadio<T> extends StatelessWidget {
             value: value,
             groupValue: groupValue,
             onChanged: onChanged,
+            fillColor: MaterialStateProperty.resolveWith<Color?>((Set<MaterialState> states) {
+              radioColor;
+            }),
           ),
           DefaultTextStyle(
-            style: const TextStyle(color: Colors.black, fontSize: 16),
+            style: TextStyle(color: textColor, fontSize: 16),
             child: Text(label),
           ),
         ],
@@ -111,8 +121,10 @@ class ViewProfileWidget extends ConsumerWidget {
                     : 'More than 1000 employees';
 
     var selectedEmployee = ref.watch(selectedEmployeeProvider);
+    var colorApp = ref.watch(colorProvider);
 
     return Scaffold(
+      backgroundColor: colorApp.colorBackgroundColor,
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -120,30 +132,31 @@ class ViewProfileWidget extends ConsumerWidget {
             child: Column(
               children: [
                 const SizedBox(height: 30),
-                const Align(
+                Align(
                   alignment: Alignment.topLeft,
                   child: Text(
                     'Company profile',
-                    style: TextStyle(
-                      fontSize: 26,
-                      fontWeight: FontWeight.bold,
-                    ),
+                    style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold, color: colorApp.colorTitle),
                   ),
                 ),
                 const SizedBox(height: 15),
-                const Text(
+                Text(
                   'Tell us about your company and you will be your way connect with real-world project',
-                  style: TextStyle(fontSize: 16),
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: colorApp.colorText,
+                  ),
                 ),
                 const SizedBox(height: 20),
                 Container(
                   height: 25,
                   alignment: Alignment.centerLeft,
-                  child: const Text(
+                  child: Text(
                     'Company name',
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w600,
+                      color: colorApp.colorTitle,
                     ),
                   ),
                 ),
@@ -153,8 +166,9 @@ class ViewProfileWidget extends ConsumerWidget {
                   child: TextField(
                     // maxLines: 1,
                     controller: textCompany,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 16,
+                      color: colorApp.colorText,
                     ),
                     decoration: InputDecoration(
                       border: OutlineInputBorder(
@@ -176,11 +190,12 @@ class ViewProfileWidget extends ConsumerWidget {
                 Container(
                   height: 25,
                   alignment: Alignment.centerLeft,
-                  child: const Text(
+                  child: Text(
                     'Website',
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w600,
+                      color: colorApp.colorTitle,
                     ),
                   ),
                 ),
@@ -190,8 +205,9 @@ class ViewProfileWidget extends ConsumerWidget {
                   child: TextField(
                     controller: textWebsite,
                     // maxLines: 2,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 16,
+                      color: colorApp.colorText,
                     ),
                     decoration: InputDecoration(
                       border: OutlineInputBorder(
@@ -213,11 +229,12 @@ class ViewProfileWidget extends ConsumerWidget {
                 Container(
                   height: 25,
                   alignment: Alignment.centerLeft,
-                  child: const Text(
+                  child: Text(
                     'Description',
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w600,
+                      color: colorApp.colorTitle,
                     ),
                   ),
                 ),
@@ -227,8 +244,9 @@ class ViewProfileWidget extends ConsumerWidget {
                   child: TextField(
                     controller: textDescription,
                     maxLines: 4,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 16,
+                      color: colorApp.colorText,
                     ),
                     decoration: InputDecoration(
                       border: OutlineInputBorder(
@@ -249,11 +267,12 @@ class ViewProfileWidget extends ConsumerWidget {
                 Container(
                   height: 25,
                   alignment: Alignment.centerLeft,
-                  child: const Text(
+                  child: Text(
                     'How many people in company?',
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w600,
+                      color: colorApp.colorTitle,
                     ),
                   ),
                 ),
@@ -268,6 +287,8 @@ class ViewProfileWidget extends ConsumerWidget {
                         label: numOfPeople,
                         value: 1,
                         groupValue: 1,
+                        textColor: colorApp.colorText,
+                        radioColor: colorApp.colorIcon,
                         onChanged: (value) {
                           ref.read(selectedEmployeeProvider.notifier).selectEmployee(value!);
                         },
@@ -285,19 +306,21 @@ class ViewProfileWidget extends ConsumerWidget {
                         height: 46,
                         width: 120,
                         child: ElevatedButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            ref.read(optionsProvider.notifier).setWidgetOption('Dashboard', user.role!);
+                          },
                           style: ElevatedButton.styleFrom(
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(8),
-                              side: const BorderSide(color: Colors.grey),
+                              side: BorderSide(color: colorApp.colorBorderSideMutil as Color),
                             ),
-                            backgroundColor: const Color.fromARGB(255, 255, 255, 255),
+                            backgroundColor: colorApp.colorWhiteBlack,
                           ),
-                          child: const Text(
+                          child: Text(
                             'Cancel',
                             style: TextStyle(
                               fontSize: 18,
-                              color: Color.fromARGB(255, 0, 0, 0),
+                              color: colorApp.colorBlackWhite,
                               fontWeight: FontWeight.w500,
                             ),
                           ),
@@ -359,13 +382,13 @@ class ViewProfileWidget extends ConsumerWidget {
                             borderRadius: BorderRadius.circular(8),
                             side: const BorderSide(color: Colors.grey),
                           ),
-                          backgroundColor: const Color.fromARGB(255, 0, 0, 0),
+                          backgroundColor: colorApp.colorBlackWhite,
                         ),
-                        child: const Text(
+                        child: Text(
                           'Edit',
                           style: TextStyle(
                             fontSize: 18,
-                            color: Color.fromARGB(255, 255, 255, 255),
+                            color: colorApp.colorWhiteBlack,
                             fontWeight: FontWeight.w500,
                           ),
                         ),
