@@ -50,6 +50,7 @@ dependencies:
   motion_toast: ^2.8.0
   toastification: ^1.2.1
   socket_io_client: ^2.0.3
+  zego_uikit_prebuilt_video_conference: ^2.7.4
 
 dev_dependencies:
   flutter_test:

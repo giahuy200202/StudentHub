@@ -260,9 +260,8 @@ class _AllProjectsWidgetState extends ConsumerState<AllProjectsWidget> {
                           children: [
                             GestureDetector(
                               onTap: () {
-                                if (projectId == '' || projectId != el.projectId) {
-                                  ref.read(projectIdProvider.notifier).setProjectId(el.projectId.toString());
-                                }
+                                ref.read(projectIdProvider.notifier).setProjectId(el.projectId.toString());
+
                                 ref.read(optionsProvider.notifier).setWidgetOption('SendHireOffer', user.role!);
                               },
                               child: Container(

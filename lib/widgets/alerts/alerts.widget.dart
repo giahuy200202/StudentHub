@@ -15,7 +15,9 @@ import 'package:studenthub/providers/authentication/authentication.provider.dart
 import 'package:studenthub/providers/message/receive_id.provider.dart';
 import 'package:studenthub/providers/notification/notifications.provider.dart';
 import 'package:studenthub/providers/options.provider.dart';
+import 'package:studenthub/providers/profile/student.provider.dart';
 import 'package:studenthub/providers/projects/project_id.provider.dart';
+import 'package:studenthub/screens/message/video_conference.screen.dart';
 
 import 'package:toastification/toastification.dart';
 
@@ -25,6 +27,10 @@ class Notification {
   final String notificationContent;
   final String senderName;
   final String createdAt;
+  final String typeNotifyFlag;
+  final String proposalId;
+  final String coverLetter;
+  final String statusFlag;
 
   Notification({
     required this.id,
@@ -32,6 +38,10 @@ class Notification {
     required this.notificationContent,
     required this.senderName,
     required this.createdAt,
+    required this.typeNotifyFlag,
+    required this.proposalId,
+    required this.coverLetter,
+    required this.statusFlag,
   });
 
   Notification.fromJson(Map<dynamic, dynamic> json)
@@ -39,7 +49,11 @@ class Notification {
         notificationType = json['notificationType'],
         notificationContent = json['notificationContent'],
         senderName = json['senderName'],
-        createdAt = json['createdAt'];
+        createdAt = json['createdAt'],
+        typeNotifyFlag = json['typeNotifyFlag'],
+        proposalId = json['proposalId'],
+        coverLetter = json['coverLetter'],
+        statusFlag = json['statusFlag'];
 
   Map<dynamic, dynamic> toJson() {
     return {
@@ -48,6 +62,10 @@ class Notification {
       'notificationContent': notificationContent,
       'senderName': senderName,
       'createdAt': createdAt,
+      'typeNotifyFlag': typeNotifyFlag,
+      'proposalId': proposalId,
+      'coverLetter': coverLetter,
+      'statusFlag': statusFlag,
     };
   }
 }
@@ -122,12 +140,26 @@ class _AlertsWidget extends ConsumerState<AlertsWidget> {
       ref.read(notificationProvider.notifier).clearNotificationData();
 
       for (var item in responseNotificationsData['result']) {
+        print('----item type notify flag----');
+        print(item['typeNotifyFlag']);
         ref.read(notificationProvider.notifier).pushNotificationData(
               item['id'].toString(),
               item['notifyFlag'],
-              item['message']['content'],
+              item['typeNotifyFlag'] == '2' || item['typeNotifyFlag'] == '0' || item['typeNotifyFlag'] == '4'
+                  ? '${item['content']}'
+                  : item['typeNotifyFlag'] == '1'
+                      ? '${item['content']}\nTitle: ${item['message']['interview']['title']}\nStart time: ${DateFormat("dd/MM/yyyy | HH:mm").format(
+                            DateTime.parse(item['message']['interview']['startTime']),
+                          ).toString()}\nEnd time: ${DateFormat("dd/MM/yyyy | HH:mm").format(
+                            DateTime.parse(item['message']['interview']['endTime']),
+                          ).toString()}\nMeeting room code: ${item['message']['interview']['meetingRoom']['meeting_room_code']}\nMeeting room id: ${item['message']['interview']['meetingRoom']['meeting_room_id']}'
+                      : '${item['content']}\n${item['message']['content']}',
               item['sender']['fullname'],
               DateFormat("dd/MM/yyyy | HH:mm").format(DateTime.parse(item['createdAt']).toLocal()).toString(),
+              item['typeNotifyFlag'],
+              item['typeNotifyFlag'] == '0' ? item['proposalId'].toString() : '',
+              item['typeNotifyFlag'] == '0' ? item['proposal']['coverLetter'] : '',
+              item['typeNotifyFlag'] == '0' ? item['proposal']['statusFlag'].toString() : '',
             );
       }
     }
@@ -149,82 +181,6 @@ class _AlertsWidget extends ConsumerState<AlertsWidget> {
     final projectId = ref.read(projectIdProvider);
 
     getNotifications(user.token!, projectId, user.id!);
-
-    // final socket = IO.io(
-    //     'https://api.studenthub.dev/', // Server url
-    //     OptionBuilder().setTransports(['websocket']).disableAutoConnect().build());
-
-    // //Add authorization to header
-    // socket.io.options?['extraHeaders'] = {
-    //   'Authorization': 'Bearer ${user.token}',
-    // };
-
-    // //Add query param to url
-    // socket.io.options?['query'] = {'project_id': projectId};
-
-    // socket.connect();
-
-    // socket.onConnect((data) => {print('Connected notification')});
-    // socket.onDisconnect((data) => {print('Disconnected notification')});
-
-    // socket.onConnectError((data) => print('$data'));
-    // socket.onError((data) => print(data));
-
-    // //Listen to channel receive message
-    // socket.on(
-    //   'RECEIVE_MESSAGE',
-    //   (data) {
-    //     // Your code to update ui
-
-    //     print('------RECEIVE_NOTIFICATION------');
-    //     print(data);
-
-    //     if (mounted) {
-    //       // setState(
-    //       //   () {
-    //       //     listNotifications = [
-    //       //       ...listNotifications,
-    //       //       Notification(
-    //       //         id: data['notification']['id'].toString(),
-    //       //         notificationType: '0',
-    //       //         notificationContent: data['notification']['message']['content'],
-    //       //         senderName: data['notification']['sender']['fullname'],
-    //       //         createdAt: DateFormat("dd/MM/yyyy | HH:mm")
-    //       //             .format(DateTime.parse(
-    //       //               data['notification']['message']['createdAt'],
-    //       //             ).toLocal())
-    //       //             .toString(),
-    //       //       )
-    //       //     ];
-    //       //   },
-    //       // );
-
-    //       ref.read(notificationProvider.notifier).pushNotificationData(
-    //             data['notification']['id'].toString(),
-    //             '0',
-    //             data['notification']['message']['content'],
-    //             data['notification']['sender']['fullname'],
-    //             DateFormat("dd/MM/yyyy | HH:mm")
-    //                 .format(
-    //                   DateTime.parse(data['notification']['message']['createdAt']).toLocal(),
-    //                 )
-    //                 .toString(),
-    //           );
-
-    //       LocalNotifications.showSimpleNotification(
-    //         // id: tasks.length + 1,
-    //         title: 'You have a new message from ${data['notification']['sender']['fullname']}',
-    //         body: '${data['notification']['message']['content']}',
-    //         payload: 'data',
-    //       );
-
-    //       print('------listNotifications------');
-    //       print(json.encode(listNotifications[listNotifications.length - 1]));
-    //     }
-    //   },
-    // );
-    // //Listen for error from socket
-    // socket.on("ERROR", (data) => print(data));
   }
 
   @override
@@ -232,6 +188,8 @@ class _AlertsWidget extends ConsumerState<AlertsWidget> {
     final user = ref.watch(userProvider);
 
     final listNotifications = ref.watch(notificationProvider);
+    final student = ref.watch(studentProvider);
+    final projectId = ref.watch(projectIdProvider);
 
     return SizedBox(
       height: 700,
@@ -267,6 +225,11 @@ class _AlertsWidget extends ConsumerState<AlertsWidget> {
                             GestureDetector(
                               onTap: () {
                                 // ref.read(optionsProvider.notifier).setWidgetOption('NotificationDetails', user.role!);
+                                if (el.typeNotifyFlag == '0' || el.typeNotifyFlag == '2') {
+                                  ref.read(optionsProvider.notifier).setWidgetOption('Dashboard', user.role!);
+                                } else {
+                                  ref.read(optionsProvider.notifier).setWidgetOption('Message', user.role!);
+                                }
                               },
                               child: Container(
                                 decoration: BoxDecoration(
@@ -354,6 +317,65 @@ class _AlertsWidget extends ConsumerState<AlertsWidget> {
                                                   ),
                                                 ),
                                               ),
+                                              el.typeNotifyFlag == '0' && el.statusFlag == '2'
+                                                  ? Column(
+                                                      crossAxisAlignment: CrossAxisAlignment.end,
+                                                      children: [
+                                                        const SizedBox(height: 20),
+                                                        Row(
+                                                          children: [
+                                                            const SizedBox(
+                                                              width: 140,
+                                                            ),
+                                                            SizedBox(
+                                                              height: 40,
+                                                              width: 110,
+                                                              child: ElevatedButton(
+                                                                onPressed: () async {
+                                                                  print('------proposal id ------');
+                                                                  print(el.proposalId);
+                                                                  final urlUpdateProposals = Uri.parse('${dotenv.env['IP_ADDRESS']}/api/proposal/${el.proposalId}');
+
+                                                                  final responseUpdateProposals = await http.patch(
+                                                                    urlUpdateProposals,
+                                                                    headers: {
+                                                                      'Content-Type': 'application/json',
+                                                                      'Authorization': 'Bearer ${user.token}',
+                                                                    },
+                                                                    body: json.encode({
+                                                                      "coverLetter": el.coverLetter,
+                                                                      "statusFlag": 3,
+                                                                      "disableFlag": 0,
+                                                                    }),
+                                                                  );
+                                                                  print('----responseUpdateProposals----');
+                                                                  print(json.decode(responseUpdateProposals.body));
+                                                                  // Navigator.pop(context);
+                                                                  getNotifications(user.token, projectId, user.id);
+                                                                  showSuccessToast('Success', 'Offer has been accepted successfully');
+                                                                },
+                                                                style: ElevatedButton.styleFrom(
+                                                                  shape: RoundedRectangleBorder(
+                                                                    borderRadius: BorderRadius.circular(8),
+                                                                    side: const BorderSide(color: Colors.grey),
+                                                                  ),
+                                                                  backgroundColor: const Color.fromARGB(255, 0, 0, 0),
+                                                                ),
+                                                                child: const Text(
+                                                                  'Accept',
+                                                                  style: TextStyle(
+                                                                    fontSize: 16,
+                                                                    color: Color.fromARGB(255, 255, 255, 255),
+                                                                    fontWeight: FontWeight.w500,
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ],
+                                                    )
+                                                  : const SizedBox(height: 0),
                                             ],
                                           ),
                                         ],

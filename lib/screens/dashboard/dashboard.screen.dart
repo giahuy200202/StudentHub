@@ -41,7 +41,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
             children: [
               const SizedBox(height: 20),
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                mainAxisAlignment: MainAxisAlignment.end,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   const SizedBox(height: 20),
@@ -49,7 +49,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                     'Your projects',
                     textAlign: TextAlign.left,
                     style: TextStyle(
-                      fontSize: 18,
+                      fontSize: 20,
                       fontWeight: FontWeight.w700,
                     ),
                   ),
@@ -94,7 +94,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
               ),
               const SizedBox(height: 30),
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   TextButton(
@@ -131,7 +131,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                       ),
                     ),
                   ),
-                  const SizedBox(width: 40),
+                  const SizedBox(width: 50),
                   TextButton(
                     style: TextButton.styleFrom(
                       padding: EdgeInsets.zero,
@@ -166,7 +166,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                       ),
                     ),
                   ),
-                  const SizedBox(width: 40),
+                  const SizedBox(width: 50),
                   TextButton(
                     style: TextButton.styleFrom(
                       padding: EdgeInsets.zero,
@@ -237,7 +237,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
               // ),
               // const SizedBox(height: 20),
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   TextButton(
@@ -274,7 +274,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                       ),
                     ),
                   ),
-                  const SizedBox(width: 40),
+                  const SizedBox(width: 50),
                   TextButton(
                     style: TextButton.styleFrom(
                       padding: EdgeInsets.zero,
@@ -309,7 +309,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                       ),
                     ),
                   ),
-                  const SizedBox(width: 40),
+                  const SizedBox(width: 50),
                   TextButton(
                     style: TextButton.styleFrom(
                       padding: EdgeInsets.zero,

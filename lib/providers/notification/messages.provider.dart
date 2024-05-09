@@ -5,19 +5,37 @@ class Message {
   final String author;
   final String content;
   final bool isInterview;
+  final String titleInterview;
+  final String startTimeInterview;
+  final String endTimeInterview;
+  final String idInterview;
+  final int disableFlag;
+  final String meetingRoomCode;
 
   Message({
     required this.createdAt,
     required this.author,
     required this.content,
     required this.isInterview,
+    required this.titleInterview,
+    required this.startTimeInterview,
+    required this.endTimeInterview,
+    required this.idInterview,
+    required this.disableFlag,
+    required this.meetingRoomCode,
   });
 
   Message.fromJson(Map<dynamic, dynamic> json)
       : createdAt = json['createdAt'],
         author = json['author'],
         content = json['content'],
-        isInterview = json['isInterview'];
+        isInterview = json['isInterview'],
+        titleInterview = json['titleInterview'],
+        startTimeInterview = json['startTimeInterview'],
+        endTimeInterview = json['endTimeInterview'],
+        idInterview = json['idInterview'],
+        disableFlag = json['disableFlag'],
+        meetingRoomCode = json['meetingRoomCode'];
 
   Map<dynamic, dynamic> toJson() {
     return {
@@ -25,6 +43,12 @@ class Message {
       'author': author,
       'content': content,
       'isInterview': isInterview,
+      'titleInterview': titleInterview,
+      'startTimeInterview': startTimeInterview,
+      'endTimeInterview': endTimeInterview,
+      'idInterview': idInterview,
+      'disableFlag': disableFlag,
+      'meetingRoomCode': meetingRoomCode,
     };
   }
 }
@@ -37,6 +61,12 @@ class MessageNotifier extends StateNotifier<List<Message>> {
     String author,
     String content,
     bool isInterview,
+    String titleInterview,
+    String startTimeInterview,
+    String endTimeInterview,
+    String idInterview,
+    int disableFlag,
+    String meetingRoomCode,
   ) {
     state = [
       ...state,
@@ -45,6 +75,12 @@ class MessageNotifier extends StateNotifier<List<Message>> {
         author: author,
         content: content,
         isInterview: isInterview,
+        titleInterview: titleInterview,
+        startTimeInterview: startTimeInterview,
+        endTimeInterview: endTimeInterview,
+        idInterview: idInterview,
+        disableFlag: disableFlag,
+        meetingRoomCode: meetingRoomCode,
       )
     ];
   }

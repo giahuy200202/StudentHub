@@ -244,7 +244,7 @@ class _ProjectSearchWidgetState extends ConsumerState<ProjectSearchWidget> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const SizedBox(height: 25),
+                const SizedBox(height: 60),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -256,7 +256,8 @@ class _ProjectSearchWidgetState extends ConsumerState<ProjectSearchWidget> {
                       },
                       child: const Icon(
                         Icons.arrow_back_ios,
-                        size: 18,
+                        size: 25,
+                        color: Colors.grey,
                       ),
                     ),
                     const SizedBox(width: 10),
@@ -264,7 +265,7 @@ class _ProjectSearchWidgetState extends ConsumerState<ProjectSearchWidget> {
                       'Project search',
                       textAlign: TextAlign.left,
                       style: TextStyle(
-                        fontSize: 20,
+                        fontSize: 22,
                         fontWeight: FontWeight.w700,
                       ),
                     ),
@@ -1067,9 +1068,17 @@ class _ProjectSearchWidgetState extends ConsumerState<ProjectSearchWidget> {
                     ),
                   ],
                 ),
-                const SizedBox(height: 30),
+                const SizedBox(height: 20),
+                const Text(
+                  'Result',
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                const SizedBox(height: 20),
                 SizedBox(
-                  height: 610,
+                  height: 650,
                   child: SingleChildScrollView(
                     child: isFetchingData
                         ? const Column(
@@ -1107,9 +1116,8 @@ class _ProjectSearchWidgetState extends ConsumerState<ProjectSearchWidget> {
                                       children: [
                                         GestureDetector(
                                           onTap: () {
-                                            if (projectId == '' || projectId != el.id) {
-                                              ref.read(projectIdProvider.notifier).setProjectId(el.id.toString());
-                                            }
+                                            ref.read(projectIdProvider.notifier).setProjectId(el.id.toString());
+
                                             ref.read(optionsProvider.notifier).setWidgetOption('ProjectDetails', user.role!);
                                           },
                                           child: Container(
@@ -1158,7 +1166,7 @@ class _ProjectSearchWidgetState extends ConsumerState<ProjectSearchWidget> {
                                                                     'Authorization': 'Bearer ${user.token!}',
                                                                   },
                                                                   body: json.encode({
-                                                                    'id': el.id,
+                                                                    'projectId': el.id,
                                                                     'disableFlag': el.isFavorite ? 1 : 0,
                                                                   }),
                                                                 );
