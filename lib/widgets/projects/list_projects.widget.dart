@@ -6,6 +6,7 @@ import 'package:studenthub/providers/authentication/authentication.provider.dart
 import 'package:studenthub/providers/profile/student.provider.dart';
 import 'package:studenthub/providers/projects/project_id.provider.dart';
 import 'package:toastification/toastification.dart';
+import 'package:studenthub/providers/theme/theme_provider.dart';
 
 import '../../providers/options.provider.dart';
 import 'package:http/http.dart' as http;
@@ -126,22 +127,6 @@ class _ListProjectsWidgetState extends ConsumerState<ListProjectsWidget> {
     List<Project> listProjectsGetFromRes = [];
     if (responseProjectsData['result'] != null) {
       for (var item in responseProjectsData['result']) {
-        print('----id type----');
-        print(item['id'].runtimeType);
-        print('----title type----');
-        print(item['title'].runtimeType);
-        print('----createdAt type----');
-        print(item['createdAt'].runtimeType);
-        print('----projectScopeFlag type----');
-        print(item['projectScopeFlag'].runtimeType);
-        print('----numberOfStudents type----');
-        print(item['numberOfStudents'].runtimeType);
-        print('----description type----');
-        print(item['description'].runtimeType);
-        print('----countProposals type----');
-        print(item['countProposals'].runtimeType);
-        print('----isFavorite type----');
-        print(item['isFavorite'].runtimeType);
         listProjectsGetFromRes.add(Project(
           id: item['id'].toString(),
           title: item['title'],
@@ -175,6 +160,7 @@ class _ListProjectsWidgetState extends ConsumerState<ListProjectsWidget> {
     final user = ref.watch(userProvider);
     final student = ref.watch(studentProvider);
     final projectId = ref.watch(projectIdProvider);
+    var colorApp = ref.watch(colorProvider);
     print(student.id);
 
     return SizedBox(
@@ -219,12 +205,15 @@ class _ListProjectsWidgetState extends ConsumerState<ListProjectsWidget> {
                                 ref.read(projectIdProvider.notifier).setProjectId(el.id.toString());
 
                                 ref.read(optionsProvider.notifier).setWidgetOption('ProjectDetails', user.role!);
+                                print('parent project id');
+                                print(el.id);
+                                ref.read(projectIdProvider.notifier).setProjectId(el.id);
                               },
                               child: Container(
                                 decoration: BoxDecoration(
                                   // color: Colors.white,
                                   // border: Border.all(color: Colors.grey),
-                                  color: Colors.white,
+                                  color: colorApp.colorBackgroundColor,
                                   border: Border.all(color: Colors.grey),
                                   borderRadius: const BorderRadius.all(Radius.circular(12)),
                                 ),
@@ -244,8 +233,8 @@ class _ListProjectsWidgetState extends ConsumerState<ListProjectsWidget> {
                                               child: Text(
                                                 el.title,
                                                 overflow: TextOverflow.ellipsis,
-                                                style: const TextStyle(
-                                                  color: Colors.black,
+                                                style: TextStyle(
+                                                  color: colorApp.colorTitle,
                                                   fontSize: 18,
                                                   fontWeight: FontWeight.w600,
                                                 ),
@@ -286,6 +275,7 @@ class _ListProjectsWidgetState extends ConsumerState<ListProjectsWidget> {
                                             child: Icon(
                                               el.isFavorite ? Icons.favorite_rounded : Icons.favorite_border,
                                               size: 28,
+                                              color: colorApp.colorIcon,
                                             ),
                                           ),
                                         ],
@@ -297,8 +287,8 @@ class _ListProjectsWidgetState extends ConsumerState<ListProjectsWidget> {
                                           width: 340,
                                           child: Text(
                                             el.createTime,
-                                            style: const TextStyle(
-                                              color: Color.fromARGB(255, 94, 94, 94),
+                                            style: TextStyle(
+                                              color: colorApp.colorCreate,
                                               overflow: TextOverflow.ellipsis,
                                               fontSize: 13,
                                             ),
@@ -312,8 +302,8 @@ class _ListProjectsWidgetState extends ConsumerState<ListProjectsWidget> {
                                           width: 340,
                                           child: Text(
                                             'Time: ${el.projectScopeFlag == 0 ? 'Less than 1 month' : el.projectScopeFlag == 1 ? ' 1-3 months' : el.projectScopeFlag == 2 ? '3-6 months' : 'More than 6 months'}, ${el.numberOfStudents} students needed',
-                                            style: const TextStyle(
-                                              color: Colors.black,
+                                            style: TextStyle(
+                                              color: colorApp.colorText,
                                               overflow: TextOverflow.ellipsis,
                                               fontSize: 15,
                                             ),
@@ -324,7 +314,7 @@ class _ListProjectsWidgetState extends ConsumerState<ListProjectsWidget> {
                                       Container(
                                         decoration: BoxDecoration(
                                           border: Border.all(
-                                            color: Colors.black, //                   <--- border color
+                                            color: colorApp.colorDivider as Color, //                   <--- border color
                                             width: 0.3,
                                           ),
                                         ),
@@ -334,8 +324,8 @@ class _ListProjectsWidgetState extends ConsumerState<ListProjectsWidget> {
                                         alignment: Alignment.topLeft,
                                         child: Text(
                                           el.description,
-                                          style: const TextStyle(
-                                            color: Colors.black,
+                                          style: TextStyle(
+                                            color: colorApp.colorText,
                                             fontSize: 16,
                                             fontWeight: FontWeight.w400,
                                           ),
@@ -345,7 +335,7 @@ class _ListProjectsWidgetState extends ConsumerState<ListProjectsWidget> {
                                       Container(
                                         decoration: BoxDecoration(
                                           border: Border.all(
-                                            color: Colors.black, //                   <--- border color
+                                            color: colorApp.colorDivider as Color, //                   <--- border color
                                             width: 0.3,
                                           ),
                                         ),
@@ -355,17 +345,17 @@ class _ListProjectsWidgetState extends ConsumerState<ListProjectsWidget> {
                                         mainAxisAlignment: MainAxisAlignment.start,
                                         crossAxisAlignment: CrossAxisAlignment.center,
                                         children: [
-                                          const Icon(
+                                          Icon(
                                             Icons.format_indent_increase_rounded,
                                             size: 22,
-                                            color: Colors.black,
+                                            color: colorApp.colorIcon,
                                           ),
                                           const SizedBox(width: 5),
                                           Text(
                                             'Proposals: ${el.countProposals}',
-                                            style: const TextStyle(
+                                            style: TextStyle(
                                               fontSize: 16,
-                                              color: Colors.black,
+                                              color: colorApp.colorText,
                                             ),
                                           ),
                                         ],

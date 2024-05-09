@@ -7,6 +7,7 @@ import 'package:studenthub/providers/authentication/authentication.provider.dart
 import 'package:studenthub/providers/profile/student.provider.dart';
 import 'package:studenthub/providers/projects/project_id.provider.dart';
 import 'package:toastification/toastification.dart';
+import 'package:studenthub/providers/theme/theme_provider.dart';
 
 import '../../providers/options.provider.dart';
 import 'package:http/http.dart' as http;
@@ -70,7 +71,9 @@ class _SubmitProposalWidgetState extends ConsumerState<SubmitProposalWidget> {
     final user = ref.watch(userProvider);
     final projectId = ref.watch(projectIdProvider);
     final student = ref.watch(studentProvider);
+    var colorApp = ref.watch(colorProvider);
     return Scaffold(
+      backgroundColor: colorApp.colorBackgroundColor,
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -96,13 +99,13 @@ class _SubmitProposalWidgetState extends ConsumerState<SubmitProposalWidget> {
                       ),
                     ),
                     const SizedBox(width: 10),
-                    const Align(
+                    Align(
                       alignment: Alignment.topLeft,
                       child: Text(
                         'Cover letter',
                         style: TextStyle(
                           fontSize: 22,
-                          color: Colors.black,
+                          color: colorApp.colorTitle,
                           fontWeight: FontWeight.w600,
                         ),
                       ),
@@ -115,13 +118,14 @@ class _SubmitProposalWidgetState extends ConsumerState<SubmitProposalWidget> {
                   child: SingleChildScrollView(
                     child: Column(
                       children: [
-                        const Align(
+                        Align(
                           alignment: Alignment.topLeft,
                           child: Text(
                             'Describe why do you fit to this project',
                             textAlign: TextAlign.left,
                             style: TextStyle(
                               fontSize: 16,
+                              color: colorApp.colorText,
                             ),
                           ),
                         ),
@@ -139,8 +143,9 @@ class _SubmitProposalWidgetState extends ConsumerState<SubmitProposalWidget> {
                               }
                               setState(() {});
                             },
-                            style: const TextStyle(
+                            style: TextStyle(
                               fontSize: 17,
+                              color: colorApp.colorText,
                             ),
                             decoration: InputDecoration(
                               border: OutlineInputBorder(
@@ -148,7 +153,7 @@ class _SubmitProposalWidgetState extends ConsumerState<SubmitProposalWidget> {
                               ),
                               focusedBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(9),
-                                borderSide: const BorderSide(color: Colors.black),
+                                borderSide: BorderSide(color: colorApp.colorBorderSide as Color),
                               ),
                               contentPadding: const EdgeInsets.symmetric(
                                 vertical: 10,
@@ -173,15 +178,15 @@ class _SubmitProposalWidgetState extends ConsumerState<SubmitProposalWidget> {
                                   padding: EdgeInsets.zero, // and this
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(8),
-                                    side: const BorderSide(color: Colors.grey),
+                                    side: BorderSide(color: colorApp.colorBorderSideMutil as Color),
                                   ),
-                                  backgroundColor: Colors.white,
+                                  backgroundColor: colorApp.colorWhiteBlack,
                                 ),
-                                child: const Text(
+                                child: Text(
                                   'Cancel',
                                   style: TextStyle(
                                     fontSize: 16,
-                                    color: Colors.black,
+                                    color: colorApp.colorBlackWhite,
                                     fontWeight: FontWeight.w500,
                                   ),
                                 ),
@@ -245,7 +250,7 @@ class _SubmitProposalWidgetState extends ConsumerState<SubmitProposalWidget> {
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(8),
                                   ),
-                                  backgroundColor: Colors.black,
+                                  backgroundColor: colorApp.colorBlackWhite,
                                 ),
                                 child: isFetching
                                     ? const SizedBox(
@@ -257,11 +262,11 @@ class _SubmitProposalWidgetState extends ConsumerState<SubmitProposalWidget> {
                                           ),
                                         ),
                                       )
-                                    : const Text(
+                                    : Text(
                                         'Submit proposal',
                                         style: TextStyle(
                                           fontSize: 16,
-                                          color: Color.fromARGB(255, 255, 255, 255),
+                                          color: colorApp.colorWhiteBlack,
                                           fontWeight: FontWeight.w500,
                                         ),
                                       ),

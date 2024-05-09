@@ -6,6 +6,7 @@ import 'package:studenthub/providers/authentication/authentication.provider.dart
 import 'package:studenthub/providers/profile/student.provider.dart';
 import 'package:studenthub/providers/projects/project_id.provider.dart';
 import 'package:toastification/toastification.dart';
+import 'package:studenthub/providers/theme/theme_provider.dart';
 
 import '../../providers/options.provider.dart';
 
@@ -157,7 +158,9 @@ class _SavedProjectsWidgetState extends ConsumerState<SavedProjectsWidget> {
     final user = ref.watch(userProvider);
     final student = ref.watch(studentProvider);
     final projectId = ref.watch(projectIdProvider);
+    var colorApp = ref.watch(colorProvider);
     return Scaffold(
+      backgroundColor: colorApp.colorBackgroundColor,
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20),
         child: Center(
@@ -175,18 +178,20 @@ class _SavedProjectsWidgetState extends ConsumerState<SavedProjectsWidget> {
                     onTap: () {
                       ref.read(optionsProvider.notifier).setWidgetOption('Projects', user.role!);
                     },
-                    child: const Icon(
+                    child: Icon(
                       Icons.arrow_back_ios,
                       size: 25,
+                      color: colorApp.colorIcon,
                     ),
                   ),
                   const SizedBox(width: 10),
-                  const Text(
+                  Text(
                     'Saved projects',
                     textAlign: TextAlign.left,
                     style: TextStyle(
                       fontSize: 22,
                       fontWeight: FontWeight.w700,
+                      color: colorApp.colorTitle,
                     ),
                   ),
                 ],
@@ -215,11 +220,11 @@ class _SavedProjectsWidgetState extends ConsumerState<SavedProjectsWidget> {
                           ],
                         )
                       : listProjects.isEmpty
-                          ? const Column(
+                          ? Column(
                               children: [
                                 Text(
                                   'Empty',
-                                  style: TextStyle(fontSize: 16),
+                                  style: TextStyle(fontSize: 16, color: colorApp.colorText),
                                 ),
                                 SizedBox(height: 20),
                               ],
@@ -239,7 +244,7 @@ class _SavedProjectsWidgetState extends ConsumerState<SavedProjectsWidget> {
                                           decoration: BoxDecoration(
                                             // color: Colors.white,
                                             // border: Border.all(color: Colors.grey),
-                                            color: Colors.white,
+                                            color: colorApp.colorBackgroundColor,
                                             border: Border.all(color: Colors.grey),
                                             borderRadius: const BorderRadius.all(Radius.circular(12)),
                                           ),
@@ -259,8 +264,8 @@ class _SavedProjectsWidgetState extends ConsumerState<SavedProjectsWidget> {
                                                         child: Text(
                                                           el.title,
                                                           overflow: TextOverflow.ellipsis,
-                                                          style: const TextStyle(
-                                                            color: Colors.black,
+                                                          style: TextStyle(
+                                                            color: colorApp.colorTitle,
                                                             fontSize: 18,
                                                             fontWeight: FontWeight.w600,
                                                           ),
@@ -293,9 +298,10 @@ class _SavedProjectsWidgetState extends ConsumerState<SavedProjectsWidget> {
 
                                                               getProjects(user.token!, student.id);
                                                             },
-                                                      child: const Icon(
+                                                      child: Icon(
                                                         Icons.favorite_rounded,
                                                         size: 28,
+                                                        color: colorApp.colorIcon,
                                                       ),
                                                     ),
                                                   ],
@@ -307,8 +313,8 @@ class _SavedProjectsWidgetState extends ConsumerState<SavedProjectsWidget> {
                                                     width: 340,
                                                     child: Text(
                                                       el.createTime,
-                                                      style: const TextStyle(
-                                                        color: Color.fromARGB(255, 94, 94, 94),
+                                                      style: TextStyle(
+                                                        color: colorApp.colorTime,
                                                         overflow: TextOverflow.ellipsis,
                                                         fontSize: 13,
                                                       ),
@@ -322,8 +328,8 @@ class _SavedProjectsWidgetState extends ConsumerState<SavedProjectsWidget> {
                                                     width: 340,
                                                     child: Text(
                                                       'Time: ${el.projectScopeFlag == 0 ? 'Less than 1 month' : el.projectScopeFlag == 1 ? ' 1-3 months' : el.projectScopeFlag == 2 ? '3-6 months' : 'More than 6 months'}, ${el.numberOfStudents} students needed',
-                                                      style: const TextStyle(
-                                                        color: Colors.black,
+                                                      style: TextStyle(
+                                                        color: colorApp.colorText,
                                                         overflow: TextOverflow.ellipsis,
                                                         fontSize: 15,
                                                       ),
@@ -334,7 +340,7 @@ class _SavedProjectsWidgetState extends ConsumerState<SavedProjectsWidget> {
                                                 Container(
                                                   decoration: BoxDecoration(
                                                     border: Border.all(
-                                                      color: Colors.black, //                   <--- border color
+                                                      color: colorApp.colorDivider as Color, //                   <--- border color
                                                       width: 0.3,
                                                     ),
                                                   ),
@@ -344,8 +350,8 @@ class _SavedProjectsWidgetState extends ConsumerState<SavedProjectsWidget> {
                                                   alignment: Alignment.topLeft,
                                                   child: Text(
                                                     el.description,
-                                                    style: const TextStyle(
-                                                      color: Colors.black,
+                                                    style: TextStyle(
+                                                      color: colorApp.colorText,
                                                       fontSize: 16,
                                                       fontWeight: FontWeight.w400,
                                                     ),
@@ -355,7 +361,7 @@ class _SavedProjectsWidgetState extends ConsumerState<SavedProjectsWidget> {
                                                 Container(
                                                   decoration: BoxDecoration(
                                                     border: Border.all(
-                                                      color: Colors.black, //                   <--- border color
+                                                      color: colorApp.colorDivider as Color, //                   <--- border color
                                                       width: 0.3,
                                                     ),
                                                   ),
@@ -365,17 +371,17 @@ class _SavedProjectsWidgetState extends ConsumerState<SavedProjectsWidget> {
                                                   mainAxisAlignment: MainAxisAlignment.start,
                                                   crossAxisAlignment: CrossAxisAlignment.center,
                                                   children: [
-                                                    const Icon(
+                                                    Icon(
                                                       Icons.format_indent_increase_rounded,
                                                       size: 22,
-                                                      color: Colors.black,
+                                                      color: colorApp.colorText,
                                                     ),
                                                     const SizedBox(width: 5),
                                                     Text(
                                                       'Proposals: ${el.countProposals}',
-                                                      style: const TextStyle(
+                                                      style: TextStyle(
                                                         fontSize: 16,
-                                                        color: Colors.black,
+                                                        color: colorApp.colorText,
                                                       ),
                                                     ),
                                                   ],

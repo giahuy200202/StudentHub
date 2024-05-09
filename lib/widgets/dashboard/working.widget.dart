@@ -7,6 +7,7 @@ import 'package:studenthub/providers/profile/company.provider.dart';
 import 'package:studenthub/providers/profile/student.provider.dart';
 import 'package:studenthub/providers/projects/project_id.provider.dart';
 import 'package:toastification/toastification.dart';
+import 'package:studenthub/providers/theme/theme_provider.dart';
 
 import '../../providers/options.provider.dart';
 
@@ -221,6 +222,7 @@ class _WorkingWidgetState extends ConsumerState<WorkingWidget> {
     final company = ref.watch(companyProvider);
     final projectId = ref.watch(projectIdProvider);
 
+    var colorApp = ref.watch(colorProvider);
     return SizedBox(
       height: 545,
       child: SingleChildScrollView(
@@ -244,13 +246,13 @@ class _WorkingWidgetState extends ConsumerState<WorkingWidget> {
                 ],
               )
             : listProjects.where((el) => el.typeFlag == 1).isEmpty
-                ? const Column(
+                ? Column(
                     children: [
                       Text(
                         'Empty',
-                        style: TextStyle(fontSize: 16),
+                        style: TextStyle(fontSize: 16, color: colorApp.colorText),
                       ),
-                      SizedBox(height: 20),
+                      const SizedBox(height: 20),
                     ],
                   )
                 : Column(
@@ -266,7 +268,7 @@ class _WorkingWidgetState extends ConsumerState<WorkingWidget> {
                               },
                               child: Container(
                                 decoration: BoxDecoration(
-                                  color: Colors.white,
+                                  color: colorApp.colorBackgroundColor,
                                   border: Border.all(color: Colors.grey),
                                   borderRadius: const BorderRadius.all(Radius.circular(12)),
                                 ),
@@ -286,8 +288,8 @@ class _WorkingWidgetState extends ConsumerState<WorkingWidget> {
                                               child: Text(
                                                 el.title,
                                                 overflow: TextOverflow.ellipsis,
-                                                style: const TextStyle(
-                                                  color: Colors.black,
+                                                style: TextStyle(
+                                                  color: colorApp.colorTitle,
                                                   fontSize: 18,
                                                   fontWeight: FontWeight.w600,
                                                 ),

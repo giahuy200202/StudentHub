@@ -12,6 +12,7 @@ import 'package:studenthub/utils/resume_input.dart';
 import 'package:studenthub/utils/transcript_input.dart';
 import 'package:http/http.dart' as http;
 import 'package:toastification/toastification.dart';
+import 'package:studenthub/providers/theme/theme_provider.dart';
 
 class ProfileIStudentStep3Widget extends ConsumerStatefulWidget {
   const ProfileIStudentStep3Widget({super.key});
@@ -67,8 +68,10 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentStep3Widget> {
     var responseEditStudent;
     var responseEditStudentData;
     var responseCreateStudentData;
+    var colorApp = ref.watch(colorProvider);
 
     return Scaffold(
+      backgroundColor: colorApp.colorBackgroundColor,
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -76,30 +79,32 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentStep3Widget> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(height: 30),
-              const Align(
+              Align(
                 alignment: Alignment.topLeft,
                 child: Text(
                   'CV & Transcript',
                   style: TextStyle(
                     fontSize: 26,
                     fontWeight: FontWeight.bold,
+                    color: colorApp.colorTitle,
                   ),
                 ),
               ),
               const SizedBox(height: 15),
-              const Text(
+              Text(
                 'Tell us about your self and you will be your way connect with real-world project',
-                style: TextStyle(fontSize: 16),
+                style: TextStyle(fontSize: 16, color: colorApp.colorText),
               ),
               const SizedBox(height: 20),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Text(
+                  Text(
                     'Resume/CV',
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w600,
+                      color: colorApp.colorTitle,
                     ),
                   ),
                   InkWell(
@@ -139,11 +144,12 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentStep3Widget> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Text(
+                  Text(
                     'Transcript',
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w600,
+                      color: colorApp.colorTitle,
                     ),
                   ),
                   InkWell(
@@ -426,7 +432,7 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentStep3Widget> {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8),
                       ),
-                      backgroundColor: const Color.fromARGB(255, 0, 0, 0),
+                      backgroundColor: colorApp.colorBlackWhite,
                     ),
                     child: isSending
                         ? const SizedBox(
@@ -436,11 +442,11 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentStep3Widget> {
                               color: Colors.white,
                             ),
                           )
-                        : const Text(
+                        : Text(
                             'Continue',
                             style: TextStyle(
                               fontSize: 18,
-                              color: Color.fromARGB(255, 255, 255, 255),
+                              color: colorApp.colorWhiteBlack,
                               fontWeight: FontWeight.w500,
                             ),
                           ),

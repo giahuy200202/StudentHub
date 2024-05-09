@@ -7,6 +7,7 @@ import 'package:studenthub/providers/message/receive_id.provider.dart';
 import 'package:studenthub/providers/projects/project_id.provider.dart';
 import 'package:toastification/toastification.dart';
 
+import 'package:studenthub/providers/theme/theme_provider.dart';
 import '../../providers/options.provider.dart';
 
 import 'package:http/http.dart' as http;
@@ -147,6 +148,7 @@ class _ProposalsWidgetState extends ConsumerState<ProposalsWidget> {
     final user = ref.watch(userProvider);
     final projectId = ref.watch(projectIdProvider);
 
+    var colorApp = ref.watch(colorProvider);
     return SizedBox(
       height: 680,
       child: SingleChildScrollView(
@@ -170,11 +172,11 @@ class _ProposalsWidgetState extends ConsumerState<ProposalsWidget> {
                 ],
               )
             : listProposals.isEmpty
-                ? const Column(
+                ? Column(
                     children: [
                       Text(
                         'Empty',
-                        style: TextStyle(fontSize: 16),
+                        style: TextStyle(fontSize: 16, color: colorApp.colorText),
                       ),
                       SizedBox(height: 20),
                     ],
@@ -186,7 +188,7 @@ class _ProposalsWidgetState extends ConsumerState<ProposalsWidget> {
                           children: [
                             Container(
                               decoration: BoxDecoration(
-                                color: Colors.white,
+                                color: colorApp.colorBackgroundColor,
                                 border: Border.all(color: Colors.grey),
                                 borderRadius: const BorderRadius.all(Radius.circular(12)),
                               ),
@@ -223,8 +225,8 @@ class _ProposalsWidgetState extends ConsumerState<ProposalsWidget> {
                                                 child: Text(
                                                   el.studentName,
                                                   overflow: TextOverflow.ellipsis,
-                                                  style: const TextStyle(
-                                                    color: Colors.black,
+                                                  style: TextStyle(
+                                                    color: colorApp.colorTitle,
                                                     fontSize: 18,
                                                     fontWeight: FontWeight.w600,
                                                   ),
@@ -238,8 +240,8 @@ class _ProposalsWidgetState extends ConsumerState<ProposalsWidget> {
                                                 width: 240,
                                                 child: Text(
                                                   el.createTime,
-                                                  style: const TextStyle(
-                                                    color: Color.fromARGB(255, 94, 94, 94),
+                                                  style: TextStyle(
+                                                    color: colorApp.colorTime,
                                                     overflow: TextOverflow.ellipsis,
                                                     fontSize: 14,
                                                   ),
@@ -253,8 +255,8 @@ class _ProposalsWidgetState extends ConsumerState<ProposalsWidget> {
                                                 width: 240,
                                                 child: Text(
                                                   el.techStackName,
-                                                  style: const TextStyle(
-                                                    color: Colors.black,
+                                                  style: TextStyle(
+                                                    color: colorApp.colorText,
                                                     overflow: TextOverflow.ellipsis,
                                                     fontSize: 16,
                                                   ),
@@ -270,8 +272,8 @@ class _ProposalsWidgetState extends ConsumerState<ProposalsWidget> {
                                       alignment: Alignment.topLeft,
                                       child: Text(
                                         el.coverLetter,
-                                        style: const TextStyle(
-                                          color: Colors.black,
+                                        style: TextStyle(
+                                          color: colorApp.colorText,
                                           fontSize: 16,
                                           fontWeight: FontWeight.w400,
                                         ),
@@ -314,15 +316,15 @@ class _ProposalsWidgetState extends ConsumerState<ProposalsWidget> {
                                               // and this
                                               shape: RoundedRectangleBorder(
                                                 borderRadius: BorderRadius.circular(8),
-                                                side: const BorderSide(color: Colors.grey),
+                                                side: BorderSide(color: colorApp.colorBorderSideMutil as Color),
                                               ),
-                                              backgroundColor: Colors.white,
+                                              backgroundColor: colorApp.colorBorderBackground,
                                             ),
-                                            child: const Text(
+                                            child: Text(
                                               'Message',
                                               style: TextStyle(
                                                 fontSize: 16,
-                                                color: Colors.black,
+                                                color: colorApp.colorBlackWhite,
                                                 fontWeight: FontWeight.w500,
                                               ),
                                             ),
@@ -445,7 +447,7 @@ class _ProposalsWidgetState extends ConsumerState<ProposalsWidget> {
                                               shape: RoundedRectangleBorder(
                                                 borderRadius: BorderRadius.circular(8),
                                               ),
-                                              backgroundColor: Colors.black,
+                                              backgroundColor: colorApp.colorBlackWhite,
                                             ),
                                             child: Text(
                                               el.statusFlag == 0
@@ -455,9 +457,9 @@ class _ProposalsWidgetState extends ConsumerState<ProposalsWidget> {
                                                       : el.statusFlag == 2
                                                           ? 'Offer sent'
                                                           : 'Hired',
-                                              style: const TextStyle(
+                                              style: TextStyle(
                                                 fontSize: 16,
-                                                color: Color.fromARGB(255, 255, 255, 255),
+                                                color: colorApp.colorWhiteBlack,
                                                 fontWeight: FontWeight.w500,
                                               ),
                                             ),

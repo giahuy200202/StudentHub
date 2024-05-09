@@ -11,6 +11,7 @@ import 'package:studenthub/providers/profile/company.provider.dart';
 import 'package:studenthub/providers/profile/profiles.provider.dart';
 import 'package:http/http.dart' as http;
 import 'package:toastification/toastification.dart';
+import 'package:studenthub/providers/theme/theme_provider.dart';
 
 class LabeledRadio<T> extends StatelessWidget {
   const LabeledRadio({
@@ -19,13 +20,14 @@ class LabeledRadio<T> extends StatelessWidget {
     required this.value,
     required this.groupValue,
     required this.onChanged,
+    this.textColor,
   }) : super(key: key);
 
   final String label;
   final T value;
   final T? groupValue;
   final ValueChanged<T?> onChanged;
-
+  final Color? textColor;
   @override
   Widget build(BuildContext context) {
     return InkWell(
@@ -40,7 +42,7 @@ class LabeledRadio<T> extends StatelessWidget {
             onChanged: onChanged,
           ),
           DefaultTextStyle(
-            style: const TextStyle(color: Colors.black, fontSize: 16),
+            style: TextStyle(color: textColor, fontSize: 16),
             child: Text(label),
           ),
         ],
@@ -115,8 +117,10 @@ class _ProfileInputWidgetState extends ConsumerState<ProfileInputWidget> {
     ref.watch(TextDescriptionEmpoyleeProvider);
     final user = ref.watch(userProvider);
     final company = ref.watch(companyProvider);
+    var colorApp = ref.watch(colorProvider);
 
     return Scaffold(
+      backgroundColor: colorApp.colorBackgroundColor,
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -124,27 +128,32 @@ class _ProfileInputWidgetState extends ConsumerState<ProfileInputWidget> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(height: 30),
-              const Align(
+              Align(
                 alignment: Alignment.topLeft,
                 child: Text(
                   'Company profile',
                   style: TextStyle(
                     fontSize: 26,
                     fontWeight: FontWeight.bold,
+                    color: colorApp.colorTitle,
                   ),
                 ),
               ),
               const SizedBox(height: 10),
-              const Text(
+              Text(
                 'Tell us about your company and you will be your way connect with real-world project',
-                style: TextStyle(fontSize: 16),
+                style: TextStyle(
+                  fontSize: 16,
+                  color: colorApp.colorText,
+                ),
               ),
               const SizedBox(height: 20),
-              const Text(
+              Text(
                 'How many people in company?',
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w600,
+                  color: colorApp.colorText,
                 ),
               ),
 
@@ -159,6 +168,7 @@ class _ProfileInputWidgetState extends ConsumerState<ProfileInputWidget> {
                       label: 'It\'s just me',
                       value: 1,
                       groupValue: selectedEmployee,
+                      textColor: colorApp.colorText,
                       onChanged: (value) {
                         isClick = true;
                         ref.read(selectedEmployeeProvider.notifier).selectEmployee(value!);
@@ -172,6 +182,7 @@ class _ProfileInputWidgetState extends ConsumerState<ProfileInputWidget> {
                       label: '2-9 employees',
                       value: 2,
                       groupValue: selectedEmployee,
+                      textColor: colorApp.colorText,
                       onChanged: (value) {
                         isClick = true;
                         ref.read(selectedEmployeeProvider.notifier).selectEmployee(value!);
@@ -185,6 +196,7 @@ class _ProfileInputWidgetState extends ConsumerState<ProfileInputWidget> {
                       label: '10-99 employees',
                       value: 3,
                       groupValue: selectedEmployee,
+                      textColor: colorApp.colorText,
                       onChanged: (value) {
                         isClick = true;
                         ref.read(selectedEmployeeProvider.notifier).selectEmployee(value!);
@@ -198,6 +210,7 @@ class _ProfileInputWidgetState extends ConsumerState<ProfileInputWidget> {
                       label: "100-1000 employees",
                       value: 4,
                       groupValue: selectedEmployee,
+                      textColor: colorApp.colorText,
                       onChanged: (value) {
                         isClick = true;
                         ref.read(selectedEmployeeProvider.notifier).selectEmployee(value!);
@@ -211,6 +224,7 @@ class _ProfileInputWidgetState extends ConsumerState<ProfileInputWidget> {
                       label: 'More than 1000 employees',
                       value: 5,
                       groupValue: selectedEmployee,
+                      textColor: colorApp.colorText,
                       onChanged: (value) {
                         isClick = true;
                         ref.read(selectedEmployeeProvider.notifier).selectEmployee(value!);
@@ -222,11 +236,12 @@ class _ProfileInputWidgetState extends ConsumerState<ProfileInputWidget> {
 
               //////////////////////////////////////
               const SizedBox(height: 15),
-              const Text(
+              Text(
                 'Company name',
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w600,
+                  color: colorApp.colorTitle,
                 ),
               ),
               const SizedBox(height: 15),
@@ -243,8 +258,9 @@ class _ProfileInputWidgetState extends ConsumerState<ProfileInputWidget> {
                     }
                     setState(() {});
                   },
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 17,
+                    color: colorApp.colorText,
                   ),
                   decoration: InputDecoration(
                     border: OutlineInputBorder(
@@ -262,11 +278,12 @@ class _ProfileInputWidgetState extends ConsumerState<ProfileInputWidget> {
                 ),
               ),
               //////
-              const Text(
+              Text(
                 'Website',
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w600,
+                  color: colorApp.colorTitle,
                 ),
               ),
               const SizedBox(height: 15),
@@ -283,8 +300,9 @@ class _ProfileInputWidgetState extends ConsumerState<ProfileInputWidget> {
                     }
                     setState(() {});
                   },
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 17,
+                    color: colorApp.colorText,
                   ),
                   decoration: InputDecoration(
                     border: OutlineInputBorder(
@@ -304,9 +322,13 @@ class _ProfileInputWidgetState extends ConsumerState<ProfileInputWidget> {
               //////
               Container(
                 alignment: Alignment.centerLeft,
-                child: const Text(
+                child: Text(
                   'Description',
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                    color: colorApp.colorTitle,
+                  ),
                 ),
               ),
               const SizedBox(height: 15),
@@ -324,8 +346,9 @@ class _ProfileInputWidgetState extends ConsumerState<ProfileInputWidget> {
                     }
                     setState(() {});
                   },
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 17,
+                    color: colorApp.colorText,
                   ),
                   decoration: InputDecoration(
                     border: OutlineInputBorder(
@@ -413,13 +436,13 @@ class _ProfileInputWidgetState extends ConsumerState<ProfileInputWidget> {
                         borderRadius: BorderRadius.circular(8),
                         // side: const BorderSide(color: Colors.grey),
                       ),
-                      backgroundColor: const Color.fromARGB(255, 0, 0, 0),
+                      backgroundColor: colorApp.colorBlackWhite,
                     ),
-                    child: const Text(
+                    child: Text(
                       'Continue',
                       style: TextStyle(
                         fontSize: 18,
-                        color: Color.fromARGB(255, 255, 255, 255),
+                        color: colorApp.colorWhiteBlack,
                         fontWeight: FontWeight.w500,
                       ),
                     ),

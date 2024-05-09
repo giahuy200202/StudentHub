@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:studenthub/providers/profile/student_input.provider.dart';
 import 'package:studenthub/utils/multiselect_bottom_sheet_model.dart';
 import 'package:studenthub/utils/colors.dart';
+import 'package:studenthub/providers/theme/theme_provider.dart';
 
 class MultiSelectBottomSheet extends ConsumerStatefulWidget {
   // Function(List<int>)? callback;
@@ -13,7 +14,6 @@ class MultiSelectBottomSheet extends ConsumerStatefulWidget {
   final List<MultiSelectBottomSheetModel> items;
   final List<int> expEachElement;
   final double width;
-
   final double bottomSheetHeight;
   final double? searchTextFieldWidth;
   final String? hint;
@@ -50,7 +50,7 @@ class MultiSelectBottomSheet extends ConsumerStatefulWidget {
     this.hintColor = Colors.black,
     this.textColor = Colors.black54,
     this.borderColor = Colors.black12,
-    this.selectedBackgroundColor = const Color.fromARGB(255, 0, 0, 0),
+    this.selectedBackgroundColor = Colors.black,
     this.unSelectedBackgroundColor = Colors.white,
     this.suggestionListBorderColor = const Color.fromARGB(255, 0, 0, 0),
     this.searchHintTextStyle,
@@ -124,10 +124,11 @@ class _MultiSelectBottomSheetState extends ConsumerState<MultiSelectBottomSheet>
   Widget build(BuildContext context) {
     var width = MediaQuery.of(context).size.width;
     var height = MediaQuery.of(context).size.height;
-
+    var colorApp = ref.watch(colorProvider);
     return GestureDetector(
       onTap: () {
         showModalBottomSheet(
+          backgroundColor: colorApp.colorBackgroundBootomSheet,
           isScrollControlled: true,
           isDismissible: true,
           clipBehavior: Clip.antiAliasWithSaveLayer,
@@ -146,9 +147,9 @@ class _MultiSelectBottomSheetState extends ConsumerState<MultiSelectBottomSheet>
                       SizedBox(
                         width: MediaQuery.of(context).size.width,
                         child: TextField(
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontSize: 16,
-                            color: Color.fromARGB(255, 114, 111, 111),
+                            color: colorApp.colorText,
                             fontWeight: FontWeight.w500,
                           ),
                           // controller: searchController,
@@ -176,19 +177,20 @@ class _MultiSelectBottomSheetState extends ConsumerState<MultiSelectBottomSheet>
                               child: const Icon(Icons.clear),
                             ),
                             hintText: 'Search for skillset',
-                            hintStyle: const TextStyle(
-                              color: Color.fromARGB(255, 114, 111, 111),
+                            hintStyle: TextStyle(
+                              color: colorApp.colorText,
                               fontWeight: FontWeight.w500,
                             ),
                           ),
                         ),
                       ),
                       const SizedBox(height: 20),
-                      const Text(
+                      Text(
                         'Skillset',
                         style: (TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.w600,
+                          color: colorApp.colorTitle,
                         )),
                       ),
                       const SizedBox(height: 10),
@@ -220,14 +222,17 @@ class _MultiSelectBottomSheetState extends ConsumerState<MultiSelectBottomSheet>
                                     padding: EdgeInsets.symmetric(horizontal: width * 0.025, vertical: width * 0.015),
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(7),
-                                      color: e.isSelected ? widget.selectedBackgroundColor : widget.unSelectedBackgroundColor,
-                                      border: Border.all(color: widget.suggestionListBorderColor),
+                                      color: e.isSelected ? colorApp.colorSelect : colorApp.colorunSelect,
+                                      border: Border.all(color: colorApp.colorBorderSideMutil as Color),
                                     ),
                                     child: Text(
                                       e.name,
                                       maxLines: 1,
                                       overflow: TextOverflow.ellipsis,
-                                      style: e.isSelected ? widget.selectTextStyle : widget.unSelectTextStyle,
+                                      style: TextStyle(
+                                        color: e.isSelected ? colorApp.colorWhiteBlack : colorApp.colorBlackWhite,
+                                        fontSize: 17,
+                                      ),
                                     ),
                                   ),
                                 );
@@ -250,9 +255,9 @@ class _MultiSelectBottomSheetState extends ConsumerState<MultiSelectBottomSheet>
                                     width: 100,
                                     child: DecoratedBox(
                                       decoration: BoxDecoration(
-                                        border: Border.all(color: Colors.grey),
+                                        border: Border.all(color: colorApp.colorBorderSideMutil as Color),
                                         borderRadius: BorderRadius.circular(8),
-                                        color: Color.fromARGB(255, 255, 255, 255),
+                                        color: colorApp.colorunSelect,
                                       ),
                                       child: GestureDetector(
                                         onTap: () {
@@ -268,7 +273,7 @@ class _MultiSelectBottomSheetState extends ConsumerState<MultiSelectBottomSheet>
                                           padding: EdgeInsets.symmetric(horizontal: width * 0.02, vertical: height * 0.01),
                                           child: Text(
                                             widget.clearAll,
-                                            style: const TextStyle(color: Color.fromARGB(255, 0, 0, 0), fontWeight: FontWeight.w500, fontSize: 16),
+                                            style: TextStyle(color: colorApp.colorBlackWhite, fontWeight: FontWeight.w500, fontSize: 16),
                                           ),
                                         ),
                                       ),
@@ -283,9 +288,9 @@ class _MultiSelectBottomSheetState extends ConsumerState<MultiSelectBottomSheet>
                                   width: 100,
                                   child: DecoratedBox(
                                     decoration: BoxDecoration(
-                                      border: Border.all(color: Colors.grey),
+                                      border: Border.all(color: colorApp.colorBorderSideMutil as Color),
                                       borderRadius: BorderRadius.circular(8),
-                                      color: const Color.fromARGB(255, 255, 255, 255),
+                                      color: colorApp.colorunSelect,
                                     ),
                                     child: GestureDetector(
                                       onTap: () {
@@ -296,7 +301,7 @@ class _MultiSelectBottomSheetState extends ConsumerState<MultiSelectBottomSheet>
                                         padding: EdgeInsets.symmetric(horizontal: width * 0.02, vertical: height * 0.01),
                                         child: Text(
                                           widget.cancelText,
-                                          style: const TextStyle(color: Color.fromARGB(255, 0, 0, 0), fontWeight: FontWeight.w500, fontSize: 16),
+                                          style: TextStyle(color: colorApp.colorBlackWhite, fontWeight: FontWeight.w500, fontSize: 16),
                                         ),
                                       ),
                                     ),
@@ -311,7 +316,7 @@ class _MultiSelectBottomSheetState extends ConsumerState<MultiSelectBottomSheet>
                                   child: DecoratedBox(
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(8),
-                                      color: const Color.fromARGB(255, 0, 0, 0),
+                                      color: colorApp.colorBlackWhite,
                                     ),
                                     child: GestureDetector(
                                       onTap: () {
@@ -341,7 +346,7 @@ class _MultiSelectBottomSheetState extends ConsumerState<MultiSelectBottomSheet>
                                         padding: EdgeInsets.symmetric(horizontal: width * 0.02, vertical: height * 0.01),
                                         child: Text(
                                           widget.confirmText,
-                                          style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w500, fontSize: 16),
+                                          style: TextStyle(color: colorApp.colorWhiteBlack, fontWeight: FontWeight.w500, fontSize: 16),
                                         ),
                                       ),
                                     ),
@@ -367,11 +372,11 @@ class _MultiSelectBottomSheetState extends ConsumerState<MultiSelectBottomSheet>
       },
       child: Container(
         decoration: BoxDecoration(
-            border: Border.all(
-              color: Colors.grey,
-            ),
-            borderRadius: BorderRadius.circular(9),
-            color: whiteColor),
+          border: Border.all(
+            color: colorApp.colorBorderSide as Color,
+          ),
+          borderRadius: BorderRadius.circular(9),
+        ),
         padding: EdgeInsets.symmetric(horizontal: 0, vertical: items.where((element) => element.isSelected).isEmpty ? 15 : height * 0.015),
         width: widget.width,
         child: Column(
@@ -398,7 +403,7 @@ class _MultiSelectBottomSheetState extends ConsumerState<MultiSelectBottomSheet>
                         return Text(
                           "${e.name}$separator",
                           overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(color: Colors.black, fontWeight: FontWeight.normal, fontSize: 16),
+                          style: TextStyle(color: colorApp.colorText, fontWeight: FontWeight.normal, fontSize: 16),
                         );
                       }).toList(),
                     ),

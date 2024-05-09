@@ -7,6 +7,7 @@ import 'package:studenthub/providers/profile/company.provider.dart';
 import 'package:studenthub/providers/profile/student.provider.dart';
 import 'package:studenthub/providers/projects/project_id.provider.dart';
 import 'package:toastification/toastification.dart';
+import 'package:studenthub/providers/theme/theme_provider.dart';
 
 import '../../providers/options.provider.dart';
 
@@ -75,12 +76,14 @@ class LabeledRadio<T> extends StatelessWidget {
     required this.value,
     required this.groupValue,
     required this.onChanged,
+    this.textColor,
   }) : super(key: key);
 
   final String label;
   final T value;
   final T? groupValue;
   final ValueChanged<T?> onChanged;
+  final Color? textColor;
 
   @override
   Widget build(BuildContext context) {
@@ -96,7 +99,7 @@ class LabeledRadio<T> extends StatelessWidget {
             onChanged: onChanged,
           ),
           DefaultTextStyle(
-            style: const TextStyle(color: Colors.black, fontSize: 16),
+            style: TextStyle(color: textColor, fontSize: 16),
             child: Text(label),
           ),
         ],
@@ -221,6 +224,7 @@ class _ArchievedWidgetState extends ConsumerState<ArchievedWidget> {
     final company = ref.watch(companyProvider);
     final projectId = ref.watch(projectIdProvider);
 
+    var colorApp = ref.watch(colorProvider);
     return SizedBox(
       height: 545,
       child: SingleChildScrollView(
@@ -244,13 +248,13 @@ class _ArchievedWidgetState extends ConsumerState<ArchievedWidget> {
                 ],
               )
             : listProjects.where((el) => el.typeFlag == 2).isEmpty
-                ? const Column(
+                ? Column(
                     children: [
                       Text(
                         'Empty',
-                        style: TextStyle(fontSize: 16),
+                        style: TextStyle(fontSize: 16, color: colorApp.colorText),
                       ),
-                      SizedBox(height: 20),
+                      const SizedBox(height: 20),
                     ],
                   )
                 : Column(
@@ -266,7 +270,7 @@ class _ArchievedWidgetState extends ConsumerState<ArchievedWidget> {
                               },
                               child: Container(
                                 decoration: BoxDecoration(
-                                  color: Colors.white,
+                                  color: colorApp.colorBackgroundColor,
                                   border: Border.all(color: Colors.grey),
                                   borderRadius: const BorderRadius.all(Radius.circular(12)),
                                 ),
@@ -286,8 +290,8 @@ class _ArchievedWidgetState extends ConsumerState<ArchievedWidget> {
                                               child: Text(
                                                 el.title,
                                                 overflow: TextOverflow.ellipsis,
-                                                style: const TextStyle(
-                                                  color: Colors.black,
+                                                style: TextStyle(
+                                                  color: colorApp.colorTitle,
                                                   fontSize: 18,
                                                   fontWeight: FontWeight.w600,
                                                 ),
@@ -303,7 +307,10 @@ class _ArchievedWidgetState extends ConsumerState<ArchievedWidget> {
                                                   return Container(
                                                     height: 330,
                                                     width: MediaQuery.of(context).size.width,
-                                                    decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(15)),
+                                                    decoration: BoxDecoration(
+                                                      color: colorApp.colorBackgroundBootomSheet,
+                                                      borderRadius: BorderRadius.circular(15),
+                                                    ),
                                                     child: Padding(
                                                       padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 30),
                                                       child: Column(
@@ -325,11 +332,11 @@ class _ArchievedWidgetState extends ConsumerState<ArchievedWidget> {
                                                                         padding: EdgeInsets.zero, // and this
                                                                         shape: RoundedRectangleBorder(
                                                                           borderRadius: BorderRadius.circular(8),
-                                                                          side: const BorderSide(color: Colors.grey),
+                                                                          side: BorderSide(color: colorApp.colorBorderSideMutil as Color),
                                                                         ),
-                                                                        backgroundColor: Colors.white,
+                                                                        backgroundColor: colorApp.colorBorderBackground,
                                                                       ),
-                                                                      child: const Padding(
+                                                                      child: Padding(
                                                                         padding: EdgeInsets.only(left: 10),
                                                                         child: Row(
                                                                           mainAxisAlignment: MainAxisAlignment.start,
@@ -338,7 +345,7 @@ class _ArchievedWidgetState extends ConsumerState<ArchievedWidget> {
                                                                             Icon(
                                                                               Icons.format_indent_increase_rounded,
                                                                               size: 22,
-                                                                              color: Colors.black,
+                                                                              color: colorApp.colorBlackWhite,
                                                                             ),
                                                                             SizedBox(width: 5),
                                                                             Text(
@@ -346,7 +353,7 @@ class _ArchievedWidgetState extends ConsumerState<ArchievedWidget> {
                                                                               style: TextStyle(
                                                                                 fontSize: 16,
                                                                                 // color: Color.fromARGB(255, 255, 255, 255),
-                                                                                color: Colors.black,
+                                                                                color: colorApp.colorBlackWhite,
                                                                                 fontWeight: FontWeight.w500,
                                                                               ),
                                                                             ),
@@ -366,11 +373,11 @@ class _ArchievedWidgetState extends ConsumerState<ArchievedWidget> {
                                                                         padding: EdgeInsets.zero, // and this
                                                                         shape: RoundedRectangleBorder(
                                                                           borderRadius: BorderRadius.circular(8),
-                                                                          side: const BorderSide(color: Colors.grey),
+                                                                          side: BorderSide(color: colorApp.colorBorderSideMutil as Color),
                                                                         ),
-                                                                        backgroundColor: Colors.white,
+                                                                        backgroundColor: colorApp.colorBorderBackground,
                                                                       ),
-                                                                      child: const Padding(
+                                                                      child: Padding(
                                                                         padding: EdgeInsets.only(left: 10),
                                                                         child: Row(
                                                                           mainAxisAlignment: MainAxisAlignment.start,
@@ -379,14 +386,14 @@ class _ArchievedWidgetState extends ConsumerState<ArchievedWidget> {
                                                                             Icon(
                                                                               Icons.message_outlined,
                                                                               size: 22,
-                                                                              color: Colors.black,
+                                                                              color: colorApp.colorBlackWhite,
                                                                             ),
                                                                             SizedBox(width: 5),
                                                                             Text(
                                                                               'View messages',
                                                                               style: TextStyle(
                                                                                 fontSize: 16,
-                                                                                color: Colors.black,
+                                                                                color: colorApp.colorBlackWhite,
                                                                                 fontWeight: FontWeight.w500,
                                                                               ),
                                                                             ),
@@ -406,11 +413,11 @@ class _ArchievedWidgetState extends ConsumerState<ArchievedWidget> {
                                                                         padding: EdgeInsets.zero, // and this
                                                                         shape: RoundedRectangleBorder(
                                                                           borderRadius: BorderRadius.circular(8),
-                                                                          side: const BorderSide(color: Colors.grey),
+                                                                          side: BorderSide(color: colorApp.colorBorderSideMutil as Color),
                                                                         ),
-                                                                        backgroundColor: Colors.white,
+                                                                        backgroundColor: colorApp.colorBorderBackground,
                                                                       ),
-                                                                      child: const Padding(
+                                                                      child: Padding(
                                                                         padding: EdgeInsets.only(left: 10),
                                                                         child: Row(
                                                                           mainAxisAlignment: MainAxisAlignment.start,
@@ -419,14 +426,14 @@ class _ArchievedWidgetState extends ConsumerState<ArchievedWidget> {
                                                                             Icon(
                                                                               Icons.person_3,
                                                                               size: 22,
-                                                                              color: Colors.black,
+                                                                              color: colorApp.colorBlackWhite,
                                                                             ),
                                                                             SizedBox(width: 5),
                                                                             Text(
                                                                               'View hired',
                                                                               style: TextStyle(
                                                                                 fontSize: 16,
-                                                                                color: Colors.black,
+                                                                                color: colorApp.colorBlackWhite,
                                                                                 fontWeight: FontWeight.w500,
                                                                               ),
                                                                             ),
@@ -484,11 +491,11 @@ class _ArchievedWidgetState extends ConsumerState<ArchievedWidget> {
                                                                         padding: EdgeInsets.zero, // and this
                                                                         shape: RoundedRectangleBorder(
                                                                           borderRadius: BorderRadius.circular(8),
-                                                                          side: const BorderSide(color: Colors.grey),
+                                                                          side: BorderSide(color: colorApp.colorBorderSideMutil as Color),
                                                                         ),
-                                                                        backgroundColor: Colors.white,
+                                                                        backgroundColor: colorApp.colorBorderBackground,
                                                                       ),
-                                                                      child: const Padding(
+                                                                      child: Padding(
                                                                         padding: EdgeInsets.only(left: 10),
                                                                         child: Row(
                                                                           mainAxisAlignment: MainAxisAlignment.start,
@@ -497,7 +504,7 @@ class _ArchievedWidgetState extends ConsumerState<ArchievedWidget> {
                                                                             Icon(
                                                                               Icons.archive_outlined,
                                                                               size: 22,
-                                                                              color: Colors.black,
+                                                                              color: colorApp.colorBlackWhite,
                                                                             ),
                                                                             SizedBox(width: 5),
                                                                             Text(
@@ -505,7 +512,7 @@ class _ArchievedWidgetState extends ConsumerState<ArchievedWidget> {
                                                                               style: TextStyle(
                                                                                 fontSize: 16,
                                                                                 // color: Color.fromARGB(255, 255, 255, 255),
-                                                                                color: Colors.black,
+                                                                                color: colorApp.colorBlackWhite,
                                                                                 fontWeight: FontWeight.w500,
                                                                               ),
                                                                             ),
@@ -528,7 +535,7 @@ class _ArchievedWidgetState extends ConsumerState<ArchievedWidget> {
                                                                         showModalBottomSheet(
                                                                           isScrollControlled: true,
                                                                           context: context,
-                                                                          backgroundColor: Colors.white,
+                                                                          backgroundColor: colorApp.colorBackgroundBootomSheet,
                                                                           builder: (ctx) {
                                                                             return StatefulBuilder(builder: (BuildContext context, StateSetter setState /*You can rename this!*/) {
                                                                               return Padding(
@@ -542,13 +549,14 @@ class _ArchievedWidgetState extends ConsumerState<ArchievedWidget> {
                                                                                       mainAxisSize: MainAxisSize.min,
                                                                                       children: [
                                                                                         const SizedBox(height: 30),
-                                                                                        const Align(
+                                                                                        Align(
                                                                                           alignment: Alignment.topLeft,
                                                                                           child: Text(
                                                                                             "Edit project",
                                                                                             style: TextStyle(
                                                                                               fontWeight: FontWeight.bold,
                                                                                               fontSize: 25,
+                                                                                              color: colorApp.colorTitle,
                                                                                             ),
                                                                                           ),
                                                                                         ),
@@ -556,7 +564,7 @@ class _ArchievedWidgetState extends ConsumerState<ArchievedWidget> {
                                                                                         Container(
                                                                                           decoration: BoxDecoration(
                                                                                             border: Border.all(
-                                                                                              color: Colors.black, //                   <--- border color
+                                                                                              color: colorApp.colorDivider as Color, //                   <--- border color
                                                                                               width: 0.3,
                                                                                             ),
                                                                                           ),
@@ -566,13 +574,14 @@ class _ArchievedWidgetState extends ConsumerState<ArchievedWidget> {
                                                                                           height: 580,
                                                                                           child: Column(
                                                                                             children: [
-                                                                                              const Align(
+                                                                                              Align(
                                                                                                 alignment: Alignment.topLeft,
                                                                                                 child: Text(
                                                                                                   "Title",
                                                                                                   style: TextStyle(
                                                                                                     fontWeight: FontWeight.bold,
                                                                                                     fontSize: 16,
+                                                                                                    color: colorApp.colorTitle,
                                                                                                   ),
                                                                                                 ),
                                                                                               ),
@@ -581,35 +590,35 @@ class _ArchievedWidgetState extends ConsumerState<ArchievedWidget> {
                                                                                                 child: TextField(
                                                                                                   controller: titleController,
                                                                                                   onChanged: (data) {},
-                                                                                                  style: const TextStyle(
+                                                                                                  style: TextStyle(
                                                                                                     fontSize: 16,
+                                                                                                    color: colorApp.colorText,
                                                                                                   ),
                                                                                                   decoration: InputDecoration(
-                                                                                                    // labelText: 'Number of students',
-                                                                                                    border: OutlineInputBorder(
-                                                                                                      borderRadius: BorderRadius.circular(9),
-                                                                                                    ),
-                                                                                                    focusedBorder: OutlineInputBorder(
-                                                                                                      borderRadius: BorderRadius.circular(9),
-                                                                                                      borderSide: const BorderSide(color: Colors.black),
-                                                                                                    ),
-                                                                                                    contentPadding: const EdgeInsets.symmetric(
-                                                                                                      vertical: 14,
-                                                                                                      horizontal: 15,
-                                                                                                    ),
-                                                                                                    hintText: 'Enter your languages',
-                                                                                                  ),
+                                                                                                      // labelText: 'Number of students',
+                                                                                                      border: OutlineInputBorder(
+                                                                                                        borderRadius: BorderRadius.circular(9),
+                                                                                                      ),
+                                                                                                      focusedBorder: OutlineInputBorder(
+                                                                                                        borderRadius: BorderRadius.circular(9),
+                                                                                                        borderSide: BorderSide(color: colorApp.colorBorderSide as Color),
+                                                                                                      ),
+                                                                                                      contentPadding: const EdgeInsets.symmetric(
+                                                                                                        vertical: 14,
+                                                                                                        horizontal: 15,
+                                                                                                      ),
+                                                                                                      hintText: 'Enter your languages',
+                                                                                                      hintStyle: TextStyle(
+                                                                                                        color: colorApp.colorText,
+                                                                                                      )),
                                                                                                 ),
                                                                                               ),
                                                                                               const SizedBox(height: 15),
-                                                                                              const Align(
+                                                                                              Align(
                                                                                                 alignment: Alignment.topLeft,
                                                                                                 child: Text(
                                                                                                   'Project scope',
-                                                                                                  style: TextStyle(
-                                                                                                    fontWeight: FontWeight.bold,
-                                                                                                    fontSize: 16,
-                                                                                                  ),
+                                                                                                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: colorApp.colorTitle),
                                                                                                 ),
                                                                                               ),
                                                                                               const SizedBox(height: 15),
@@ -621,6 +630,7 @@ class _ArchievedWidgetState extends ConsumerState<ArchievedWidget> {
                                                                                                     child: LabeledRadio(
                                                                                                       label: 'Less than 1 month',
                                                                                                       value: 0,
+                                                                                                      textColor: colorApp.colorBlackWhite,
                                                                                                       groupValue: pickedScope, //projectPosting.scope,
                                                                                                       onChanged: (value) {
                                                                                                         setState(() {
@@ -635,6 +645,7 @@ class _ArchievedWidgetState extends ConsumerState<ArchievedWidget> {
                                                                                                     child: LabeledRadio(
                                                                                                       label: '1 to 3 months',
                                                                                                       value: 1,
+                                                                                                      textColor: colorApp.colorBlackWhite,
                                                                                                       groupValue: pickedScope, //projectPosting.scope,
                                                                                                       onChanged: (value) {
                                                                                                         setState(() {
@@ -649,6 +660,7 @@ class _ArchievedWidgetState extends ConsumerState<ArchievedWidget> {
                                                                                                     child: LabeledRadio(
                                                                                                       label: '3 to 6 months',
                                                                                                       value: 2,
+                                                                                                      textColor: colorApp.colorBlackWhite,
                                                                                                       groupValue: pickedScope, //projectPosting.scope,
                                                                                                       onChanged: (value) {
                                                                                                         setState(() {
@@ -663,6 +675,7 @@ class _ArchievedWidgetState extends ConsumerState<ArchievedWidget> {
                                                                                                     child: LabeledRadio(
                                                                                                       label: 'More than 6 months',
                                                                                                       value: 3,
+                                                                                                      textColor: colorApp.colorBlackWhite,
                                                                                                       groupValue: pickedScope, //projectPosting.scope,
                                                                                                       onChanged: (value) {
                                                                                                         setState(() {
@@ -674,14 +687,11 @@ class _ArchievedWidgetState extends ConsumerState<ArchievedWidget> {
                                                                                                 ],
                                                                                               ),
                                                                                               const SizedBox(height: 15),
-                                                                                              const Align(
+                                                                                              Align(
                                                                                                 alignment: Alignment.topLeft,
                                                                                                 child: Text(
                                                                                                   "Number of students",
-                                                                                                  style: TextStyle(
-                                                                                                    fontWeight: FontWeight.bold,
-                                                                                                    fontSize: 16,
-                                                                                                  ),
+                                                                                                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: colorApp.colorTitle),
                                                                                                 ),
                                                                                               ),
                                                                                               const SizedBox(height: 15),
@@ -689,34 +699,36 @@ class _ArchievedWidgetState extends ConsumerState<ArchievedWidget> {
                                                                                                 child: TextField(
                                                                                                   controller: numOfStudentsController,
                                                                                                   onChanged: (data) {},
-                                                                                                  style: const TextStyle(
+                                                                                                  style: TextStyle(
                                                                                                     fontSize: 16,
+                                                                                                    color: colorApp.colorText,
                                                                                                   ),
                                                                                                   decoration: InputDecoration(
-                                                                                                    // labelText: 'Number of students',
-                                                                                                    border: OutlineInputBorder(
-                                                                                                      borderRadius: BorderRadius.circular(9),
-                                                                                                    ),
-                                                                                                    focusedBorder: OutlineInputBorder(
-                                                                                                      borderRadius: BorderRadius.circular(9),
-                                                                                                      borderSide: const BorderSide(color: Colors.black),
-                                                                                                    ),
-                                                                                                    contentPadding: const EdgeInsets.symmetric(
-                                                                                                      vertical: 14,
-                                                                                                      horizontal: 15,
-                                                                                                    ),
-                                                                                                    hintText: 'Enter your language level',
-                                                                                                  ),
+                                                                                                      // labelText: 'Number of students',
+                                                                                                      border: OutlineInputBorder(
+                                                                                                        borderRadius: BorderRadius.circular(9),
+                                                                                                      ),
+                                                                                                      focusedBorder: OutlineInputBorder(
+                                                                                                        borderRadius: BorderRadius.circular(9),
+                                                                                                        borderSide: BorderSide(color: colorApp.colorBorderSide as Color),
+                                                                                                      ),
+                                                                                                      contentPadding: const EdgeInsets.symmetric(
+                                                                                                        vertical: 14,
+                                                                                                        horizontal: 15,
+                                                                                                      ),
+                                                                                                      hintText: 'Enter your language level',
+                                                                                                      hintStyle: TextStyle(color: colorApp.colorText)),
                                                                                                 ),
                                                                                               ),
                                                                                               const SizedBox(height: 15),
-                                                                                              const Align(
+                                                                                              Align(
                                                                                                 alignment: Alignment.topLeft,
                                                                                                 child: Text(
                                                                                                   "Description",
                                                                                                   style: TextStyle(
                                                                                                     fontWeight: FontWeight.bold,
                                                                                                     fontSize: 16,
+                                                                                                    color: colorApp.colorText,
                                                                                                   ),
                                                                                                 ),
                                                                                               ),
@@ -725,24 +737,25 @@ class _ArchievedWidgetState extends ConsumerState<ArchievedWidget> {
                                                                                                 child: TextField(
                                                                                                   controller: descriptionController,
                                                                                                   onChanged: (data) {},
-                                                                                                  style: const TextStyle(
+                                                                                                  style: TextStyle(
                                                                                                     fontSize: 16,
+                                                                                                    color: colorApp.colorText,
                                                                                                   ),
                                                                                                   decoration: InputDecoration(
-                                                                                                    // labelText: 'Number of students',
-                                                                                                    border: OutlineInputBorder(
-                                                                                                      borderRadius: BorderRadius.circular(9),
-                                                                                                    ),
-                                                                                                    focusedBorder: OutlineInputBorder(
-                                                                                                      borderRadius: BorderRadius.circular(9),
-                                                                                                      borderSide: const BorderSide(color: Colors.black),
-                                                                                                    ),
-                                                                                                    contentPadding: const EdgeInsets.symmetric(
-                                                                                                      vertical: 14,
-                                                                                                      horizontal: 15,
-                                                                                                    ),
-                                                                                                    hintText: 'Enter your language level',
-                                                                                                  ),
+                                                                                                      // labelText: 'Number of students',
+                                                                                                      border: OutlineInputBorder(
+                                                                                                        borderRadius: BorderRadius.circular(9),
+                                                                                                      ),
+                                                                                                      focusedBorder: OutlineInputBorder(
+                                                                                                        borderRadius: BorderRadius.circular(9),
+                                                                                                        borderSide: BorderSide(color: colorApp.colorBorderSide as Color),
+                                                                                                      ),
+                                                                                                      contentPadding: const EdgeInsets.symmetric(
+                                                                                                        vertical: 14,
+                                                                                                        horizontal: 15,
+                                                                                                      ),
+                                                                                                      hintText: 'Enter your language level',
+                                                                                                      hintStyle: TextStyle(color: colorApp.colorText)),
                                                                                                 ),
                                                                                               ),
                                                                                               const SizedBox(height: 35),
@@ -763,15 +776,15 @@ class _ArchievedWidgetState extends ConsumerState<ArchievedWidget> {
                                                                                                             padding: EdgeInsets.zero, // and this
                                                                                                             shape: RoundedRectangleBorder(
                                                                                                               borderRadius: BorderRadius.circular(8),
-                                                                                                              side: const BorderSide(color: Colors.black),
+                                                                                                              side: BorderSide(color: colorApp.colorBorderSideMutil as Color),
                                                                                                             ),
-                                                                                                            backgroundColor: Colors.white,
+                                                                                                            backgroundColor: colorApp.colorWhiteBlack,
                                                                                                           ),
-                                                                                                          child: const Text(
+                                                                                                          child: Text(
                                                                                                             'Cancel',
                                                                                                             style: TextStyle(
                                                                                                               fontSize: 18,
-                                                                                                              color: Colors.black,
+                                                                                                              color: colorApp.colorBlackWhite,
                                                                                                               fontWeight: FontWeight.w500,
                                                                                                             ),
                                                                                                           ),
@@ -819,13 +832,13 @@ class _ArchievedWidgetState extends ConsumerState<ArchievedWidget> {
                                                                                                             shape: RoundedRectangleBorder(
                                                                                                               borderRadius: BorderRadius.circular(8),
                                                                                                             ),
-                                                                                                            backgroundColor: Colors.black,
+                                                                                                            backgroundColor: colorApp.colorBlackWhite,
                                                                                                           ),
-                                                                                                          child: const Text(
+                                                                                                          child: Text(
                                                                                                             'Edit',
                                                                                                             style: TextStyle(
                                                                                                               fontSize: 18,
-                                                                                                              color: Color.fromARGB(255, 255, 255, 255),
+                                                                                                              color: colorApp.colorWhiteBlack,
                                                                                                               fontWeight: FontWeight.w500,
                                                                                                             ),
                                                                                                           ),
@@ -852,11 +865,11 @@ class _ArchievedWidgetState extends ConsumerState<ArchievedWidget> {
                                                                         padding: EdgeInsets.zero, // and this
                                                                         shape: RoundedRectangleBorder(
                                                                           borderRadius: BorderRadius.circular(8),
-                                                                          side: const BorderSide(color: Colors.grey),
+                                                                          side: BorderSide(color: colorApp.colorBorderSideMutil as Color),
                                                                         ),
-                                                                        backgroundColor: Colors.white,
+                                                                        backgroundColor: colorApp.colorBorderBackground,
                                                                       ),
-                                                                      child: const Padding(
+                                                                      child: Padding(
                                                                         padding: EdgeInsets.only(left: 10),
                                                                         child: Row(
                                                                           mainAxisAlignment: MainAxisAlignment.start,
@@ -865,14 +878,14 @@ class _ArchievedWidgetState extends ConsumerState<ArchievedWidget> {
                                                                             Icon(
                                                                               Icons.edit_calendar_outlined,
                                                                               size: 22,
-                                                                              color: Colors.black,
+                                                                              color: colorApp.colorBlackWhite,
                                                                             ),
                                                                             SizedBox(width: 5),
                                                                             Text(
                                                                               'Edit project',
                                                                               style: TextStyle(
                                                                                 fontSize: 16,
-                                                                                color: Colors.black,
+                                                                                color: colorApp.colorBlackWhite,
                                                                                 fontWeight: FontWeight.w500,
                                                                               ),
                                                                             ),
@@ -910,9 +923,9 @@ class _ArchievedWidgetState extends ConsumerState<ArchievedWidget> {
                                                                         padding: EdgeInsets.zero, // and this
                                                                         shape: RoundedRectangleBorder(
                                                                           borderRadius: BorderRadius.circular(8),
-                                                                          side: const BorderSide(color: Colors.grey),
+                                                                          side: BorderSide(color: colorApp.colorBorderSideMutil as Color),
                                                                         ),
-                                                                        backgroundColor: Colors.white,
+                                                                        backgroundColor: colorApp.colorBorderBackground,
                                                                       ),
                                                                       child: const Padding(
                                                                         padding: EdgeInsets.only(left: 10),
@@ -956,9 +969,9 @@ class _ArchievedWidgetState extends ConsumerState<ArchievedWidget> {
                                                                   borderRadius: BorderRadius.circular(8),
                                                                   side: const BorderSide(color: Colors.grey),
                                                                 ),
-                                                                backgroundColor: Colors.black,
+                                                                backgroundColor: colorApp.colorBlackWhite,
                                                               ),
-                                                              child: const Padding(
+                                                              child: Padding(
                                                                 padding: EdgeInsets.only(left: 10),
                                                                 child: Row(
                                                                   mainAxisAlignment: MainAxisAlignment.center,
@@ -968,7 +981,7 @@ class _ArchievedWidgetState extends ConsumerState<ArchievedWidget> {
                                                                       'Start working this project',
                                                                       style: TextStyle(
                                                                         fontSize: 16,
-                                                                        color: Colors.white,
+                                                                        color: colorApp.colorWhiteBlack,
                                                                         fontWeight: FontWeight.w500,
                                                                       ),
                                                                     ),
@@ -984,7 +997,10 @@ class _ArchievedWidgetState extends ConsumerState<ArchievedWidget> {
                                                 },
                                               );
                                             },
-                                            child: const Icon(Icons.more_vert),
+                                            child: Icon(
+                                              Icons.more_vert,
+                                              color: colorApp.colorIcon,
+                                            ),
                                           ),
                                         ],
                                       ),
@@ -995,8 +1011,8 @@ class _ArchievedWidgetState extends ConsumerState<ArchievedWidget> {
                                           width: 340,
                                           child: Text(
                                             el.createTime,
-                                            style: const TextStyle(
-                                              color: Color.fromARGB(255, 94, 94, 94),
+                                            style: TextStyle(
+                                              color: colorApp.colorTime,
                                               overflow: TextOverflow.ellipsis,
                                               fontSize: 13,
                                             ),
@@ -1010,8 +1026,8 @@ class _ArchievedWidgetState extends ConsumerState<ArchievedWidget> {
                                           width: 340,
                                           child: Text(
                                             'Time: ${el.projectScopeFlag == 0 ? 'Less than 1 month' : el.projectScopeFlag == 1 ? ' 1-3 months' : el.projectScopeFlag == 2 ? '3-6 months' : 'More than 6 months'}, ${el.numberOfStudents} students needed',
-                                            style: const TextStyle(
-                                              color: Colors.black,
+                                            style: TextStyle(
+                                              color: colorApp.colorText,
                                               overflow: TextOverflow.ellipsis,
                                               fontSize: 16,
                                             ),
@@ -1022,7 +1038,7 @@ class _ArchievedWidgetState extends ConsumerState<ArchievedWidget> {
                                       Container(
                                         decoration: BoxDecoration(
                                           border: Border.all(
-                                            color: Colors.black, //                   <--- border color
+                                            color: colorApp.colorDivider as Color, //                   <--- border color
                                             width: 0.3,
                                           ),
                                         ),
@@ -1032,8 +1048,8 @@ class _ArchievedWidgetState extends ConsumerState<ArchievedWidget> {
                                         alignment: Alignment.topLeft,
                                         child: Text(
                                           el.description,
-                                          style: const TextStyle(
-                                            color: Colors.black,
+                                          style: TextStyle(
+                                            color: colorApp.colorText,
                                             fontSize: 16,
                                             fontWeight: FontWeight.w400,
                                           ),
@@ -1043,7 +1059,7 @@ class _ArchievedWidgetState extends ConsumerState<ArchievedWidget> {
                                       Container(
                                         decoration: BoxDecoration(
                                           border: Border.all(
-                                            color: Colors.black, //                   <--- border color
+                                            color: colorApp.colorDivider as Color, //                   <--- border color
                                             width: 0.3,
                                           ),
                                         ),
@@ -1059,16 +1075,16 @@ class _ArchievedWidgetState extends ConsumerState<ArchievedWidget> {
                                             children: [
                                               Text(
                                                 '${el.countProposals}',
-                                                style: const TextStyle(
-                                                  color: Colors.black,
+                                                style: TextStyle(
+                                                  color: colorApp.colorText,
                                                   overflow: TextOverflow.ellipsis,
                                                   fontSize: 16,
                                                 ),
                                               ),
-                                              const Text(
+                                              Text(
                                                 'Proposals',
                                                 style: TextStyle(
-                                                  color: Colors.black,
+                                                  color: colorApp.colorText,
                                                   overflow: TextOverflow.ellipsis,
                                                   fontSize: 16,
                                                 ),
@@ -1082,16 +1098,16 @@ class _ArchievedWidgetState extends ConsumerState<ArchievedWidget> {
                                             children: [
                                               Text(
                                                 '${el.countMessages}',
-                                                style: const TextStyle(
-                                                  color: Colors.black,
+                                                style: TextStyle(
+                                                  color: colorApp.colorText,
                                                   overflow: TextOverflow.ellipsis,
                                                   fontSize: 16,
                                                 ),
                                               ),
-                                              const Text(
+                                              Text(
                                                 'Messages',
                                                 style: TextStyle(
-                                                  color: Colors.black,
+                                                  color: colorApp.colorText,
                                                   overflow: TextOverflow.ellipsis,
                                                   fontSize: 16,
                                                 ),
@@ -1105,16 +1121,16 @@ class _ArchievedWidgetState extends ConsumerState<ArchievedWidget> {
                                             children: [
                                               Text(
                                                 '${el.countHired}',
-                                                style: const TextStyle(
-                                                  color: Colors.black,
+                                                style: TextStyle(
+                                                  color: colorApp.colorText,
                                                   overflow: TextOverflow.ellipsis,
                                                   fontSize: 16,
                                                 ),
                                               ),
-                                              const Text(
+                                              Text(
                                                 'Hired',
                                                 style: TextStyle(
-                                                  color: Colors.black,
+                                                  color: colorApp.colorText,
                                                   overflow: TextOverflow.ellipsis,
                                                   fontSize: 16,
                                                 ),

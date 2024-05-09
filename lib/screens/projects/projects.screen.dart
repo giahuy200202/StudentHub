@@ -5,6 +5,7 @@ import 'package:studenthub/providers/projects/search_filter.provider.dart';
 import 'package:studenthub/widgets/projects/list_projects.widget.dart';
 import '../../providers/options.provider.dart';
 // import 'package:keyboard_visibility/keyboard_visibility.dart';
+import 'package:studenthub/providers/theme/theme_provider.dart';
 
 class ProjectScreen extends ConsumerStatefulWidget {
   const ProjectScreen({super.key});
@@ -22,7 +23,10 @@ class _ProjectScreenState extends ConsumerState<ProjectScreen> {
   @override
   Widget build(BuildContext context) {
     final user = ref.watch(userProvider);
+    var colorApp = ref.watch(colorProvider);
+
     return Scaffold(
+      backgroundColor: colorApp.colorBackgroundColor,
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.only(left: 20, right: 20),
@@ -46,7 +50,7 @@ class _ProjectScreenState extends ConsumerState<ProjectScreen> {
                           showModalBottomSheet(
                             isScrollControlled: true,
                             context: context,
-                            backgroundColor: Colors.white,
+                            backgroundColor: colorApp.colorBackgroundBootomSheet,
                             builder: (ctx) {
                               return SingleChildScrollView(
                                 physics: const NeverScrollableScrollPhysics(),
@@ -56,13 +60,14 @@ class _ProjectScreenState extends ConsumerState<ProjectScreen> {
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
                                       const SizedBox(height: 40),
-                                      const Align(
+                                      Align(
                                         alignment: Alignment.topLeft,
                                         child: Text(
                                           "Search",
                                           style: TextStyle(
                                             fontWeight: FontWeight.bold,
                                             fontSize: 25,
+                                            color: colorApp.colorTitle,
                                           ),
                                         ),
                                       ),
@@ -88,7 +93,7 @@ class _ProjectScreenState extends ConsumerState<ProjectScreen> {
                                             ),
                                             focusedBorder: OutlineInputBorder(
                                               borderRadius: BorderRadius.circular(9),
-                                              borderSide: const BorderSide(color: Colors.black),
+                                              borderSide: BorderSide(color: colorApp.colorBorderSide as Color),
                                             ),
                                             contentPadding: const EdgeInsets.symmetric(
                                               vertical: 8,
@@ -113,13 +118,14 @@ class _ProjectScreenState extends ConsumerState<ProjectScreen> {
                                         child: SingleChildScrollView(
                                           child: Column(
                                             children: [
-                                              const Align(
+                                              Align(
                                                 alignment: Alignment.topLeft,
                                                 child: Text(
                                                   "Discover",
                                                   style: TextStyle(
                                                     fontWeight: FontWeight.bold,
                                                     fontSize: 18,
+                                                    color: colorApp.colorTitle,
                                                   ),
                                                 ),
                                               ),
@@ -147,14 +153,18 @@ class _ProjectScreenState extends ConsumerState<ProjectScreen> {
                                                               mainAxisAlignment: MainAxisAlignment.start,
                                                               crossAxisAlignment: CrossAxisAlignment.center,
                                                               children: [
-                                                                const Icon(Icons.search),
+                                                                Icon(
+                                                                  Icons.search,
+                                                                  color: colorApp.colorIcon,
+                                                                ),
                                                                 const SizedBox(
                                                                   width: 10,
                                                                 ),
                                                                 Text(
                                                                   data,
-                                                                  style: const TextStyle(
+                                                                  style: TextStyle(
                                                                     fontSize: 16,
+                                                                    color: colorApp.colorText,
                                                                   ),
                                                                 ),
                                                               ],
@@ -187,14 +197,18 @@ class _ProjectScreenState extends ConsumerState<ProjectScreen> {
                                                               mainAxisAlignment: MainAxisAlignment.start,
                                                               crossAxisAlignment: CrossAxisAlignment.center,
                                                               children: [
-                                                                const Icon(Icons.search),
+                                                                Icon(
+                                                                  Icons.search,
+                                                                  color: colorApp.colorIcon,
+                                                                ),
                                                                 const SizedBox(
                                                                   width: 10,
                                                                 ),
                                                                 Text(
                                                                   data,
-                                                                  style: const TextStyle(
+                                                                  style: TextStyle(
                                                                     fontSize: 16,
+                                                                    color: colorApp.colorText,
                                                                   ),
                                                                 ),
                                                               ],
@@ -209,13 +223,14 @@ class _ProjectScreenState extends ConsumerState<ProjectScreen> {
                                               const SizedBox(
                                                 height: 10,
                                               ),
-                                              const Align(
+                                              Align(
                                                 alignment: Alignment.topLeft,
                                                 child: Text(
                                                   "Suggested",
                                                   style: TextStyle(
                                                     fontWeight: FontWeight.bold,
                                                     fontSize: 18,
+                                                    color: colorApp.colorTitle,
                                                   ),
                                                 ),
                                               ),
@@ -237,7 +252,7 @@ class _ProjectScreenState extends ConsumerState<ProjectScreen> {
                                                     children: [
                                                       Row(
                                                         children: [
-                                                          const Align(
+                                                          Align(
                                                             alignment: Alignment.topLeft,
                                                             child: SizedBox(
                                                               width: 300,
@@ -245,7 +260,7 @@ class _ProjectScreenState extends ConsumerState<ProjectScreen> {
                                                                 'Senior frontend developer (Fintech)',
                                                                 overflow: TextOverflow.ellipsis,
                                                                 style: TextStyle(
-                                                                  color: Colors.black,
+                                                                  color: colorApp.colorTitle,
                                                                   fontSize: 18,
                                                                   fontWeight: FontWeight.w600,
                                                                 ),
@@ -255,8 +270,9 @@ class _ProjectScreenState extends ConsumerState<ProjectScreen> {
                                                           const Spacer(),
                                                           InkWell(
                                                             onTap: () {},
-                                                            child: const Icon(
+                                                            child: Icon(
                                                               Icons.favorite_border,
+                                                              color: colorApp.colorIcon,
                                                               size: 28,
                                                             ),
                                                           ),
@@ -278,14 +294,14 @@ class _ProjectScreenState extends ConsumerState<ProjectScreen> {
                                                         ),
                                                       ),
                                                       const SizedBox(height: 5),
-                                                      const Align(
+                                                      Align(
                                                         alignment: Alignment.topLeft,
                                                         child: SizedBox(
                                                           width: 340,
                                                           child: Text(
                                                             'Time: 1-3 months, 6 students needed',
                                                             style: TextStyle(
-                                                              color: Colors.black,
+                                                              color: colorApp.colorText,
                                                               overflow: TextOverflow.ellipsis,
                                                               fontSize: 16,
                                                             ),
@@ -296,27 +312,27 @@ class _ProjectScreenState extends ConsumerState<ProjectScreen> {
                                                       Container(
                                                         decoration: BoxDecoration(
                                                           border: Border.all(
-                                                            color: Colors.black, //                   <--- border color
+                                                            color: colorApp.colorDivider as Color, //                   <--- border color
                                                             width: 0.3,
                                                           ),
                                                         ),
                                                       ),
                                                       const SizedBox(height: 15),
-                                                      const Row(
+                                                      Row(
                                                         mainAxisAlignment: MainAxisAlignment.start,
                                                         crossAxisAlignment: CrossAxisAlignment.center,
                                                         children: [
                                                           Icon(
                                                             Icons.format_indent_increase_rounded,
                                                             size: 22,
-                                                            color: Colors.black,
+                                                            color: colorApp.colorIcon,
                                                           ),
                                                           SizedBox(width: 5),
                                                           Text(
                                                             'Proposals: Less than 5',
                                                             style: TextStyle(
                                                               fontSize: 16,
-                                                              color: Colors.black,
+                                                              color: colorApp.colorText,
                                                             ),
                                                           ),
                                                         ],
@@ -340,7 +356,7 @@ class _ProjectScreenState extends ConsumerState<ProjectScreen> {
                                                     children: [
                                                       Row(
                                                         children: [
-                                                          const Align(
+                                                          Align(
                                                             alignment: Alignment.topLeft,
                                                             child: SizedBox(
                                                               width: 300,
@@ -348,7 +364,7 @@ class _ProjectScreenState extends ConsumerState<ProjectScreen> {
                                                                 'Senior frontend developer (Fintech)',
                                                                 overflow: TextOverflow.ellipsis,
                                                                 style: TextStyle(
-                                                                  color: Colors.black,
+                                                                  color: colorApp.colorTitle,
                                                                   fontSize: 18,
                                                                   fontWeight: FontWeight.w600,
                                                                 ),
@@ -358,9 +374,10 @@ class _ProjectScreenState extends ConsumerState<ProjectScreen> {
                                                           const Spacer(),
                                                           InkWell(
                                                             onTap: () {},
-                                                            child: const Icon(
+                                                            child: Icon(
                                                               Icons.favorite_border,
                                                               size: 28,
+                                                              color: colorApp.colorIcon,
                                                             ),
                                                           ),
                                                         ],
@@ -381,14 +398,14 @@ class _ProjectScreenState extends ConsumerState<ProjectScreen> {
                                                         ),
                                                       ),
                                                       const SizedBox(height: 5),
-                                                      const Align(
+                                                      Align(
                                                         alignment: Alignment.topLeft,
                                                         child: SizedBox(
                                                           width: 340,
                                                           child: Text(
                                                             'Time: 1-3 months, 6 students needed',
                                                             style: TextStyle(
-                                                              color: Colors.black,
+                                                              color: colorApp.colorText,
                                                               overflow: TextOverflow.ellipsis,
                                                               fontSize: 16,
                                                             ),
@@ -399,27 +416,27 @@ class _ProjectScreenState extends ConsumerState<ProjectScreen> {
                                                       Container(
                                                         decoration: BoxDecoration(
                                                           border: Border.all(
-                                                            color: Colors.black, //                   <--- border color
+                                                            color: colorApp.colorDivider as Color, //                   <--- border color
                                                             width: 0.3,
                                                           ),
                                                         ),
                                                       ),
                                                       const SizedBox(height: 15),
-                                                      const Row(
+                                                      Row(
                                                         mainAxisAlignment: MainAxisAlignment.start,
                                                         crossAxisAlignment: CrossAxisAlignment.center,
                                                         children: [
                                                           Icon(
                                                             Icons.format_indent_increase_rounded,
                                                             size: 22,
-                                                            color: Colors.black,
+                                                            color: colorApp.colorText,
                                                           ),
                                                           SizedBox(width: 5),
                                                           Text(
                                                             'Proposals: Less than 5',
                                                             style: TextStyle(
                                                               fontSize: 16,
-                                                              color: Colors.black,
+                                                              color: colorApp.colorText,
                                                             ),
                                                           ),
                                                         ],
@@ -485,10 +502,10 @@ class _ProjectScreenState extends ConsumerState<ProjectScreen> {
                           : () {
                               ref.read(optionsProvider.notifier).setWidgetOption('SavedProjects', user.role!);
                             },
-                      child: const Icon(
+                      child: Icon(
                         Icons.favorite_rounded,
                         size: 35,
-                        color: Colors.black,
+                        color: colorApp.colorIcon,
                       ),
                     ),
                   ],

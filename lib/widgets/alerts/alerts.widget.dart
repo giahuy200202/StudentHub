@@ -3,6 +3,7 @@ import 'dart:ffi';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:studenthub/providers/theme/theme_provider.dart';
 
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
@@ -190,6 +191,7 @@ class _AlertsWidget extends ConsumerState<AlertsWidget> {
     final listNotifications = ref.watch(notificationProvider);
     final student = ref.watch(studentProvider);
     final projectId = ref.watch(projectIdProvider);
+    var colorApp = ref.watch(colorProvider);
 
     return SizedBox(
       height: 700,

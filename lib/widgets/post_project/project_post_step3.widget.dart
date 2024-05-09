@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:studenthub/providers/authentication/authentication.provider.dart';
 import '../../providers/projects/project_posting.provider.dart';
 import '../../providers/options.provider.dart';
+import 'package:studenthub/providers/theme/theme_provider.dart';
 
 class ProjectPostStep3Widget extends ConsumerStatefulWidget {
   const ProjectPostStep3Widget({super.key});
@@ -25,7 +26,10 @@ class _ProjectPostStep3WidgetState extends ConsumerState<ProjectPostStep3Widget>
   @override
   Widget build(BuildContext context) {
     final user = ref.watch(userProvider);
+    var colorApp = ref.watch(colorProvider);
+
     return Scaffold(
+      backgroundColor: colorApp.colorBackgroundColor,
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -49,25 +53,25 @@ class _ProjectPostStep3WidgetState extends ConsumerState<ProjectPostStep3Widget>
                   ),
                 ),
                 const SizedBox(height: 20),
-                const Align(
+                Align(
                   alignment: Alignment.topLeft,
                   child: Text(
                     'Provide project description',
                     style: TextStyle(
                       fontSize: 27,
-                      color: Colors.black,
+                      color: colorApp.colorTitle,
                       fontWeight: FontWeight.w700,
                     ),
                   ),
                 ),
                 const SizedBox(height: 10),
-                const Align(
+                Align(
                   alignment: Alignment.topLeft,
                   child: Text(
                     'A clear project description ensures that others can accurately understand your needs and deliver the results you expect',
                     style: TextStyle(
                       fontSize: 16,
-                      color: Colors.black,
+                      color: colorApp.colorText,
                       // fontWeight: FontWeight.w500,
                     ),
                   ),
@@ -78,27 +82,24 @@ class _ProjectPostStep3WidgetState extends ConsumerState<ProjectPostStep3Widget>
                   child: SizedBox(
                     width: MediaQuery.of(context).size.width,
                     height: 2.2,
-                    child: const ClipRRect(
+                    child: ClipRRect(
                       borderRadius: BorderRadius.all(Radius.circular(10)),
                       child: LinearProgressIndicator(
                         value: 0.75,
-                        backgroundColor: Color.fromARGB(255, 193, 191, 191),
-                        valueColor: AlwaysStoppedAnimation<Color>(Colors.black),
+                        backgroundColor: colorApp.colorClip,
+                        valueColor: AlwaysStoppedAnimation<Color>(colorApp.colorBlackWhite as Color),
                       ),
                     ),
                   ),
                 ),
                 const SizedBox(height: 40),
-                const Text(
+                Text(
                   'Students are looking for',
                   textAlign: TextAlign.left,
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w700,
-                  ),
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: colorApp.colorTitle),
                 ),
                 const SizedBox(height: 10),
-                const Padding(
+                Padding(
                   padding: EdgeInsets.only(left: 20),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -108,6 +109,7 @@ class _ProjectPostStep3WidgetState extends ConsumerState<ProjectPostStep3Widget>
                         textAlign: TextAlign.left,
                         style: TextStyle(
                           fontSize: 16,
+                          color: colorApp.colorText,
                         ),
                       ),
                       SizedBox(width: 10),
@@ -117,6 +119,7 @@ class _ProjectPostStep3WidgetState extends ConsumerState<ProjectPostStep3Widget>
                           textAlign: TextAlign.left,
                           style: TextStyle(
                             fontSize: 16,
+                            color: colorApp.colorText,
                           ),
                         ),
                       ),
@@ -124,7 +127,7 @@ class _ProjectPostStep3WidgetState extends ConsumerState<ProjectPostStep3Widget>
                   ),
                 ),
                 const SizedBox(height: 10),
-                const Padding(
+                Padding(
                   padding: EdgeInsets.only(left: 20),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -133,6 +136,7 @@ class _ProjectPostStep3WidgetState extends ConsumerState<ProjectPostStep3Widget>
                         '- ',
                         textAlign: TextAlign.left,
                         style: TextStyle(
+                          color: colorApp.colorText,
                           fontSize: 16,
                         ),
                       ),
@@ -143,6 +147,7 @@ class _ProjectPostStep3WidgetState extends ConsumerState<ProjectPostStep3Widget>
                           textAlign: TextAlign.left,
                           style: TextStyle(
                             fontSize: 16,
+                            color: colorApp.colorText,
                           ),
                         ),
                       ),
@@ -150,7 +155,7 @@ class _ProjectPostStep3WidgetState extends ConsumerState<ProjectPostStep3Widget>
                   ),
                 ),
                 const SizedBox(height: 10),
-                const Padding(
+                Padding(
                   padding: EdgeInsets.only(left: 20),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -160,6 +165,7 @@ class _ProjectPostStep3WidgetState extends ConsumerState<ProjectPostStep3Widget>
                         textAlign: TextAlign.left,
                         style: TextStyle(
                           fontSize: 16,
+                          color: colorApp.colorText,
                         ),
                       ),
                       SizedBox(width: 10),
@@ -169,6 +175,7 @@ class _ProjectPostStep3WidgetState extends ConsumerState<ProjectPostStep3Widget>
                           textAlign: TextAlign.left,
                           style: TextStyle(
                             fontSize: 16,
+                            color: colorApp.colorText,
                           ),
                         ),
                       ),
@@ -176,12 +183,13 @@ class _ProjectPostStep3WidgetState extends ConsumerState<ProjectPostStep3Widget>
                   ),
                 ),
                 const SizedBox(height: 20),
-                const Text(
+                Text(
                   'Describe your project',
                   textAlign: TextAlign.left,
                   style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w700,
+                    color: colorApp.colorTitle,
                   ),
                 ),
                 const SizedBox(height: 20),
@@ -198,8 +206,9 @@ class _ProjectPostStep3WidgetState extends ConsumerState<ProjectPostStep3Widget>
                       }
                       setState(() {});
                     },
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 17,
+                      color: colorApp.colorText,
                     ),
                     decoration: InputDecoration(
                       border: OutlineInputBorder(
@@ -235,13 +244,14 @@ class _ProjectPostStep3WidgetState extends ConsumerState<ProjectPostStep3Widget>
                           borderRadius: BorderRadius.circular(8),
                           // side: const BorderSide(color: Colors.grey),
                         ),
-                        backgroundColor: const Color.fromARGB(255, 0, 0, 0),
+                        backgroundColor: colorApp.colorBlackWhite,
+                        disabledBackgroundColor: colorApp.colorButton,
                       ),
-                      child: const Text(
+                      child: Text(
                         'Review your post',
                         style: TextStyle(
                           fontSize: 18,
-                          color: Color.fromARGB(255, 255, 255, 255),
+                          color: colorApp.colorWhiteBlack,
                           fontWeight: FontWeight.w500,
                         ),
                       ),

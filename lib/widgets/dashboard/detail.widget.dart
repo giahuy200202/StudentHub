@@ -9,6 +9,7 @@ import 'package:studenthub/providers/projects/project_id.provider.dart';
 import 'package:toastification/toastification.dart';
 import '../../providers/projects/project_posting.provider.dart';
 // import '../../providers/options_provider.dart';
+import 'package:studenthub/providers/theme/theme_provider.dart';
 
 import '../../providers/options.provider.dart';
 import 'package:http/http.dart' as http;
@@ -195,7 +196,7 @@ class _DetailWidgetState extends ConsumerState<DetailWidget> {
   @override
   Widget build(BuildContext context) {
     final projectPosting = ref.watch(projectPostingProvider);
-
+    var colorApp = ref.watch(colorProvider);
     return isFetchingData
         ? const Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -224,7 +225,7 @@ class _DetailWidgetState extends ConsumerState<DetailWidget> {
                 children: [
                   Container(
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: colorApp.colorBackgroundColor,
                       border: Border.all(color: Colors.grey),
                       borderRadius: const BorderRadius.all(Radius.circular(15)),
                     ),
@@ -242,8 +243,8 @@ class _DetailWidgetState extends ConsumerState<DetailWidget> {
                               child: Text(
                                 listProjects.title,
                                 overflow: TextOverflow.ellipsis,
-                                style: const TextStyle(
-                                  color: Colors.black,
+                                style: TextStyle(
+                                  color: colorApp.colorTitle,
                                   fontSize: 18,
                                   fontWeight: FontWeight.w600,
                                 ),
@@ -257,8 +258,8 @@ class _DetailWidgetState extends ConsumerState<DetailWidget> {
                               width: 340,
                               child: Text(
                                 listProjects.createTime,
-                                style: const TextStyle(
-                                  color: Color.fromARGB(255, 94, 94, 94),
+                                style: TextStyle(
+                                  color: colorApp.colorTime,
                                   overflow: TextOverflow.ellipsis,
                                   fontSize: 13,
                                 ),
@@ -269,7 +270,7 @@ class _DetailWidgetState extends ConsumerState<DetailWidget> {
                           Container(
                             decoration: BoxDecoration(
                               border: Border.all(
-                                color: Colors.black, //                   <--- border color
+                                color: colorApp.colorDivider as Color, //                   <--- border color
                                 width: 0.3,
                               ),
                             ),
@@ -279,8 +280,8 @@ class _DetailWidgetState extends ConsumerState<DetailWidget> {
                             alignment: Alignment.topLeft,
                             child: Text(
                               listProjects.description,
-                              style: const TextStyle(
-                                color: Colors.black,
+                              style: TextStyle(
+                                color: colorApp.colorText,
                                 fontSize: 16,
                                 fontWeight: FontWeight.w400,
                               ),
@@ -290,7 +291,7 @@ class _DetailWidgetState extends ConsumerState<DetailWidget> {
                           Container(
                             decoration: BoxDecoration(
                               border: Border.all(
-                                color: Colors.black, //                   <--- border color
+                                color: colorApp.colorDivider as Color, //                   <--- border color
                                 width: 0.3,
                               ),
                             ),
@@ -305,15 +306,21 @@ class _DetailWidgetState extends ConsumerState<DetailWidget> {
                                   Icon(
                                     Icons.alarm,
                                     size: 40,
+                                    color: colorApp.colorIcon,
                                   ),
                                   SizedBox(width: 10),
                                   Column(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
-                                      const Text(
+                                      Text(
                                         'Project scope',
-                                        style: TextStyle(color: Colors.black, overflow: TextOverflow.ellipsis, fontSize: 16, fontWeight: FontWeight.w700),
+                                        style: TextStyle(
+                                          color: colorApp.colorText,
+                                          overflow: TextOverflow.ellipsis,
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w700,
+                                        ),
                                       ),
                                       Text(
                                         listProjects.projectScopeFlag == 0
@@ -323,8 +330,8 @@ class _DetailWidgetState extends ConsumerState<DetailWidget> {
                                                 : listProjects.projectScopeFlag == 2
                                                     ? '3-6 months'
                                                     : 'More than 6 months',
-                                        style: const TextStyle(
-                                          color: Colors.black,
+                                        style: TextStyle(
+                                          color: colorApp.colorText,
                                           overflow: TextOverflow.ellipsis,
                                           fontSize: 14,
                                         ),
@@ -336,23 +343,29 @@ class _DetailWidgetState extends ConsumerState<DetailWidget> {
                               const SizedBox(height: 30),
                               Row(
                                 children: [
-                                  const Icon(
+                                  Icon(
                                     Icons.group,
                                     size: 40,
+                                    color: colorApp.colorIcon,
                                   ),
                                   const SizedBox(width: 10),
                                   Column(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
-                                      const Text(
+                                      Text(
                                         'Student required',
-                                        style: TextStyle(color: Colors.black, overflow: TextOverflow.ellipsis, fontSize: 16, fontWeight: FontWeight.w700),
+                                        style: TextStyle(
+                                          color: colorApp.colorText,
+                                          overflow: TextOverflow.ellipsis,
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w700,
+                                        ),
                                       ),
                                       Text(
                                         '${listProjects.numberOfStudents} students',
-                                        style: const TextStyle(
-                                          color: Colors.black,
+                                        style: TextStyle(
+                                          color: colorApp.colorText,
                                           overflow: TextOverflow.ellipsis,
                                           fontSize: 14,
                                         ),

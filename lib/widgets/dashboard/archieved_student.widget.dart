@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:studenthub/providers/authentication/authentication.provider.dart';
 import 'package:studenthub/providers/profile/company.provider.dart';
 import 'package:studenthub/providers/profile/student.provider.dart';
+import 'package:studenthub/providers/theme/theme_provider.dart';
 
 import '../../providers/options.provider.dart';
 
@@ -133,6 +134,7 @@ class _ArchievedStudentWidgetState extends ConsumerState<ArchievedStudentWidget>
 
   @override
   Widget build(BuildContext context) {
+    var colorApp = ref.watch(colorProvider);
     return SizedBox(
       height: 600,
       child: SingleChildScrollView(
@@ -159,11 +161,11 @@ class _ArchievedStudentWidgetState extends ConsumerState<ArchievedStudentWidget>
                 children: [
                   const SizedBox(height: 10),
                   listProjects.where((el) => el.statusFlag == 3).toList().isEmpty
-                      ? const Column(
+                      ? Column(
                           children: [
                             Text(
                               'Empty',
-                              style: TextStyle(fontSize: 16),
+                              style: TextStyle(fontSize: 16, color: colorApp.colorText),
                             ),
                             SizedBox(height: 20),
                           ],
@@ -175,7 +177,7 @@ class _ArchievedStudentWidgetState extends ConsumerState<ArchievedStudentWidget>
                                 children: [
                                   Container(
                                     decoration: BoxDecoration(
-                                      color: Colors.white,
+                                      color: colorApp.colorBackgroundColor,
                                       border: Border.all(color: Colors.grey),
                                       borderRadius: const BorderRadius.all(Radius.circular(12)),
                                     ),
@@ -193,8 +195,8 @@ class _ArchievedStudentWidgetState extends ConsumerState<ArchievedStudentWidget>
                                               child: Text(
                                                 el.title,
                                                 overflow: TextOverflow.ellipsis,
-                                                style: const TextStyle(
-                                                  color: Colors.black,
+                                                style: TextStyle(
+                                                  color: colorApp.colorTitle,
                                                   fontSize: 18,
                                                   fontWeight: FontWeight.w600,
                                                 ),
@@ -208,19 +210,19 @@ class _ArchievedStudentWidgetState extends ConsumerState<ArchievedStudentWidget>
                                               width: 340,
                                               child: Text(
                                                 el.createTime,
-                                                style: const TextStyle(
-                                                  color: Color.fromARGB(255, 94, 94, 94),
+                                                style: TextStyle(
+                                                  color: colorApp.colorTime,
                                                   overflow: TextOverflow.ellipsis,
                                                   fontSize: 13,
                                                 ),
                                               ),
                                             ),
                                           ),
-                                          const SizedBox(height: 15),
+                                          SizedBox(height: 15),
                                           Container(
                                             decoration: BoxDecoration(
                                               border: Border.all(
-                                                color: Colors.black, //                   <--- border color
+                                                color: colorApp.colorDivider as Color, //                   <--- border color
                                                 width: 0.3,
                                               ),
                                             ),
@@ -230,8 +232,8 @@ class _ArchievedStudentWidgetState extends ConsumerState<ArchievedStudentWidget>
                                             alignment: Alignment.topLeft,
                                             child: Text(
                                               el.description,
-                                              style: const TextStyle(
-                                                color: Colors.black,
+                                              style: TextStyle(
+                                                color: colorApp.colorText,
                                                 fontSize: 16,
                                                 fontWeight: FontWeight.w400,
                                               ),

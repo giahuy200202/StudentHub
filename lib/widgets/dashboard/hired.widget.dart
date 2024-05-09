@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:studenthub/providers/authentication/authentication.provider.dart';
 import 'package:studenthub/providers/projects/project_id.provider.dart';
-
+import 'package:studenthub/providers/theme/theme_provider.dart';
 import '../../providers/options.provider.dart';
 
 import 'package:http/http.dart' as http;
@@ -118,6 +118,7 @@ class _HiredWidgetState extends ConsumerState<HiredWidget> {
 
   @override
   Widget build(BuildContext context) {
+    var colorApp = ref.watch(colorProvider);
     return SizedBox(
       height: 610,
       child: SingleChildScrollView(
@@ -141,11 +142,11 @@ class _HiredWidgetState extends ConsumerState<HiredWidget> {
                 ],
               )
             : listProposals.where((el) => el.statusFlag == 3).toList().isEmpty
-                ? const Column(
+                ? Column(
                     children: [
                       Text(
                         'Empty',
-                        style: TextStyle(fontSize: 16),
+                        style: TextStyle(fontSize: 16, color: colorApp.colorText),
                       ),
                       SizedBox(height: 20),
                     ],
