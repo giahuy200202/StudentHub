@@ -178,7 +178,11 @@ class Language {
   String DescriptionPost_4;
   String PostProject_2;
   String Create1m;
+  String Dark_mode;
+  String Interview;
   Language({
+    required this.Interview,
+    required this.Dark_mode,
     required this.Create1m,
     required this.PostProject_2,
     required this.DescriptionPost_4,
@@ -363,6 +367,8 @@ class Language {
 class _Language extends StateNotifier<Language> {
   _Language()
       : super(Language(
+          Interview: 'Interview',
+          Dark_mode: 'Dark mode',
           Create1m: 'Created 1 minute ago',
           DescriptionPost_4: 'Reviewing the project before posting ensures accuracy, completeness, and clarity, setting the stage for successful collaboration.',
           PostProject_2: 'Post project',
@@ -554,6 +560,8 @@ class _Language extends StateNotifier<Language> {
 
   void setLanguageEng() {
     Language tmp = Language(
+      Interview: 'Interview',
+      Dark_mode: 'Dark mode',
       Create1m: 'Created 1 minute ago',
       DescriptionPost_4: 'Reviewing the project before posting ensures accuracy, completeness, and clarity, setting the stage for successful collaboration.',
       PostProject_2: 'Post project',
@@ -736,6 +744,8 @@ class _Language extends StateNotifier<Language> {
 
   void setLanguageVN() {
     Language tmp = Language(
+      Interview: 'Phỏng vấn',
+      Dark_mode: 'Chế độ tối',
       Create1m: 'Đã tạo 1 phút trước',
       DescriptionPost_4: 'Việc xem xét dự án trước khi đăng đảm bảo tính chính xác, đầy đủ và rõ ràng, tạo tiền đề cho sự hợp tác thành công.',
       PostProject_2: 'Đăng dự án',
@@ -844,7 +854,7 @@ class _Language extends StateNotifier<Language> {
       Title: 'Tiêu đề',
       Description: 'Mô tả',
       Stime: 'Bắt đầu',
-      Etime: '   Kết thúc',
+      Etime: 'Kết thúc',
       Experiences: 'Kinh nghiệm',
       DescriptionEx: 'Kể về bản thân bạn và cách bạn kết nối với dự án thực tế của mình',
       Projects: 'Dự án',

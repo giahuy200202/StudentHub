@@ -3,10 +3,11 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:studenthub/providers/authentication/authentication.provider.dart';
+import 'package:studenthub/providers/language/language.provider.dart';
 import 'package:studenthub/providers/message/receive_id.provider.dart';
 import 'package:studenthub/providers/projects/project_id.provider.dart';
 import 'package:studenthub/screens/message/video_conference.screen.dart';
-
+import 'package:studenthub/providers/theme/theme_provider.dart';
 import '../../providers/options.provider.dart';
 
 import 'package:http/http.dart' as http;
@@ -207,7 +208,7 @@ class _MessageWidgetState extends ConsumerState<MessageWidget> {
     });
   }
 
-  void getMessages(token, userId) async {
+  void getMessages(token, userId, tmp) async {
     setState(() {
       isFetchingData = true;
     });
@@ -232,7 +233,7 @@ class _MessageWidgetState extends ConsumerState<MessageWidget> {
         listMessagesGetFromRes.add(Message(
           projectId: item['project']['id'].toString(),
           projectTitle: item['project']['title'],
-          createdAt: 'Created at ${DateFormat("dd/MM/yyyy | HH:mm").format(
+          createdAt: '${tmp.Createat} ${DateFormat("dd/MM/yyyy | HH:mm").format(
                 DateTime.parse(item['createdAt']).toLocal(),
               ).toString()}',
           receiverName: item['receiver']['id'] == userId ? item['sender']['fullname'] : item['receiver']['fullname'],
@@ -252,7 +253,8 @@ class _MessageWidgetState extends ConsumerState<MessageWidget> {
   @override
   void initState() {
     final user = ref.read(userProvider);
-    getMessages(user.token!, user.id);
+    var lan = ref.read(LanguageProvider);
+    getMessages(user.token!, user.id, lan);
     super.initState();
   }
 
@@ -260,6 +262,8 @@ class _MessageWidgetState extends ConsumerState<MessageWidget> {
   Widget build(BuildContext context) {
     final user = ref.watch(userProvider);
     final projectId = ref.watch(projectIdProvider);
+    var Language = ref.watch(LanguageProvider);
+    var colorApp = ref.watch(colorProvider);
     return isFetchingData
         ? const Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -294,27 +298,27 @@ class _MessageWidgetState extends ConsumerState<MessageWidget> {
                     ),
                     onPressed: () {
                       setTabWidget(1);
-                      getMessages(user.token, user.id);
+                      getMessages(user.token, user.id, Language);
                     },
                     child: Container(
                       padding: const EdgeInsets.only(
                         bottom: 1,
                       ),
                       decoration: tabWidget == 1
-                          ? const BoxDecoration(
+                          ? BoxDecoration(
                               border: Border(
                                 bottom: BorderSide(
-                                  color: Colors.black,
+                                  color: colorApp.colorDivider as Color,
                                   width: 1,
                                 ),
                               ),
                             )
                           : null,
                       child: Text(
-                        "Message",
+                        Language.Message,
                         style: TextStyle(
                           fontSize: 18,
-                          color: Colors.black,
+                          color: colorApp.colorTitle,
                           fontWeight: tabWidget == 1 ? FontWeight.w600 : FontWeight.w400,
                         ),
                       ),
@@ -337,20 +341,20 @@ class _MessageWidgetState extends ConsumerState<MessageWidget> {
                         bottom: 1,
                       ),
                       decoration: tabWidget == 2
-                          ? const BoxDecoration(
+                          ? BoxDecoration(
                               border: Border(
                                 bottom: BorderSide(
-                                  color: Colors.black,
+                                  color: colorApp.colorDivider as Color,
                                   width: 1,
                                 ),
                               ),
                             )
                           : null,
                       child: Text(
-                        "Interview",
+                        Language.Interview,
                         style: TextStyle(
                           fontSize: 18,
-                          color: Colors.black,
+                          color: colorApp.colorTitle,
                           fontWeight: tabWidget == 2 ? FontWeight.w600 : FontWeight.w400,
                         ),
                       ),
@@ -380,7 +384,7 @@ class _MessageWidgetState extends ConsumerState<MessageWidget> {
                                         decoration: BoxDecoration(
                                           // color: Color.fromARGB(255, 232, 233, 237),
                                           border: Border.all(
-                                            color: Colors.black,
+                                            color: colorApp.colorBorderSide as Color,
                                             width: 0.4,
                                           ),
                                           borderRadius: const BorderRadius.all(Radius.circular(12)),
@@ -416,8 +420,8 @@ class _MessageWidgetState extends ConsumerState<MessageWidget> {
                                                           textAlign: TextAlign.start,
                                                           el.receiverName,
                                                           overflow: TextOverflow.ellipsis,
-                                                          style: const TextStyle(
-                                                            color: Colors.black,
+                                                          style: TextStyle(
+                                                            color: colorApp.colorTitle,
                                                             fontSize: 16,
                                                             fontWeight: FontWeight.w600,
                                                           ),
@@ -427,8 +431,8 @@ class _MessageWidgetState extends ConsumerState<MessageWidget> {
                                                         width: 240,
                                                         child: Text(
                                                           el.createdAt,
-                                                          style: const TextStyle(
-                                                            color: Color.fromARGB(255, 115, 114, 114),
+                                                          style: TextStyle(
+                                                            color: colorApp.colorTime,
                                                             overflow: TextOverflow.ellipsis,
                                                             fontSize: 13,
                                                           ),
@@ -438,8 +442,8 @@ class _MessageWidgetState extends ConsumerState<MessageWidget> {
                                                         width: 240,
                                                         child: Text(
                                                           el.projectTitle,
-                                                          style: const TextStyle(
-                                                            color: Colors.black,
+                                                          style: TextStyle(
+                                                            color: colorApp.colorText,
                                                             overflow: TextOverflow.ellipsis,
                                                             fontSize: 16,
                                                           ),
@@ -453,7 +457,7 @@ class _MessageWidgetState extends ConsumerState<MessageWidget> {
                                               Container(
                                                 decoration: BoxDecoration(
                                                   border: Border.all(
-                                                    color: Colors.black, //                   <--- border color
+                                                    color: colorApp.colorDivider as Color, //                   <--- border color
                                                     width: 0.3,
                                                   ),
                                                 ),
@@ -463,8 +467,8 @@ class _MessageWidgetState extends ConsumerState<MessageWidget> {
                                                 alignment: Alignment.topLeft,
                                                 child: Text(
                                                   el.content,
-                                                  style: const TextStyle(
-                                                    color: Colors.black,
+                                                  style: TextStyle(
+                                                    color: colorApp.colorText,
                                                     fontSize: 16,
                                                     fontWeight: FontWeight.w400,
                                                   ),
@@ -492,8 +496,7 @@ class _MessageWidgetState extends ConsumerState<MessageWidget> {
                                   children: [
                                     Container(
                                       decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        border: Border.all(color: Colors.grey),
+                                        border: Border.all(color: colorApp.colorBorderSide as Color),
                                         borderRadius: const BorderRadius.all(Radius.circular(12)),
                                       ),
                                       child: Padding(
@@ -513,42 +516,44 @@ class _MessageWidgetState extends ConsumerState<MessageWidget> {
                                                   width: 190,
                                                   child: Text(
                                                     el.interviewTitle,
-                                                    style: const TextStyle(
+                                                    style: TextStyle(
                                                       overflow: TextOverflow.ellipsis,
                                                       fontSize: 18,
                                                       fontWeight: FontWeight.w600,
+                                                      color: colorApp.colorTitle,
                                                     ),
                                                   ),
                                                 ),
                                                 const Spacer(),
                                                 Text(
                                                   el.duration,
-                                                  style: const TextStyle(
+                                                  style: TextStyle(
                                                     fontSize: 16,
                                                     fontWeight: FontWeight.w600,
+                                                    color: colorApp.colorText,
                                                   ),
                                                 ),
                                               ],
                                             ),
                                             const SizedBox(height: 20),
                                             Text(
-                                              'Start time:  ${el.startTime}',
-                                              style: const TextStyle(fontSize: 16),
+                                              '${Language.Stime}:  ${el.startTime}',
+                                              style: TextStyle(fontSize: 16, color: colorApp.colorText),
                                             ),
                                             const SizedBox(height: 10),
                                             Text(
-                                              'End time:  ${el.endTime}',
-                                              style: const TextStyle(fontSize: 16),
+                                              '${Language.Etime}:  ${el.endTime}',
+                                              style: TextStyle(fontSize: 16, color: colorApp.colorText),
                                             ),
                                             const SizedBox(height: 10),
                                             Text(
                                               'Meeting room code:  ${el.meetingRoomCode}',
-                                              style: const TextStyle(fontSize: 16),
+                                              style: TextStyle(fontSize: 16, color: colorApp.colorText),
                                             ),
                                             const SizedBox(height: 10),
                                             Text(
                                               'Meeting room ID:  ${el.meetingRoomId}',
-                                              style: const TextStyle(fontSize: 16),
+                                              style: TextStyle(fontSize: 16, color: colorApp.colorText),
                                             ),
                                             const SizedBox(height: 20),
                                             Row(
@@ -575,15 +580,15 @@ class _MessageWidgetState extends ConsumerState<MessageWidget> {
                                                       style: ElevatedButton.styleFrom(
                                                         shape: RoundedRectangleBorder(
                                                           borderRadius: BorderRadius.circular(8),
-                                                          side: const BorderSide(color: Colors.grey),
+                                                          side: BorderSide(color: colorApp.colorBorderSideMutil as Color),
                                                         ),
-                                                        backgroundColor: const Color.fromARGB(255, 0, 0, 0),
+                                                        backgroundColor: colorApp.colorBlackWhite,
                                                       ),
-                                                      child: const Text(
+                                                      child: Text(
                                                         'Join',
                                                         style: TextStyle(
                                                           fontSize: 16,
-                                                          color: Color.fromARGB(255, 255, 255, 255),
+                                                          color: colorApp.colorWhiteBlack,
                                                           fontWeight: FontWeight.w500,
                                                         ),
                                                       ),

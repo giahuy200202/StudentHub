@@ -86,7 +86,7 @@ class _ProposalsWidgetState extends ConsumerState<ProposalsWidget> {
     );
   }
 
-  void getProposals(token, projectId) async {
+  void getProposals(token, projectId, tmp) async {
     setState(() {
       isFetchingData = true;
     });
@@ -116,7 +116,7 @@ class _ProposalsWidgetState extends ConsumerState<ProposalsWidget> {
         listProposalsGetFromRes.add(Proposal(
           userId: item['student']['userId'].toString(),
           proposalId: item['id'].toString(),
-          createTime: 'Created at ${DateFormat("dd/MM/yyyy | HH:mm").format(
+          createTime: '${tmp.Createat} ${DateFormat("dd/MM/yyyy | HH:mm").format(
                 DateTime.parse(item['createdAt']).toLocal(),
               ).toString()}',
           studentName: item['student']['user']['fullname'] ?? 'Unknown',
@@ -140,7 +140,8 @@ class _ProposalsWidgetState extends ConsumerState<ProposalsWidget> {
   void initState() {
     final user = ref.read(userProvider);
     final projectId = ref.read(projectIdProvider);
-    getProposals(user.token!, projectId);
+    final lang = ref.read(LanguageProvider);
+    getProposals(user.token!, projectId, lang);
     super.initState();
   }
 
@@ -347,16 +348,16 @@ class _ProposalsWidgetState extends ConsumerState<ProposalsWidget> {
                                                           ),
                                                         ),
                                                         backgroundColor: Colors.white,
-                                                        title: const Text(
-                                                          'Hired offer',
+                                                        title: Text(
+                                                          Language.HiredOffer,
                                                           style: TextStyle(
                                                             fontSize: 20,
                                                             color: Colors.black,
                                                             fontWeight: FontWeight.w600,
                                                           ),
                                                         ),
-                                                        content: const Text(
-                                                          'Do you really want to send hired offer for student to do this project?',
+                                                        content: Text(
+                                                          Language.textHiredoffer,
                                                           style: TextStyle(
                                                             fontSize: 16,
                                                             color: Colors.black,
@@ -382,8 +383,8 @@ class _ProposalsWidgetState extends ConsumerState<ProposalsWidget> {
                                                                     ),
                                                                     // backgroundColor: Colors.white,
                                                                   ),
-                                                                  child: const Text(
-                                                                    'Cancel',
+                                                                  child: Text(
+                                                                    Language.cancel,
                                                                     style: TextStyle(
                                                                       fontSize: 16,
                                                                       color: Colors.black,
@@ -417,7 +418,7 @@ class _ProposalsWidgetState extends ConsumerState<ProposalsWidget> {
                                                                     print(json.decode(responseUpdateProposals.body));
                                                                     Navigator.pop(context);
                                                                     showSuccessToast('Success', 'Offer has been sent successfully');
-                                                                    getProposals(user.token, projectId);
+                                                                    getProposals(user.token, projectId, Language);
                                                                   },
                                                                   style: ElevatedButton.styleFrom(
                                                                     minimumSize: Size.zero, // Set this
@@ -427,8 +428,8 @@ class _ProposalsWidgetState extends ConsumerState<ProposalsWidget> {
                                                                     ),
                                                                     backgroundColor: Colors.black,
                                                                   ),
-                                                                  child: const Text(
-                                                                    'Send',
+                                                                  child: Text(
+                                                                    Language.Send,
                                                                     style: TextStyle(
                                                                       fontSize: 16,
                                                                       color: Color.fromARGB(255, 255, 255, 255),

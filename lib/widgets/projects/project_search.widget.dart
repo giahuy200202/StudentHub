@@ -8,7 +8,7 @@ import 'package:studenthub/providers/projects/search_filter.provider.dart';
 import '../../providers/projects/project_posting.provider.dart';
 // import '../../providers/options_provider.dart';
 import 'package:studenthub/providers/language/language.provider.dart';
-
+import 'package:studenthub/providers/theme/theme_provider.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'dart:async';
@@ -68,12 +68,14 @@ class LabeledRadio<T> extends StatelessWidget {
     required this.value,
     required this.groupValue,
     required this.onChanged,
+    this.textColor,
   }) : super(key: key);
 
   final String label;
   final T value;
   final T? groupValue;
   final ValueChanged<T?> onChanged;
+  final Color? textColor;
 
   @override
   Widget build(BuildContext context) {
@@ -89,7 +91,7 @@ class LabeledRadio<T> extends StatelessWidget {
             onChanged: onChanged,
           ),
           DefaultTextStyle(
-            style: const TextStyle(color: Colors.black, fontSize: 16),
+            style: TextStyle(color: textColor, fontSize: 16),
             child: Text(label),
           ),
         ],
@@ -233,13 +235,13 @@ class _ProjectSearchWidgetState extends ConsumerState<ProjectSearchWidget> {
     final student = ref.watch(studentProvider);
     var Language = ref.watch(LanguageProvider);
     int projectLength = -1;
-
+    var colorApp = ref.watch(colorProvider);
     searchController.text = searchFilter.search!;
     final user = ref.watch(userProvider);
     final projectId = ref.watch(projectIdProvider);
 
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: colorApp.colorBackgroundColor,
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -271,6 +273,7 @@ class _ProjectSearchWidgetState extends ConsumerState<ProjectSearchWidget> {
                       style: TextStyle(
                         fontSize: 22,
                         fontWeight: FontWeight.w700,
+                        color: colorApp.colorTitle,
                       ),
                     ),
                   ],
@@ -290,7 +293,7 @@ class _ProjectSearchWidgetState extends ConsumerState<ProjectSearchWidget> {
                           showModalBottomSheet(
                             isScrollControlled: true,
                             context: context,
-                            backgroundColor: Colors.white,
+                            backgroundColor: colorApp.colorBackgroundBootomSheet,
                             builder: (ctx) {
                               return SingleChildScrollView(
                                 physics: const NeverScrollableScrollPhysics(),
@@ -307,6 +310,7 @@ class _ProjectSearchWidgetState extends ConsumerState<ProjectSearchWidget> {
                                           style: TextStyle(
                                             fontWeight: FontWeight.bold,
                                             fontSize: 25,
+                                            color: colorApp.colorTitle,
                                           ),
                                         ),
                                       ),
@@ -342,13 +346,16 @@ class _ProjectSearchWidgetState extends ConsumerState<ProjectSearchWidget> {
                                             ),
                                             focusedBorder: OutlineInputBorder(
                                               borderRadius: BorderRadius.circular(9),
-                                              borderSide: const BorderSide(color: Colors.black),
+                                              borderSide: BorderSide(color: colorApp.colorBorderSide as Color),
                                             ),
                                             contentPadding: const EdgeInsets.symmetric(
                                               vertical: 8,
                                               horizontal: 15,
                                             ),
-                                            prefixIcon: const Icon(Icons.search),
+                                            prefixIcon: Icon(
+                                              Icons.search,
+                                              color: colorApp.colorIcon,
+                                            ),
                                             suffixIcon: InkWell(
                                               onTap: () {
                                                 searchController.text = '';
@@ -373,6 +380,7 @@ class _ProjectSearchWidgetState extends ConsumerState<ProjectSearchWidget> {
                                                   style: TextStyle(
                                                     fontWeight: FontWeight.bold,
                                                     fontSize: 18,
+                                                    color: colorApp.colorTitle,
                                                   ),
                                                 ),
                                               ),
@@ -407,14 +415,18 @@ class _ProjectSearchWidgetState extends ConsumerState<ProjectSearchWidget> {
                                                               mainAxisAlignment: MainAxisAlignment.start,
                                                               crossAxisAlignment: CrossAxisAlignment.center,
                                                               children: [
-                                                                const Icon(Icons.search),
+                                                                Icon(
+                                                                  Icons.search,
+                                                                  color: colorApp.colorIcon,
+                                                                ),
                                                                 const SizedBox(
                                                                   width: 10,
                                                                 ),
                                                                 Text(
                                                                   data,
-                                                                  style: const TextStyle(
+                                                                  style: TextStyle(
                                                                     fontSize: 16,
+                                                                    color: colorApp.colorText,
                                                                   ),
                                                                 ),
                                                               ],
@@ -454,15 +466,16 @@ class _ProjectSearchWidgetState extends ConsumerState<ProjectSearchWidget> {
                                                               mainAxisAlignment: MainAxisAlignment.start,
                                                               crossAxisAlignment: CrossAxisAlignment.center,
                                                               children: [
-                                                                const Icon(Icons.search),
+                                                                Icon(
+                                                                  Icons.search,
+                                                                  color: colorApp.colorIcon,
+                                                                ),
                                                                 const SizedBox(
                                                                   width: 10,
                                                                 ),
                                                                 Text(
                                                                   data,
-                                                                  style: const TextStyle(
-                                                                    fontSize: 16,
-                                                                  ),
+                                                                  style: TextStyle(fontSize: 16, color: colorApp.colorText),
                                                                 ),
                                                               ],
                                                             ),
@@ -483,6 +496,7 @@ class _ProjectSearchWidgetState extends ConsumerState<ProjectSearchWidget> {
                                                   style: TextStyle(
                                                     fontWeight: FontWeight.bold,
                                                     fontSize: 18,
+                                                    color: colorApp.colorTitle,
                                                   ),
                                                 ),
                                               ),
@@ -503,7 +517,7 @@ class _ProjectSearchWidgetState extends ConsumerState<ProjectSearchWidget> {
                                                     children: [
                                                       Row(
                                                         children: [
-                                                          const Align(
+                                                          Align(
                                                             alignment: Alignment.topLeft,
                                                             child: SizedBox(
                                                               width: 300,
@@ -511,7 +525,7 @@ class _ProjectSearchWidgetState extends ConsumerState<ProjectSearchWidget> {
                                                                 'Senior frontend developer (Fintech)',
                                                                 overflow: TextOverflow.ellipsis,
                                                                 style: TextStyle(
-                                                                  color: Colors.black,
+                                                                  color: colorApp.colorTitle,
                                                                   fontSize: 18,
                                                                   fontWeight: FontWeight.w600,
                                                                 ),
@@ -521,8 +535,9 @@ class _ProjectSearchWidgetState extends ConsumerState<ProjectSearchWidget> {
                                                           const Spacer(),
                                                           InkWell(
                                                             onTap: () {},
-                                                            child: const Icon(
+                                                            child: Icon(
                                                               Icons.favorite_border,
+                                                              color: colorApp.colorIcon,
                                                               size: 28,
                                                             ),
                                                           ),
@@ -536,7 +551,7 @@ class _ProjectSearchWidgetState extends ConsumerState<ProjectSearchWidget> {
                                                           child: Text(
                                                             Language.ex_1,
                                                             style: TextStyle(
-                                                              color: Color.fromARGB(255, 94, 94, 94),
+                                                              color: colorApp.colorTime,
                                                               overflow: TextOverflow.ellipsis,
                                                               fontSize: 13,
                                                             ),
@@ -551,7 +566,7 @@ class _ProjectSearchWidgetState extends ConsumerState<ProjectSearchWidget> {
                                                           child: Text(
                                                             Language.ex_2,
                                                             style: TextStyle(
-                                                              color: Colors.black,
+                                                              color: colorApp.colorText,
                                                               overflow: TextOverflow.ellipsis,
                                                               fontSize: 16,
                                                             ),
@@ -562,7 +577,7 @@ class _ProjectSearchWidgetState extends ConsumerState<ProjectSearchWidget> {
                                                       Container(
                                                         decoration: BoxDecoration(
                                                           border: Border.all(
-                                                            color: Colors.black, //                   <--- border color
+                                                            color: colorApp.colorDivider as Color, //                   <--- border color
                                                             width: 0.3,
                                                           ),
                                                         ),
@@ -575,14 +590,14 @@ class _ProjectSearchWidgetState extends ConsumerState<ProjectSearchWidget> {
                                                           Icon(
                                                             Icons.format_indent_increase_rounded,
                                                             size: 22,
-                                                            color: Colors.black,
+                                                            color: colorApp.colorIcon,
                                                           ),
-                                                          SizedBox(width: 5),
+                                                          const SizedBox(width: 5),
                                                           Text(
                                                             Language.ex_3,
                                                             style: TextStyle(
                                                               fontSize: 16,
-                                                              color: Colors.black,
+                                                              color: colorApp.colorText,
                                                             ),
                                                           ),
                                                         ],
@@ -606,7 +621,7 @@ class _ProjectSearchWidgetState extends ConsumerState<ProjectSearchWidget> {
                                                     children: [
                                                       Row(
                                                         children: [
-                                                          const Align(
+                                                          Align(
                                                             alignment: Alignment.topLeft,
                                                             child: SizedBox(
                                                               width: 300,
@@ -614,7 +629,7 @@ class _ProjectSearchWidgetState extends ConsumerState<ProjectSearchWidget> {
                                                                 'Senior frontend developer (Fintech)',
                                                                 overflow: TextOverflow.ellipsis,
                                                                 style: TextStyle(
-                                                                  color: Colors.black,
+                                                                  color: colorApp.colorTitle,
                                                                   fontSize: 18,
                                                                   fontWeight: FontWeight.w600,
                                                                 ),
@@ -624,8 +639,9 @@ class _ProjectSearchWidgetState extends ConsumerState<ProjectSearchWidget> {
                                                           const Spacer(),
                                                           InkWell(
                                                             onTap: () {},
-                                                            child: const Icon(
+                                                            child: Icon(
                                                               Icons.favorite_border,
+                                                              color: colorApp.colorIcon,
                                                               size: 28,
                                                             ),
                                                           ),
@@ -639,7 +655,7 @@ class _ProjectSearchWidgetState extends ConsumerState<ProjectSearchWidget> {
                                                           child: Text(
                                                             Language.ex_1,
                                                             style: TextStyle(
-                                                              color: Color.fromARGB(255, 94, 94, 94),
+                                                              color: colorApp.colorTime,
                                                               overflow: TextOverflow.ellipsis,
                                                               fontSize: 13,
                                                             ),
@@ -654,7 +670,7 @@ class _ProjectSearchWidgetState extends ConsumerState<ProjectSearchWidget> {
                                                           child: Text(
                                                             Language.ex_2,
                                                             style: TextStyle(
-                                                              color: Colors.black,
+                                                              color: colorApp.colorText,
                                                               overflow: TextOverflow.ellipsis,
                                                               fontSize: 16,
                                                             ),
@@ -665,7 +681,7 @@ class _ProjectSearchWidgetState extends ConsumerState<ProjectSearchWidget> {
                                                       Container(
                                                         decoration: BoxDecoration(
                                                           border: Border.all(
-                                                            color: Colors.black, //                   <--- border color
+                                                            color: colorApp.colorDivider as Color, //                   <--- border color
                                                             width: 0.3,
                                                           ),
                                                         ),
@@ -678,14 +694,14 @@ class _ProjectSearchWidgetState extends ConsumerState<ProjectSearchWidget> {
                                                           Icon(
                                                             Icons.format_indent_increase_rounded,
                                                             size: 22,
-                                                            color: Colors.black,
+                                                            color: colorApp.colorIcon,
                                                           ),
                                                           SizedBox(width: 5),
                                                           Text(
                                                             Language.ex_3,
                                                             style: TextStyle(
                                                               fontSize: 16,
-                                                              color: Colors.black,
+                                                              color: colorApp.colorText,
                                                             ),
                                                           ),
                                                         ],
@@ -755,7 +771,7 @@ class _ProjectSearchWidgetState extends ConsumerState<ProjectSearchWidget> {
                         showModalBottomSheet(
                           isScrollControlled: true,
                           context: context,
-                          backgroundColor: Colors.white,
+                          backgroundColor: colorApp.colorBackgroundBootomSheet,
                           builder: (ctx) {
                             return StatefulBuilder(builder: (BuildContext context, StateSetter setState /*You can rename this!*/) {
                               return Padding(
@@ -774,6 +790,7 @@ class _ProjectSearchWidgetState extends ConsumerState<ProjectSearchWidget> {
                                             Language.Fillter,
                                             style: TextStyle(
                                               fontWeight: FontWeight.bold,
+                                              color: colorApp.colorTitle,
                                               fontSize: 25,
                                             ),
                                           ),
@@ -782,7 +799,7 @@ class _ProjectSearchWidgetState extends ConsumerState<ProjectSearchWidget> {
                                         Container(
                                           decoration: BoxDecoration(
                                             border: Border.all(
-                                              color: Colors.black, //                   <--- border color
+                                              color: colorApp.colorDivider as Color, //                   <--- border color
                                               width: 0.3,
                                             ),
                                           ),
@@ -799,6 +816,7 @@ class _ProjectSearchWidgetState extends ConsumerState<ProjectSearchWidget> {
                                                   style: TextStyle(
                                                     fontWeight: FontWeight.bold,
                                                     fontSize: 16,
+                                                    color: colorApp.colorTitle,
                                                   ),
                                                 ),
                                               ),
@@ -812,6 +830,7 @@ class _ProjectSearchWidgetState extends ConsumerState<ProjectSearchWidget> {
                                                     width: MediaQuery.of(context).size.width,
                                                     child: LabeledRadio(
                                                       label: Language.Time_1,
+                                                      textColor: colorApp.colorText,
                                                       value: 0,
                                                       groupValue: projectLength,
                                                       onChanged: (value) {
@@ -827,6 +846,7 @@ class _ProjectSearchWidgetState extends ConsumerState<ProjectSearchWidget> {
                                                     width: MediaQuery.of(context).size.width,
                                                     child: LabeledRadio(
                                                       label: Language.Time_2,
+                                                      textColor: colorApp.colorText,
                                                       value: 1,
                                                       groupValue: projectLength,
                                                       onChanged: (value) {
@@ -842,6 +862,7 @@ class _ProjectSearchWidgetState extends ConsumerState<ProjectSearchWidget> {
                                                     width: MediaQuery.of(context).size.width,
                                                     child: LabeledRadio(
                                                       label: Language.Time_3,
+                                                      textColor: colorApp.colorText,
                                                       value: 2,
                                                       groupValue: projectLength,
                                                       onChanged: (value) {
@@ -857,6 +878,7 @@ class _ProjectSearchWidgetState extends ConsumerState<ProjectSearchWidget> {
                                                     width: MediaQuery.of(context).size.width,
                                                     child: LabeledRadio(
                                                       label: Language.Time_4,
+                                                      textColor: colorApp.colorText,
                                                       value: 3,
                                                       groupValue: projectLength,
                                                       onChanged: (value) {
@@ -885,6 +907,7 @@ class _ProjectSearchWidgetState extends ConsumerState<ProjectSearchWidget> {
                                                   Language.StudentNeed,
                                                   style: TextStyle(
                                                     fontWeight: FontWeight.bold,
+                                                    color: colorApp.colorTitle,
                                                     fontSize: 16,
                                                   ),
                                                 ),
@@ -896,8 +919,9 @@ class _ProjectSearchWidgetState extends ConsumerState<ProjectSearchWidget> {
                                                 child: TextField(
                                                   controller: numOfStudentsController,
                                                   onChanged: (data) {},
-                                                  style: const TextStyle(
+                                                  style: TextStyle(
                                                     fontSize: 16,
+                                                    color: colorApp.colorText,
                                                   ),
                                                   decoration: InputDecoration(
                                                     // labelText: 'Number of students',
@@ -906,13 +930,14 @@ class _ProjectSearchWidgetState extends ConsumerState<ProjectSearchWidget> {
                                                     ),
                                                     focusedBorder: OutlineInputBorder(
                                                       borderRadius: BorderRadius.circular(9),
-                                                      borderSide: const BorderSide(color: Colors.black),
+                                                      borderSide: BorderSide(color: colorApp.colorBorderSide as Color),
                                                     ),
                                                     contentPadding: const EdgeInsets.symmetric(
                                                       vertical: 14,
                                                       horizontal: 15,
                                                     ),
                                                     hintText: Language.TextStudent,
+                                                    hintStyle: TextStyle(color: colorApp.colorText),
                                                   ),
                                                 ),
                                               ),
@@ -924,6 +949,7 @@ class _ProjectSearchWidgetState extends ConsumerState<ProjectSearchWidget> {
                                                   Language.ProposalsFillter,
                                                   style: TextStyle(
                                                     fontWeight: FontWeight.bold,
+                                                    color: colorApp.colorTitle,
                                                     fontSize: 16,
                                                   ),
                                                 ),
@@ -935,9 +961,7 @@ class _ProjectSearchWidgetState extends ConsumerState<ProjectSearchWidget> {
                                                 child: TextField(
                                                   controller: proposalsController,
                                                   onChanged: (data) {},
-                                                  style: const TextStyle(
-                                                    fontSize: 16,
-                                                  ),
+                                                  style: TextStyle(fontSize: 16, color: colorApp.colorText),
                                                   decoration: InputDecoration(
                                                     // labelText: 'Number of students',
                                                     border: OutlineInputBorder(
@@ -945,13 +969,14 @@ class _ProjectSearchWidgetState extends ConsumerState<ProjectSearchWidget> {
                                                     ),
                                                     focusedBorder: OutlineInputBorder(
                                                       borderRadius: BorderRadius.circular(9),
-                                                      borderSide: const BorderSide(color: Colors.black),
+                                                      borderSide: BorderSide(color: colorApp.colorBorderSide as Color),
                                                     ),
                                                     contentPadding: const EdgeInsets.symmetric(
                                                       vertical: 14,
                                                       horizontal: 15,
                                                     ),
                                                     hintText: Language.TextProposals,
+                                                    hintStyle: TextStyle(color: colorApp.colorText),
                                                   ),
                                                 ),
                                               ),
@@ -986,13 +1011,13 @@ class _ProjectSearchWidgetState extends ConsumerState<ProjectSearchWidget> {
                                                           borderRadius: BorderRadius.circular(8),
                                                           side: const BorderSide(color: Colors.black),
                                                         ),
-                                                        backgroundColor: Colors.white,
+                                                        backgroundColor: colorApp.colorWhiteBlack,
                                                       ),
                                                       child: Text(
                                                         Language.ClearFilters,
                                                         style: TextStyle(
                                                           fontSize: 18,
-                                                          color: Colors.black,
+                                                          color: colorApp.colorBlackWhite,
                                                           fontWeight: FontWeight.w500,
                                                         ),
                                                       ),
@@ -1038,13 +1063,13 @@ class _ProjectSearchWidgetState extends ConsumerState<ProjectSearchWidget> {
                                                         shape: RoundedRectangleBorder(
                                                           borderRadius: BorderRadius.circular(8),
                                                         ),
-                                                        backgroundColor: Colors.black,
+                                                        backgroundColor: colorApp.colorBlackWhite,
                                                       ),
                                                       child: Text(
                                                         Language.apply,
                                                         style: TextStyle(
                                                           fontSize: 18,
-                                                          color: Color.fromARGB(255, 255, 255, 255),
+                                                          color: colorApp.colorWhiteBlack,
                                                           fontWeight: FontWeight.w500,
                                                         ),
                                                       ),
@@ -1064,20 +1089,21 @@ class _ProjectSearchWidgetState extends ConsumerState<ProjectSearchWidget> {
                           },
                         );
                       },
-                      child: const Icon(
+                      child: Icon(
                         Icons.filter_list_sharp,
                         size: 35,
-                        color: Colors.black,
+                        color: colorApp.colorIcon,
                       ),
                     ),
                   ],
                 ),
                 const SizedBox(height: 20),
-                const Text(
+                Text(
                   'Result',
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.w600,
+                    color: colorApp.colorText,
                   ),
                 ),
                 const SizedBox(height: 20),
@@ -1108,7 +1134,10 @@ class _ProjectSearchWidgetState extends ConsumerState<ProjectSearchWidget> {
                                 children: [
                                   Text(
                                     Language.Noproject,
-                                    style: TextStyle(fontSize: 16),
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      color: colorApp.colorText,
+                                    ),
                                   ),
                                   SizedBox(height: 20),
                                 ],
@@ -1128,7 +1157,7 @@ class _ProjectSearchWidgetState extends ConsumerState<ProjectSearchWidget> {
                                             decoration: BoxDecoration(
                                               // color: Colors.white,
                                               // border: Border.all(color: Colors.grey),
-                                              color: Colors.white,
+                                              //color: Colors.white,
                                               border: Border.all(color: Colors.grey),
                                               borderRadius: const BorderRadius.all(Radius.circular(12)),
                                             ),
@@ -1148,8 +1177,8 @@ class _ProjectSearchWidgetState extends ConsumerState<ProjectSearchWidget> {
                                                           child: Text(
                                                             el.title,
                                                             overflow: TextOverflow.ellipsis,
-                                                            style: const TextStyle(
-                                                              color: Colors.black,
+                                                            style: TextStyle(
+                                                              color: colorApp.colorTitle,
                                                               fontSize: 18,
                                                               fontWeight: FontWeight.w600,
                                                             ),
@@ -1185,6 +1214,7 @@ class _ProjectSearchWidgetState extends ConsumerState<ProjectSearchWidget> {
                                                         child: Icon(
                                                           el.isFavorite ? Icons.favorite_rounded : Icons.favorite_border,
                                                           size: 28,
+                                                          color: colorApp.colorIcon,
                                                         ),
                                                       ),
                                                     ],
@@ -1196,8 +1226,8 @@ class _ProjectSearchWidgetState extends ConsumerState<ProjectSearchWidget> {
                                                       width: 340,
                                                       child: Text(
                                                         el.createTime,
-                                                        style: const TextStyle(
-                                                          color: Color.fromARGB(255, 94, 94, 94),
+                                                        style: TextStyle(
+                                                          color: colorApp.colorTime,
                                                           overflow: TextOverflow.ellipsis,
                                                           fontSize: 13,
                                                         ),
@@ -1213,8 +1243,8 @@ class _ProjectSearchWidgetState extends ConsumerState<ProjectSearchWidget> {
                                                         Language.Time +
                                                             ': ${el.projectScopeFlag == 0 ? Language.Time_1 : el.projectScopeFlag == 1 ? Language.Time_2 : el.projectScopeFlag == 2 ? Language.Time_3 : Language.Time_3}, ${el.numberOfStudents} ' +
                                                             Language.StudentNeed,
-                                                        style: const TextStyle(
-                                                          color: Colors.black,
+                                                        style: TextStyle(
+                                                          color: colorApp.colorText,
                                                           overflow: TextOverflow.ellipsis,
                                                           fontSize: 15,
                                                         ),
@@ -1225,7 +1255,7 @@ class _ProjectSearchWidgetState extends ConsumerState<ProjectSearchWidget> {
                                                   Container(
                                                     decoration: BoxDecoration(
                                                       border: Border.all(
-                                                        color: Colors.black, //                   <--- border color
+                                                        color: colorApp.colorDivider as Color, //                   <--- border color
                                                         width: 0.3,
                                                       ),
                                                     ),
@@ -1235,8 +1265,8 @@ class _ProjectSearchWidgetState extends ConsumerState<ProjectSearchWidget> {
                                                     alignment: Alignment.topLeft,
                                                     child: Text(
                                                       el.description,
-                                                      style: const TextStyle(
-                                                        color: Colors.black,
+                                                      style: TextStyle(
+                                                        color: colorApp.colorText,
                                                         fontSize: 16,
                                                         fontWeight: FontWeight.w400,
                                                       ),
@@ -1246,7 +1276,7 @@ class _ProjectSearchWidgetState extends ConsumerState<ProjectSearchWidget> {
                                                   Container(
                                                     decoration: BoxDecoration(
                                                       border: Border.all(
-                                                        color: Colors.black, //                   <--- border color
+                                                        color: colorApp.colorDivider as Color, //                   <--- border color
                                                         width: 0.3,
                                                       ),
                                                     ),
@@ -1256,17 +1286,17 @@ class _ProjectSearchWidgetState extends ConsumerState<ProjectSearchWidget> {
                                                     mainAxisAlignment: MainAxisAlignment.start,
                                                     crossAxisAlignment: CrossAxisAlignment.center,
                                                     children: [
-                                                      const Icon(
+                                                      Icon(
                                                         Icons.format_indent_increase_rounded,
                                                         size: 22,
-                                                        color: Colors.black,
+                                                        color: colorApp.colorIcon,
                                                       ),
                                                       const SizedBox(width: 5),
                                                       Text(
                                                         '${Language.Proposals}: ${el.countProposals}',
-                                                        style: const TextStyle(
+                                                        style: TextStyle(
                                                           fontSize: 16,
-                                                          color: Colors.black,
+                                                          color: colorApp.colorText,
                                                         ),
                                                       ),
                                                     ],

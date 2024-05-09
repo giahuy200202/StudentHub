@@ -78,12 +78,14 @@ class LabeledRadio<T> extends StatelessWidget {
     required this.value,
     required this.groupValue,
     required this.onChanged,
+    this.textColor,
   }) : super(key: key);
 
   final String label;
   final T value;
   final T? groupValue;
   final ValueChanged<T?> onChanged;
+  final Color? textColor;
 
   @override
   Widget build(BuildContext context) {
@@ -99,7 +101,7 @@ class LabeledRadio<T> extends StatelessWidget {
             onChanged: onChanged,
           ),
           DefaultTextStyle(
-            style: const TextStyle(color: Colors.black, fontSize: 16),
+            style: TextStyle(color: textColor, fontSize: 16),
             child: Text(label),
           ),
         ],
@@ -309,7 +311,10 @@ class _WorkingWidgetState extends ConsumerState<WorkingWidget> {
                                                   return Container(
                                                     height: 330,
                                                     width: MediaQuery.of(context).size.width,
-                                                    decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(15)),
+                                                    decoration: BoxDecoration(
+                                                      color: colorApp.colorBackgroundBootomSheet,
+                                                      borderRadius: BorderRadius.circular(15),
+                                                    ),
                                                     child: Padding(
                                                       padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 30),
                                                       child: Column(
@@ -331,9 +336,9 @@ class _WorkingWidgetState extends ConsumerState<WorkingWidget> {
                                                                         padding: EdgeInsets.zero, // and this
                                                                         shape: RoundedRectangleBorder(
                                                                           borderRadius: BorderRadius.circular(8),
-                                                                          side: const BorderSide(color: Colors.grey),
+                                                                          side: BorderSide(color: colorApp.colorBorderSideMutil as Color),
                                                                         ),
-                                                                        backgroundColor: Colors.white,
+                                                                        backgroundColor: colorApp.colorBorderBackground,
                                                                       ),
                                                                       child: Padding(
                                                                         padding: EdgeInsets.only(left: 10),
@@ -344,7 +349,7 @@ class _WorkingWidgetState extends ConsumerState<WorkingWidget> {
                                                                             Icon(
                                                                               Icons.format_indent_increase_rounded,
                                                                               size: 22,
-                                                                              color: Colors.black,
+                                                                              color: colorApp.colorBlackWhite,
                                                                             ),
                                                                             SizedBox(width: 5),
                                                                             Text(
@@ -352,7 +357,7 @@ class _WorkingWidgetState extends ConsumerState<WorkingWidget> {
                                                                               style: TextStyle(
                                                                                 fontSize: 16,
                                                                                 // color: Color.fromARGB(255, 255, 255, 255),
-                                                                                color: Colors.black,
+                                                                                color: colorApp.colorBlackWhite,
                                                                                 fontWeight: FontWeight.w500,
                                                                               ),
                                                                             ),
@@ -372,9 +377,9 @@ class _WorkingWidgetState extends ConsumerState<WorkingWidget> {
                                                                         padding: EdgeInsets.zero, // and this
                                                                         shape: RoundedRectangleBorder(
                                                                           borderRadius: BorderRadius.circular(8),
-                                                                          side: const BorderSide(color: Colors.grey),
+                                                                          side: BorderSide(color: colorApp.colorBorderSideMutil as Color),
                                                                         ),
-                                                                        backgroundColor: Colors.white,
+                                                                        backgroundColor: colorApp.colorBorderBackground,
                                                                       ),
                                                                       child: Padding(
                                                                         padding: EdgeInsets.only(left: 10),
@@ -385,14 +390,14 @@ class _WorkingWidgetState extends ConsumerState<WorkingWidget> {
                                                                             Icon(
                                                                               Icons.message_outlined,
                                                                               size: 22,
-                                                                              color: Colors.black,
+                                                                              color: colorApp.colorBlackWhite,
                                                                             ),
                                                                             SizedBox(width: 5),
                                                                             Text(
                                                                               Language.ViewMessage,
                                                                               style: TextStyle(
                                                                                 fontSize: 16,
-                                                                                color: Colors.black,
+                                                                                color: colorApp.colorBlackWhite,
                                                                                 fontWeight: FontWeight.w500,
                                                                               ),
                                                                             ),
@@ -412,9 +417,9 @@ class _WorkingWidgetState extends ConsumerState<WorkingWidget> {
                                                                         padding: EdgeInsets.zero, // and this
                                                                         shape: RoundedRectangleBorder(
                                                                           borderRadius: BorderRadius.circular(8),
-                                                                          side: const BorderSide(color: Colors.grey),
+                                                                          side: BorderSide(color: colorApp.colorBorderSideMutil as Color),
                                                                         ),
-                                                                        backgroundColor: Colors.white,
+                                                                        backgroundColor: colorApp.colorBorderBackground,
                                                                       ),
                                                                       child: Padding(
                                                                         padding: EdgeInsets.only(left: 10),
@@ -425,14 +430,14 @@ class _WorkingWidgetState extends ConsumerState<WorkingWidget> {
                                                                             Icon(
                                                                               Icons.person_3,
                                                                               size: 22,
-                                                                              color: Colors.black,
+                                                                              color: colorApp.colorBlackWhite,
                                                                             ),
                                                                             SizedBox(width: 5),
                                                                             Text(
                                                                               Language.Viewhired,
                                                                               style: TextStyle(
                                                                                 fontSize: 16,
-                                                                                color: Colors.black,
+                                                                                color: colorApp.colorBlackWhite,
                                                                                 fontWeight: FontWeight.w500,
                                                                               ),
                                                                             ),
@@ -490,9 +495,9 @@ class _WorkingWidgetState extends ConsumerState<WorkingWidget> {
                                                                         padding: EdgeInsets.zero, // and this
                                                                         shape: RoundedRectangleBorder(
                                                                           borderRadius: BorderRadius.circular(8),
-                                                                          side: const BorderSide(color: Colors.grey),
+                                                                          side: BorderSide(color: colorApp.colorBorderSideMutil as Color),
                                                                         ),
-                                                                        backgroundColor: Colors.white,
+                                                                        backgroundColor: colorApp.colorBorderBackground,
                                                                       ),
                                                                       child: Padding(
                                                                         padding: EdgeInsets.only(left: 10),
@@ -503,7 +508,7 @@ class _WorkingWidgetState extends ConsumerState<WorkingWidget> {
                                                                             Icon(
                                                                               Icons.archive_outlined,
                                                                               size: 22,
-                                                                              color: Colors.black,
+                                                                              color: colorApp.colorBlackWhite,
                                                                             ),
                                                                             SizedBox(width: 5),
                                                                             Text(
@@ -511,7 +516,7 @@ class _WorkingWidgetState extends ConsumerState<WorkingWidget> {
                                                                               style: TextStyle(
                                                                                 fontSize: 16,
                                                                                 // color: Color.fromARGB(255, 255, 255, 255),
-                                                                                color: Colors.black,
+                                                                                color: colorApp.colorBlackWhite,
                                                                                 fontWeight: FontWeight.w500,
                                                                               ),
                                                                             ),
@@ -534,7 +539,7 @@ class _WorkingWidgetState extends ConsumerState<WorkingWidget> {
                                                                         showModalBottomSheet(
                                                                           isScrollControlled: true,
                                                                           context: context,
-                                                                          backgroundColor: Colors.white,
+                                                                          backgroundColor: colorApp.colorBackgroundBootomSheet,
                                                                           builder: (ctx) {
                                                                             return StatefulBuilder(builder: (BuildContext context, StateSetter setState /*You can rename this!*/) {
                                                                               return Padding(
@@ -555,6 +560,7 @@ class _WorkingWidgetState extends ConsumerState<WorkingWidget> {
                                                                                             style: TextStyle(
                                                                                               fontWeight: FontWeight.bold,
                                                                                               fontSize: 25,
+                                                                                              color: colorApp.colorTitle,
                                                                                             ),
                                                                                           ),
                                                                                         ),
@@ -562,7 +568,7 @@ class _WorkingWidgetState extends ConsumerState<WorkingWidget> {
                                                                                         Container(
                                                                                           decoration: BoxDecoration(
                                                                                             border: Border.all(
-                                                                                              color: Colors.black, //                   <--- border color
+                                                                                              color: colorApp.colorDivider as Color, //                   <--- border color
                                                                                               width: 0.3,
                                                                                             ),
                                                                                           ),
@@ -579,6 +585,7 @@ class _WorkingWidgetState extends ConsumerState<WorkingWidget> {
                                                                                                   style: TextStyle(
                                                                                                     fontWeight: FontWeight.bold,
                                                                                                     fontSize: 16,
+                                                                                                    color: colorApp.colorTitle,
                                                                                                   ),
                                                                                                 ),
                                                                                               ),
@@ -587,8 +594,9 @@ class _WorkingWidgetState extends ConsumerState<WorkingWidget> {
                                                                                                 child: TextField(
                                                                                                   controller: titleController,
                                                                                                   onChanged: (data) {},
-                                                                                                  style: const TextStyle(
+                                                                                                  style: TextStyle(
                                                                                                     fontSize: 16,
+                                                                                                    color: colorApp.colorText,
                                                                                                   ),
                                                                                                   decoration: InputDecoration(
                                                                                                     // labelText: 'Number of students',
@@ -597,13 +605,16 @@ class _WorkingWidgetState extends ConsumerState<WorkingWidget> {
                                                                                                     ),
                                                                                                     focusedBorder: OutlineInputBorder(
                                                                                                       borderRadius: BorderRadius.circular(9),
-                                                                                                      borderSide: const BorderSide(color: Colors.black),
+                                                                                                      borderSide: BorderSide(color: colorApp.colorBorderSide as Color),
                                                                                                     ),
                                                                                                     contentPadding: const EdgeInsets.symmetric(
                                                                                                       vertical: 14,
                                                                                                       horizontal: 15,
                                                                                                     ),
                                                                                                     hintText: Language.textTitle,
+                                                                                                    hintStyle: TextStyle(
+                                                                                                      color: colorApp.colorText,
+                                                                                                    ),
                                                                                                   ),
                                                                                                 ),
                                                                                               ),
@@ -612,10 +623,7 @@ class _WorkingWidgetState extends ConsumerState<WorkingWidget> {
                                                                                                 alignment: Alignment.topLeft,
                                                                                                 child: Text(
                                                                                                   Language.ProjectScope,
-                                                                                                  style: TextStyle(
-                                                                                                    fontWeight: FontWeight.bold,
-                                                                                                    fontSize: 16,
-                                                                                                  ),
+                                                                                                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: colorApp.colorTitle),
                                                                                                 ),
                                                                                               ),
                                                                                               const SizedBox(height: 15),
@@ -627,6 +635,7 @@ class _WorkingWidgetState extends ConsumerState<WorkingWidget> {
                                                                                                     child: LabeledRadio(
                                                                                                       label: Language.Time_1,
                                                                                                       value: 0,
+                                                                                                      textColor: colorApp.colorBlackWhite,
                                                                                                       groupValue: pickedScope, //projectPosting.scope,
                                                                                                       onChanged: (value) {
                                                                                                         setState(() {
@@ -641,6 +650,7 @@ class _WorkingWidgetState extends ConsumerState<WorkingWidget> {
                                                                                                     child: LabeledRadio(
                                                                                                       label: Language.Time_2,
                                                                                                       value: 1,
+                                                                                                      textColor: colorApp.colorBlackWhite,
                                                                                                       groupValue: pickedScope, //projectPosting.scope,
                                                                                                       onChanged: (value) {
                                                                                                         setState(() {
@@ -655,6 +665,7 @@ class _WorkingWidgetState extends ConsumerState<WorkingWidget> {
                                                                                                     child: LabeledRadio(
                                                                                                       label: Language.Time_3,
                                                                                                       value: 2,
+                                                                                                      textColor: colorApp.colorBlackWhite,
                                                                                                       groupValue: pickedScope, //projectPosting.scope,
                                                                                                       onChanged: (value) {
                                                                                                         setState(() {
@@ -669,6 +680,7 @@ class _WorkingWidgetState extends ConsumerState<WorkingWidget> {
                                                                                                     child: LabeledRadio(
                                                                                                       label: Language.Time_4,
                                                                                                       value: 3,
+                                                                                                      textColor: colorApp.colorBlackWhite,
                                                                                                       groupValue: pickedScope, //projectPosting.scope,
                                                                                                       onChanged: (value) {
                                                                                                         setState(() {
@@ -687,6 +699,7 @@ class _WorkingWidgetState extends ConsumerState<WorkingWidget> {
                                                                                                   style: TextStyle(
                                                                                                     fontWeight: FontWeight.bold,
                                                                                                     fontSize: 16,
+                                                                                                    color: colorApp.colorTitle,
                                                                                                   ),
                                                                                                 ),
                                                                                               ),
@@ -695,8 +708,9 @@ class _WorkingWidgetState extends ConsumerState<WorkingWidget> {
                                                                                                 child: TextField(
                                                                                                   controller: numOfStudentsController,
                                                                                                   onChanged: (data) {},
-                                                                                                  style: const TextStyle(
+                                                                                                  style: TextStyle(
                                                                                                     fontSize: 16,
+                                                                                                    color: colorApp.colorText,
                                                                                                   ),
                                                                                                   decoration: InputDecoration(
                                                                                                     // labelText: 'Number of students',
@@ -705,13 +719,14 @@ class _WorkingWidgetState extends ConsumerState<WorkingWidget> {
                                                                                                     ),
                                                                                                     focusedBorder: OutlineInputBorder(
                                                                                                       borderRadius: BorderRadius.circular(9),
-                                                                                                      borderSide: const BorderSide(color: Colors.black),
+                                                                                                      borderSide: BorderSide(color: colorApp.colorBorderSide as Color),
                                                                                                     ),
                                                                                                     contentPadding: const EdgeInsets.symmetric(
                                                                                                       vertical: 14,
                                                                                                       horizontal: 15,
                                                                                                     ),
                                                                                                     hintText: Language.TextStudent,
+                                                                                                    hintStyle: TextStyle(color: colorApp.colorText),
                                                                                                   ),
                                                                                                 ),
                                                                                               ),
@@ -723,6 +738,7 @@ class _WorkingWidgetState extends ConsumerState<WorkingWidget> {
                                                                                                   style: TextStyle(
                                                                                                     fontWeight: FontWeight.bold,
                                                                                                     fontSize: 16,
+                                                                                                    color: colorApp.colorTitle,
                                                                                                   ),
                                                                                                 ),
                                                                                               ),
@@ -731,8 +747,9 @@ class _WorkingWidgetState extends ConsumerState<WorkingWidget> {
                                                                                                 child: TextField(
                                                                                                   controller: descriptionController,
                                                                                                   onChanged: (data) {},
-                                                                                                  style: const TextStyle(
+                                                                                                  style: TextStyle(
                                                                                                     fontSize: 16,
+                                                                                                    color: colorApp.colorText,
                                                                                                   ),
                                                                                                   decoration: InputDecoration(
                                                                                                     // labelText: 'Number of students',
@@ -741,13 +758,14 @@ class _WorkingWidgetState extends ConsumerState<WorkingWidget> {
                                                                                                     ),
                                                                                                     focusedBorder: OutlineInputBorder(
                                                                                                       borderRadius: BorderRadius.circular(9),
-                                                                                                      borderSide: const BorderSide(color: Colors.black),
+                                                                                                      borderSide: BorderSide(color: colorApp.colorBorderSide as Color),
                                                                                                     ),
                                                                                                     contentPadding: const EdgeInsets.symmetric(
                                                                                                       vertical: 14,
                                                                                                       horizontal: 15,
                                                                                                     ),
                                                                                                     hintText: Language.textDescription,
+                                                                                                    hintStyle: TextStyle(color: colorApp.colorText),
                                                                                                   ),
                                                                                                 ),
                                                                                               ),
@@ -769,15 +787,15 @@ class _WorkingWidgetState extends ConsumerState<WorkingWidget> {
                                                                                                             padding: EdgeInsets.zero, // and this
                                                                                                             shape: RoundedRectangleBorder(
                                                                                                               borderRadius: BorderRadius.circular(8),
-                                                                                                              side: const BorderSide(color: Colors.black),
+                                                                                                              side: BorderSide(color: colorApp.colorBorderSideMutil as Color),
                                                                                                             ),
-                                                                                                            backgroundColor: Colors.white,
+                                                                                                            backgroundColor: colorApp.colorWhiteBlack,
                                                                                                           ),
                                                                                                           child: Text(
                                                                                                             Language.cancel,
                                                                                                             style: TextStyle(
                                                                                                               fontSize: 18,
-                                                                                                              color: Colors.black,
+                                                                                                              color: colorApp.colorBlackWhite,
                                                                                                               fontWeight: FontWeight.w500,
                                                                                                             ),
                                                                                                           ),
@@ -825,13 +843,13 @@ class _WorkingWidgetState extends ConsumerState<WorkingWidget> {
                                                                                                             shape: RoundedRectangleBorder(
                                                                                                               borderRadius: BorderRadius.circular(8),
                                                                                                             ),
-                                                                                                            backgroundColor: Colors.black,
+                                                                                                            backgroundColor: colorApp.colorBlackWhite,
                                                                                                           ),
                                                                                                           child: Text(
                                                                                                             Language.edit,
                                                                                                             style: TextStyle(
                                                                                                               fontSize: 18,
-                                                                                                              color: Color.fromARGB(255, 255, 255, 255),
+                                                                                                              color: colorApp.colorWhiteBlack,
                                                                                                               fontWeight: FontWeight.w500,
                                                                                                             ),
                                                                                                           ),
@@ -858,9 +876,9 @@ class _WorkingWidgetState extends ConsumerState<WorkingWidget> {
                                                                         padding: EdgeInsets.zero, // and this
                                                                         shape: RoundedRectangleBorder(
                                                                           borderRadius: BorderRadius.circular(8),
-                                                                          side: const BorderSide(color: Colors.grey),
+                                                                          side: BorderSide(color: colorApp.colorBorderSideMutil as Color),
                                                                         ),
-                                                                        backgroundColor: Colors.white,
+                                                                        backgroundColor: colorApp.colorBorderBackground,
                                                                       ),
                                                                       child: Padding(
                                                                         padding: EdgeInsets.only(left: 10),
@@ -871,14 +889,14 @@ class _WorkingWidgetState extends ConsumerState<WorkingWidget> {
                                                                             Icon(
                                                                               Icons.edit_calendar_outlined,
                                                                               size: 22,
-                                                                              color: Colors.black,
+                                                                              color: colorApp.colorBlackWhite,
                                                                             ),
                                                                             SizedBox(width: 5),
                                                                             Text(
                                                                               Language.EditProject,
                                                                               style: TextStyle(
                                                                                 fontSize: 16,
-                                                                                color: Colors.black,
+                                                                                color: colorApp.colorBlackWhite,
                                                                                 fontWeight: FontWeight.w500,
                                                                               ),
                                                                             ),
@@ -916,9 +934,9 @@ class _WorkingWidgetState extends ConsumerState<WorkingWidget> {
                                                                         padding: EdgeInsets.zero, // and this
                                                                         shape: RoundedRectangleBorder(
                                                                           borderRadius: BorderRadius.circular(8),
-                                                                          side: const BorderSide(color: Colors.grey),
+                                                                          side: BorderSide(color: colorApp.colorBorderSideMutil as Color),
                                                                         ),
-                                                                        backgroundColor: Colors.white,
+                                                                        backgroundColor: colorApp.colorBorderBackground,
                                                                       ),
                                                                       child: Padding(
                                                                         padding: EdgeInsets.only(left: 10),
@@ -962,7 +980,7 @@ class _WorkingWidgetState extends ConsumerState<WorkingWidget> {
                                                                   borderRadius: BorderRadius.circular(8),
                                                                   side: const BorderSide(color: Colors.grey),
                                                                 ),
-                                                                backgroundColor: Colors.black,
+                                                                backgroundColor: colorApp.colorBlackWhite,
                                                               ),
                                                               child: Padding(
                                                                 padding: EdgeInsets.only(left: 10),
@@ -974,7 +992,7 @@ class _WorkingWidgetState extends ConsumerState<WorkingWidget> {
                                                                       Language.StartWorking,
                                                                       style: TextStyle(
                                                                         fontSize: 16,
-                                                                        color: Colors.white,
+                                                                        color: colorApp.colorWhiteBlack,
                                                                         fontWeight: FontWeight.w500,
                                                                       ),
                                                                     ),
@@ -990,7 +1008,10 @@ class _WorkingWidgetState extends ConsumerState<WorkingWidget> {
                                                 },
                                               );
                                             },
-                                            child: const Icon(Icons.more_vert),
+                                            child: Icon(
+                                              Icons.more_vert,
+                                              color: colorApp.colorIcon,
+                                            ),
                                           ),
                                         ],
                                       ),
@@ -1001,8 +1022,8 @@ class _WorkingWidgetState extends ConsumerState<WorkingWidget> {
                                           width: 340,
                                           child: Text(
                                             el.createTime,
-                                            style: const TextStyle(
-                                              color: Color.fromARGB(255, 94, 94, 94),
+                                            style: TextStyle(
+                                              color: colorApp.colorTime,
                                               overflow: TextOverflow.ellipsis,
                                               fontSize: 13,
                                             ),
@@ -1016,8 +1037,8 @@ class _WorkingWidgetState extends ConsumerState<WorkingWidget> {
                                           width: 340,
                                           child: Text(
                                             '${Language.Time}: ${el.projectScopeFlag == 0 ? Language.Time_1 : el.projectScopeFlag == 1 ? Language.Time_2 : el.projectScopeFlag == 2 ? Language.Time_3 : Language.Time_4}, ${el.numberOfStudents} ${Language.StudentNeed}',
-                                            style: const TextStyle(
-                                              color: Colors.black,
+                                            style: TextStyle(
+                                              color: colorApp.colorText,
                                               overflow: TextOverflow.ellipsis,
                                               fontSize: 16,
                                             ),
@@ -1028,7 +1049,7 @@ class _WorkingWidgetState extends ConsumerState<WorkingWidget> {
                                       Container(
                                         decoration: BoxDecoration(
                                           border: Border.all(
-                                            color: Colors.black, //                   <--- border color
+                                            color: colorApp.colorDivider as Color, //                   <--- border color
                                             width: 0.3,
                                           ),
                                         ),
@@ -1038,8 +1059,8 @@ class _WorkingWidgetState extends ConsumerState<WorkingWidget> {
                                         alignment: Alignment.topLeft,
                                         child: Text(
                                           el.description,
-                                          style: const TextStyle(
-                                            color: Colors.black,
+                                          style: TextStyle(
+                                            color: colorApp.colorText,
                                             fontSize: 16,
                                             fontWeight: FontWeight.w400,
                                           ),
@@ -1049,7 +1070,7 @@ class _WorkingWidgetState extends ConsumerState<WorkingWidget> {
                                       Container(
                                         decoration: BoxDecoration(
                                           border: Border.all(
-                                            color: Colors.black, //                   <--- border color
+                                            color: colorApp.colorDivider as Color, //                   <--- border color
                                             width: 0.3,
                                           ),
                                         ),
@@ -1065,8 +1086,8 @@ class _WorkingWidgetState extends ConsumerState<WorkingWidget> {
                                             children: [
                                               Text(
                                                 '${el.countProposals}',
-                                                style: const TextStyle(
-                                                  color: Colors.black,
+                                                style: TextStyle(
+                                                  color: colorApp.colorText,
                                                   overflow: TextOverflow.ellipsis,
                                                   fontSize: 16,
                                                 ),
@@ -1074,7 +1095,7 @@ class _WorkingWidgetState extends ConsumerState<WorkingWidget> {
                                               Text(
                                                 Language.Proposals,
                                                 style: TextStyle(
-                                                  color: Colors.black,
+                                                  color: colorApp.colorTitle,
                                                   overflow: TextOverflow.ellipsis,
                                                   fontSize: 16,
                                                 ),
@@ -1088,8 +1109,8 @@ class _WorkingWidgetState extends ConsumerState<WorkingWidget> {
                                             children: [
                                               Text(
                                                 '${el.countMessages}',
-                                                style: const TextStyle(
-                                                  color: Colors.black,
+                                                style: TextStyle(
+                                                  color: colorApp.colorText,
                                                   overflow: TextOverflow.ellipsis,
                                                   fontSize: 16,
                                                 ),
@@ -1097,7 +1118,7 @@ class _WorkingWidgetState extends ConsumerState<WorkingWidget> {
                                               Text(
                                                 Language.Message,
                                                 style: TextStyle(
-                                                  color: Colors.black,
+                                                  color: colorApp.colorTitle,
                                                   overflow: TextOverflow.ellipsis,
                                                   fontSize: 16,
                                                 ),
@@ -1111,8 +1132,8 @@ class _WorkingWidgetState extends ConsumerState<WorkingWidget> {
                                             children: [
                                               Text(
                                                 '${el.countHired}',
-                                                style: const TextStyle(
-                                                  color: Colors.black,
+                                                style: TextStyle(
+                                                  color: colorApp.colorText,
                                                   overflow: TextOverflow.ellipsis,
                                                   fontSize: 16,
                                                 ),
@@ -1120,7 +1141,7 @@ class _WorkingWidgetState extends ConsumerState<WorkingWidget> {
                                               Text(
                                                 Language.Hired,
                                                 style: TextStyle(
-                                                  color: Colors.black,
+                                                  color: colorApp.colorTitle,
                                                   overflow: TextOverflow.ellipsis,
                                                   fontSize: 16,
                                                 ),

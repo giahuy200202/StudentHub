@@ -6,6 +6,7 @@ import 'package:studenthub/providers/authentication/authentication.provider.dart
 import 'package:studenthub/providers/options.provider.dart';
 import 'package:studenthub/providers/profile/student.provider.dart';
 import 'package:studenthub/providers/projects/project_id.provider.dart';
+import 'package:studenthub/providers/theme/theme_provider.dart';
 import 'package:toastification/toastification.dart';
 import '../../providers/projects/project_posting.provider.dart';
 // import '../../providers/options_provider.dart';
@@ -14,6 +15,7 @@ import '../../providers/options.provider.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'dart:async';
+import 'package:studenthub/providers/theme/theme_provider.dart';
 
 class Project {
   final String projectId;
@@ -129,7 +131,7 @@ class _ProjectDetailsWidgetState extends ConsumerState<ProjectDetailsWidget> {
     );
   }
 
-  void getProjects(token, studentId, projectId) async {
+  void getProjects(token, studentId, projectId, tmp) async {
     setState(() {
       isFetchingData = true;
     });
@@ -167,7 +169,7 @@ class _ProjectDetailsWidgetState extends ConsumerState<ProjectDetailsWidget> {
       listProjectsGetFromRes = Project(
         projectId: responseDetailedProjectsData['result']['id'].toString(),
         title: responseDetailedProjectsData['result']['title'],
-        createTime: 'Created at ${DateFormat("dd/MM/yyyy | HH:mm").format(
+        createTime: '${tmp.Createat} ${DateFormat("dd/MM/yyyy | HH:mm").format(
               DateTime.parse(responseDetailedProjectsData['result']['createdAt']),
             ).toString()}',
         projectScopeFlag: responseDetailedProjectsData['result']['projectScopeFlag'],
@@ -191,7 +193,8 @@ class _ProjectDetailsWidgetState extends ConsumerState<ProjectDetailsWidget> {
     final user = ref.read(userProvider);
     final student = ref.read(studentProvider);
     final projectId = ref.read(projectIdProvider);
-    getProjects(user.token!, student.id, projectId);
+    var lan = ref.read(LanguageProvider);
+    getProjects(user.token!, student.id, projectId, lan);
     super.initState();
   }
 
@@ -207,6 +210,7 @@ class _ProjectDetailsWidgetState extends ConsumerState<ProjectDetailsWidget> {
     final user = ref.watch(userProvider);
     final projectId = ref.watch(projectIdProvider);
     final student = ref.watch(studentProvider);
+    var ColorApp = ref.watch(colorProvider);
     var Language = ref.watch(LanguageProvider);
     return SingleChildScrollView(
       child: isFetchingData
@@ -228,327 +232,346 @@ class _ProjectDetailsWidgetState extends ConsumerState<ProjectDetailsWidget> {
                 ),
               ],
             )
-          : Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const SizedBox(height: 60),
-                    Row(
-                      children: [
-                        Align(
-                          alignment: Alignment.topLeft,
-                          child: InkWell(
-                            onTap: () {
-                              ref.read(optionsProvider.notifier).setWidgetOption('Dashboard', user.role!);
-                            },
-                            child: const Icon(
-                              Icons.arrow_back_ios,
-                              size: 25,
-                              color: Colors.grey,
+          : Container(
+              color: ColorApp.colorBackgroundColor,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const SizedBox(height: 60),
+                      Row(
+                        children: [
+                          Align(
+                            alignment: Alignment.topLeft,
+                            child: InkWell(
+                              onTap: () {
+                                ref.read(optionsProvider.notifier).setWidgetOption('Dashboard', user.role!);
+                              },
+                              child: const Icon(
+                                Icons.arrow_back_ios,
+                                size: 25,
+                                color: Colors.grey,
+                              ),
                             ),
                           ),
-                        ),
-                        const SizedBox(width: 10),
-                        Align(
-                          alignment: Alignment.topLeft,
-                          child: Text(
-                            Language.ProjectDetails,
-                            style: TextStyle(
-                              fontSize: 22,
-                              color: Colors.black,
-                              fontWeight: FontWeight.w600,
+                          const SizedBox(width: 10),
+                          Align(
+                            alignment: Alignment.topLeft,
+                            child: Text(
+                              Language.ProjectDetails,
+                              style: TextStyle(
+                                fontSize: 22,
+                                color: ColorApp.colorTitle,
+                                fontWeight: FontWeight.w600,
+                              ),
                             ),
                           ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 30),
-                    Container(
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        border: Border.all(color: Colors.grey),
-                        borderRadius: const BorderRadius.all(Radius.circular(15)),
+                        ],
                       ),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                          vertical: 20,
-                          horizontal: 20,
+                      const SizedBox(height: 30),
+                      Container(
+                        decoration: BoxDecoration(
+                          border: Border.all(color: ColorApp.colorBoderSwitch as Color),
+                          borderRadius: const BorderRadius.all(Radius.circular(15)),
                         ),
-                        child: Column(
-                          children: [
-                            Row(
-                              children: [
-                                Align(
-                                  alignment: Alignment.topLeft,
-                                  child: SizedBox(
-                                    width: 300,
-                                    child: Text(
-                                      listProjects.title,
-                                      overflow: TextOverflow.ellipsis,
-                                      style: const TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.w600,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                            vertical: 20,
+                            horizontal: 20,
+                          ),
+                          child: Column(
+                            children: [
+                              Row(
+                                children: [
+                                  Align(
+                                    alignment: Alignment.topLeft,
+                                    child: SizedBox(
+                                      width: 300,
+                                      child: Text(
+                                        listProjects.title,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: TextStyle(
+                                          color: ColorApp.colorTitle,
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.w600,
+                                        ),
                                       ),
                                     ),
                                   ),
-                                ),
-                                const Spacer(),
-                                InkWell(
-                                  onTap: user.role == '0'
-                                      ? () async {
-                                          final urlFavoriteProjects = Uri.parse('${dotenv.env['IP_ADDRESS']}/api/favoriteProject/${student.id}?');
+                                  const Spacer(),
+                                  InkWell(
+                                    onTap: user.role == '0'
+                                        ? () async {
+                                            final urlFavoriteProjects = Uri.parse('${dotenv.env['IP_ADDRESS']}/api/favoriteProject/${student.id}?');
 
-                                          final responsePatchFavoriteProject = await http.patch(
-                                            urlFavoriteProjects,
-                                            headers: {
-                                              'Content-Type': 'application/json',
-                                              'Authorization': 'Bearer ${user.token!}',
-                                            },
-                                            body: json.encode({
-                                              'projectId': listProjects.projectId,
-                                              'disableFlag': 0,
-                                            }),
-                                          );
+                                            final responsePatchFavoriteProject = await http.patch(
+                                              urlFavoriteProjects,
+                                              headers: {
+                                                'Content-Type': 'application/json',
+                                                'Authorization': 'Bearer ${user.token!}',
+                                              },
+                                              body: json.encode({
+                                                'projectId': listProjects.projectId,
+                                                'disableFlag': 0,
+                                              }),
+                                            );
 
-                                          final responsePatchFavoriteProjectData = json.decode(responsePatchFavoriteProject.body);
+                                            final responsePatchFavoriteProjectData = json.decode(responsePatchFavoriteProject.body);
 
-                                          print('----responsePatchFavoriteProjecData----');
-                                          print(responsePatchFavoriteProjectData);
+                                            print('----responsePatchFavoriteProjecData----');
+                                            print(responsePatchFavoriteProjectData);
 
-                                          ref.read(optionsProvider.notifier).setWidgetOption('Projects', user.role!);
-                                          showSuccessToast('Success', 'Project added to favorites');
-                                        }
-                                      : null,
-                                  child: const Icon(Icons.favorite_outline),
-                                ),
-                              ],
-                            ),
-                            const SizedBox(height: 1),
-                            Align(
-                              alignment: Alignment.topLeft,
-                              child: SizedBox(
-                                width: 340,
-                                child: Text(
-                                  listProjects.createTime,
-                                  style: const TextStyle(
-                                    color: Color.fromARGB(255, 94, 94, 94),
-                                    overflow: TextOverflow.ellipsis,
-                                    fontSize: 13,
+                                            ref.read(optionsProvider.notifier).setWidgetOption('Projects', user.role!);
+                                            showSuccessToast('Success', 'Project added to favorites');
+                                          }
+                                        : null,
+                                    child: Icon(
+                                      Icons.favorite_outline,
+                                      color: ColorApp.colorIcon,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(height: 1),
+                              Align(
+                                alignment: Alignment.topLeft,
+                                child: SizedBox(
+                                  width: 340,
+                                  child: Text(
+                                    listProjects.createTime,
+                                    style: TextStyle(
+                                      color: ColorApp.colorTime,
+                                      overflow: TextOverflow.ellipsis,
+                                      fontSize: 13,
+                                    ),
                                   ),
                                 ),
                               ),
-                            ),
-                            const SizedBox(height: 15),
-                            Container(
-                              decoration: BoxDecoration(
-                                border: Border.all(
-                                  color: Colors.black, //                   <--- border color
-                                  width: 0.3,
+                              const SizedBox(height: 15),
+                              Container(
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                    color: ColorApp.colorDivider as Color, //                   <--- border color
+                                    width: 0.3,
+                                  ),
                                 ),
                               ),
-                            ),
-                            const SizedBox(height: 15),
-                            Align(
-                              alignment: Alignment.topLeft,
-                              child: Text(
-                                listProjects.description,
-                                style: const TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w400,
+                              const SizedBox(height: 15),
+                              Align(
+                                alignment: Alignment.topLeft,
+                                child: Text(
+                                  listProjects.description,
+                                  style: TextStyle(
+                                    color: ColorApp.colorText,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w400,
+                                  ),
                                 ),
                               ),
-                            ),
-                            const SizedBox(height: 15),
-                            Container(
-                              decoration: BoxDecoration(
-                                border: Border.all(
-                                  color: Colors.black, //                   <--- border color
-                                  width: 0.3,
+                              const SizedBox(height: 15),
+                              Container(
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                    color: ColorApp.colorDivider as Color, //                   <--- border color
+                                    width: 0.3,
+                                  ),
                                 ),
                               ),
-                            ),
-                            const SizedBox(height: 20),
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Row(
-                                  children: [
-                                    const Icon(
-                                      Icons.alarm,
-                                      size: 40,
-                                    ),
-                                    const SizedBox(width: 10),
-                                    Column(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          Language.ProjectScope,
-                                          style: TextStyle(color: Colors.black, overflow: TextOverflow.ellipsis, fontSize: 16, fontWeight: FontWeight.w700),
-                                        ),
-                                        Text(
-                                          listProjects.projectScopeFlag == 0
-                                              ? Language.Time_1
-                                              : listProjects.projectScopeFlag == 1
-                                                  ? Language.Time_2
-                                                  : listProjects.projectScopeFlag == 2
-                                                      ? Language.Time_3
-                                                      : Language.Time_4,
-                                          style: const TextStyle(
-                                            color: Colors.black,
-                                            overflow: TextOverflow.ellipsis,
-                                            fontSize: 14,
+                              const SizedBox(height: 20),
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Row(
+                                    children: [
+                                      Icon(
+                                        Icons.alarm,
+                                        size: 40,
+                                        color: ColorApp.colorIcon,
+                                      ),
+                                      const SizedBox(width: 10),
+                                      Column(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            Language.ProjectScope,
+                                            style: TextStyle(
+                                              color: ColorApp.colorText,
+                                              overflow: TextOverflow.ellipsis,
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.w700,
+                                            ),
                                           ),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                                const SizedBox(height: 30),
-                                Row(
-                                  children: [
-                                    const Icon(
-                                      Icons.group,
-                                      size: 40,
-                                    ),
-                                    const SizedBox(width: 10),
-                                    Column(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          Language.textProjectDetails,
-                                          style: TextStyle(color: Colors.black, overflow: TextOverflow.ellipsis, fontSize: 16, fontWeight: FontWeight.w700),
-                                        ),
-                                        Text(
-                                          '${listProjects.numberOfStudents} ' + Language.StudentNeed,
-                                          style: const TextStyle(
-                                            color: Colors.black,
-                                            overflow: TextOverflow.ellipsis,
-                                            fontSize: 14,
+                                          Text(
+                                            listProjects.projectScopeFlag == 0
+                                                ? Language.Time_1
+                                                : listProjects.projectScopeFlag == 1
+                                                    ? Language.Time_2
+                                                    : listProjects.projectScopeFlag == 2
+                                                        ? Language.Time_3
+                                                        : Language.Time_4,
+                                            style: TextStyle(
+                                              color: ColorApp.colorText,
+                                              overflow: TextOverflow.ellipsis,
+                                              fontSize: 14,
+                                            ),
                                           ),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            )
-                          ],
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                  const SizedBox(height: 30),
+                                  Row(
+                                    children: [
+                                      Icon(
+                                        Icons.group,
+                                        size: 40,
+                                        color: ColorApp.colorIcon,
+                                      ),
+                                      const SizedBox(width: 10),
+                                      Column(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            Language.textProjectDetails,
+                                            style: TextStyle(
+                                              color: ColorApp.colorText,
+                                              overflow: TextOverflow.ellipsis,
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.w700,
+                                            ),
+                                          ),
+                                          Text(
+                                            '${listProjects.numberOfStudents} ' + Language.StudentNeed,
+                                            style: TextStyle(
+                                              color: ColorApp.colorText,
+                                              overflow: TextOverflow.ellipsis,
+                                              fontSize: 14,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              )
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-                    const SizedBox(height: 40),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        SizedBox(
-                          height: 46,
-                          width: 175,
-                          child: ElevatedButton(
-                            onPressed: user.role == '0'
-                                ? () async {
-                                    // final urlFavoriteProjects = Uri.parse('${dotenv.env['IP_ADDRESS']}/api/favoriteProject/${student.id}?');
+                      const SizedBox(height: 40),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          SizedBox(
+                            height: 46,
+                            width: 175,
+                            child: ElevatedButton(
+                              onPressed: user.role == '0'
+                                  ? () async {
+                                      // final urlFavoriteProjects = Uri.parse('${dotenv.env['IP_ADDRESS']}/api/favoriteProject/${student.id}?');
 
-                                    // final responsePatchFavoriteProject = await http.patch(
-                                    //   urlFavoriteProjects,
-                                    //   headers: {
-                                    //     'Content-Type': 'application/json',
-                                    //     'Authorization': 'Bearer ${user.token!}',
-                                    //   },
-                                    //   body: json.encode({
-                                    //     'projectId': listProjects.projectId,
-                                    //     'disableFlag': 0,
-                                    //   }),
-                                    // );
+                                      // final responsePatchFavoriteProject = await http.patch(
+                                      //   urlFavoriteProjects,
+                                      //   headers: {
+                                      //     'Content-Type': 'application/json',
+                                      //     'Authorization': 'Bearer ${user.token!}',
+                                      //   },
+                                      //   body: json.encode({
+                                      //     'projectId': listProjects.projectId,
+                                      //     'disableFlag': 0,
+                                      //   }),
+                                      // );
 
-                                    // final responsePatchFavoriteProjectData = json.decode(responsePatchFavoriteProject.body);
+                                      // final responsePatchFavoriteProjectData = json.decode(responsePatchFavoriteProject.body);
 
-                                    // print('----responsePatchFavoriteProjecData----');
-                                    // print(responsePatchFavoriteProjectData);
+                                      // print('----responsePatchFavoriteProjecData----');
+                                      // print(responsePatchFavoriteProjectData);
 
-                                    // showSuccessToast('Success', 'Project added to favorites');
-                                    print(projectId);
-                                    ref.read(optionsProvider.notifier).setWidgetOption('SubmitProposal', user.role!);
-                                  }
-                                : null,
-                            style: ElevatedButton.styleFrom(
-                              minimumSize: Size.zero, // Set this
-                              padding: EdgeInsets.zero, // and this
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(8),
-                                side: const BorderSide(color: Colors.grey),
+                                      // showSuccessToast('Success', 'Project added to favorites');
+                                      print(projectId);
+                                      ref.read(optionsProvider.notifier).setWidgetOption('SubmitProposal', user.role!);
+                                    }
+                                  : null,
+                              style: ElevatedButton.styleFrom(
+                                minimumSize: Size.zero, // Set this
+                                padding: EdgeInsets.zero, // and this
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(8),
+                                  side: BorderSide(color: ColorApp.colorBorderSideMutil as Color),
+                                ),
+                                backgroundColor: ColorApp.colorWhiteBlack,
+                                disabledBackgroundColor: ColorApp.colorApply,
                               ),
-                              backgroundColor: Colors.white,
-                            ),
-                            child: Text(
-                              Language.ApplyNow,
-                              style: TextStyle(
-                                fontSize: 16,
-                                color: Colors.black,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                          ),
-                        ),
-                        const SizedBox(width: 15),
-                        SizedBox(
-                          height: 46,
-                          width: 175,
-                          child: ElevatedButton(
-                            onPressed: user.role == '0'
-                                ? () async {
-                                    final urlFavoriteProjects = Uri.parse('${dotenv.env['IP_ADDRESS']}/api/favoriteProject/${student.id}?');
-
-                                    final responsePatchFavoriteProject = await http.patch(
-                                      urlFavoriteProjects,
-                                      headers: {
-                                        'Content-Type': 'application/json',
-                                        'Authorization': 'Bearer ${user.token!}',
-                                      },
-                                      body: json.encode({
-                                        'projectId': listProjects.projectId,
-                                        'disableFlag': 0,
-                                      }),
-                                    );
-
-                                    final responsePatchFavoriteProjectData = json.decode(responsePatchFavoriteProject.body);
-
-                                    print('----responsePatchFavoriteProjecData----');
-                                    print(responsePatchFavoriteProjectData);
-
-                                    ref.read(optionsProvider.notifier).setWidgetOption('Projects', user.role!);
-                                    showSuccessToast('Success', 'Project added to favorites');
-                                  }
-                                : null,
-                            style: ElevatedButton.styleFrom(
-                              minimumSize: Size.zero, // Set this
-                              padding: EdgeInsets.zero, // and this
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              backgroundColor: Colors.black,
-                            ),
-                            child: Text(
-                              Language.save,
-                              style: TextStyle(
-                                fontSize: 16,
-                                color: Color.fromARGB(255, 255, 255, 255),
-                                fontWeight: FontWeight.w500,
+                              child: Text(
+                                Language.ApplyNow,
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  color: ColorApp.colorBlackWhite,
+                                  fontWeight: FontWeight.w500,
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 30),
-                  ],
+                          const SizedBox(width: 15),
+                          SizedBox(
+                            height: 46,
+                            width: 175,
+                            child: ElevatedButton(
+                              onPressed: user.role == '0'
+                                  ? () async {
+                                      final urlFavoriteProjects = Uri.parse('${dotenv.env['IP_ADDRESS']}/api/favoriteProject/${student.id}?');
+
+                                      final responsePatchFavoriteProject = await http.patch(
+                                        urlFavoriteProjects,
+                                        headers: {
+                                          'Content-Type': 'application/json',
+                                          'Authorization': 'Bearer ${user.token!}',
+                                        },
+                                        body: json.encode({
+                                          'projectId': listProjects.projectId,
+                                          'disableFlag': 0,
+                                        }),
+                                      );
+
+                                      final responsePatchFavoriteProjectData = json.decode(responsePatchFavoriteProject.body);
+
+                                      print('----responsePatchFavoriteProjecData----');
+                                      print(responsePatchFavoriteProjectData);
+
+                                      ref.read(optionsProvider.notifier).setWidgetOption('Projects', user.role!);
+                                      showSuccessToast('Success', 'Project added to favorites');
+                                    }
+                                  : null,
+                              style: ElevatedButton.styleFrom(
+                                minimumSize: Size.zero, // Set this
+                                padding: EdgeInsets.zero, // and this
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                backgroundColor: ColorApp.colorBlackWhite,
+                                disabledBackgroundColor: ColorApp.colorButton,
+                              ),
+                              child: Text(
+                                Language.save,
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  color: user.role == '0' ? ColorApp.colorWhiteBlack : ColorApp.colorGrey,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 400),
+                    ],
+                  ),
                 ),
               ),
             ),

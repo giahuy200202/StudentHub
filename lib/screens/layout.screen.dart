@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:studenthub/providers/authentication/authentication.provider.dart';
+import 'package:studenthub/providers/language/language.provider.dart';
 import 'package:studenthub/providers/options.provider.dart';
 import 'package:studenthub/screens/authentication/change_password.screen.dart';
 import 'package:studenthub/screens/authentication/forgot_password.screen.dart';
@@ -178,7 +179,7 @@ class _LayoutScreenState extends ConsumerState<LayoutScreen> {
   Widget build(BuildContext context) {
     final options = ref.watch(optionsProvider);
     final user = ref.watch(userProvider);
-
+    var Language = ref.watch(LanguageProvider);
     // Widget currentScreen;
     // currentScreen = user.role == ''
     //     ? const LoginScreen()
@@ -247,34 +248,34 @@ class _LayoutScreenState extends ConsumerState<LayoutScreen> {
                 selectedItemColor: Colors.white,
                 unselectedItemColor: Colors.grey,
                 type: BottomNavigationBarType.fixed,
-                items: const [
+                items: [
                   BottomNavigationBarItem(
                     icon: Padding(
                       padding: EdgeInsets.only(top: 6),
                       child: Icon(Icons.list_alt_outlined, size: 30),
                     ),
-                    label: 'Projects',
+                    label: Language.Projects,
                   ),
                   BottomNavigationBarItem(
                     icon: Padding(
                       padding: EdgeInsets.only(top: 6),
                       child: Icon(Icons.dashboard_customize_outlined, size: 30),
                     ),
-                    label: 'Dashboard',
+                    label: Language.Dashboard,
                   ),
                   BottomNavigationBarItem(
                     icon: Padding(
                       padding: EdgeInsets.only(top: 6),
                       child: Icon(Icons.message_outlined, size: 30),
                     ),
-                    label: 'Message',
+                    label: Language.Message,
                   ),
                   BottomNavigationBarItem(
                     icon: Padding(
                       padding: EdgeInsets.only(top: 6),
                       child: Icon(Icons.notifications_active, size: 30),
                     ),
-                    label: 'Notification',
+                    label: Language.Alert,
                   ),
                 ],
               )
