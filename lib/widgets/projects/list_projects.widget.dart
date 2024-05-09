@@ -126,6 +126,22 @@ class _ListProjectsWidgetState extends ConsumerState<ListProjectsWidget> {
     List<Project> listProjectsGetFromRes = [];
     if (responseProjectsData['result'] != null) {
       for (var item in responseProjectsData['result']) {
+        print('----id type----');
+        print(item['id'].runtimeType);
+        print('----title type----');
+        print(item['title'].runtimeType);
+        print('----createdAt type----');
+        print(item['createdAt'].runtimeType);
+        print('----projectScopeFlag type----');
+        print(item['projectScopeFlag'].runtimeType);
+        print('----numberOfStudents type----');
+        print(item['numberOfStudents'].runtimeType);
+        print('----description type----');
+        print(item['description'].runtimeType);
+        print('----countProposals type----');
+        print(item['countProposals'].runtimeType);
+        print('----isFavorite type----');
+        print(item['isFavorite'].runtimeType);
         listProjectsGetFromRes.add(Project(
           id: item['id'].toString(),
           title: item['title'],

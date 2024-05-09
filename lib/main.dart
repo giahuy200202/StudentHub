@@ -139,7 +139,7 @@ class _AppState extends ConsumerState<App> {
                   ref.read(notificationProvider.notifier).pushNotificationData(
                         data['notification']['id'].toString(),
                         '0',
-                        '${data['notification']['content']}stud\n${data['notification']['message']['content']}',
+                        '${data['notification']['content']}\n${data['notification']['message']['content']}',
                         data['notification']['sender']['fullname'],
                         DateFormat("dd/MM/yyyy | HH:mm")
                             .format(
