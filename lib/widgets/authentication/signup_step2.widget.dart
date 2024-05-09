@@ -10,7 +10,7 @@ import 'package:studenthub/providers/options.provider.dart';
 import 'package:studenthub/providers/authentication/signup.provider.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-
+import 'package:studenthub/providers/language/language.provider.dart';
 import 'package:toastification/toastification.dart';
 import 'package:studenthub/providers/theme/theme_provider.dart';
 
@@ -79,6 +79,7 @@ class _SignupStep2State extends ConsumerState<SignupStep2> {
     final user = ref.watch(userProvider);
     var ColorApp = ref.watch(colorProvider);
 
+    var Language = ref.watch(LanguageProvider);
     Icon iconCheckedConfirm = isConfirm
         ? const Icon(
             Icons.check_circle,
@@ -118,7 +119,7 @@ class _SignupStep2State extends ConsumerState<SignupStep2> {
                   Align(
                     alignment: Alignment.topLeft,
                     child: Text(
-                      'Register',
+                      Language.Register,
                       style: TextStyle(
                         fontSize: 30,
                         color: ColorApp.colorTitle,
@@ -130,7 +131,7 @@ class _SignupStep2State extends ConsumerState<SignupStep2> {
                   Align(
                     alignment: Alignment.topLeft,
                     child: Text(
-                      'Please fill the below details',
+                      Language.DesRegister_2,
                       style: TextStyle(
                         fontSize: 16,
                         color: ColorApp.colorText,
@@ -156,7 +157,7 @@ class _SignupStep2State extends ConsumerState<SignupStep2> {
                         color: ColorApp.colorText,
                       ),
                       decoration: InputDecoration(
-                        labelText: 'Fullname',
+                        labelText: Language.Fullname,
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(9),
                         ),
@@ -190,7 +191,7 @@ class _SignupStep2State extends ConsumerState<SignupStep2> {
                         color: ColorApp.colorText,
                       ),
                       decoration: InputDecoration(
-                        labelText: 'Email address',
+                        labelText: Language.Email_2,
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(9),
                         ),
@@ -225,7 +226,7 @@ class _SignupStep2State extends ConsumerState<SignupStep2> {
                         color: ColorApp.colorText,
                       ),
                       decoration: InputDecoration(
-                        labelText: 'Password (8 or more characters)',
+                        labelText: Language.Pass_Register,
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(9),
                         ),
@@ -254,7 +255,7 @@ class _SignupStep2State extends ConsumerState<SignupStep2> {
                       ),
                       const SizedBox(width: 7),
                       Text(
-                        'Yes, I understand and agree to StudentHub',
+                        Language.RulestRegister_step2,
                         style: TextStyle(fontSize: 16, color: ColorApp.colorText),
                       ),
                     ],
@@ -322,8 +323,8 @@ class _SignupStep2State extends ConsumerState<SignupStep2> {
                                 ),
                               ),
                             )
-                          : const Text(
-                              'Create my account',
+                          : Text(
+                              Language.CreateAccount_step2,
                               style: TextStyle(
                                 fontSize: 18,
                                 color: Colors.white,
@@ -337,7 +338,7 @@ class _SignupStep2State extends ConsumerState<SignupStep2> {
                     mainAxisAlignment: MainAxisAlignment.center, //Center Column contents vertically,
                     children: [
                       Text(
-                        'Looking for a project?',
+                        Language.TextRegister_step2,
                         style: TextStyle(
                           fontSize: 16,
                           color: ColorApp.colorText,
@@ -362,8 +363,8 @@ class _SignupStep2State extends ConsumerState<SignupStep2> {
                             color: Colors.blue,
                             width: 1.3,
                           ))),
-                          child: const Text(
-                            "Apply as student",
+                          child: Text(
+                            Language.ApplyStudent,
                             style: TextStyle(fontSize: 16, color: Colors.blue, fontWeight: FontWeight.w500),
                           ),
                         ),

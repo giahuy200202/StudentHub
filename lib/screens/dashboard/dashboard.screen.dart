@@ -7,8 +7,10 @@ import 'package:studenthub/widgets/dashboard/archieved.widget.dart';
 import 'package:studenthub/widgets/dashboard/archieved_student.widget.dart';
 import 'package:studenthub/widgets/dashboard/working.widget.dart';
 import 'package:studenthub/widgets/dashboard/working_student.widget.dart';
+import 'package:studenthub/widgets/profile/profile_input_student_step1.widget.dart';
 import '../../providers/options.provider.dart';
 import 'package:studenthub/providers/theme/theme_provider.dart';
+import 'package:studenthub/providers/language/language.provider.dart';
 
 class DashboardScreen extends ConsumerStatefulWidget {
   const DashboardScreen({super.key});
@@ -33,6 +35,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
     final user = ref.watch(userProvider);
     var colorApp = ref.watch(colorProvider);
 
+    var Language = ref.watch(LanguageProvider);
     Widget dashboardCompany = Scaffold(
       backgroundColor: colorApp.colorBackgroundColor,
       body: Padding(
@@ -49,7 +52,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                 children: [
                   const SizedBox(height: 20),
                   Text(
-                    'Your projects',
+                    Language.YourProject,
                     textAlign: TextAlign.left,
                     style: TextStyle(
                       fontSize: 20,
@@ -83,7 +86,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                           ),
                           SizedBox(width: 5),
                           Text(
-                            'Post a project',
+                            Language.PostProject,
                             style: TextStyle(
                               fontSize: 16,
                               color: colorApp.colorWhiteBlack,
@@ -126,7 +129,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                             )
                           : null,
                       child: Text(
-                        "All projects",
+                        Language.All,
                         style: TextStyle(
                           fontSize: 18,
                           color: colorApp.colorTitle,
@@ -161,7 +164,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                             )
                           : null,
                       child: Text(
-                        "Working",
+                        Language.Working,
                         style: TextStyle(
                           fontSize: 18,
                           color: colorApp.colorBlackWhite,
@@ -196,7 +199,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                             )
                           : null,
                       child: Text(
-                        "Archieved",
+                        Language.Archieved,
                         style: TextStyle(
                           fontSize: 18,
                           color: colorApp.colorBlackWhite,
@@ -270,7 +273,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                             )
                           : null,
                       child: Text(
-                        "All projects",
+                        Language.All,
                         style: TextStyle(
                           fontSize: 18,
                           color: colorApp.colorTitle,
@@ -305,7 +308,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                             )
                           : null,
                       child: Text(
-                        "Working",
+                        Language.Working,
                         style: TextStyle(
                           fontSize: 18,
                           color: colorApp.colorTitle,
@@ -340,7 +343,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                             )
                           : null,
                       child: Text(
-                        "Archieved",
+                        Language.Archieved,
                         style: TextStyle(
                           fontSize: 18,
                           color: colorApp.colorTitle,

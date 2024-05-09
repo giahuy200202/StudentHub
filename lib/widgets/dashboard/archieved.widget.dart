@@ -9,6 +9,7 @@ import 'package:studenthub/providers/projects/project_id.provider.dart';
 import 'package:toastification/toastification.dart';
 import 'package:studenthub/providers/theme/theme_provider.dart';
 
+import 'package:studenthub/providers/language/language.provider.dart';
 import '../../providers/options.provider.dart';
 
 import '../../providers/options.provider.dart';
@@ -161,7 +162,7 @@ class _ArchievedWidgetState extends ConsumerState<ArchievedWidget> {
     );
   }
 
-  void getProjects(token, companyId) async {
+  void getProjects(token, companyId, tmp) async {
     setState(() {
       isFetchingData = true;
     });
@@ -189,7 +190,7 @@ class _ArchievedWidgetState extends ConsumerState<ArchievedWidget> {
         listProjectsGetFromRes.add(Project(
           projectId: item['id'].toString(),
           title: item['title'],
-          createTime: 'Created at ${DateFormat("dd/MM/yyyy | HH:mm").format(
+          createTime: '${tmp.Createat} ${DateFormat("dd/MM/yyyy | HH:mm").format(
                 DateTime.parse(item['createdAt']).toLocal(),
               ).toString()}',
           projectScopeFlag: item['projectScopeFlag'],
@@ -213,7 +214,8 @@ class _ArchievedWidgetState extends ConsumerState<ArchievedWidget> {
   void initState() {
     final user = ref.read(userProvider);
     final company = ref.read(companyProvider);
-    getProjects(user.token!, company.id);
+    final lang = ref.read(LanguageProvider);
+    getProjects(user.token!, company.id, lang);
     super.initState();
   }
 
@@ -225,6 +227,7 @@ class _ArchievedWidgetState extends ConsumerState<ArchievedWidget> {
     final projectId = ref.watch(projectIdProvider);
 
     var colorApp = ref.watch(colorProvider);
+    var Language = ref.watch(LanguageProvider);
     return SizedBox(
       height: 545,
       child: SingleChildScrollView(
@@ -251,7 +254,7 @@ class _ArchievedWidgetState extends ConsumerState<ArchievedWidget> {
                 ? Column(
                     children: [
                       Text(
-                        'Empty',
+                        Language.empty,
                         style: TextStyle(fontSize: 16, color: colorApp.colorText),
                       ),
                       const SizedBox(height: 20),
@@ -349,7 +352,7 @@ class _ArchievedWidgetState extends ConsumerState<ArchievedWidget> {
                                                                             ),
                                                                             SizedBox(width: 5),
                                                                             Text(
-                                                                              'View proposals',
+                                                                              Language.Viewproposals,
                                                                               style: TextStyle(
                                                                                 fontSize: 16,
                                                                                 // color: Color.fromARGB(255, 255, 255, 255),
@@ -390,7 +393,7 @@ class _ArchievedWidgetState extends ConsumerState<ArchievedWidget> {
                                                                             ),
                                                                             SizedBox(width: 5),
                                                                             Text(
-                                                                              'View messages',
+                                                                              Language.ViewMessage,
                                                                               style: TextStyle(
                                                                                 fontSize: 16,
                                                                                 color: colorApp.colorBlackWhite,
@@ -430,7 +433,7 @@ class _ArchievedWidgetState extends ConsumerState<ArchievedWidget> {
                                                                             ),
                                                                             SizedBox(width: 5),
                                                                             Text(
-                                                                              'View hired',
+                                                                              Language.Viewhired,
                                                                               style: TextStyle(
                                                                                 fontSize: 16,
                                                                                 color: colorApp.colorBlackWhite,
@@ -482,7 +485,7 @@ class _ArchievedWidgetState extends ConsumerState<ArchievedWidget> {
                                                                           }
                                                                         } else {
                                                                           Navigator.pop(context);
-                                                                          getProjects(user.token, company.id);
+                                                                          getProjects(user.token, company.id, Language);
                                                                           showSuccessToast('Success', 'Project has been archived successfully');
                                                                         }
                                                                       },
@@ -508,7 +511,7 @@ class _ArchievedWidgetState extends ConsumerState<ArchievedWidget> {
                                                                             ),
                                                                             SizedBox(width: 5),
                                                                             Text(
-                                                                              'Close project',
+                                                                              Language.CloseProject,
                                                                               style: TextStyle(
                                                                                 fontSize: 16,
                                                                                 // color: Color.fromARGB(255, 255, 255, 255),
@@ -552,7 +555,7 @@ class _ArchievedWidgetState extends ConsumerState<ArchievedWidget> {
                                                                                         Align(
                                                                                           alignment: Alignment.topLeft,
                                                                                           child: Text(
-                                                                                            "Edit project",
+                                                                                            Language.EditProject,
                                                                                             style: TextStyle(
                                                                                               fontWeight: FontWeight.bold,
                                                                                               fontSize: 25,
@@ -577,7 +580,7 @@ class _ArchievedWidgetState extends ConsumerState<ArchievedWidget> {
                                                                                               Align(
                                                                                                 alignment: Alignment.topLeft,
                                                                                                 child: Text(
-                                                                                                  "Title",
+                                                                                                  Language.Title,
                                                                                                   style: TextStyle(
                                                                                                     fontWeight: FontWeight.bold,
                                                                                                     fontSize: 16,
@@ -607,7 +610,7 @@ class _ArchievedWidgetState extends ConsumerState<ArchievedWidget> {
                                                                                                         vertical: 14,
                                                                                                         horizontal: 15,
                                                                                                       ),
-                                                                                                      hintText: 'Enter your languages',
+                                                                                                      hintText: Language.textLanguage,
                                                                                                       hintStyle: TextStyle(
                                                                                                         color: colorApp.colorText,
                                                                                                       )),
@@ -617,7 +620,7 @@ class _ArchievedWidgetState extends ConsumerState<ArchievedWidget> {
                                                                                               Align(
                                                                                                 alignment: Alignment.topLeft,
                                                                                                 child: Text(
-                                                                                                  'Project scope',
+                                                                                                  Language.ProjectScope,
                                                                                                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: colorApp.colorTitle),
                                                                                                 ),
                                                                                               ),
@@ -628,7 +631,7 @@ class _ArchievedWidgetState extends ConsumerState<ArchievedWidget> {
                                                                                                     height: 30,
                                                                                                     width: MediaQuery.of(context).size.width,
                                                                                                     child: LabeledRadio(
-                                                                                                      label: 'Less than 1 month',
+                                                                                                      label: Language.Time_1,
                                                                                                       value: 0,
                                                                                                       textColor: colorApp.colorBlackWhite,
                                                                                                       groupValue: pickedScope, //projectPosting.scope,
@@ -643,7 +646,7 @@ class _ArchievedWidgetState extends ConsumerState<ArchievedWidget> {
                                                                                                     height: 30,
                                                                                                     width: MediaQuery.of(context).size.width,
                                                                                                     child: LabeledRadio(
-                                                                                                      label: '1 to 3 months',
+                                                                                                      label: Language.Time_2,
                                                                                                       value: 1,
                                                                                                       textColor: colorApp.colorBlackWhite,
                                                                                                       groupValue: pickedScope, //projectPosting.scope,
@@ -658,7 +661,7 @@ class _ArchievedWidgetState extends ConsumerState<ArchievedWidget> {
                                                                                                     height: 30,
                                                                                                     width: MediaQuery.of(context).size.width,
                                                                                                     child: LabeledRadio(
-                                                                                                      label: '3 to 6 months',
+                                                                                                      label: Language.Time_3,
                                                                                                       value: 2,
                                                                                                       textColor: colorApp.colorBlackWhite,
                                                                                                       groupValue: pickedScope, //projectPosting.scope,
@@ -673,7 +676,7 @@ class _ArchievedWidgetState extends ConsumerState<ArchievedWidget> {
                                                                                                     height: 30,
                                                                                                     width: MediaQuery.of(context).size.width,
                                                                                                     child: LabeledRadio(
-                                                                                                      label: 'More than 6 months',
+                                                                                                      label: Language.Time_4,
                                                                                                       value: 3,
                                                                                                       textColor: colorApp.colorBlackWhite,
                                                                                                       groupValue: pickedScope, //projectPosting.scope,
@@ -690,7 +693,7 @@ class _ArchievedWidgetState extends ConsumerState<ArchievedWidget> {
                                                                                               Align(
                                                                                                 alignment: Alignment.topLeft,
                                                                                                 child: Text(
-                                                                                                  "Number of students",
+                                                                                                  Language.TextStudent,
                                                                                                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: colorApp.colorTitle),
                                                                                                 ),
                                                                                               ),
@@ -716,7 +719,7 @@ class _ArchievedWidgetState extends ConsumerState<ArchievedWidget> {
                                                                                                         vertical: 14,
                                                                                                         horizontal: 15,
                                                                                                       ),
-                                                                                                      hintText: 'Enter your language level',
+                                                                                                      hintText: Language.textLanguage,
                                                                                                       hintStyle: TextStyle(color: colorApp.colorText)),
                                                                                                 ),
                                                                                               ),
@@ -724,7 +727,7 @@ class _ArchievedWidgetState extends ConsumerState<ArchievedWidget> {
                                                                                               Align(
                                                                                                 alignment: Alignment.topLeft,
                                                                                                 child: Text(
-                                                                                                  "Description",
+                                                                                                  Language.Description,
                                                                                                   style: TextStyle(
                                                                                                     fontWeight: FontWeight.bold,
                                                                                                     fontSize: 16,
@@ -754,7 +757,7 @@ class _ArchievedWidgetState extends ConsumerState<ArchievedWidget> {
                                                                                                         vertical: 14,
                                                                                                         horizontal: 15,
                                                                                                       ),
-                                                                                                      hintText: 'Enter your language level',
+                                                                                                      hintText: Language.textLevel,
                                                                                                       hintStyle: TextStyle(color: colorApp.colorText)),
                                                                                                 ),
                                                                                               ),
@@ -781,7 +784,7 @@ class _ArchievedWidgetState extends ConsumerState<ArchievedWidget> {
                                                                                                             backgroundColor: colorApp.colorWhiteBlack,
                                                                                                           ),
                                                                                                           child: Text(
-                                                                                                            'Cancel',
+                                                                                                            Language.cancel,
                                                                                                             style: TextStyle(
                                                                                                               fontSize: 18,
                                                                                                               color: colorApp.colorBlackWhite,
@@ -824,7 +827,7 @@ class _ArchievedWidgetState extends ConsumerState<ArchievedWidget> {
 
                                                                                                             Navigator.pop(context);
                                                                                                             showSuccessToast('Success', 'Edit project successfully');
-                                                                                                            getProjects(user.token, company.id);
+                                                                                                            getProjects(user.token, company.id, Language);
                                                                                                           },
                                                                                                           style: ElevatedButton.styleFrom(
                                                                                                             minimumSize: Size.zero, // Set this
@@ -835,7 +838,7 @@ class _ArchievedWidgetState extends ConsumerState<ArchievedWidget> {
                                                                                                             backgroundColor: colorApp.colorBlackWhite,
                                                                                                           ),
                                                                                                           child: Text(
-                                                                                                            'Edit',
+                                                                                                            Language.edit,
                                                                                                             style: TextStyle(
                                                                                                               fontSize: 18,
                                                                                                               color: colorApp.colorWhiteBlack,
@@ -882,7 +885,7 @@ class _ArchievedWidgetState extends ConsumerState<ArchievedWidget> {
                                                                             ),
                                                                             SizedBox(width: 5),
                                                                             Text(
-                                                                              'Edit project',
+                                                                              Language.EditProject,
                                                                               style: TextStyle(
                                                                                 fontSize: 16,
                                                                                 color: colorApp.colorBlackWhite,
@@ -916,7 +919,7 @@ class _ArchievedWidgetState extends ConsumerState<ArchievedWidget> {
                                                                         print(responseDeleteProjectsData);
 
                                                                         Navigator.pop(context);
-                                                                        getProjects(user.token, company.id);
+                                                                        getProjects(user.token, company.id, Language);
                                                                       },
                                                                       style: ElevatedButton.styleFrom(
                                                                         minimumSize: Size.zero, // Set this
@@ -927,7 +930,7 @@ class _ArchievedWidgetState extends ConsumerState<ArchievedWidget> {
                                                                         ),
                                                                         backgroundColor: colorApp.colorBorderBackground,
                                                                       ),
-                                                                      child: const Padding(
+                                                                      child: Padding(
                                                                         padding: EdgeInsets.only(left: 10),
                                                                         child: Row(
                                                                           mainAxisAlignment: MainAxisAlignment.start,
@@ -940,7 +943,7 @@ class _ArchievedWidgetState extends ConsumerState<ArchievedWidget> {
                                                                             ),
                                                                             SizedBox(width: 5),
                                                                             Text(
-                                                                              'Remove posting',
+                                                                              Language.Removepost,
                                                                               style: TextStyle(
                                                                                 fontSize: 16,
                                                                                 color: Colors.red,
@@ -978,7 +981,7 @@ class _ArchievedWidgetState extends ConsumerState<ArchievedWidget> {
                                                                   crossAxisAlignment: CrossAxisAlignment.center,
                                                                   children: [
                                                                     Text(
-                                                                      'Start working this project',
+                                                                      Language.StartWorking,
                                                                       style: TextStyle(
                                                                         fontSize: 16,
                                                                         color: colorApp.colorWhiteBlack,
@@ -1025,7 +1028,7 @@ class _ArchievedWidgetState extends ConsumerState<ArchievedWidget> {
                                         child: SizedBox(
                                           width: 340,
                                           child: Text(
-                                            'Time: ${el.projectScopeFlag == 0 ? 'Less than 1 month' : el.projectScopeFlag == 1 ? ' 1-3 months' : el.projectScopeFlag == 2 ? '3-6 months' : 'More than 6 months'}, ${el.numberOfStudents} students needed',
+                                            '${Language.Time}: ${el.projectScopeFlag == 0 ? Language.Time_1 : el.projectScopeFlag == 1 ? Language.Time_2 : el.projectScopeFlag == 2 ? Language.Time_3 : Language.Time_4}, ${el.numberOfStudents} ${Language.StudentNeed}',
                                             style: TextStyle(
                                               color: colorApp.colorText,
                                               overflow: TextOverflow.ellipsis,
@@ -1082,7 +1085,7 @@ class _ArchievedWidgetState extends ConsumerState<ArchievedWidget> {
                                                 ),
                                               ),
                                               Text(
-                                                'Proposals',
+                                                Language.Proposals,
                                                 style: TextStyle(
                                                   color: colorApp.colorText,
                                                   overflow: TextOverflow.ellipsis,
@@ -1105,7 +1108,7 @@ class _ArchievedWidgetState extends ConsumerState<ArchievedWidget> {
                                                 ),
                                               ),
                                               Text(
-                                                'Messages',
+                                                Language.Message,
                                                 style: TextStyle(
                                                   color: colorApp.colorText,
                                                   overflow: TextOverflow.ellipsis,
@@ -1128,7 +1131,7 @@ class _ArchievedWidgetState extends ConsumerState<ArchievedWidget> {
                                                 ),
                                               ),
                                               Text(
-                                                'Hired',
+                                                Language.Hired,
                                                 style: TextStyle(
                                                   color: colorApp.colorText,
                                                   overflow: TextOverflow.ellipsis,

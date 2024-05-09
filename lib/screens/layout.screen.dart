@@ -17,6 +17,7 @@ import 'package:studenthub/screens/post_project/project_post_step4.screen.dart';
 import 'package:studenthub/screens/dashboard/dashboard.screen.dart';
 import 'package:studenthub/screens/profile/profile_input.screen.dart';
 import 'package:studenthub/screens/profile/profileinputStudent_step2.screen.dart';
+import 'package:studenthub/screens/profile/setting.screen.dart';
 import 'package:studenthub/screens/profile/switch_account.screen.dart';
 import 'package:studenthub/screens/projects/project_details.screen.dart';
 import 'package:studenthub/screens/projects/project_search.screen.dart';
@@ -32,7 +33,6 @@ import 'package:studenthub/screens/message/message.screen.dart';
 import 'package:studenthub/screens/chat/message_details.screen.dart';
 import 'package:studenthub/widgets/message/videocalll.widget.dart';
 import 'package:studenthub/screens/alerts/alerts.screen.dart';
-import 'package:studenthub/screens/profile/setting.screen.dart';
 
 class LayoutScreen extends ConsumerStatefulWidget {
   const LayoutScreen({super.key});

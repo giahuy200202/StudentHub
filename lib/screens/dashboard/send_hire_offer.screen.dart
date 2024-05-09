@@ -15,6 +15,7 @@ import 'package:toastification/toastification.dart';
 import '../../providers/options.provider.dart';
 import 'package:studenthub/providers/theme/theme_provider.dart';
 
+import 'package:studenthub/providers/language/language.provider.dart';
 import '../../providers/options.provider.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -136,7 +137,7 @@ class _SendHireOfferScreenState extends ConsumerState<SendHireOfferScreen> {
     );
   }
 
-  void getProjects(token, studentId, projectId) async {
+  void getProjects(token, studentId, projectId, tmp) async {
     setState(() {
       isFetchingData = true;
     });
@@ -171,7 +172,7 @@ class _SendHireOfferScreenState extends ConsumerState<SendHireOfferScreen> {
       listProjectsGetFromRes = Project(
         projectId: responseDetailedProjectsData['result']['id'].toString(),
         title: responseDetailedProjectsData['result']['title'],
-        createTime: 'Created at ${DateFormat("dd/MM/yyyy | HH:mm").format(
+        createTime: '${tmp.Createat} ${DateFormat("dd/MM/yyyy | HH:mm").format(
               DateTime.parse(responseDetailedProjectsData['result']['createdAt']),
             ).toString()}',
         projectScopeFlag: responseDetailedProjectsData['result']['projectScopeFlag'],
@@ -195,7 +196,8 @@ class _SendHireOfferScreenState extends ConsumerState<SendHireOfferScreen> {
     final user = ref.read(userProvider);
     final student = ref.read(studentProvider);
     final projectId = ref.read(projectIdProvider);
-    getProjects(user.token!, student.id, projectId);
+    final lang = ref.read(LanguageProvider);
+    getProjects(user.token!, student.id, projectId, lang);
     super.initState();
   }
 
@@ -209,6 +211,7 @@ class _SendHireOfferScreenState extends ConsumerState<SendHireOfferScreen> {
   Widget build(BuildContext context) {
     final user = ref.watch(userProvider);
     var colorApp = ref.watch(colorProvider);
+    var Language = ref.watch(LanguageProvider);
     return Scaffold(
       backgroundColor: colorApp.colorBackgroundColor,
       body: Padding(
@@ -278,7 +281,7 @@ class _SendHireOfferScreenState extends ConsumerState<SendHireOfferScreen> {
                             )
                           : null,
                       child: Text(
-                        "Proposals",
+                        Language.Proposals,
                         style: TextStyle(
                           fontSize: 18,
                           color: colorApp.colorBlackWhite,
@@ -313,7 +316,7 @@ class _SendHireOfferScreenState extends ConsumerState<SendHireOfferScreen> {
                             )
                           : null,
                       child: Text(
-                        "Detail",
+                        Language.Detail,
                         style: TextStyle(
                           fontSize: 18,
                           color: colorApp.colorBlackWhite,
@@ -348,7 +351,7 @@ class _SendHireOfferScreenState extends ConsumerState<SendHireOfferScreen> {
                             )
                           : null,
                       child: Text(
-                        "Message",
+                        Language.Message,
                         style: TextStyle(
                           fontSize: 18,
                           color: colorApp.colorBlackWhite,
@@ -383,7 +386,7 @@ class _SendHireOfferScreenState extends ConsumerState<SendHireOfferScreen> {
                             )
                           : null,
                       child: Text(
-                        "Hired",
+                        Language.Hired,
                         style: TextStyle(
                           fontSize: 18,
                           color: colorApp.colorBlackWhite,

@@ -7,6 +7,7 @@ import 'package:studenthub/providers/projects/project_id.provider.dart';
 import 'package:studenthub/providers/projects/search_filter.provider.dart';
 import '../../providers/projects/project_posting.provider.dart';
 // import '../../providers/options_provider.dart';
+import 'package:studenthub/providers/language/language.provider.dart';
 
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -155,7 +156,7 @@ class _ProjectSearchWidgetState extends ConsumerState<ProjectSearchWidget> {
     );
   }
 
-  void getProjects(token, searchFilter) async {
+  void getProjects(token, searchFilter, tmp) async {
     setState(() {
       isFetchingData = true;
     });
@@ -197,7 +198,7 @@ class _ProjectSearchWidgetState extends ConsumerState<ProjectSearchWidget> {
         listProjectSearchsGetFromRes.add(Project(
           id: item['id'].toString(),
           title: item['title'],
-          createTime: 'Created at ${DateFormat("dd/MM/yyyy | HH:mm").format(
+          createTime: '${tmp.Createat} ${DateFormat("dd/MM/yyyy | HH:mm").format(
                 DateTime.parse(item['createdAt']).toLocal(),
               ).toString()}',
           projectScopeFlag: item['projectScopeFlag'],
@@ -221,7 +222,8 @@ class _ProjectSearchWidgetState extends ConsumerState<ProjectSearchWidget> {
   void initState() {
     final user = ref.read(userProvider);
     final searchFilter = ref.read(searchFilterProvider);
-    getProjects(user.token!, searchFilter);
+    final lang = ref.read(LanguageProvider);
+    getProjects(user.token!, searchFilter, lang);
     super.initState();
   }
 
@@ -229,6 +231,7 @@ class _ProjectSearchWidgetState extends ConsumerState<ProjectSearchWidget> {
   Widget build(BuildContext context) {
     var searchFilter = ref.watch(searchFilterProvider);
     final student = ref.watch(studentProvider);
+    var Language = ref.watch(LanguageProvider);
     int projectLength = -1;
 
     searchController.text = searchFilter.search!;
@@ -262,8 +265,8 @@ class _ProjectSearchWidgetState extends ConsumerState<ProjectSearchWidget> {
                       ),
                     ),
                     const SizedBox(width: 10),
-                    const Text(
-                      'Project search',
+                    Text(
+                      Language.ProjectSearch,
                       textAlign: TextAlign.left,
                       style: TextStyle(
                         fontSize: 22,
@@ -297,10 +300,10 @@ class _ProjectSearchWidgetState extends ConsumerState<ProjectSearchWidget> {
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
                                       const SizedBox(height: 40),
-                                      const Align(
+                                      Align(
                                         alignment: Alignment.topLeft,
                                         child: Text(
-                                          "Search",
+                                          Language.Search,
                                           style: TextStyle(
                                             fontWeight: FontWeight.bold,
                                             fontSize: 25,
@@ -323,7 +326,7 @@ class _ProjectSearchWidgetState extends ConsumerState<ProjectSearchWidget> {
                                             ref.read(searchFilterProvider.notifier).setSearch(searchController.text);
 
                                             final searchFilterAfterFilter = ref.watch(searchFilterProvider);
-                                            getProjects(user.token!, searchFilterAfterFilter);
+                                            getProjects(user.token!, searchFilterAfterFilter, Language);
 
                                             numOfStudentsController.text = '';
                                             proposalsController.text = '';
@@ -352,7 +355,7 @@ class _ProjectSearchWidgetState extends ConsumerState<ProjectSearchWidget> {
                                               },
                                               child: const Icon(Icons.clear),
                                             ),
-                                            hintText: 'Titles, Contents and More',
+                                            hintText: Language.textSearch_2,
                                             hintStyle: const TextStyle(color: Color.fromARGB(255, 114, 111, 111), fontWeight: FontWeight.w500),
                                           ),
                                         ),
@@ -363,10 +366,10 @@ class _ProjectSearchWidgetState extends ConsumerState<ProjectSearchWidget> {
                                         child: SingleChildScrollView(
                                           child: Column(
                                             children: [
-                                              const Align(
+                                              Align(
                                                 alignment: Alignment.topLeft,
                                                 child: Text(
-                                                  "Discover",
+                                                  Language.Discover,
                                                   style: TextStyle(
                                                     fontWeight: FontWeight.bold,
                                                     fontSize: 18,
@@ -389,7 +392,7 @@ class _ProjectSearchWidgetState extends ConsumerState<ProjectSearchWidget> {
                                                             ref.read(searchFilterProvider.notifier).setSearch(searchController.text);
 
                                                             final searchFilterAfterFilter = ref.watch(searchFilterProvider);
-                                                            getProjects(user.token!, searchFilterAfterFilter);
+                                                            getProjects(user.token!, searchFilterAfterFilter, Language);
 
                                                             numOfStudentsController.text = '';
                                                             proposalsController.text = '';
@@ -436,7 +439,7 @@ class _ProjectSearchWidgetState extends ConsumerState<ProjectSearchWidget> {
                                                             ref.read(searchFilterProvider.notifier).setSearch(searchController.text);
 
                                                             final searchFilterAfterFilter = ref.watch(searchFilterProvider);
-                                                            getProjects(user.token!, searchFilterAfterFilter);
+                                                            getProjects(user.token!, searchFilterAfterFilter, Language);
 
                                                             numOfStudentsController.text = '';
                                                             proposalsController.text = '';
@@ -473,10 +476,10 @@ class _ProjectSearchWidgetState extends ConsumerState<ProjectSearchWidget> {
                                               const SizedBox(
                                                 height: 10,
                                               ),
-                                              const Align(
+                                              Align(
                                                 alignment: Alignment.topLeft,
                                                 child: Text(
-                                                  "Suggested",
+                                                  Language.Suggested,
                                                   style: TextStyle(
                                                     fontWeight: FontWeight.bold,
                                                     fontSize: 18,
@@ -526,12 +529,12 @@ class _ProjectSearchWidgetState extends ConsumerState<ProjectSearchWidget> {
                                                         ],
                                                       ),
                                                       const SizedBox(height: 2),
-                                                      const Align(
+                                                      Align(
                                                         alignment: Alignment.topLeft,
                                                         child: SizedBox(
                                                           width: 340,
                                                           child: Text(
-                                                            'Created 3 days ago',
+                                                            Language.ex_1,
                                                             style: TextStyle(
                                                               color: Color.fromARGB(255, 94, 94, 94),
                                                               overflow: TextOverflow.ellipsis,
@@ -541,12 +544,12 @@ class _ProjectSearchWidgetState extends ConsumerState<ProjectSearchWidget> {
                                                         ),
                                                       ),
                                                       const SizedBox(height: 5),
-                                                      const Align(
+                                                      Align(
                                                         alignment: Alignment.topLeft,
                                                         child: SizedBox(
                                                           width: 340,
                                                           child: Text(
-                                                            'Time: 1-3 months, 6 students needed',
+                                                            Language.ex_2,
                                                             style: TextStyle(
                                                               color: Colors.black,
                                                               overflow: TextOverflow.ellipsis,
@@ -565,7 +568,7 @@ class _ProjectSearchWidgetState extends ConsumerState<ProjectSearchWidget> {
                                                         ),
                                                       ),
                                                       const SizedBox(height: 15),
-                                                      const Row(
+                                                      Row(
                                                         mainAxisAlignment: MainAxisAlignment.start,
                                                         crossAxisAlignment: CrossAxisAlignment.center,
                                                         children: [
@@ -576,7 +579,7 @@ class _ProjectSearchWidgetState extends ConsumerState<ProjectSearchWidget> {
                                                           ),
                                                           SizedBox(width: 5),
                                                           Text(
-                                                            'Proposals: Less than 5',
+                                                            Language.ex_3,
                                                             style: TextStyle(
                                                               fontSize: 16,
                                                               color: Colors.black,
@@ -629,12 +632,12 @@ class _ProjectSearchWidgetState extends ConsumerState<ProjectSearchWidget> {
                                                         ],
                                                       ),
                                                       const SizedBox(height: 2),
-                                                      const Align(
+                                                      Align(
                                                         alignment: Alignment.topLeft,
                                                         child: SizedBox(
                                                           width: 340,
                                                           child: Text(
-                                                            'Created 3 days ago',
+                                                            Language.ex_1,
                                                             style: TextStyle(
                                                               color: Color.fromARGB(255, 94, 94, 94),
                                                               overflow: TextOverflow.ellipsis,
@@ -644,12 +647,12 @@ class _ProjectSearchWidgetState extends ConsumerState<ProjectSearchWidget> {
                                                         ),
                                                       ),
                                                       const SizedBox(height: 5),
-                                                      const Align(
+                                                      Align(
                                                         alignment: Alignment.topLeft,
                                                         child: SizedBox(
                                                           width: 340,
                                                           child: Text(
-                                                            'Time: 1-3 months, 6 students needed',
+                                                            Language.ex_2,
                                                             style: TextStyle(
                                                               color: Colors.black,
                                                               overflow: TextOverflow.ellipsis,
@@ -668,7 +671,7 @@ class _ProjectSearchWidgetState extends ConsumerState<ProjectSearchWidget> {
                                                         ),
                                                       ),
                                                       const SizedBox(height: 15),
-                                                      const Row(
+                                                      Row(
                                                         mainAxisAlignment: MainAxisAlignment.start,
                                                         crossAxisAlignment: CrossAxisAlignment.center,
                                                         children: [
@@ -679,7 +682,7 @@ class _ProjectSearchWidgetState extends ConsumerState<ProjectSearchWidget> {
                                                           ),
                                                           SizedBox(width: 5),
                                                           Text(
-                                                            'Proposals: Less than 5',
+                                                            Language.ex_3,
                                                             style: TextStyle(
                                                               fontSize: 16,
                                                               color: Colors.black,
@@ -736,7 +739,7 @@ class _ProjectSearchWidgetState extends ConsumerState<ProjectSearchWidget> {
                                 onTap: () {},
                                 child: const Icon(Icons.clear),
                               ),
-                              hintText: 'Search for projects',
+                              hintText: Language.textSearch,
                               hintStyle: const TextStyle(
                                 color: Color.fromARGB(255, 114, 111, 111),
                                 fontWeight: FontWeight.w500,
@@ -765,10 +768,10 @@ class _ProjectSearchWidgetState extends ConsumerState<ProjectSearchWidget> {
                                       mainAxisSize: MainAxisSize.min,
                                       children: [
                                         const SizedBox(height: 40),
-                                        const Align(
+                                        Align(
                                           alignment: Alignment.topLeft,
                                           child: Text(
-                                            "Filter by",
+                                            Language.Fillter,
                                             style: TextStyle(
                                               fontWeight: FontWeight.bold,
                                               fontSize: 25,
@@ -789,10 +792,10 @@ class _ProjectSearchWidgetState extends ConsumerState<ProjectSearchWidget> {
                                           height: 580,
                                           child: Column(
                                             children: [
-                                              const Align(
+                                              Align(
                                                 alignment: Alignment.topLeft,
                                                 child: Text(
-                                                  "Project length",
+                                                  Language.Projectlength,
                                                   style: TextStyle(
                                                     fontWeight: FontWeight.bold,
                                                     fontSize: 16,
@@ -808,7 +811,7 @@ class _ProjectSearchWidgetState extends ConsumerState<ProjectSearchWidget> {
                                                     height: 30,
                                                     width: MediaQuery.of(context).size.width,
                                                     child: LabeledRadio(
-                                                      label: 'Less than one month',
+                                                      label: Language.Time_1,
                                                       value: 0,
                                                       groupValue: projectLength,
                                                       onChanged: (value) {
@@ -823,7 +826,7 @@ class _ProjectSearchWidgetState extends ConsumerState<ProjectSearchWidget> {
                                                     height: 30,
                                                     width: MediaQuery.of(context).size.width,
                                                     child: LabeledRadio(
-                                                      label: '1 to 3 months',
+                                                      label: Language.Time_2,
                                                       value: 1,
                                                       groupValue: projectLength,
                                                       onChanged: (value) {
@@ -838,7 +841,7 @@ class _ProjectSearchWidgetState extends ConsumerState<ProjectSearchWidget> {
                                                     height: 30,
                                                     width: MediaQuery.of(context).size.width,
                                                     child: LabeledRadio(
-                                                      label: '3 to 6 months',
+                                                      label: Language.Time_3,
                                                       value: 2,
                                                       groupValue: projectLength,
                                                       onChanged: (value) {
@@ -853,7 +856,7 @@ class _ProjectSearchWidgetState extends ConsumerState<ProjectSearchWidget> {
                                                     height: 30,
                                                     width: MediaQuery.of(context).size.width,
                                                     child: LabeledRadio(
-                                                      label: 'More than 6 months',
+                                                      label: Language.Time_4,
                                                       value: 3,
                                                       groupValue: projectLength,
                                                       onChanged: (value) {
@@ -876,10 +879,10 @@ class _ProjectSearchWidgetState extends ConsumerState<ProjectSearchWidget> {
 
                                               const SizedBox(height: 20),
 
-                                              const Align(
+                                              Align(
                                                 alignment: Alignment.topLeft,
                                                 child: Text(
-                                                  "Students needed",
+                                                  Language.StudentNeed,
                                                   style: TextStyle(
                                                     fontWeight: FontWeight.bold,
                                                     fontSize: 16,
@@ -909,16 +912,16 @@ class _ProjectSearchWidgetState extends ConsumerState<ProjectSearchWidget> {
                                                       vertical: 14,
                                                       horizontal: 15,
                                                     ),
-                                                    hintText: 'Number of students',
+                                                    hintText: Language.TextStudent,
                                                   ),
                                                 ),
                                               ),
 
                                               const SizedBox(height: 20),
-                                              const Align(
+                                              Align(
                                                 alignment: Alignment.topLeft,
                                                 child: Text(
-                                                  "Proposals less than",
+                                                  Language.ProposalsFillter,
                                                   style: TextStyle(
                                                     fontWeight: FontWeight.bold,
                                                     fontSize: 16,
@@ -948,7 +951,7 @@ class _ProjectSearchWidgetState extends ConsumerState<ProjectSearchWidget> {
                                                       vertical: 14,
                                                       horizontal: 15,
                                                     ),
-                                                    hintText: 'Number of proposals',
+                                                    hintText: Language.TextProposals,
                                                   ),
                                                 ),
                                               ),
@@ -985,8 +988,8 @@ class _ProjectSearchWidgetState extends ConsumerState<ProjectSearchWidget> {
                                                         ),
                                                         backgroundColor: Colors.white,
                                                       ),
-                                                      child: const Text(
-                                                        'Clear filters',
+                                                      child: Text(
+                                                        Language.ClearFilters,
                                                         style: TextStyle(
                                                           fontSize: 18,
                                                           color: Colors.black,
@@ -1011,7 +1014,7 @@ class _ProjectSearchWidgetState extends ConsumerState<ProjectSearchWidget> {
                                                               projectLength,
                                                             );
                                                         final searchFilterAfterFilter = ref.watch(searchFilterProvider);
-                                                        getProjects(user.token!, searchFilterAfterFilter);
+                                                        getProjects(user.token!, searchFilterAfterFilter, Language);
 
                                                         numOfStudentsController.text = '';
                                                         proposalsController.text = '';
@@ -1037,8 +1040,8 @@ class _ProjectSearchWidgetState extends ConsumerState<ProjectSearchWidget> {
                                                         ),
                                                         backgroundColor: Colors.black,
                                                       ),
-                                                      child: const Text(
-                                                        'Apply',
+                                                      child: Text(
+                                                        Language.apply,
                                                         style: TextStyle(
                                                           fontSize: 18,
                                                           color: Color.fromARGB(255, 255, 255, 255),
@@ -1101,10 +1104,10 @@ class _ProjectSearchWidgetState extends ConsumerState<ProjectSearchWidget> {
                             ],
                           )
                         : listProjectsSearch.isEmpty
-                            ? const Column(
+                            ? Column(
                                 children: [
                                   Text(
-                                    'No project found',
+                                    Language.Noproject,
                                     style: TextStyle(fontSize: 16),
                                   ),
                                   SizedBox(height: 20),
@@ -1177,7 +1180,7 @@ class _ProjectSearchWidgetState extends ConsumerState<ProjectSearchWidget> {
                                                                 print('----responsePatchFavoriteProjecData----');
                                                                 print(responsePatchFavoriteProjectData);
 
-                                                                getProjects(user.token!, searchFilter);
+                                                                getProjects(user.token!, searchFilter, Language);
                                                               },
                                                         child: Icon(
                                                           el.isFavorite ? Icons.favorite_rounded : Icons.favorite_border,
@@ -1207,7 +1210,9 @@ class _ProjectSearchWidgetState extends ConsumerState<ProjectSearchWidget> {
                                                     child: SizedBox(
                                                       width: 340,
                                                       child: Text(
-                                                        'Time: ${el.projectScopeFlag == 0 ? 'Less than 1 month' : el.projectScopeFlag == 1 ? ' 1-3 months' : el.projectScopeFlag == 2 ? '3-6 months' : 'More than 6 months'}, ${el.numberOfStudents} students needed',
+                                                        Language.Time +
+                                                            ': ${el.projectScopeFlag == 0 ? Language.Time_1 : el.projectScopeFlag == 1 ? Language.Time_2 : el.projectScopeFlag == 2 ? Language.Time_3 : Language.Time_3}, ${el.numberOfStudents} ' +
+                                                            Language.StudentNeed,
                                                         style: const TextStyle(
                                                           color: Colors.black,
                                                           overflow: TextOverflow.ellipsis,
@@ -1258,7 +1263,7 @@ class _ProjectSearchWidgetState extends ConsumerState<ProjectSearchWidget> {
                                                       ),
                                                       const SizedBox(width: 5),
                                                       Text(
-                                                        'Proposals: ${el.countProposals}',
+                                                        '${Language.Proposals}: ${el.countProposals}',
                                                         style: const TextStyle(
                                                           fontSize: 16,
                                                           color: Colors.black,

@@ -7,6 +7,7 @@ import 'package:studenthub/providers/profile/company.provider.dart';
 import 'package:studenthub/providers/profile/student.provider.dart';
 import 'package:studenthub/providers/theme/theme_provider.dart';
 
+import 'package:studenthub/providers/language/language.provider.dart';
 import '../../providers/options.provider.dart';
 
 import '../../providers/options.provider.dart';
@@ -77,7 +78,7 @@ class _ArchievedStudentWidgetState extends ConsumerState<ArchievedStudentWidget>
   List<Project> listProjects = [];
   bool isFetchingData = false;
 
-  void getProjects(token, studentId) async {
+  void getProjects(token, studentId, tmp) async {
     setState(() {
       isFetchingData = true;
     });
@@ -103,7 +104,7 @@ class _ArchievedStudentWidgetState extends ConsumerState<ArchievedStudentWidget>
           proposalId: item['proposalId'].toString(),
           projectId: item['project']['id'].toString(),
           title: item['project']['title'],
-          createTime: 'Submitted at ${DateFormat("dd/MM/yyyy | HH:mm").format(
+          createTime: '${tmp.Submitted_at} ${DateFormat("dd/MM/yyyy | HH:mm").format(
                 DateTime.parse(item['createdAt']).toLocal(),
               ).toString()}',
           projectScopeFlag: item['project']['projectScopeFlag'],
@@ -128,13 +129,15 @@ class _ArchievedStudentWidgetState extends ConsumerState<ArchievedStudentWidget>
   void initState() {
     final user = ref.read(userProvider);
     final student = ref.read(studentProvider);
-    getProjects(user.token!, student.id);
+    final lang = ref.read(LanguageProvider);
+    getProjects(user.token!, student.id, lang);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     var colorApp = ref.watch(colorProvider);
+    var Language = ref.watch(LanguageProvider);
     return SizedBox(
       height: 600,
       child: SingleChildScrollView(
@@ -164,7 +167,7 @@ class _ArchievedStudentWidgetState extends ConsumerState<ArchievedStudentWidget>
                       ? Column(
                           children: [
                             Text(
-                              'Empty',
+                              Language.empty,
                               style: TextStyle(fontSize: 16, color: colorApp.colorText),
                             ),
                             SizedBox(height: 20),

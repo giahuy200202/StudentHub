@@ -3,6 +3,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:studenthub/providers/authentication/authentication.provider.dart';
+import 'package:studenthub/providers/language/language.provider.dart';
 import 'package:studenthub/providers/profile/student.provider.dart';
 import 'package:studenthub/providers/projects/project_id.provider.dart';
 import 'package:toastification/toastification.dart';
@@ -103,7 +104,7 @@ class _SavedProjectsWidgetState extends ConsumerState<SavedProjectsWidget> {
     );
   }
 
-  void getProjects(token, studentId) async {
+  void getProjects(token, studentId, tmp) async {
     setState(() {
       isFetchingData = true;
     });
@@ -128,7 +129,7 @@ class _SavedProjectsWidgetState extends ConsumerState<SavedProjectsWidget> {
         listProjectsGetFromRes.add(Project(
           id: item['project']['id'].toString(),
           title: item['project']['title'],
-          createTime: 'Created at ${DateFormat("dd/MM/yyyy | HH:mm").format(
+          createTime: '${tmp.Createat} ${DateFormat("dd/MM/yyyy | HH:mm").format(
                 DateTime.parse(item['project']['createdAt']),
               ).toString()}',
           projectScopeFlag: item['project']['projectScopeFlag'],
@@ -149,7 +150,8 @@ class _SavedProjectsWidgetState extends ConsumerState<SavedProjectsWidget> {
   void initState() {
     final user = ref.read(userProvider);
     final student = ref.read(studentProvider);
-    getProjects(user.token!, student.id);
+    final lang = ref.read(LanguageProvider);
+    getProjects(user.token!, student.id, lang);
     super.initState();
   }
 
@@ -159,6 +161,7 @@ class _SavedProjectsWidgetState extends ConsumerState<SavedProjectsWidget> {
     final student = ref.watch(studentProvider);
     final projectId = ref.watch(projectIdProvider);
     var colorApp = ref.watch(colorProvider);
+    var Language = ref.watch(LanguageProvider);
     return Scaffold(
       backgroundColor: colorApp.colorBackgroundColor,
       body: Padding(
@@ -186,7 +189,7 @@ class _SavedProjectsWidgetState extends ConsumerState<SavedProjectsWidget> {
                   ),
                   const SizedBox(width: 10),
                   Text(
-                    'Saved projects',
+                    Language.SaveProject,
                     textAlign: TextAlign.left,
                     style: TextStyle(
                       fontSize: 22,
@@ -223,7 +226,7 @@ class _SavedProjectsWidgetState extends ConsumerState<SavedProjectsWidget> {
                           ? Column(
                               children: [
                                 Text(
-                                  'Empty',
+                                  Language.empty,
                                   style: TextStyle(fontSize: 16, color: colorApp.colorText),
                                 ),
                                 SizedBox(height: 20),
@@ -296,7 +299,7 @@ class _SavedProjectsWidgetState extends ConsumerState<SavedProjectsWidget> {
                                                               print('----responsePatchFavoriteProjecData----');
                                                               print(responsePatchFavoriteProjectData);
 
-                                                              getProjects(user.token!, student.id);
+                                                              getProjects(user.token!, student.id, Language);
                                                             },
                                                       child: Icon(
                                                         Icons.favorite_rounded,
@@ -327,7 +330,9 @@ class _SavedProjectsWidgetState extends ConsumerState<SavedProjectsWidget> {
                                                   child: SizedBox(
                                                     width: 340,
                                                     child: Text(
-                                                      'Time: ${el.projectScopeFlag == 0 ? 'Less than 1 month' : el.projectScopeFlag == 1 ? ' 1-3 months' : el.projectScopeFlag == 2 ? '3-6 months' : 'More than 6 months'}, ${el.numberOfStudents} students needed',
+                                                      Language.Time +
+                                                          ' ${el.projectScopeFlag == 0 ? Language.Time_1 : el.projectScopeFlag == 1 ? Language.Time_2 : el.projectScopeFlag == 2 ? Language.Time_3 : Language.Time_4}, ${el.numberOfStudents} ' +
+                                                          Language.StudentNeed,
                                                       style: TextStyle(
                                                         color: colorApp.colorText,
                                                         overflow: TextOverflow.ellipsis,
@@ -378,7 +383,7 @@ class _SavedProjectsWidgetState extends ConsumerState<SavedProjectsWidget> {
                                                     ),
                                                     const SizedBox(width: 5),
                                                     Text(
-                                                      'Proposals: ${el.countProposals}',
+                                                      Language.Proposals + ': ${el.countProposals}',
                                                       style: TextStyle(
                                                         fontSize: 16,
                                                         color: colorApp.colorText,

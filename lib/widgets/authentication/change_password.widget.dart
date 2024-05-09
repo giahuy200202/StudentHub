@@ -12,6 +12,7 @@ import 'package:http/http.dart' as http;
 import 'package:studenthub/providers/profile/company.provider.dart';
 import 'package:studenthub/providers/profile/student.provider.dart';
 import 'dart:convert';
+import 'package:studenthub/providers/language/language.provider.dart';
 
 import 'package:toastification/toastification.dart';
 import 'package:studenthub/providers/theme/theme_provider.dart';
@@ -79,6 +80,7 @@ class _ChangePasswordWidgetState extends ConsumerState<ChangePasswordWidget> {
     final userSignup = ref.watch(userSignupProvider);
     final user = ref.watch(userProvider);
     var colorApp = ref.watch(colorProvider);
+    var Language = ref.watch(LanguageProvider);
 
     return Scaffold(
       backgroundColor: colorApp.colorBackgroundColor,
@@ -107,7 +109,7 @@ class _ChangePasswordWidgetState extends ConsumerState<ChangePasswordWidget> {
                   Align(
                     alignment: Alignment.topLeft,
                     child: Text(
-                      'Change Password',
+                      Language.ChangPass,
                       style: TextStyle(
                         fontSize: 30,
                         color: colorApp.colorTitle,
@@ -119,7 +121,7 @@ class _ChangePasswordWidgetState extends ConsumerState<ChangePasswordWidget> {
                   Align(
                     alignment: Alignment.topLeft,
                     child: Text(
-                      'Please fill the below details',
+                      Language.Descriptionchangepass,
                       style: TextStyle(
                         fontSize: 16,
                         color: colorApp.colorText,
@@ -146,7 +148,7 @@ class _ChangePasswordWidgetState extends ConsumerState<ChangePasswordWidget> {
                         color: colorApp.colorText,
                       ),
                       decoration: InputDecoration(
-                        labelText: 'Enter your old password',
+                        labelText: Language.oldPass,
                         labelStyle: TextStyle(color: colorApp.colorText),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(9),
@@ -203,7 +205,7 @@ class _ChangePasswordWidgetState extends ConsumerState<ChangePasswordWidget> {
                         color: colorApp.colorText,
                       ),
                       decoration: InputDecoration(
-                        labelText: 'Enter your new password',
+                        labelText: Language.newPass,
                         labelStyle: TextStyle(color: colorApp.colorText),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(9),
@@ -313,8 +315,8 @@ class _ChangePasswordWidgetState extends ConsumerState<ChangePasswordWidget> {
                                 ),
                               ),
                             )
-                          : const Text(
-                              'Change password',
+                          : Text(
+                              Language.ChangPass,
                               style: TextStyle(
                                 fontSize: 16,
                                 color: Colors.white,

@@ -9,6 +9,7 @@ import 'package:studenthub/providers/projects/project_id.provider.dart';
 import 'package:toastification/toastification.dart';
 import 'package:studenthub/providers/theme/theme_provider.dart';
 
+import 'package:studenthub/providers/language/language.provider.dart';
 import '../../providers/options.provider.dart';
 
 import '../../providers/options.provider.dart';
@@ -160,7 +161,7 @@ class _AllProjectsWidgetState extends ConsumerState<AllProjectsWidget> {
     );
   }
 
-  void getProjects(token, companyId) async {
+  void getProjects(token, companyId, tmp) async {
     setState(() {
       isFetchingData = true;
     });
@@ -188,7 +189,7 @@ class _AllProjectsWidgetState extends ConsumerState<AllProjectsWidget> {
         listProjectsGetFromRes.add(Project(
           projectId: item['id'].toString(),
           title: item['title'],
-          createTime: 'Created at ${DateFormat("dd/MM/yyyy | HH:mm").format(
+          createTime: '${tmp.Createat} ${DateFormat("dd/MM/yyyy | HH:mm").format(
                 DateTime.parse(item['createdAt']).toLocal(),
               ).toString()}',
           projectScopeFlag: item['projectScopeFlag'],
@@ -212,7 +213,8 @@ class _AllProjectsWidgetState extends ConsumerState<AllProjectsWidget> {
   void initState() {
     final user = ref.read(userProvider);
     final company = ref.read(companyProvider);
-    getProjects(user.token!, company.id);
+    final lang = ref.read(LanguageProvider);
+    getProjects(user.token!, company.id, lang);
     super.initState();
   }
 
@@ -224,6 +226,7 @@ class _AllProjectsWidgetState extends ConsumerState<AllProjectsWidget> {
     final projectId = ref.watch(projectIdProvider);
     var colorApp = ref.watch(colorProvider);
 
+    var Language = ref.watch(LanguageProvider);
     return SizedBox(
       height: 545,
       child: SingleChildScrollView(
@@ -250,7 +253,7 @@ class _AllProjectsWidgetState extends ConsumerState<AllProjectsWidget> {
                 ? Column(
                     children: [
                       Text(
-                        'Empty',
+                        Language.empty,
                         style: TextStyle(fontSize: 16, color: colorApp.colorText),
                       ),
                       SizedBox(height: 20),
@@ -348,7 +351,7 @@ class _AllProjectsWidgetState extends ConsumerState<AllProjectsWidget> {
                                                                             ),
                                                                             SizedBox(width: 5),
                                                                             Text(
-                                                                              'View proposals',
+                                                                              Language.Viewproposals,
                                                                               style: TextStyle(
                                                                                 fontSize: 16,
                                                                                 // color: Color.fromARGB(255, 255, 255, 255),
@@ -389,7 +392,7 @@ class _AllProjectsWidgetState extends ConsumerState<AllProjectsWidget> {
                                                                             ),
                                                                             SizedBox(width: 5),
                                                                             Text(
-                                                                              'View messages',
+                                                                              Language.ViewMessage,
                                                                               style: TextStyle(
                                                                                 fontSize: 16,
                                                                                 color: colorApp.colorBlackWhite,
@@ -429,7 +432,7 @@ class _AllProjectsWidgetState extends ConsumerState<AllProjectsWidget> {
                                                                             ),
                                                                             SizedBox(width: 5),
                                                                             Text(
-                                                                              'View hired',
+                                                                              Language.Viewhired,
                                                                               style: TextStyle(
                                                                                 fontSize: 16,
                                                                                 color: colorApp.colorBlackWhite,
@@ -481,7 +484,7 @@ class _AllProjectsWidgetState extends ConsumerState<AllProjectsWidget> {
                                                                           }
                                                                         } else {
                                                                           Navigator.pop(context);
-                                                                          getProjects(user.token, company.id);
+                                                                          getProjects(user.token, company.id, Language);
                                                                           showSuccessToast('Success', 'Project has been archived successfully');
                                                                         }
                                                                       },
@@ -507,7 +510,7 @@ class _AllProjectsWidgetState extends ConsumerState<AllProjectsWidget> {
                                                                             ),
                                                                             SizedBox(width: 5),
                                                                             Text(
-                                                                              'Close project',
+                                                                              Language.CloseProject,
                                                                               style: TextStyle(
                                                                                 fontSize: 16,
                                                                                 // color: Color.fromARGB(255, 255, 255, 255),
@@ -551,7 +554,7 @@ class _AllProjectsWidgetState extends ConsumerState<AllProjectsWidget> {
                                                                                         Align(
                                                                                           alignment: Alignment.topLeft,
                                                                                           child: Text(
-                                                                                            "Edit project",
+                                                                                            Language.EditProject,
                                                                                             style: TextStyle(
                                                                                               fontWeight: FontWeight.bold,
                                                                                               fontSize: 25,
@@ -576,7 +579,7 @@ class _AllProjectsWidgetState extends ConsumerState<AllProjectsWidget> {
                                                                                               Align(
                                                                                                 alignment: Alignment.topLeft,
                                                                                                 child: Text(
-                                                                                                  "Title",
+                                                                                                  Language.Title,
                                                                                                   style: TextStyle(
                                                                                                     fontWeight: FontWeight.bold,
                                                                                                     fontSize: 16,
@@ -606,7 +609,7 @@ class _AllProjectsWidgetState extends ConsumerState<AllProjectsWidget> {
                                                                                                         vertical: 14,
                                                                                                         horizontal: 15,
                                                                                                       ),
-                                                                                                      hintText: 'Enter your languages',
+                                                                                                      hintText: Language.textTitle,
                                                                                                       hintStyle: TextStyle(
                                                                                                         color: colorApp.colorText,
                                                                                                       )),
@@ -616,7 +619,7 @@ class _AllProjectsWidgetState extends ConsumerState<AllProjectsWidget> {
                                                                                               Align(
                                                                                                 alignment: Alignment.topLeft,
                                                                                                 child: Text(
-                                                                                                  'Project scope',
+                                                                                                  Language.ProjectScope,
                                                                                                   style: TextStyle(
                                                                                                     fontWeight: FontWeight.bold,
                                                                                                     fontSize: 16,
@@ -631,7 +634,7 @@ class _AllProjectsWidgetState extends ConsumerState<AllProjectsWidget> {
                                                                                                     height: 30,
                                                                                                     width: MediaQuery.of(context).size.width,
                                                                                                     child: LabeledRadio(
-                                                                                                      label: 'Less than 1 month',
+                                                                                                      label: Language.Time_1,
                                                                                                       value: 0,
                                                                                                       textColor: colorApp.colorBlackWhite,
                                                                                                       groupValue: pickedScope, //projectPosting.scope,
@@ -646,7 +649,7 @@ class _AllProjectsWidgetState extends ConsumerState<AllProjectsWidget> {
                                                                                                     height: 30,
                                                                                                     width: MediaQuery.of(context).size.width,
                                                                                                     child: LabeledRadio(
-                                                                                                      label: '1 to 3 months',
+                                                                                                      label: Language.Time_2,
                                                                                                       value: 1,
                                                                                                       textColor: colorApp.colorBlackWhite,
                                                                                                       groupValue: pickedScope, //projectPosting.scope,
@@ -661,7 +664,7 @@ class _AllProjectsWidgetState extends ConsumerState<AllProjectsWidget> {
                                                                                                     height: 30,
                                                                                                     width: MediaQuery.of(context).size.width,
                                                                                                     child: LabeledRadio(
-                                                                                                      label: '3 to 6 months',
+                                                                                                      label: Language.Time_3,
                                                                                                       value: 2,
                                                                                                       textColor: colorApp.colorBlackWhite,
                                                                                                       groupValue: pickedScope, //projectPosting.scope,
@@ -676,7 +679,7 @@ class _AllProjectsWidgetState extends ConsumerState<AllProjectsWidget> {
                                                                                                     height: 30,
                                                                                                     width: MediaQuery.of(context).size.width,
                                                                                                     child: LabeledRadio(
-                                                                                                      label: 'More than 6 months',
+                                                                                                      label: Language.Time_4,
                                                                                                       value: 3,
                                                                                                       textColor: colorApp.colorBlackWhite,
                                                                                                       groupValue: pickedScope, //projectPosting.scope,
@@ -693,7 +696,7 @@ class _AllProjectsWidgetState extends ConsumerState<AllProjectsWidget> {
                                                                                               Align(
                                                                                                 alignment: Alignment.topLeft,
                                                                                                 child: Text(
-                                                                                                  "Number of students",
+                                                                                                  Language.TextStudent,
                                                                                                   style: TextStyle(
                                                                                                     fontWeight: FontWeight.bold,
                                                                                                     fontSize: 16,
@@ -723,7 +726,7 @@ class _AllProjectsWidgetState extends ConsumerState<AllProjectsWidget> {
                                                                                                         vertical: 14,
                                                                                                         horizontal: 15,
                                                                                                       ),
-                                                                                                      hintText: 'Enter your language level',
+                                                                                                      hintText: Language.TextStudent,
                                                                                                       hintStyle: TextStyle(color: colorApp.colorText)),
                                                                                                 ),
                                                                                               ),
@@ -731,7 +734,7 @@ class _AllProjectsWidgetState extends ConsumerState<AllProjectsWidget> {
                                                                                               Align(
                                                                                                 alignment: Alignment.topLeft,
                                                                                                 child: Text(
-                                                                                                  "Description",
+                                                                                                  Language.Description,
                                                                                                   style: TextStyle(
                                                                                                     fontWeight: FontWeight.bold,
                                                                                                     fontSize: 16,
@@ -761,7 +764,7 @@ class _AllProjectsWidgetState extends ConsumerState<AllProjectsWidget> {
                                                                                                         vertical: 14,
                                                                                                         horizontal: 15,
                                                                                                       ),
-                                                                                                      hintText: 'Enter your language level',
+                                                                                                      hintText: Language.textDescription,
                                                                                                       hintStyle: TextStyle(
                                                                                                         color: colorApp.colorText,
                                                                                                       )),
@@ -790,7 +793,7 @@ class _AllProjectsWidgetState extends ConsumerState<AllProjectsWidget> {
                                                                                                             backgroundColor: colorApp.colorWhiteBlack,
                                                                                                           ),
                                                                                                           child: Text(
-                                                                                                            'Cancel',
+                                                                                                            Language.cancel,
                                                                                                             style: TextStyle(
                                                                                                               fontSize: 18,
                                                                                                               color: colorApp.colorBlackWhite,
@@ -833,7 +836,7 @@ class _AllProjectsWidgetState extends ConsumerState<AllProjectsWidget> {
 
                                                                                                             Navigator.pop(context);
                                                                                                             showSuccessToast('Success', 'Edit project successfully');
-                                                                                                            getProjects(user.token, company.id);
+                                                                                                            getProjects(user.token, company.id, Language);
                                                                                                           },
                                                                                                           style: ElevatedButton.styleFrom(
                                                                                                             minimumSize: Size.zero, // Set this
@@ -844,7 +847,7 @@ class _AllProjectsWidgetState extends ConsumerState<AllProjectsWidget> {
                                                                                                             backgroundColor: colorApp.colorBlackWhite,
                                                                                                           ),
                                                                                                           child: Text(
-                                                                                                            'Edit',
+                                                                                                            Language.edit,
                                                                                                             style: TextStyle(
                                                                                                               fontSize: 18,
                                                                                                               color: colorApp.colorWhiteBlack,
@@ -891,7 +894,7 @@ class _AllProjectsWidgetState extends ConsumerState<AllProjectsWidget> {
                                                                             ),
                                                                             SizedBox(width: 5),
                                                                             Text(
-                                                                              'Edit project',
+                                                                              Language.EditProject,
                                                                               style: TextStyle(
                                                                                 fontSize: 16,
                                                                                 color: colorApp.colorBlackWhite,
@@ -925,7 +928,7 @@ class _AllProjectsWidgetState extends ConsumerState<AllProjectsWidget> {
                                                                         print(responseDeleteProjectsData);
 
                                                                         Navigator.pop(context);
-                                                                        getProjects(user.token, company.id);
+                                                                        getProjects(user.token, company.id, Language);
                                                                       },
                                                                       style: ElevatedButton.styleFrom(
                                                                         minimumSize: Size.zero, // Set this
@@ -936,7 +939,7 @@ class _AllProjectsWidgetState extends ConsumerState<AllProjectsWidget> {
                                                                         ),
                                                                         backgroundColor: colorApp.colorBorderBackground,
                                                                       ),
-                                                                      child: const Padding(
+                                                                      child: Padding(
                                                                         padding: EdgeInsets.only(left: 10),
                                                                         child: Row(
                                                                           mainAxisAlignment: MainAxisAlignment.start,
@@ -949,7 +952,7 @@ class _AllProjectsWidgetState extends ConsumerState<AllProjectsWidget> {
                                                                             ),
                                                                             SizedBox(width: 5),
                                                                             Text(
-                                                                              'Remove posting',
+                                                                              Language.Removepost,
                                                                               style: TextStyle(
                                                                                 fontSize: 16,
                                                                                 color: Colors.red,
@@ -1000,7 +1003,7 @@ class _AllProjectsWidgetState extends ConsumerState<AllProjectsWidget> {
                                                                   }
                                                                 } else {
                                                                   Navigator.pop(context);
-                                                                  getProjects(user.token, company.id);
+                                                                  getProjects(user.token, company.id, Language);
                                                                   showSuccessToast('Success', 'Project has been marked to work');
                                                                 }
                                                               },
@@ -1020,7 +1023,7 @@ class _AllProjectsWidgetState extends ConsumerState<AllProjectsWidget> {
                                                                   crossAxisAlignment: CrossAxisAlignment.center,
                                                                   children: [
                                                                     Text(
-                                                                      'Start working this project',
+                                                                      Language.StartWorking,
                                                                       style: TextStyle(
                                                                         fontSize: 16,
                                                                         color: colorApp.colorWhiteBlack,
@@ -1067,7 +1070,8 @@ class _AllProjectsWidgetState extends ConsumerState<AllProjectsWidget> {
                                         child: SizedBox(
                                           width: 340,
                                           child: Text(
-                                            'Time: ${el.projectScopeFlag == 0 ? 'Less than 1 month' : el.projectScopeFlag == 1 ? ' 1-3 months' : el.projectScopeFlag == 2 ? '3-6 months' : 'More than 6 months'}, ${el.numberOfStudents} students needed',
+                                            Language.Time +
+                                                ': ${el.projectScopeFlag == 0 ? Language.Time_1 : el.projectScopeFlag == 1 ? Language.Time_2 : el.projectScopeFlag == 2 ? Language.Time_3 : Language.Time_4}, ${el.numberOfStudents} ${Language.StudentNeed}',
                                             style: TextStyle(
                                               color: colorApp.colorText,
                                               overflow: TextOverflow.ellipsis,
@@ -1124,7 +1128,7 @@ class _AllProjectsWidgetState extends ConsumerState<AllProjectsWidget> {
                                                 ),
                                               ),
                                               Text(
-                                                'Proposals',
+                                                Language.Proposals,
                                                 style: TextStyle(
                                                   color: colorApp.colorText,
                                                   overflow: TextOverflow.ellipsis,
@@ -1147,7 +1151,7 @@ class _AllProjectsWidgetState extends ConsumerState<AllProjectsWidget> {
                                                 ),
                                               ),
                                               Text(
-                                                'Messages',
+                                                Language.Message,
                                                 style: TextStyle(
                                                   color: colorApp.colorText,
                                                   overflow: TextOverflow.ellipsis,
@@ -1170,7 +1174,7 @@ class _AllProjectsWidgetState extends ConsumerState<AllProjectsWidget> {
                                                 ),
                                               ),
                                               Text(
-                                                'Hired',
+                                                Language.Hired,
                                                 style: TextStyle(
                                                   color: colorApp.colorText,
                                                   overflow: TextOverflow.ellipsis,

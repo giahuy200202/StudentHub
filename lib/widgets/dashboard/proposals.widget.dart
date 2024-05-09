@@ -8,6 +8,7 @@ import 'package:studenthub/providers/projects/project_id.provider.dart';
 import 'package:toastification/toastification.dart';
 
 import 'package:studenthub/providers/theme/theme_provider.dart';
+import 'package:studenthub/providers/language/language.provider.dart';
 import '../../providers/options.provider.dart';
 
 import 'package:http/http.dart' as http;
@@ -115,7 +116,7 @@ class _ProposalsWidgetState extends ConsumerState<ProposalsWidget> {
         listProposalsGetFromRes.add(Proposal(
           userId: item['student']['userId'].toString(),
           proposalId: item['id'].toString(),
-          createTime: 'Submitted at ${DateFormat("dd/MM/yyyy | HH:mm").format(
+          createTime: 'Created at ${DateFormat("dd/MM/yyyy | HH:mm").format(
                 DateTime.parse(item['createdAt']).toLocal(),
               ).toString()}',
           studentName: item['student']['user']['fullname'] ?? 'Unknown',
@@ -149,6 +150,7 @@ class _ProposalsWidgetState extends ConsumerState<ProposalsWidget> {
     final projectId = ref.watch(projectIdProvider);
 
     var colorApp = ref.watch(colorProvider);
+    var Language = ref.watch(LanguageProvider);
     return SizedBox(
       height: 680,
       child: SingleChildScrollView(
@@ -175,7 +177,7 @@ class _ProposalsWidgetState extends ConsumerState<ProposalsWidget> {
                 ? Column(
                     children: [
                       Text(
-                        'Empty',
+                        Language.empty,
                         style: TextStyle(fontSize: 16, color: colorApp.colorText),
                       ),
                       SizedBox(height: 20),
@@ -321,7 +323,7 @@ class _ProposalsWidgetState extends ConsumerState<ProposalsWidget> {
                                               backgroundColor: colorApp.colorBorderBackground,
                                             ),
                                             child: Text(
-                                              'Message',
+                                              Language.Message,
                                               style: TextStyle(
                                                 fontSize: 16,
                                                 color: colorApp.colorBlackWhite,
@@ -451,12 +453,12 @@ class _ProposalsWidgetState extends ConsumerState<ProposalsWidget> {
                                             ),
                                             child: Text(
                                               el.statusFlag == 0
-                                                  ? 'Send offer'
+                                                  ? Language.SendOffer
                                                   : el.statusFlag == 1
-                                                      ? 'Send offer'
+                                                      ? Language.SendOffer
                                                       : el.statusFlag == 2
-                                                          ? 'Offer sent'
-                                                          : 'Hired',
+                                                          ? Language.offersend
+                                                          : Language.Hired,
                                               style: TextStyle(
                                                 fontSize: 16,
                                                 color: colorApp.colorWhiteBlack,

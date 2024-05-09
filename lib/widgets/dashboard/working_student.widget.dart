@@ -3,6 +3,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:studenthub/providers/authentication/authentication.provider.dart';
+import 'package:studenthub/providers/language/language.provider.dart';
 import 'package:studenthub/providers/profile/company.provider.dart';
 import 'package:studenthub/providers/profile/student.provider.dart';
 import 'package:studenthub/providers/theme/theme_provider.dart';
@@ -77,7 +78,7 @@ class _WorkingStudentWidgetState extends ConsumerState<WorkingStudentWidget> {
   List<Project> listProjects = [];
   bool isFetchingData = false;
 
-  void getProjects(token, studentId) async {
+  void getProjects(token, studentId, tmp) async {
     setState(() {
       isFetchingData = true;
     });
@@ -128,13 +129,15 @@ class _WorkingStudentWidgetState extends ConsumerState<WorkingStudentWidget> {
   void initState() {
     final user = ref.read(userProvider);
     final student = ref.read(studentProvider);
-    getProjects(user.token!, student.id);
+    final lang = ref.read(LanguageProvider);
+    getProjects(user.token!, student.id, lang);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     var colorApp = ref.watch(colorProvider);
+    var Language = ref.watch(LanguageProvider);
     return SizedBox(
       height: 600,
       child: SingleChildScrollView(
@@ -164,8 +167,8 @@ class _WorkingStudentWidgetState extends ConsumerState<WorkingStudentWidget> {
                       ? Column(
                           children: [
                             Text(
-                              'Empty',
-                              style: TextStyle(fontSize: 16, color: colorApp.colorText),
+                              Language.empty,
+                              style: TextStyle(fontSize: 16),
                             ),
                             SizedBox(height: 20),
                           ],

@@ -4,6 +4,7 @@ import 'package:studenthub/providers/authentication/authentication.provider.dart
 import 'package:studenthub/providers/projects/project_posting.provider.dart';
 import 'package:studenthub/providers/theme/theme_provider.dart';
 
+import 'package:studenthub/providers/language/language.provider.dart';
 import '../../providers/options.provider.dart';
 
 class ProjectPostStep1Widget extends ConsumerStatefulWidget {
@@ -29,6 +30,7 @@ class _ProjectPostStep1WidgetState extends ConsumerState<ProjectPostStep1Widget>
     final user = ref.watch(userProvider);
     var colorApp = ref.watch(colorProvider);
 
+    var Language = ref.watch(LanguageProvider);
     return Scaffold(
       backgroundColor: colorApp.colorBackgroundColor,
       body: SingleChildScrollView(
@@ -57,7 +59,7 @@ class _ProjectPostStep1WidgetState extends ConsumerState<ProjectPostStep1Widget>
                 Align(
                   alignment: Alignment.topLeft,
                   child: Text(
-                    'Let\'s start with a strong title',
+                    Language.TitlePost_1,
                     style: TextStyle(
                       fontSize: 27,
                       color: colorApp.colorTitle,
@@ -67,7 +69,7 @@ class _ProjectPostStep1WidgetState extends ConsumerState<ProjectPostStep1Widget>
                 ),
                 const SizedBox(height: 10),
                 Text(
-                  'This helps your post stand out to the right students. It\'s the first thing they\'ll see, so make it impressive!',
+                  Language.DescriptionPost_1,
                   textAlign: TextAlign.left,
                   style: TextStyle(
                     fontSize: 16,
@@ -93,7 +95,7 @@ class _ProjectPostStep1WidgetState extends ConsumerState<ProjectPostStep1Widget>
                 ),
                 const SizedBox(height: 30),
                 Text(
-                  'Title',
+                  Language.Title,
                   textAlign: TextAlign.left,
                   style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: colorApp.colorTitle),
                 ),
@@ -127,7 +129,7 @@ class _ProjectPostStep1WidgetState extends ConsumerState<ProjectPostStep1Widget>
                           vertical: 15,
                           horizontal: 15,
                         ),
-                        hintText: 'Write a title for your post',
+                        hintText: Language.TextTitlePost_1,
                         hintStyle: TextStyle(
                           color: colorApp.colorText,
                         )),
@@ -135,7 +137,7 @@ class _ProjectPostStep1WidgetState extends ConsumerState<ProjectPostStep1Widget>
                 ),
                 const SizedBox(height: 5),
                 Text(
-                  'Example titles',
+                  Language.ExampleTitles,
                   textAlign: TextAlign.left,
                   style: TextStyle(
                     fontSize: 16,
@@ -160,7 +162,7 @@ class _ProjectPostStep1WidgetState extends ConsumerState<ProjectPostStep1Widget>
                       SizedBox(width: 10),
                       Flexible(
                         child: Text(
-                          'Build responsive WordPress site with booking/payment functionality',
+                          Language.TextEx_1,
                           textAlign: TextAlign.left,
                           style: TextStyle(fontSize: 16, color: colorApp.colorText),
                         ),
@@ -185,7 +187,7 @@ class _ProjectPostStep1WidgetState extends ConsumerState<ProjectPostStep1Widget>
                       SizedBox(width: 10),
                       Flexible(
                         child: Text(
-                          'Facebook ad specialist need for product launch',
+                          Language.TextEx_2,
                           textAlign: TextAlign.left,
                           style: TextStyle(
                             color: colorApp.colorText,
@@ -219,7 +221,7 @@ class _ProjectPostStep1WidgetState extends ConsumerState<ProjectPostStep1Widget>
                         disabledBackgroundColor: colorApp.colorButton,
                       ),
                       child: Text(
-                        'Next: Scope',
+                        Language.NextScope,
                         style: TextStyle(
                           fontSize: 16,
                           color: colorApp.colorWhiteBlack,

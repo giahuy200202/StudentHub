@@ -4,6 +4,7 @@ import 'package:studenthub/providers/authentication/authentication.provider.dart
 import '../../providers/projects/project_posting.provider.dart';
 import '../../providers/options.provider.dart';
 import 'package:studenthub/providers/theme/theme_provider.dart';
+import 'package:studenthub/providers/language/language.provider.dart';
 
 class LabeledRadio<T> extends StatelessWidget {
   const LabeledRadio({
@@ -67,6 +68,7 @@ class _ProjectPostStep2WidgetState extends ConsumerState<ProjectPostStep2Widget>
     final user = ref.watch(userProvider);
     var colorApp = ref.watch(colorProvider);
 
+    var Language = ref.watch(LanguageProvider);
     return Scaffold(
       backgroundColor: colorApp.colorBackgroundColor,
       body: SingleChildScrollView(
@@ -95,7 +97,7 @@ class _ProjectPostStep2WidgetState extends ConsumerState<ProjectPostStep2Widget>
                 Align(
                   alignment: Alignment.topLeft,
                   child: Text(
-                    'Estimate your project\'s scope',
+                    Language.TitlePost_2,
                     style: TextStyle(
                       fontSize: 27,
                       color: colorApp.colorTitle,
@@ -107,7 +109,7 @@ class _ProjectPostStep2WidgetState extends ConsumerState<ProjectPostStep2Widget>
                 Align(
                   alignment: Alignment.topLeft,
                   child: Text(
-                    'Defining the project\'s scope helps ensure clarity and alignment on the objectives and deliverables from the start',
+                    Language.DescriptionPost_2,
                     style: TextStyle(
                       fontSize: 16,
                       color: colorApp.colorText,
@@ -133,7 +135,7 @@ class _ProjectPostStep2WidgetState extends ConsumerState<ProjectPostStep2Widget>
                 ),
                 const SizedBox(height: 30),
                 Text(
-                  'How long will your project take?',
+                  Language.TextTimePost,
                   textAlign: TextAlign.left,
                   style: TextStyle(
                     fontSize: 16,
@@ -148,7 +150,7 @@ class _ProjectPostStep2WidgetState extends ConsumerState<ProjectPostStep2Widget>
                       height: 30,
                       width: MediaQuery.of(context).size.width,
                       child: LabeledRadio(
-                        label: 'Less than 1 month',
+                        label: Language.Time_1,
                         textColor: colorApp.colorText,
                         value: 0,
                         groupValue: projectPosting.scope,
@@ -161,7 +163,7 @@ class _ProjectPostStep2WidgetState extends ConsumerState<ProjectPostStep2Widget>
                       height: 30,
                       width: MediaQuery.of(context).size.width,
                       child: LabeledRadio(
-                        label: '1 to 3 months',
+                        label: Language.Time_2,
                         textColor: colorApp.colorText,
                         value: 1,
                         groupValue: projectPosting.scope,
@@ -174,7 +176,7 @@ class _ProjectPostStep2WidgetState extends ConsumerState<ProjectPostStep2Widget>
                       height: 30,
                       width: MediaQuery.of(context).size.width,
                       child: LabeledRadio(
-                        label: '3 to 6 months',
+                        label: Language.Time_3,
                         textColor: colorApp.colorText,
                         value: 2,
                         groupValue: projectPosting.scope,
@@ -187,7 +189,7 @@ class _ProjectPostStep2WidgetState extends ConsumerState<ProjectPostStep2Widget>
                       height: 30,
                       width: MediaQuery.of(context).size.width,
                       child: LabeledRadio(
-                        label: 'More than 6 months',
+                        label: Language.Time_4,
                         textColor: colorApp.colorText,
                         value: 3,
                         groupValue: projectPosting.scope,
@@ -200,7 +202,7 @@ class _ProjectPostStep2WidgetState extends ConsumerState<ProjectPostStep2Widget>
                 ),
                 const SizedBox(height: 20),
                 Text(
-                  'How many students do you want for this project?',
+                  Language.TextStudentPost,
                   textAlign: TextAlign.left,
                   style: TextStyle(
                     fontSize: 16,
@@ -238,7 +240,7 @@ class _ProjectPostStep2WidgetState extends ConsumerState<ProjectPostStep2Widget>
                           vertical: 15,
                           horizontal: 15,
                         ),
-                        hintText: 'Number of students',
+                        hintText: Language.TextStudent,
                         hintStyle: TextStyle(
                           color: colorApp.colorText,
                         )),
@@ -267,7 +269,7 @@ class _ProjectPostStep2WidgetState extends ConsumerState<ProjectPostStep2Widget>
                         disabledBackgroundColor: colorApp.colorButton,
                       ),
                       child: Text(
-                        'Next: Description',
+                        Language.NextDes,
                         style: TextStyle(
                           fontSize: 16,
                           color: colorApp.colorWhiteBlack,

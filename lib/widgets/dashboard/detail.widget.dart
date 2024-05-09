@@ -11,6 +11,7 @@ import '../../providers/projects/project_posting.provider.dart';
 // import '../../providers/options_provider.dart';
 import 'package:studenthub/providers/theme/theme_provider.dart';
 
+import 'package:studenthub/providers/language/language.provider.dart';
 import '../../providers/options.provider.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -130,7 +131,7 @@ class _DetailWidgetState extends ConsumerState<DetailWidget> {
     );
   }
 
-  void getProjects(token, studentId, projectId) async {
+  void getProjects(token, studentId, projectId, tmp) async {
     setState(() {
       isFetchingData = true;
     });
@@ -165,7 +166,7 @@ class _DetailWidgetState extends ConsumerState<DetailWidget> {
       listProjectsGetFromRes = Project(
         projectId: responseDetailedProjectsData['result']['id'].toString(),
         title: responseDetailedProjectsData['result']['title'],
-        createTime: 'Created at ${DateFormat("dd/MM/yyyy | HH:mm").format(
+        createTime: '${tmp.Createat} ${DateFormat("dd/MM/yyyy | HH:mm").format(
               DateTime.parse(responseDetailedProjectsData['result']['createdAt']),
             ).toString()}',
         projectScopeFlag: responseDetailedProjectsData['result']['projectScopeFlag'],
@@ -189,7 +190,8 @@ class _DetailWidgetState extends ConsumerState<DetailWidget> {
     final user = ref.read(userProvider);
     final student = ref.read(studentProvider);
     final projectId = ref.read(projectIdProvider);
-    getProjects(user.token!, student.id, projectId);
+    final lang = ref.read(LanguageProvider);
+    getProjects(user.token!, student.id, projectId, lang);
     super.initState();
   }
 
@@ -197,6 +199,7 @@ class _DetailWidgetState extends ConsumerState<DetailWidget> {
   Widget build(BuildContext context) {
     final projectPosting = ref.watch(projectPostingProvider);
     var colorApp = ref.watch(colorProvider);
+    var Language = ref.watch(LanguageProvider);
     return isFetchingData
         ? const Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -314,7 +317,7 @@ class _DetailWidgetState extends ConsumerState<DetailWidget> {
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        'Project scope',
+                                        Language.ProjectScope,
                                         style: TextStyle(
                                           color: colorApp.colorText,
                                           overflow: TextOverflow.ellipsis,
@@ -324,12 +327,12 @@ class _DetailWidgetState extends ConsumerState<DetailWidget> {
                                       ),
                                       Text(
                                         listProjects.projectScopeFlag == 0
-                                            ? 'Less than 1 month'
+                                            ? Language.Time_1
                                             : listProjects.projectScopeFlag == 1
-                                                ? ' 1-3 months'
+                                                ? Language.Time_2
                                                 : listProjects.projectScopeFlag == 2
-                                                    ? '3-6 months'
-                                                    : 'More than 6 months',
+                                                    ? Language.Time_3
+                                                    : Language.Time_4,
                                         style: TextStyle(
                                           color: colorApp.colorText,
                                           overflow: TextOverflow.ellipsis,
@@ -354,7 +357,7 @@ class _DetailWidgetState extends ConsumerState<DetailWidget> {
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        'Student required',
+                                        '${listProjects.numberOfStudents} students',
                                         style: TextStyle(
                                           color: colorApp.colorText,
                                           overflow: TextOverflow.ellipsis,
@@ -363,7 +366,7 @@ class _DetailWidgetState extends ConsumerState<DetailWidget> {
                                         ),
                                       ),
                                       Text(
-                                        '${listProjects.numberOfStudents} students',
+                                        '${listProjects.numberOfStudents} ' + Language.students,
                                         style: TextStyle(
                                           color: colorApp.colorText,
                                           overflow: TextOverflow.ellipsis,

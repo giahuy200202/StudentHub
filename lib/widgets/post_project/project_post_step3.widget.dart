@@ -4,6 +4,7 @@ import 'package:studenthub/providers/authentication/authentication.provider.dart
 import '../../providers/projects/project_posting.provider.dart';
 import '../../providers/options.provider.dart';
 import 'package:studenthub/providers/theme/theme_provider.dart';
+import 'package:studenthub/providers/language/language.provider.dart';
 
 class ProjectPostStep3Widget extends ConsumerStatefulWidget {
   const ProjectPostStep3Widget({super.key});
@@ -28,6 +29,7 @@ class _ProjectPostStep3WidgetState extends ConsumerState<ProjectPostStep3Widget>
     final user = ref.watch(userProvider);
     var colorApp = ref.watch(colorProvider);
 
+    var Language = ref.watch(LanguageProvider);
     return Scaffold(
       backgroundColor: colorApp.colorBackgroundColor,
       body: SingleChildScrollView(
@@ -56,7 +58,7 @@ class _ProjectPostStep3WidgetState extends ConsumerState<ProjectPostStep3Widget>
                 Align(
                   alignment: Alignment.topLeft,
                   child: Text(
-                    'Provide project description',
+                    Language.TitlePost_3,
                     style: TextStyle(
                       fontSize: 27,
                       color: colorApp.colorTitle,
@@ -68,7 +70,7 @@ class _ProjectPostStep3WidgetState extends ConsumerState<ProjectPostStep3Widget>
                 Align(
                   alignment: Alignment.topLeft,
                   child: Text(
-                    'A clear project description ensures that others can accurately understand your needs and deliver the results you expect',
+                    Language.DescriptionPost_3,
                     style: TextStyle(
                       fontSize: 16,
                       color: colorApp.colorText,
@@ -94,7 +96,7 @@ class _ProjectPostStep3WidgetState extends ConsumerState<ProjectPostStep3Widget>
                 ),
                 const SizedBox(height: 40),
                 Text(
-                  'Students are looking for',
+                  Language.TextPost_3,
                   textAlign: TextAlign.left,
                   style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: colorApp.colorTitle),
                 ),
@@ -115,7 +117,7 @@ class _ProjectPostStep3WidgetState extends ConsumerState<ProjectPostStep3Widget>
                       SizedBox(width: 10),
                       Flexible(
                         child: Text(
-                          'Clear expectation about your project or deliverables',
+                          Language.ExamPost3_1,
                           textAlign: TextAlign.left,
                           style: TextStyle(
                             fontSize: 16,
@@ -143,7 +145,7 @@ class _ProjectPostStep3WidgetState extends ConsumerState<ProjectPostStep3Widget>
                       SizedBox(width: 10),
                       Flexible(
                         child: Text(
-                          'The skills required for your project',
+                          Language.ExamPost3_2,
                           textAlign: TextAlign.left,
                           style: TextStyle(
                             fontSize: 16,
@@ -171,7 +173,7 @@ class _ProjectPostStep3WidgetState extends ConsumerState<ProjectPostStep3Widget>
                       SizedBox(width: 10),
                       Flexible(
                         child: Text(
-                          'Detail about your project',
+                          Language.ExamPost3_3,
                           textAlign: TextAlign.left,
                           style: TextStyle(
                             fontSize: 16,
@@ -184,7 +186,7 @@ class _ProjectPostStep3WidgetState extends ConsumerState<ProjectPostStep3Widget>
                 ),
                 const SizedBox(height: 20),
                 Text(
-                  'Describe your project',
+                  Language.Describe,
                   textAlign: TextAlign.left,
                   style: TextStyle(
                     fontSize: 16,
@@ -248,7 +250,7 @@ class _ProjectPostStep3WidgetState extends ConsumerState<ProjectPostStep3Widget>
                         disabledBackgroundColor: colorApp.colorButton,
                       ),
                       child: Text(
-                        'Review your post',
+                        Language.Review,
                         style: TextStyle(
                           fontSize: 18,
                           color: colorApp.colorWhiteBlack,

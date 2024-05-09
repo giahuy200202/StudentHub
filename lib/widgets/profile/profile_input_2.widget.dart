@@ -11,6 +11,7 @@ import 'package:studenthub/providers/profile/profiles.provider.dart';
 import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
+import 'package:studenthub/providers/language/language.provider.dart';
 
 import 'package:toastification/toastification.dart';
 import 'package:studenthub/providers/theme/theme_provider.dart';
@@ -105,20 +106,20 @@ class ViewProfileWidget extends ConsumerWidget {
     final textDescription = TextEditingController();
     final company = ref.watch(companyProvider);
     final user = ref.watch(userProvider);
-
+    var Language = ref.watch(LanguageProvider);
     textCompany.text = company.companyName!;
     textWebsite.text = company.website!;
     textDescription.text = company.description!;
 
     final numOfPeople = company.size == 0
-        ? 'It\'s just me'
+        ? Language.People_1
         : company.size == 1
-            ? ' 2-9 employees'
+            ? Language.People_2
             : company.size == 2
-                ? '10-99 employees'
+                ? Language.People_3
                 : company.size == 3
-                    ? '100-1000 employees'
-                    : 'More than 1000 employees';
+                    ? Language.People_4
+                    : Language.People_5;
 
     var selectedEmployee = ref.watch(selectedEmployeeProvider);
     var colorApp = ref.watch(colorProvider);
@@ -135,13 +136,13 @@ class ViewProfileWidget extends ConsumerWidget {
                 Align(
                   alignment: Alignment.topLeft,
                   child: Text(
-                    'Company profile',
+                    Language.CompanyProfile,
                     style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold, color: colorApp.colorTitle),
                   ),
                 ),
                 const SizedBox(height: 15),
                 Text(
-                  'Tell us about your company and you will be your way connect with real-world project',
+                  Language.CompanyDes,
                   style: TextStyle(
                     fontSize: 16,
                     color: colorApp.colorText,
@@ -152,7 +153,7 @@ class ViewProfileWidget extends ConsumerWidget {
                   height: 25,
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    'Company name',
+                    Language.Companyname,
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w600,
@@ -191,7 +192,7 @@ class ViewProfileWidget extends ConsumerWidget {
                   height: 25,
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    'Website',
+                    Language.Web,
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w600,
@@ -230,7 +231,7 @@ class ViewProfileWidget extends ConsumerWidget {
                   height: 25,
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    'Description',
+                    Language.Description,
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w600,
@@ -268,7 +269,7 @@ class ViewProfileWidget extends ConsumerWidget {
                   height: 25,
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    'How many people in company?',
+                    Language.PeopleCompany,
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w600,
@@ -317,7 +318,7 @@ class ViewProfileWidget extends ConsumerWidget {
                             backgroundColor: colorApp.colorWhiteBlack,
                           ),
                           child: Text(
-                            'Cancel',
+                            Language.cancel,
                             style: TextStyle(
                               fontSize: 18,
                               color: colorApp.colorBlackWhite,
@@ -385,7 +386,7 @@ class ViewProfileWidget extends ConsumerWidget {
                           backgroundColor: colorApp.colorBlackWhite,
                         ),
                         child: Text(
-                          'Edit',
+                          Language.edit,
                           style: TextStyle(
                             fontSize: 18,
                             color: colorApp.colorWhiteBlack,
