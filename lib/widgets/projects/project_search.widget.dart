@@ -318,9 +318,9 @@ class _ProjectSearchWidgetState extends ConsumerState<ProjectSearchWidget> {
                                       SizedBox(
                                         height: 45,
                                         child: TextField(
-                                          style: const TextStyle(
+                                          style: TextStyle(
                                             fontSize: 17,
-                                            color: Color.fromARGB(255, 114, 111, 111),
+                                            color: colorApp.colorText,
                                             fontWeight: FontWeight.w500,
                                           ),
                                           controller: searchController,
@@ -360,10 +360,16 @@ class _ProjectSearchWidgetState extends ConsumerState<ProjectSearchWidget> {
                                               onTap: () {
                                                 searchController.text = '';
                                               },
-                                              child: const Icon(Icons.clear),
+                                              child: Icon(
+                                                Icons.clear,
+                                                color: colorApp.colorIcon,
+                                              ),
                                             ),
                                             hintText: Language.textSearch_2,
-                                            hintStyle: const TextStyle(color: Color.fromARGB(255, 114, 111, 111), fontWeight: FontWeight.w500),
+                                            hintStyle: TextStyle(
+                                              color: colorApp.colorText,
+                                              fontWeight: FontWeight.w500,
+                                            ),
                                           ),
                                         ),
                                       ),
@@ -725,9 +731,9 @@ class _ProjectSearchWidgetState extends ConsumerState<ProjectSearchWidget> {
                           child: TextField(
                             showCursor: true,
                             readOnly: true,
-                            style: const TextStyle(
+                            style: TextStyle(
                               fontSize: 17,
-                              color: Color.fromARGB(255, 114, 111, 111),
+                              color: colorApp.colorText,
                               fontWeight: FontWeight.w500,
                             ),
                             controller: searchController,
@@ -750,14 +756,20 @@ class _ProjectSearchWidgetState extends ConsumerState<ProjectSearchWidget> {
                                 vertical: 8,
                                 horizontal: 15,
                               ),
-                              prefixIcon: const Icon(Icons.search),
+                              prefixIcon: Icon(
+                                Icons.search,
+                                color: colorApp.colorIcon,
+                              ),
                               suffixIcon: InkWell(
                                 onTap: () {},
-                                child: const Icon(Icons.clear),
+                                child: Icon(
+                                  Icons.clear,
+                                  color: colorApp.colorIcon,
+                                ),
                               ),
                               hintText: Language.textSearch,
-                              hintStyle: const TextStyle(
-                                color: Color.fromARGB(255, 114, 111, 111),
+                              hintStyle: TextStyle(
+                                color: colorApp.colorText,
                                 fontWeight: FontWeight.w500,
                               ),
                             ),

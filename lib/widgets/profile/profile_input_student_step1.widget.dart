@@ -16,6 +16,24 @@ import 'package:toastification/toastification.dart';
 
 TextEditingController controller = TextEditingController();
 
+class Teachstack {
+  String id;
+  String name;
+
+  Teachstack(this.id, this.name);
+
+  Teachstack.fromJson(Map<dynamic, dynamic> json)
+      : id = json['id'],
+        name = json['name'];
+
+  Map<dynamic, dynamic> toJson() {
+    return {
+      'id': id,
+      'name': name,
+    };
+  }
+}
+
 class LanguageCreate {
   String languageName;
   String level;
@@ -180,7 +198,7 @@ class ProfileIStudentWidget extends ConsumerStatefulWidget {
 }
 
 class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentWidget> {
-  List<String> techStackName = [];
+  List<Teachstack> techStackName = [];
   // late Future<List<MultiSelectBottomSheetModel>> selectSkillSetItem;
   List<MultiSelectBottomSheetModel> skillSetItems = [];
   //List<LanguageData> languages = [];
@@ -244,7 +262,7 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentWidget> {
     );
   }
 
-  Future<List<String>> getTechStack(String token) async {
+  Future<List<Teachstack>> getTechStack(String token) async {
     final url = Uri.parse('${dotenv.env['IP_ADDRESS']}/api/techstack/getAllTechStack');
     final response = await http.get(
       url,
@@ -253,13 +271,15 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentWidget> {
 
     var techStackData = [...json.decode(response.body)['result']];
 
-    List<String> tempTechStackName = [];
+    List<Teachstack> tempTechStackName = [];
 
     for (var item in techStackData) {
-      tempTechStackName.add(item['name']);
+      tempTechStackName.add(
+        Teachstack(item['id'].toString(), item['name']),
+      );
     }
 
-    dropdownValue = tempTechStackName[0];
+    dropdownValue = tempTechStackName[0].name;
 
     return tempTechStackName;
   }
@@ -297,7 +317,7 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentWidget> {
 
     if (student.id != 0) {
       //set techstackId,  dropdown value
-      dropdownValue = techStackName[student.techStackId - 1];
+      dropdownValue = techStackName[student.techStackId - 1].name;
       ref.read(studentInputProvider.notifier).setStudentInputTechstackId(student.techStackId);
 
       print('----student.techStackId----');
@@ -545,15 +565,15 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentWidget> {
                           dropdownValue = value!;
                         });
 
-                        ref.read(studentInputProvider.notifier).setStudentInputTechstackId(
-                              techStackName.indexOf(dropdownValue) + 1,
-                            );
+                        // ref.read(studentInputProvider.notifier).setStudentInputTechstackId(
+                        //       techStackName.indexOf(dropdownValue) + 1,
+                        //     );
                       },
-                      items: techStackName.map<DropdownMenuItem<String>>((String value) {
+                      items: techStackName.map<DropdownMenuItem<String>>((Teachstack value) {
                         return DropdownMenuItem<String>(
-                          value: value,
+                          value: value.id,
                           child: Text(
-                            value,
+                            value.name,
                             style: TextStyle(fontSize: 16, fontWeight: FontWeight.normal, color: colorApp.colorText),
                           ),
                         );

@@ -331,11 +331,11 @@ class _AlertsWidget extends ConsumerState<AlertsWidget> {
                                                           Row(
                                                             children: [
                                                               const SizedBox(
-                                                                width: 140,
+                                                                width: 115,
                                                               ),
                                                               SizedBox(
                                                                 height: 40,
-                                                                width: 120,
+                                                                width: 130,
                                                                 child: ElevatedButton(
                                                                   onPressed: () async {
                                                                     print('------proposal id ------');

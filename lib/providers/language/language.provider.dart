@@ -182,7 +182,29 @@ class Language {
   String Interview;
   String Join;
   String Accept;
+  String MessDetails;
+  String Reschedule;
+  String CancelMetting;
+  String textCancelmeeting;
+  String titleSchedule;
+  String textSchedule;
+  String selectdate;
+  String selecttime;
+  String Schedule;
+  String Clear;
+  String typemess;
   Language({
+    required this.typemess,
+    required this.Clear,
+    required this.titleSchedule,
+    required this.textSchedule,
+    required this.selectdate,
+    required this.selecttime,
+    required this.Schedule,
+    required this.textCancelmeeting,
+    required this.Reschedule,
+    required this.CancelMetting,
+    required this.MessDetails,
     required this.Accept,
     required this.Join,
     required this.Interview,
@@ -371,6 +393,17 @@ class Language {
 class _Language extends StateNotifier<Language> {
   _Language()
       : super(Language(
+          typemess: 'Type a message...',
+          Clear: 'Clear',
+          titleSchedule: 'Schedule a video interview',
+          textSchedule: 'Enter video interview title',
+          selectdate: 'Select Date',
+          selecttime: 'Select Time',
+          Schedule: 'Schedule',
+          Reschedule: 'Re-schedule the interview',
+          CancelMetting: 'Cancel the meeting',
+          textCancelmeeting: 'The meeting is cancelled',
+          MessDetails: 'Message details',
           Accept: 'Accept',
           Join: 'Join',
           Interview: 'Interview',
@@ -566,6 +599,17 @@ class _Language extends StateNotifier<Language> {
 
   void setLanguageEng() {
     Language tmp = Language(
+      typemess: 'Type a message...',
+      Clear: 'Clear',
+      titleSchedule: 'Schedule a video interview',
+      textSchedule: 'Enter video interview title',
+      selectdate: 'Select Date',
+      selecttime: 'Select Time',
+      Schedule: 'Schedule',
+      Reschedule: 'Re-schedule the interview',
+      CancelMetting: 'Cancel the meeting',
+      textCancelmeeting: 'The meeting is cancelled',
+      MessDetails: 'Message details',
       Accept: 'Accept',
       Join: 'Join',
       Interview: 'Interview',
@@ -752,6 +796,17 @@ class _Language extends StateNotifier<Language> {
 
   void setLanguageVN() {
     Language tmp = Language(
+      typemess: 'Soạn tin nhắn ...',
+      Clear: 'Xóa',
+      titleSchedule: 'Lên lịch phỏng vấn video',
+      textSchedule: 'Nhập tiêu đề video phỏng vấn',
+      selectdate: 'Chọn ngày',
+      selecttime: 'Chọn giờ',
+      Schedule: 'Lên lịch',
+      Reschedule: 'Sửa lịch phỏng vấn',
+      CancelMetting: 'Hủy lịch',
+      textCancelmeeting: 'Cuộc họp đã bị hủy',
+      MessDetails: 'Chi tiết tin nhắn',
       Accept: 'Chấp nhận',
       Join: 'Tham gia',
       Interview: 'Phỏng vấn',

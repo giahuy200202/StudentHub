@@ -162,8 +162,8 @@ class _HiredWidgetState extends ConsumerState<HiredWidget> {
                           children: [
                             Container(
                               decoration: BoxDecoration(
-                                color: Colors.white,
-                                border: Border.all(color: Colors.grey),
+                                //color: Colors.white,
+                                border: Border.all(color: colorApp.colorBorderSide as Color),
                                 borderRadius: const BorderRadius.all(Radius.circular(12)),
                               ),
                               child: Padding(
@@ -199,8 +199,8 @@ class _HiredWidgetState extends ConsumerState<HiredWidget> {
                                                 child: Text(
                                                   el.studentName,
                                                   overflow: TextOverflow.ellipsis,
-                                                  style: const TextStyle(
-                                                    color: Colors.black,
+                                                  style: TextStyle(
+                                                    color: colorApp.colorTitle,
                                                     fontSize: 18,
                                                     fontWeight: FontWeight.w600,
                                                   ),
@@ -214,8 +214,8 @@ class _HiredWidgetState extends ConsumerState<HiredWidget> {
                                                 width: 240,
                                                 child: Text(
                                                   el.createTime,
-                                                  style: const TextStyle(
-                                                    color: Color.fromARGB(255, 94, 94, 94),
+                                                  style: TextStyle(
+                                                    color: colorApp.colorTime,
                                                     overflow: TextOverflow.ellipsis,
                                                     fontSize: 14,
                                                   ),
@@ -229,8 +229,8 @@ class _HiredWidgetState extends ConsumerState<HiredWidget> {
                                                 width: 240,
                                                 child: Text(
                                                   el.techStackName,
-                                                  style: const TextStyle(
-                                                    color: Colors.black,
+                                                  style: TextStyle(
+                                                    color: colorApp.colorText,
                                                     overflow: TextOverflow.ellipsis,
                                                     fontSize: 16,
                                                   ),
@@ -246,8 +246,8 @@ class _HiredWidgetState extends ConsumerState<HiredWidget> {
                                       alignment: Alignment.topLeft,
                                       child: Text(
                                         el.coverLetter,
-                                        style: const TextStyle(
-                                          color: Colors.black,
+                                        style: TextStyle(
+                                          color: colorApp.colorText,
                                           fontSize: 16,
                                           fontWeight: FontWeight.w400,
                                         ),
@@ -272,15 +272,15 @@ class _HiredWidgetState extends ConsumerState<HiredWidget> {
                                               // and this
                                               shape: RoundedRectangleBorder(
                                                 borderRadius: BorderRadius.circular(8),
-                                                side: const BorderSide(color: Colors.grey),
+                                                side: BorderSide(color: colorApp.colorBorderSideMutil as Color),
                                               ),
-                                              backgroundColor: Colors.white,
+                                              backgroundColor: colorApp.colorWhiteBlack,
                                             ),
                                             child: Text(
                                               Language.Message,
                                               style: TextStyle(
                                                 fontSize: 16,
-                                                color: Colors.black,
+                                                color: colorApp.colorBlackWhite,
                                                 fontWeight: FontWeight.w500,
                                               ),
                                             ),
@@ -379,13 +379,13 @@ class _HiredWidgetState extends ConsumerState<HiredWidget> {
                                               shape: RoundedRectangleBorder(
                                                 borderRadius: BorderRadius.circular(8),
                                               ),
-                                              backgroundColor: Colors.black,
+                                              backgroundColor: colorApp.colorBlackWhite,
                                             ),
                                             child: Text(
                                               Language.textHiredoffer,
                                               style: TextStyle(
                                                 fontSize: 16,
-                                                color: Color.fromARGB(255, 255, 255, 255),
+                                                color: colorApp.colorWhiteBlack,
                                                 fontWeight: FontWeight.w500,
                                               ),
                                             ),

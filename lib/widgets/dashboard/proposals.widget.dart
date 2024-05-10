@@ -393,6 +393,7 @@ class _ProposalsWidgetState extends ConsumerState<ProposalsWidget> {
                                                                   ),
                                                                 ),
                                                               ),
+                                                              SizedBox(width: 10),
                                                               SizedBox(
                                                                 height: 43,
                                                                 width: 135,
@@ -451,6 +452,7 @@ class _ProposalsWidgetState extends ConsumerState<ProposalsWidget> {
                                                 borderRadius: BorderRadius.circular(8),
                                               ),
                                               backgroundColor: colorApp.colorBlackWhite,
+                                              disabledBackgroundColor: colorApp.colorButton,
                                             ),
                                             child: Text(
                                               el.statusFlag == 0
