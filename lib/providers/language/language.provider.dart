@@ -180,7 +180,11 @@ class Language {
   String Create1m;
   String Dark_mode;
   String Interview;
+  String Join;
+  String Accept;
   Language({
+    required this.Accept,
+    required this.Join,
     required this.Interview,
     required this.Dark_mode,
     required this.Create1m,
@@ -367,6 +371,8 @@ class Language {
 class _Language extends StateNotifier<Language> {
   _Language()
       : super(Language(
+          Accept: 'Accept',
+          Join: 'Join',
           Interview: 'Interview',
           Dark_mode: 'Dark mode',
           Create1m: 'Created 1 minute ago',
@@ -560,6 +566,8 @@ class _Language extends StateNotifier<Language> {
 
   void setLanguageEng() {
     Language tmp = Language(
+      Accept: 'Accept',
+      Join: 'Join',
       Interview: 'Interview',
       Dark_mode: 'Dark mode',
       Create1m: 'Created 1 minute ago',
@@ -744,6 +752,8 @@ class _Language extends StateNotifier<Language> {
 
   void setLanguageVN() {
     Language tmp = Language(
+      Accept: 'Chấp nhận',
+      Join: 'Tham gia',
       Interview: 'Phỏng vấn',
       Dark_mode: 'Chế độ tối',
       Create1m: 'Đã tạo 1 phút trước',

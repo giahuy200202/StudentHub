@@ -563,7 +563,7 @@ class _MessageWidgetState extends ConsumerState<MessageWidget> {
                                                   alignment: Alignment.centerRight,
                                                   child: SizedBox(
                                                     height: 40,
-                                                    width: 110,
+                                                    width: 116,
                                                     child: ElevatedButton(
                                                       onPressed: () {
                                                         Navigator.push(
@@ -585,7 +585,7 @@ class _MessageWidgetState extends ConsumerState<MessageWidget> {
                                                         backgroundColor: colorApp.colorBlackWhite,
                                                       ),
                                                       child: Text(
-                                                        'Join',
+                                                        Language.Join,
                                                         style: TextStyle(
                                                           fontSize: 16,
                                                           color: colorApp.colorWhiteBlack,
