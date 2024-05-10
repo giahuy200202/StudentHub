@@ -198,12 +198,15 @@ class ProfileIStudentWidget extends ConsumerStatefulWidget {
 }
 
 class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentWidget> {
-  List<Teachstack> techStackName = [];
+  List<Teachstack> techStack = [];
+  List<String> techStackName = [];
+  List<String> techStackId = [];
   // late Future<List<MultiSelectBottomSheetModel>> selectSkillSetItem;
   List<MultiSelectBottomSheetModel> skillSetItems = [];
   //List<LanguageData> languages = [];
 
-  String dropdownValue = 'Fullstack Engineer';
+  String dropdownValue = '';
+  // String dropdownValue = '1';
 
   final fullnameController = TextEditingController();
 
@@ -271,17 +274,18 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentWidget> {
 
     var techStackData = [...json.decode(response.body)['result']];
 
-    List<Teachstack> tempTechStackName = [];
+    List<Teachstack> tempTechStack = [];
+    // List<int> tempTechStackId = [];
 
     for (var item in techStackData) {
-      tempTechStackName.add(
-        Teachstack(item['id'].toString(), item['name']),
-      );
+      tempTechStack.add(Teachstack(item['id'].toString(), item['name']));
+      // tempTechStackName.add(item['name']);
+      // tempTechStackId.add(item['id']);
     }
 
-    dropdownValue = tempTechStackName[0].name;
+    dropdownValue = tempTechStack[0].id;
 
-    return tempTechStackName;
+    return tempTechStack;
   }
 
   Future<List<MultiSelectBottomSheetModel>> getSkillSet(String token) async {
@@ -312,12 +316,30 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentWidget> {
       isGettingStudent = true;
     });
 
-    techStackName = await getTechStack(token);
+    techStack = await getTechStack(token);
+    techStackName = techStack.map((e) => e.name).toList();
+    print('----techStackName----');
+    print(techStackName.runtimeType);
+    techStackId = techStack.map((e) => e.id.toString()).toList();
+    print('----techStackId----');
+    print(techStackId.runtimeType);
+
     skillSetItems = await getSkillSet(token);
 
     if (student.id != 0) {
       //set techstackId,  dropdown value
-      dropdownValue = techStackName[student.techStackId - 1].name;
+      // dropdownValue = techStackName[student.techStackId - 1];
+      print('----student.id !==0 ----');
+      print(student.techStackId);
+
+      dropdownValue = techStack
+          .firstWhere(
+            (element) => element.id == student.techStackId.toString(),
+          )
+          .id;
+      print('----dropdownValue----');
+      print(dropdownValue);
+
       ref.read(studentInputProvider.notifier).setStudentInputTechstackId(student.techStackId);
 
       print('----student.techStackId----');
@@ -562,18 +584,32 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentWidget> {
                       value: dropdownValue,
                       onChanged: (String? value) {
                         setState(() {
+                          // dropdownValue = techStackName[int.parse(value!) - 1];
+                          print('-----value-----');
+                          print(value);
+                          // dropdownValue = techStack
+                          //     .firstWhere(
+                          //       (element) => element.id == value,
+                          //     )
+                          //     .name;
                           dropdownValue = value!;
                         });
 
-                        // ref.read(studentInputProvider.notifier).setStudentInputTechstackId(
-                        //       techStackName.indexOf(dropdownValue) + 1,
-                        //     );
+                        ref.read(studentInputProvider.notifier).setStudentInputTechstackId(
+                              // techStackName.indexOf(dropdownValue) + 1,
+                              int.parse(value!),
+                            );
                       },
-                      items: techStackName.map<DropdownMenuItem<String>>((Teachstack value) {
+                      items: techStackId.map<DropdownMenuItem<String>>((String value) {
                         return DropdownMenuItem<String>(
-                          value: value.id,
+                          value: value,
                           child: Text(
-                            value.name,
+                            techStack
+                                .firstWhere(
+                                  (element) => element.id == value,
+                                )
+                                .name,
+                            // value,
                             style: TextStyle(fontSize: 16, fontWeight: FontWeight.normal, color: colorApp.colorText),
                           ),
                         );
