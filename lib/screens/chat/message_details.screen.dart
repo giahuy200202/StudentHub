@@ -709,7 +709,7 @@ class _MessageDetailsScreen extends ConsumerState<MessageDetailsScreen> {
                                                                                   showModalBottomSheet(
                                                                                     isScrollControlled: true,
                                                                                     context: context,
-                                                                                    backgroundColor: Colors.white,
+                                                                                    backgroundColor: colorApp.colorBackgroundBootomSheet,
                                                                                     builder: (ctx) {
                                                                                       //edit
                                                                                       void presentDatePickerStartEdit() async {
@@ -859,419 +859,416 @@ class _MessageDetailsScreen extends ConsumerState<MessageDetailsScreen> {
                                                                                       return StatefulBuilder(builder: (BuildContext context, StateSetter setState /*You can rename this!*/) {
                                                                                         return Padding(
                                                                                           padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
-                                                                                          child: Container(
-                                                                                            color: colorApp.colorBackgroundBootomSheet,
-                                                                                            child: SizedBox(
-                                                                                              height: 600,
-                                                                                              child: SingleChildScrollView(
-                                                                                                // physics: const NeverScrollableScrollPhysics(),
-                                                                                                child: Padding(
-                                                                                                  padding: const EdgeInsets.only(left: 20, right: 20),
-                                                                                                  child: Column(
-                                                                                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                                                                                    mainAxisSize: MainAxisSize.min,
-                                                                                                    children: [
-                                                                                                      const SizedBox(height: 40),
-                                                                                                      Align(
-                                                                                                        alignment: Alignment.topLeft,
-                                                                                                        child: Text(
-                                                                                                          Language.titleSchedule,
-                                                                                                          style: TextStyle(
-                                                                                                            fontWeight: FontWeight.bold,
-                                                                                                            color: colorApp.colorTitle,
-                                                                                                            fontSize: 25,
-                                                                                                          ),
-                                                                                                        ),
-                                                                                                      ),
-                                                                                                      const SizedBox(height: 15),
-                                                                                                      Container(
-                                                                                                        decoration: BoxDecoration(
-                                                                                                          border: Border.all(
-                                                                                                            color: colorApp.colorDivider as Color, //                   <--- border color
-                                                                                                            width: 0.3,
-                                                                                                          ),
-                                                                                                        ),
-                                                                                                      ),
-                                                                                                      const SizedBox(height: 20),
-                                                                                                      Text(
-                                                                                                        Language.Title,
+                                                                                          child: SizedBox(
+                                                                                            height: 600,
+                                                                                            child: SingleChildScrollView(
+                                                                                              // physics: const NeverScrollableScrollPhysics(),
+                                                                                              child: Padding(
+                                                                                                padding: const EdgeInsets.only(left: 20, right: 20),
+                                                                                                child: Column(
+                                                                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                                                                  mainAxisSize: MainAxisSize.min,
+                                                                                                  children: [
+                                                                                                    const SizedBox(height: 40),
+                                                                                                    Align(
+                                                                                                      alignment: Alignment.topLeft,
+                                                                                                      child: Text(
+                                                                                                        Language.Reschedule,
                                                                                                         style: TextStyle(
-                                                                                                          fontSize: 16,
+                                                                                                          fontWeight: FontWeight.bold,
                                                                                                           color: colorApp.colorTitle,
-                                                                                                          fontWeight: FontWeight.w600,
+                                                                                                          fontSize: 25,
                                                                                                         ),
                                                                                                       ),
-                                                                                                      const SizedBox(height: 10),
-                                                                                                      SizedBox(
-                                                                                                        height: 60,
-                                                                                                        child: TextField(
-                                                                                                          style: TextStyle(fontSize: 16, color: colorApp.colorText),
-                                                                                                          controller: videoInterviewTitleControllerEdit,
-                                                                                                          decoration: InputDecoration(
-                                                                                                            border: OutlineInputBorder(
-                                                                                                              borderRadius: BorderRadius.circular(9),
-                                                                                                            ),
-                                                                                                            focusedBorder: OutlineInputBorder(
-                                                                                                              borderRadius: BorderRadius.circular(9),
-                                                                                                              borderSide: const BorderSide(color: Colors.grey),
-                                                                                                            ),
-                                                                                                            contentPadding: const EdgeInsets.symmetric(
-                                                                                                              vertical: 0,
-                                                                                                              horizontal: 10,
-                                                                                                            ),
-                                                                                                            hintText: Language.textSchedule,
-                                                                                                            hintStyle: TextStyle(
-                                                                                                              fontSize: 16,
-                                                                                                              color: colorApp.colorText,
-                                                                                                              fontWeight: FontWeight.w500,
-                                                                                                            ),
+                                                                                                    ),
+                                                                                                    const SizedBox(height: 15),
+                                                                                                    Container(
+                                                                                                      decoration: BoxDecoration(
+                                                                                                        border: Border.all(
+                                                                                                          color: colorApp.colorDivider as Color, //                   <--- border color
+                                                                                                          width: 0.3,
+                                                                                                        ),
+                                                                                                      ),
+                                                                                                    ),
+                                                                                                    const SizedBox(height: 20),
+                                                                                                    Text(
+                                                                                                      Language.Title,
+                                                                                                      style: TextStyle(
+                                                                                                        fontSize: 16,
+                                                                                                        color: colorApp.colorTitle,
+                                                                                                        fontWeight: FontWeight.w600,
+                                                                                                      ),
+                                                                                                    ),
+                                                                                                    const SizedBox(height: 10),
+                                                                                                    SizedBox(
+                                                                                                      height: 60,
+                                                                                                      child: TextField(
+                                                                                                        style: TextStyle(fontSize: 16, color: colorApp.colorText),
+                                                                                                        controller: videoInterviewTitleControllerEdit,
+                                                                                                        decoration: InputDecoration(
+                                                                                                          border: OutlineInputBorder(
+                                                                                                            borderRadius: BorderRadius.circular(9),
+                                                                                                          ),
+                                                                                                          focusedBorder: OutlineInputBorder(
+                                                                                                            borderRadius: BorderRadius.circular(9),
+                                                                                                            borderSide: const BorderSide(color: Colors.grey),
+                                                                                                          ),
+                                                                                                          contentPadding: const EdgeInsets.symmetric(
+                                                                                                            vertical: 0,
+                                                                                                            horizontal: 10,
+                                                                                                          ),
+                                                                                                          hintText: Language.textSchedule,
+                                                                                                          hintStyle: TextStyle(
+                                                                                                            fontSize: 16,
+                                                                                                            color: colorApp.colorText,
+                                                                                                            fontWeight: FontWeight.w500,
                                                                                                           ),
                                                                                                         ),
                                                                                                       ),
-                                                                                                      const SizedBox(height: 10),
-                                                                                                      Text(
-                                                                                                        Language.Stime,
-                                                                                                        style: TextStyle(
-                                                                                                          color: colorApp.colorTitle,
-                                                                                                          fontSize: 16,
-                                                                                                          fontWeight: FontWeight.w600,
-                                                                                                        ),
+                                                                                                    ),
+                                                                                                    const SizedBox(height: 10),
+                                                                                                    Text(
+                                                                                                      Language.Stime,
+                                                                                                      style: TextStyle(
+                                                                                                        color: colorApp.colorTitle,
+                                                                                                        fontSize: 16,
+                                                                                                        fontWeight: FontWeight.w600,
                                                                                                       ),
-                                                                                                      Row(
-                                                                                                        children: [
-                                                                                                          SizedBox(
-                                                                                                            width: 170,
-                                                                                                            child: Column(
-                                                                                                              children: [
-                                                                                                                const SizedBox(height: 10),
-                                                                                                                SizedBox(
-                                                                                                                  height: 60,
-                                                                                                                  child: TextField(
-                                                                                                                    style: TextStyle(
-                                                                                                                      fontSize: 16,
-                                                                                                                      color: colorApp.colorText,
-                                                                                                                      fontWeight: FontWeight.w500,
+                                                                                                    ),
+                                                                                                    Row(
+                                                                                                      children: [
+                                                                                                        SizedBox(
+                                                                                                          width: 170,
+                                                                                                          child: Column(
+                                                                                                            children: [
+                                                                                                              const SizedBox(height: 10),
+                                                                                                              SizedBox(
+                                                                                                                height: 60,
+                                                                                                                child: TextField(
+                                                                                                                  style: TextStyle(
+                                                                                                                    fontSize: 16,
+                                                                                                                    color: colorApp.colorText,
+                                                                                                                    fontWeight: FontWeight.w500,
+                                                                                                                  ),
+                                                                                                                  readOnly: true,
+                                                                                                                  controller: dateControllerStartEdit,
+                                                                                                                  decoration: InputDecoration(
+                                                                                                                    border: OutlineInputBorder(
+                                                                                                                      borderRadius: BorderRadius.circular(9),
                                                                                                                     ),
-                                                                                                                    readOnly: true,
-                                                                                                                    controller: dateControllerStartEdit,
-                                                                                                                    decoration: InputDecoration(
-                                                                                                                      border: OutlineInputBorder(
-                                                                                                                        borderRadius: BorderRadius.circular(9),
-                                                                                                                      ),
-                                                                                                                      focusedBorder: OutlineInputBorder(
-                                                                                                                        borderRadius: BorderRadius.circular(9),
-                                                                                                                        borderSide: BorderSide(color: colorApp.colorBorderSide as Color),
-                                                                                                                      ),
-                                                                                                                      contentPadding: const EdgeInsets.symmetric(
-                                                                                                                        vertical: 0,
-                                                                                                                        horizontal: 10,
-                                                                                                                      ),
-                                                                                                                      suffixIcon: InkWell(
-                                                                                                                        onTap: presentDatePickerStartEdit,
-                                                                                                                        child: Icon(
-                                                                                                                          Icons.calendar_month_outlined,
-                                                                                                                          color: colorApp.colorIcon,
-                                                                                                                        ),
+                                                                                                                    focusedBorder: OutlineInputBorder(
+                                                                                                                      borderRadius: BorderRadius.circular(9),
+                                                                                                                      borderSide: BorderSide(color: colorApp.colorBorderSide as Color),
+                                                                                                                    ),
+                                                                                                                    contentPadding: const EdgeInsets.symmetric(
+                                                                                                                      vertical: 0,
+                                                                                                                      horizontal: 10,
+                                                                                                                    ),
+                                                                                                                    suffixIcon: InkWell(
+                                                                                                                      onTap: presentDatePickerStartEdit,
+                                                                                                                      child: Icon(
+                                                                                                                        Icons.calendar_month_outlined,
+                                                                                                                        color: colorApp.colorIcon,
                                                                                                                       ),
                                                                                                                     ),
                                                                                                                   ),
                                                                                                                 ),
-                                                                                                              ],
-                                                                                                            ),
-                                                                                                          ),
-                                                                                                          const Spacer(),
-                                                                                                          SizedBox(
-                                                                                                            width: 170,
-                                                                                                            child: Column(
-                                                                                                              children: [
-                                                                                                                const SizedBox(height: 10),
-                                                                                                                SizedBox(
-                                                                                                                  height: 60,
-                                                                                                                  child: TextField(
-                                                                                                                    style: TextStyle(
-                                                                                                                      fontSize: 16,
-                                                                                                                      color: colorApp.colorText,
-                                                                                                                      fontWeight: FontWeight.w500,
-                                                                                                                    ),
-                                                                                                                    readOnly: true,
-                                                                                                                    controller: timeControllerStartEdit,
-                                                                                                                    decoration: InputDecoration(
-                                                                                                                      border: OutlineInputBorder(
-                                                                                                                        borderRadius: BorderRadius.circular(9),
-                                                                                                                      ),
-                                                                                                                      focusedBorder: OutlineInputBorder(
-                                                                                                                        borderRadius: BorderRadius.circular(9),
-                                                                                                                        borderSide: BorderSide(color: colorApp.colorBorderSideMutil as Color),
-                                                                                                                      ),
-                                                                                                                      contentPadding: const EdgeInsets.symmetric(
-                                                                                                                        vertical: 0,
-                                                                                                                        horizontal: 10,
-                                                                                                                      ),
-                                                                                                                      suffixIcon: InkWell(
-                                                                                                                        onTap: presentTimePickerStartEdit,
-                                                                                                                        child: Icon(
-                                                                                                                          Icons.timer_sharp,
-                                                                                                                          color: colorApp.colorIcon,
-                                                                                                                        ),
-                                                                                                                      ),
-                                                                                                                    ),
-                                                                                                                  ),
-                                                                                                                ),
-                                                                                                              ],
-                                                                                                            ),
-                                                                                                          ),
-                                                                                                        ],
-                                                                                                      ),
-                                                                                                      const SizedBox(height: 10),
-                                                                                                      Text(
-                                                                                                        Language.Etime,
-                                                                                                        style: TextStyle(
-                                                                                                          fontSize: 16,
-                                                                                                          color: colorApp.colorTitle,
-                                                                                                          fontWeight: FontWeight.w600,
-                                                                                                        ),
-                                                                                                      ),
-                                                                                                      Row(
-                                                                                                        children: [
-                                                                                                          SizedBox(
-                                                                                                            width: 170,
-                                                                                                            child: Column(
-                                                                                                              children: [
-                                                                                                                const SizedBox(height: 10),
-                                                                                                                SizedBox(
-                                                                                                                  height: 60,
-                                                                                                                  child: TextField(
-                                                                                                                    style: TextStyle(
-                                                                                                                      fontSize: 16,
-                                                                                                                      color: colorApp.colorText,
-                                                                                                                      fontWeight: FontWeight.w500,
-                                                                                                                    ),
-                                                                                                                    readOnly: true,
-                                                                                                                    controller: dateControllerEndEdit,
-                                                                                                                    decoration: InputDecoration(
-                                                                                                                      border: OutlineInputBorder(
-                                                                                                                        borderRadius: BorderRadius.circular(9),
-                                                                                                                      ),
-                                                                                                                      focusedBorder: OutlineInputBorder(
-                                                                                                                        borderRadius: BorderRadius.circular(9),
-                                                                                                                        borderSide: BorderSide(color: colorApp.colorBorderSide as Color),
-                                                                                                                      ),
-                                                                                                                      contentPadding: const EdgeInsets.symmetric(
-                                                                                                                        vertical: 0,
-                                                                                                                        horizontal: 10,
-                                                                                                                      ),
-                                                                                                                      suffixIcon: InkWell(
-                                                                                                                        onTap: presentDatePickerEndEdit,
-                                                                                                                        child: Icon(
-                                                                                                                          Icons.calendar_month_outlined,
-                                                                                                                          color: colorApp.colorIcon,
-                                                                                                                        ),
-                                                                                                                      ),
-                                                                                                                    ),
-                                                                                                                  ),
-                                                                                                                ),
-                                                                                                              ],
-                                                                                                            ),
-                                                                                                          ),
-                                                                                                          const Spacer(),
-                                                                                                          SizedBox(
-                                                                                                            width: 170,
-                                                                                                            child: Column(
-                                                                                                              children: [
-                                                                                                                const SizedBox(height: 10),
-                                                                                                                SizedBox(
-                                                                                                                  height: 60,
-                                                                                                                  child: TextField(
-                                                                                                                    style: TextStyle(
-                                                                                                                      fontSize: 16,
-                                                                                                                      color: colorApp.colorText,
-                                                                                                                      fontWeight: FontWeight.w500,
-                                                                                                                    ),
-                                                                                                                    readOnly: true,
-                                                                                                                    controller: timeControllerEndEdit,
-                                                                                                                    decoration: InputDecoration(
-                                                                                                                      border: OutlineInputBorder(
-                                                                                                                        borderRadius: BorderRadius.circular(9),
-                                                                                                                      ),
-                                                                                                                      focusedBorder: OutlineInputBorder(
-                                                                                                                        borderRadius: BorderRadius.circular(9),
-                                                                                                                        borderSide: BorderSide(color: colorApp.colorBorderSide as Color),
-                                                                                                                      ),
-                                                                                                                      contentPadding: const EdgeInsets.symmetric(
-                                                                                                                        vertical: 0,
-                                                                                                                        horizontal: 10,
-                                                                                                                      ),
-                                                                                                                      suffixIcon: InkWell(
-                                                                                                                        onTap: presentTimePickerEndEdit,
-                                                                                                                        child: Icon(
-                                                                                                                          Icons.timer_sharp,
-                                                                                                                          color: colorApp.colorIcon,
-                                                                                                                        ),
-                                                                                                                      ),
-                                                                                                                    ),
-                                                                                                                  ),
-                                                                                                                ),
-                                                                                                              ],
-                                                                                                            ),
-                                                                                                          ),
-                                                                                                        ],
-                                                                                                      ),
-                                                                                                      const SizedBox(height: 110),
-                                                                                                      Row(
-                                                                                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                                                                        children: [
-                                                                                                          SizedBox(
-                                                                                                            height: 46,
-                                                                                                            width: 175,
-                                                                                                            child: ElevatedButton(
-                                                                                                              onPressed: () {
-                                                                                                                videoInterviewTitleControllerEdit.clear();
-                                                                                                                dateControllerStartEdit.text = Language.selectdate;
-                                                                                                                timeControllerStartEdit.text = Language.selecttime;
-                                                                                                                dateControllerEndEdit.text = Language.selectdate;
-                                                                                                                timeControllerEndEdit.text = Language.selecttime;
-
-                                                                                                                setState(() {
-                                                                                                                  selectedDateStartEdit = null;
-                                                                                                                  selectedTimeStartEdit = null;
-                                                                                                                  selectedDateEndEdit = null;
-                                                                                                                  selectedTimeEndEdit = null;
-                                                                                                                });
-                                                                                                              },
-                                                                                                              style: ElevatedButton.styleFrom(
-                                                                                                                minimumSize: Size.zero, // Set this
-                                                                                                                padding: EdgeInsets.zero, // and this
-                                                                                                                shape: RoundedRectangleBorder(
-                                                                                                                  borderRadius: BorderRadius.circular(8),
-                                                                                                                  side: BorderSide(color: colorApp.colorBorderSideMutil as Color),
-                                                                                                                ),
-                                                                                                                backgroundColor: colorApp.colorButton,
                                                                                                               ),
-                                                                                                              child: Text(
-                                                                                                                Language.Clear,
-                                                                                                                style: TextStyle(
-                                                                                                                  fontSize: 16,
-                                                                                                                  color: colorApp.colorBlackWhite,
-                                                                                                                  fontWeight: FontWeight.w500,
+                                                                                                            ],
+                                                                                                          ),
+                                                                                                        ),
+                                                                                                        const Spacer(),
+                                                                                                        SizedBox(
+                                                                                                          width: 170,
+                                                                                                          child: Column(
+                                                                                                            children: [
+                                                                                                              const SizedBox(height: 10),
+                                                                                                              SizedBox(
+                                                                                                                height: 60,
+                                                                                                                child: TextField(
+                                                                                                                  style: TextStyle(
+                                                                                                                    fontSize: 16,
+                                                                                                                    color: colorApp.colorText,
+                                                                                                                    fontWeight: FontWeight.w500,
+                                                                                                                  ),
+                                                                                                                  readOnly: true,
+                                                                                                                  controller: timeControllerStartEdit,
+                                                                                                                  decoration: InputDecoration(
+                                                                                                                    border: OutlineInputBorder(
+                                                                                                                      borderRadius: BorderRadius.circular(9),
+                                                                                                                    ),
+                                                                                                                    focusedBorder: OutlineInputBorder(
+                                                                                                                      borderRadius: BorderRadius.circular(9),
+                                                                                                                      borderSide: BorderSide(color: colorApp.colorBorderSideMutil as Color),
+                                                                                                                    ),
+                                                                                                                    contentPadding: const EdgeInsets.symmetric(
+                                                                                                                      vertical: 0,
+                                                                                                                      horizontal: 10,
+                                                                                                                    ),
+                                                                                                                    suffixIcon: InkWell(
+                                                                                                                      onTap: presentTimePickerStartEdit,
+                                                                                                                      child: Icon(
+                                                                                                                        Icons.timer_sharp,
+                                                                                                                        color: colorApp.colorIcon,
+                                                                                                                      ),
+                                                                                                                    ),
+                                                                                                                  ),
                                                                                                                 ),
+                                                                                                              ),
+                                                                                                            ],
+                                                                                                          ),
+                                                                                                        ),
+                                                                                                      ],
+                                                                                                    ),
+                                                                                                    const SizedBox(height: 10),
+                                                                                                    Text(
+                                                                                                      Language.Etime,
+                                                                                                      style: TextStyle(
+                                                                                                        fontSize: 16,
+                                                                                                        color: colorApp.colorTitle,
+                                                                                                        fontWeight: FontWeight.w600,
+                                                                                                      ),
+                                                                                                    ),
+                                                                                                    Row(
+                                                                                                      children: [
+                                                                                                        SizedBox(
+                                                                                                          width: 170,
+                                                                                                          child: Column(
+                                                                                                            children: [
+                                                                                                              const SizedBox(height: 10),
+                                                                                                              SizedBox(
+                                                                                                                height: 60,
+                                                                                                                child: TextField(
+                                                                                                                  style: TextStyle(
+                                                                                                                    fontSize: 16,
+                                                                                                                    color: colorApp.colorText,
+                                                                                                                    fontWeight: FontWeight.w500,
+                                                                                                                  ),
+                                                                                                                  readOnly: true,
+                                                                                                                  controller: dateControllerEndEdit,
+                                                                                                                  decoration: InputDecoration(
+                                                                                                                    border: OutlineInputBorder(
+                                                                                                                      borderRadius: BorderRadius.circular(9),
+                                                                                                                    ),
+                                                                                                                    focusedBorder: OutlineInputBorder(
+                                                                                                                      borderRadius: BorderRadius.circular(9),
+                                                                                                                      borderSide: BorderSide(color: colorApp.colorBorderSide as Color),
+                                                                                                                    ),
+                                                                                                                    contentPadding: const EdgeInsets.symmetric(
+                                                                                                                      vertical: 0,
+                                                                                                                      horizontal: 10,
+                                                                                                                    ),
+                                                                                                                    suffixIcon: InkWell(
+                                                                                                                      onTap: presentDatePickerEndEdit,
+                                                                                                                      child: Icon(
+                                                                                                                        Icons.calendar_month_outlined,
+                                                                                                                        color: colorApp.colorIcon,
+                                                                                                                      ),
+                                                                                                                    ),
+                                                                                                                  ),
+                                                                                                                ),
+                                                                                                              ),
+                                                                                                            ],
+                                                                                                          ),
+                                                                                                        ),
+                                                                                                        const Spacer(),
+                                                                                                        SizedBox(
+                                                                                                          width: 170,
+                                                                                                          child: Column(
+                                                                                                            children: [
+                                                                                                              const SizedBox(height: 10),
+                                                                                                              SizedBox(
+                                                                                                                height: 60,
+                                                                                                                child: TextField(
+                                                                                                                  style: TextStyle(
+                                                                                                                    fontSize: 16,
+                                                                                                                    color: colorApp.colorText,
+                                                                                                                    fontWeight: FontWeight.w500,
+                                                                                                                  ),
+                                                                                                                  readOnly: true,
+                                                                                                                  controller: timeControllerEndEdit,
+                                                                                                                  decoration: InputDecoration(
+                                                                                                                    border: OutlineInputBorder(
+                                                                                                                      borderRadius: BorderRadius.circular(9),
+                                                                                                                    ),
+                                                                                                                    focusedBorder: OutlineInputBorder(
+                                                                                                                      borderRadius: BorderRadius.circular(9),
+                                                                                                                      borderSide: BorderSide(color: colorApp.colorBorderSide as Color),
+                                                                                                                    ),
+                                                                                                                    contentPadding: const EdgeInsets.symmetric(
+                                                                                                                      vertical: 0,
+                                                                                                                      horizontal: 10,
+                                                                                                                    ),
+                                                                                                                    suffixIcon: InkWell(
+                                                                                                                      onTap: presentTimePickerEndEdit,
+                                                                                                                      child: Icon(
+                                                                                                                        Icons.timer_sharp,
+                                                                                                                        color: colorApp.colorIcon,
+                                                                                                                      ),
+                                                                                                                    ),
+                                                                                                                  ),
+                                                                                                                ),
+                                                                                                              ),
+                                                                                                            ],
+                                                                                                          ),
+                                                                                                        ),
+                                                                                                      ],
+                                                                                                    ),
+                                                                                                    const SizedBox(height: 110),
+                                                                                                    Row(
+                                                                                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                                                      children: [
+                                                                                                        SizedBox(
+                                                                                                          height: 46,
+                                                                                                          width: 175,
+                                                                                                          child: ElevatedButton(
+                                                                                                            onPressed: () {
+                                                                                                              videoInterviewTitleControllerEdit.clear();
+                                                                                                              dateControllerStartEdit.text = Language.selectdate;
+                                                                                                              timeControllerStartEdit.text = Language.selecttime;
+                                                                                                              dateControllerEndEdit.text = Language.selectdate;
+                                                                                                              timeControllerEndEdit.text = Language.selecttime;
+
+                                                                                                              setState(() {
+                                                                                                                selectedDateStartEdit = null;
+                                                                                                                selectedTimeStartEdit = null;
+                                                                                                                selectedDateEndEdit = null;
+                                                                                                                selectedTimeEndEdit = null;
+                                                                                                              });
+                                                                                                            },
+                                                                                                            style: ElevatedButton.styleFrom(
+                                                                                                              minimumSize: Size.zero, // Set this
+                                                                                                              padding: EdgeInsets.zero, // and this
+                                                                                                              shape: RoundedRectangleBorder(
+                                                                                                                borderRadius: BorderRadius.circular(8),
+                                                                                                                side: BorderSide(color: colorApp.colorBorderSideMutil as Color),
+                                                                                                              ),
+                                                                                                              backgroundColor: colorApp.colorButton,
+                                                                                                            ),
+                                                                                                            child: Text(
+                                                                                                              Language.Clear,
+                                                                                                              style: TextStyle(
+                                                                                                                fontSize: 16,
+                                                                                                                color: colorApp.colorBlackWhite,
+                                                                                                                fontWeight: FontWeight.w500,
                                                                                                               ),
                                                                                                             ),
                                                                                                           ),
-                                                                                                          const SizedBox(width: 15),
-                                                                                                          SizedBox(
-                                                                                                            height: 46,
-                                                                                                            width: 175,
-                                                                                                            child: ElevatedButton(
-                                                                                                              onPressed: () async {
-                                                                                                                print('------ interview id ------');
-                                                                                                                print(el.idInterview);
-                                                                                                                print('------ Edit video interview title -------');
-                                                                                                                print(videoInterviewTitleControllerEdit.text);
-                                                                                                                print('------ Edit start date -------');
-                                                                                                                print(selectedDateStartEdit);
-                                                                                                                print('------ Edit start time -------');
-                                                                                                                print(selectedTimeStartEdit);
-                                                                                                                print('Edit start datetime');
-                                                                                                                print(
-                                                                                                                  DateTime(
-                                                                                                                    selectedDateStartEdit!.year,
-                                                                                                                    selectedDateStartEdit!.month,
-                                                                                                                    selectedDateStartEdit!.day,
-                                                                                                                    selectedTimeStartEdit!.hour,
-                                                                                                                    selectedTimeStartEdit!.minute,
-                                                                                                                  ).toString(),
-                                                                                                                );
-                                                                                                                print('------ end date -------');
-                                                                                                                print(selectedDateEndEdit);
-                                                                                                                print('------ end time -------');
-                                                                                                                print(selectedTimeEndEdit);
-                                                                                                                print('end datetime');
-                                                                                                                print(
-                                                                                                                  DateTime(
-                                                                                                                    selectedDateEndEdit!.year,
-                                                                                                                    selectedDateEndEdit!.month,
-                                                                                                                    selectedDateEndEdit!.day,
-                                                                                                                    selectedTimeEndEdit!.hour,
-                                                                                                                    selectedTimeEndEdit!.minute,
-                                                                                                                  ).toString(),
-                                                                                                                );
+                                                                                                        ),
+                                                                                                        const SizedBox(width: 15),
+                                                                                                        SizedBox(
+                                                                                                          height: 46,
+                                                                                                          width: 175,
+                                                                                                          child: ElevatedButton(
+                                                                                                            onPressed: () async {
+                                                                                                              print('------ interview id ------');
+                                                                                                              print(el.idInterview);
+                                                                                                              print('------ Edit video interview title -------');
+                                                                                                              print(videoInterviewTitleControllerEdit.text);
+                                                                                                              print('------ Edit start date -------');
+                                                                                                              print(selectedDateStartEdit);
+                                                                                                              print('------ Edit start time -------');
+                                                                                                              print(selectedTimeStartEdit);
+                                                                                                              print('Edit start datetime');
+                                                                                                              print(
+                                                                                                                DateTime(
+                                                                                                                  selectedDateStartEdit!.year,
+                                                                                                                  selectedDateStartEdit!.month,
+                                                                                                                  selectedDateStartEdit!.day,
+                                                                                                                  selectedTimeStartEdit!.hour,
+                                                                                                                  selectedTimeStartEdit!.minute,
+                                                                                                                ).toString(),
+                                                                                                              );
+                                                                                                              print('------ end date -------');
+                                                                                                              print(selectedDateEndEdit);
+                                                                                                              print('------ end time -------');
+                                                                                                              print(selectedTimeEndEdit);
+                                                                                                              print('end datetime');
+                                                                                                              print(
+                                                                                                                DateTime(
+                                                                                                                  selectedDateEndEdit!.year,
+                                                                                                                  selectedDateEndEdit!.month,
+                                                                                                                  selectedDateEndEdit!.day,
+                                                                                                                  selectedTimeEndEdit!.hour,
+                                                                                                                  selectedTimeEndEdit!.minute,
+                                                                                                                ).toString(),
+                                                                                                              );
 
-                                                                                                                //handle socket
+                                                                                                              //handle socket
 
-                                                                                                                print('------------ Edit interview -------------');
+                                                                                                              print('------------ Edit interview -------------');
 
-                                                                                                                final Random random = Random();
+                                                                                                              final Random random = Random();
 
-                                                                                                                final urlEditInterview = Uri.parse('${dotenv.env['IP_ADDRESS']}/api/interview/${el.idInterview}');
+                                                                                                              final urlEditInterview = Uri.parse('${dotenv.env['IP_ADDRESS']}/api/interview/${el.idInterview}');
 
-                                                                                                                final responseEditInterview = await http.patch(
-                                                                                                                  urlEditInterview,
-                                                                                                                  headers: {
-                                                                                                                    'Content-Type': 'application/json',
-                                                                                                                    'Authorization': 'Bearer ${user.token}',
+                                                                                                              final responseEditInterview = await http.patch(
+                                                                                                                urlEditInterview,
+                                                                                                                headers: {
+                                                                                                                  'Content-Type': 'application/json',
+                                                                                                                  'Authorization': 'Bearer ${user.token}',
+                                                                                                                },
+                                                                                                                body: json.encode(
+                                                                                                                  {
+                                                                                                                    "title": videoInterviewTitleControllerEdit.text,
+                                                                                                                    "startTime": DateTime(
+                                                                                                                      selectedDateStartEdit!.year,
+                                                                                                                      selectedDateStartEdit!.month,
+                                                                                                                      selectedDateStartEdit!.day,
+                                                                                                                      selectedTimeStartEdit!.hour,
+                                                                                                                      selectedTimeStartEdit!.minute,
+                                                                                                                    ).toString(),
+                                                                                                                    "endTime": DateTime(
+                                                                                                                      selectedDateEndEdit!.year,
+                                                                                                                      selectedDateEndEdit!.month,
+                                                                                                                      selectedDateEndEdit!.day,
+                                                                                                                      selectedTimeEndEdit!.hour,
+                                                                                                                      selectedTimeEndEdit!.minute,
+                                                                                                                    ).toString(),
                                                                                                                   },
-                                                                                                                  body: json.encode(
-                                                                                                                    {
-                                                                                                                      "title": videoInterviewTitleControllerEdit.text,
-                                                                                                                      "startTime": DateTime(
-                                                                                                                        selectedDateStartEdit!.year,
-                                                                                                                        selectedDateStartEdit!.month,
-                                                                                                                        selectedDateStartEdit!.day,
-                                                                                                                        selectedTimeStartEdit!.hour,
-                                                                                                                        selectedTimeStartEdit!.minute,
-                                                                                                                      ).toString(),
-                                                                                                                      "endTime": DateTime(
-                                                                                                                        selectedDateEndEdit!.year,
-                                                                                                                        selectedDateEndEdit!.month,
-                                                                                                                        selectedDateEndEdit!.day,
-                                                                                                                        selectedTimeEndEdit!.hour,
-                                                                                                                        selectedTimeEndEdit!.minute,
-                                                                                                                      ).toString(),
-                                                                                                                    },
-                                                                                                                  ),
-                                                                                                                );
-
-                                                                                                                final responseEditInterviewData = json.decode(responseEditInterview.body);
-                                                                                                                print('----responseEditInterviewData----');
-                                                                                                                print(responseEditInterview);
-
-                                                                                                                videoInterviewTitleControllerEdit.clear();
-                                                                                                                dateControllerStartEdit.text = Language.selectdate;
-                                                                                                                timeControllerStartEdit.text = Language.selecttime;
-                                                                                                                dateControllerEndEdit.text = Language.selectdate;
-                                                                                                                timeControllerEndEdit.text = Language.selecttime;
-
-                                                                                                                setState(() {
-                                                                                                                  selectedDateStartEdit = null;
-                                                                                                                  selectedTimeStartEdit = null;
-                                                                                                                  selectedDateEndEdit = null;
-                                                                                                                  selectedTimeEndEdit = null;
-                                                                                                                });
-
-                                                                                                                Navigator.pop(context);
-                                                                                                              },
-                                                                                                              style: ElevatedButton.styleFrom(
-                                                                                                                minimumSize: Size.zero, // Set this
-                                                                                                                padding: EdgeInsets.zero, // and this
-                                                                                                                shape: RoundedRectangleBorder(
-                                                                                                                  borderRadius: BorderRadius.circular(8),
                                                                                                                 ),
-                                                                                                                backgroundColor: colorApp.colorBlackWhite,
+                                                                                                              );
+
+                                                                                                              final responseEditInterviewData = json.decode(responseEditInterview.body);
+                                                                                                              print('----responseEditInterviewData----');
+                                                                                                              print(responseEditInterview);
+
+                                                                                                              videoInterviewTitleControllerEdit.clear();
+                                                                                                              dateControllerStartEdit.text = Language.selectdate;
+                                                                                                              timeControllerStartEdit.text = Language.selecttime;
+                                                                                                              dateControllerEndEdit.text = Language.selectdate;
+                                                                                                              timeControllerEndEdit.text = Language.selecttime;
+
+                                                                                                              setState(() {
+                                                                                                                selectedDateStartEdit = null;
+                                                                                                                selectedTimeStartEdit = null;
+                                                                                                                selectedDateEndEdit = null;
+                                                                                                                selectedTimeEndEdit = null;
+                                                                                                              });
+
+                                                                                                              Navigator.pop(context);
+                                                                                                            },
+                                                                                                            style: ElevatedButton.styleFrom(
+                                                                                                              minimumSize: Size.zero, // Set this
+                                                                                                              padding: EdgeInsets.zero, // and this
+                                                                                                              shape: RoundedRectangleBorder(
+                                                                                                                borderRadius: BorderRadius.circular(8),
                                                                                                               ),
-                                                                                                              child: Text(
-                                                                                                                Language.Schedule,
-                                                                                                                style: TextStyle(
-                                                                                                                  fontSize: 16,
-                                                                                                                  color: colorApp.colorWhiteBlack,
-                                                                                                                  fontWeight: FontWeight.w500,
-                                                                                                                ),
+                                                                                                              backgroundColor: colorApp.colorBlackWhite,
+                                                                                                            ),
+                                                                                                            child: Text(
+                                                                                                              Language.Schedule,
+                                                                                                              style: TextStyle(
+                                                                                                                fontSize: 16,
+                                                                                                                color: colorApp.colorWhiteBlack,
+                                                                                                                fontWeight: FontWeight.w500,
                                                                                                               ),
                                                                                                             ),
                                                                                                           ),
-                                                                                                        ],
-                                                                                                      )
-                                                                                                    ],
-                                                                                                  ),
+                                                                                                        ),
+                                                                                                      ],
+                                                                                                    )
+                                                                                                  ],
                                                                                                 ),
                                                                                               ),
                                                                                             ),
