@@ -111,7 +111,7 @@ class _ListProjectsWidgetState extends ConsumerState<ListProjectsWidget> {
       isFetchingData = true;
     });
 
-    final urlGetProjects = Uri.parse('${dotenv.env['IP_ADDRESS']}/api/project');
+    final urlGetProjects = Uri.parse('${dotenv.env['IP_ADDRESS']}/api/project?perPage=100000&page=1');
 
     final responseProjects = await http.get(
       urlGetProjects,

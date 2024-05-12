@@ -457,9 +457,9 @@ class _WorkingWidgetState extends ConsumerState<WorkingWidget> {
                                                                     width: 168,
                                                                     child: ElevatedButton(
                                                                       onPressed: () async {
-                                                                        final urlPatchprojects = Uri.parse('${dotenv.env['IP_ADDRESS']}/api/project');
+                                                                        final urlPatchprojects = Uri.parse('${dotenv.env['IP_ADDRESS']}/api/project/${el.projectId}');
 
-                                                                        final responsePatchProjects = await http.post(
+                                                                        final responsePatchProjects = await http.patch(
                                                                           urlPatchprojects,
                                                                           headers: {
                                                                             'Content-Type': 'application/json',
@@ -468,9 +468,9 @@ class _WorkingWidgetState extends ConsumerState<WorkingWidget> {
                                                                           body: json.encode({
                                                                             'projectScopeFlag': el.projectScopeFlag,
                                                                             'title': el.title,
-                                                                            'numberOfStudents': el.numberOfStudents,
                                                                             'description': el.description,
-                                                                            "typeFlag": 1,
+                                                                            'numberOfStudents': el.numberOfStudents,
+                                                                            "typeFlag": 2,
                                                                           }),
                                                                         );
 

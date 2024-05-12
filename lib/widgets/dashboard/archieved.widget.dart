@@ -964,7 +964,40 @@ class _ArchievedWidgetState extends ConsumerState<ArchievedWidget> {
                                                             height: 52,
                                                             width: MediaQuery.of(context).size.width,
                                                             child: ElevatedButton(
-                                                              onPressed: () {},
+                                                              onPressed: () async {
+                                                                final urlPatchprojects = Uri.parse('${dotenv.env['IP_ADDRESS']}/api/project/${el.projectId}');
+
+                                                                final responsePatchProjects = await http.patch(
+                                                                  urlPatchprojects,
+                                                                  headers: {
+                                                                    'Content-Type': 'application/json',
+                                                                    'Authorization': 'Bearer ${user.token}',
+                                                                  },
+                                                                  body: json.encode({
+                                                                    'projectScopeFlag': el.projectScopeFlag,
+                                                                    'title': el.title,
+                                                                    'description': el.description,
+                                                                    'numberOfStudents': el.numberOfStudents,
+                                                                    "typeFlag": 1,
+                                                                  }),
+                                                                );
+
+                                                                final responsePatchProjectsData = json.decode(responsePatchProjects.body);
+                                                                print('----responsePatchProjectsData----');
+                                                                print(responsePatchProjectsData);
+
+                                                                if (responsePatchProjectsData.containsKey('errorDetails')) {
+                                                                  if (responsePatchProjectsData['errorDetails'] is String) {
+                                                                    showErrorToast('Error', responsePatchProjectsData['errorDetails']);
+                                                                  } else {
+                                                                    showErrorToast('Error', responsePatchProjectsData['errorDetails'][0]);
+                                                                  }
+                                                                } else {
+                                                                  Navigator.pop(context);
+                                                                  getProjects(user.token, company.id, Language);
+                                                                  showSuccessToast('Success', 'Project has been marked to work');
+                                                                }
+                                                              },
                                                               style: ElevatedButton.styleFrom(
                                                                 minimumSize: Size.zero, // Set this
                                                                 padding: EdgeInsets.zero, // and this
