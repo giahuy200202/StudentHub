@@ -73,7 +73,7 @@ class _ColorApp extends StateNotifier<ColorApp> {
           colorunSelect: Colors.white,
           colorWhiteBlack: Colors.white,
           colorBlackWhite: Colors.black,
-          colorBorderSideMutil: Colors.black,
+          colorBorderSideMutil: Colors.grey,
           colorClip: Color.fromARGB(255, 193, 191, 191),
           colorTime: Color.fromARGB(255, 94, 94, 94),
           colorBoderSwitch: Color.fromARGB(255, 73, 80, 87),
