@@ -40,12 +40,25 @@ class _AppState extends ConsumerState<App> {
     final projectId = ref.watch(projectIdProvider);
     final user = ref.watch(userProvider);
 
+    print('-----user.id MAIN-----');
+    print(user.id);
+
+    print('-----projectId MAIN-----');
+    print(projectId);
+
+    print('-----isRunNotification MAIN-----');
+    print(isRunNotification);
+
     if (!listTriggeredSockerByProjectId.contains(projectId) || !listTriggeredSockerByUserId.contains(user.id.toString())) {
+      print('-----user.id MAIN in IF-----');
+      print(user.id);
       listTriggeredSockerByProjectId.add(projectId);
       listTriggeredSockerByUserId.add(user.id.toString());
 
       if (user.id != 0) {
         if (isRunNotification) {
+          print('-----user.id MAIN in noti-----');
+          print(user.id);
           print('------SOCKET NOTIFICATION------');
           final socket = IO.io(
             'https://api.studenthub.dev/', // Server url

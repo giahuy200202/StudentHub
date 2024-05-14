@@ -322,8 +322,14 @@ class _LoginWidgetState extends ConsumerState<LoginWidget> {
                                   print('---responeAuthMeData---');
                                   print(responeAuthMeData);
 
+                                  print('---responeLogin---');
+                                  print(json.decode(responseLogin.body));
+
                                   print('-----user.token----');
                                   print(json.decode(responseLogin.body)["result"]["token"]);
+
+                                  print('-----user.id----');
+                                  print(responeAuthMeData["result"]["id"]);
 
                                   //Set authentication data
                                   ref.read(userProvider.notifier).setUserData(
