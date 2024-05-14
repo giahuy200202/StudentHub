@@ -103,7 +103,7 @@ class _ProfileIStudentWidget extends ConsumerState<ProfileIStudentStep3Widget> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    Language.CV,
+                    'CV',
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w600,
