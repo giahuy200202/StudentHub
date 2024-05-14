@@ -23,6 +23,7 @@ class Proposal {
   final String techStackName;
   final String coverLetter;
   final int statusFlag;
+  // final String projectId;
 
   Proposal({
     required this.userId,
@@ -32,6 +33,7 @@ class Proposal {
     required this.techStackName,
     required this.coverLetter,
     required this.statusFlag,
+    // required this.projectId,
   });
 
   Proposal.fromJson(Map<dynamic, dynamic> json)
@@ -42,6 +44,7 @@ class Proposal {
         techStackName = json['techStackName'],
         coverLetter = json['coverLetter'],
         statusFlag = json['statusFlag'];
+  // projectId = json['projectId'];
 
   Map<dynamic, dynamic> toJson() {
     return {
@@ -52,6 +55,7 @@ class Proposal {
       'techStackName': techStackName,
       'coverLetter': coverLetter,
       'statusFlag': statusFlag,
+      // 'projectId': projectId,
     };
   }
 }
@@ -123,6 +127,7 @@ class _ProposalsWidgetState extends ConsumerState<ProposalsWidget> {
           techStackName: item['student']['techStack']['name'] ?? 'Unknown',
           coverLetter: item['coverLetter'] ?? 'Unknown',
           statusFlag: item['statusFlag'],
+          // projectId: item['project']['id'].toString(),
         ));
       }
     }
