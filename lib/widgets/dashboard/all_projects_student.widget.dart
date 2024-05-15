@@ -317,71 +317,77 @@ class _AllProjectsStudentWidgetState extends ConsumerState<AllProjectsStudentWid
                             ...listProjects.where((el) => el.statusFlag == 0).toList().map((el) {
                               return Column(
                                 children: [
-                                  Container(
-                                    decoration: BoxDecoration(
-                                      color: colorApp.colorBackgroundColor,
-                                      border: Border.all(color: Colors.grey),
-                                      borderRadius: const BorderRadius.all(Radius.circular(12)),
-                                    ),
-                                    child: Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                        vertical: 20,
-                                        horizontal: 20,
+                                  GestureDetector(
+                                    onTap: () {
+                                      ref.read(projectIdProvider.notifier).setProjectId(el.projectId);
+                                      ref.read(optionsProvider.notifier).setWidgetOption('ProjectDetails', user.role!);
+                                    },
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        color: colorApp.colorBackgroundColor,
+                                        border: Border.all(color: Colors.grey),
+                                        borderRadius: const BorderRadius.all(Radius.circular(12)),
                                       ),
-                                      child: Column(
-                                        children: [
-                                          Align(
-                                            alignment: Alignment.topLeft,
-                                            child: SizedBox(
-                                              width: 300,
-                                              child: Text(
-                                                el.title,
-                                                overflow: TextOverflow.ellipsis,
-                                                style: TextStyle(
-                                                  color: colorApp.colorTitle,
-                                                  fontSize: 18,
-                                                  fontWeight: FontWeight.w600,
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                          const SizedBox(height: 2),
-                                          Align(
-                                            alignment: Alignment.topLeft,
-                                            child: SizedBox(
-                                              width: 340,
-                                              child: Text(
-                                                el.createTime,
-                                                style: TextStyle(
-                                                  color: colorApp.colorTime,
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                          vertical: 20,
+                                          horizontal: 20,
+                                        ),
+                                        child: Column(
+                                          children: [
+                                            Align(
+                                              alignment: Alignment.topLeft,
+                                              child: SizedBox(
+                                                width: 300,
+                                                child: Text(
+                                                  el.title,
                                                   overflow: TextOverflow.ellipsis,
-                                                  fontSize: 13,
+                                                  style: TextStyle(
+                                                    color: colorApp.colorTitle,
+                                                    fontSize: 18,
+                                                    fontWeight: FontWeight.w600,
+                                                  ),
                                                 ),
                                               ),
                                             ),
-                                          ),
-                                          const SizedBox(height: 15),
-                                          Container(
-                                            decoration: BoxDecoration(
-                                              border: Border.all(
-                                                color: colorApp.colorDivider as Color, //                   <--- border color
-                                                width: 0.3,
+                                            const SizedBox(height: 2),
+                                            Align(
+                                              alignment: Alignment.topLeft,
+                                              child: SizedBox(
+                                                width: 340,
+                                                child: Text(
+                                                  el.createTime,
+                                                  style: TextStyle(
+                                                    color: colorApp.colorTime,
+                                                    overflow: TextOverflow.ellipsis,
+                                                    fontSize: 13,
+                                                  ),
+                                                ),
                                               ),
                                             ),
-                                          ),
-                                          const SizedBox(height: 15),
-                                          Align(
-                                            alignment: Alignment.topLeft,
-                                            child: Text(
-                                              el.description,
-                                              style: TextStyle(
-                                                color: colorApp.colorText,
-                                                fontSize: 16,
-                                                fontWeight: FontWeight.w400,
+                                            const SizedBox(height: 15),
+                                            Container(
+                                              decoration: BoxDecoration(
+                                                border: Border.all(
+                                                  color: colorApp.colorDivider as Color, //                   <--- border color
+                                                  width: 0.3,
+                                                ),
                                               ),
                                             ),
-                                          ),
-                                        ],
+                                            const SizedBox(height: 15),
+                                            Align(
+                                              alignment: Alignment.topLeft,
+                                              child: Text(
+                                                el.description,
+                                                style: TextStyle(
+                                                  color: colorApp.colorText,
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.w400,
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
                                       ),
                                     ),
                                   ),

@@ -6,6 +6,7 @@ import 'package:studenthub/providers/authentication/authentication.provider.dart
 import 'package:studenthub/providers/language/language.provider.dart';
 import 'package:studenthub/providers/profile/company.provider.dart';
 import 'package:studenthub/providers/profile/student.provider.dart';
+import 'package:studenthub/providers/projects/project_id.provider.dart';
 import 'package:studenthub/providers/theme/theme_provider.dart';
 
 import '../../providers/options.provider.dart';
@@ -138,6 +139,7 @@ class _WorkingStudentWidgetState extends ConsumerState<WorkingStudentWidget> {
   Widget build(BuildContext context) {
     var colorApp = ref.watch(colorProvider);
     var Language = ref.watch(LanguageProvider);
+    final user = ref.watch(userProvider);
     return SizedBox(
       height: 600,
       child: SingleChildScrollView(
@@ -178,71 +180,77 @@ class _WorkingStudentWidgetState extends ConsumerState<WorkingStudentWidget> {
                             ...listProjects.where((el) => el.statusFlag == 3).toList().map((el) {
                               return Column(
                                 children: [
-                                  Container(
-                                    decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      border: Border.all(color: Colors.grey),
-                                      borderRadius: const BorderRadius.all(Radius.circular(12)),
-                                    ),
-                                    child: Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                        vertical: 20,
-                                        horizontal: 20,
+                                  GestureDetector(
+                                    onTap: () {
+                                      ref.read(projectIdProvider.notifier).setProjectId(el.projectId);
+                                      ref.read(optionsProvider.notifier).setWidgetOption('ProjectDetails', user.role!);
+                                    },
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        border: Border.all(color: Colors.grey),
+                                        borderRadius: const BorderRadius.all(Radius.circular(12)),
                                       ),
-                                      child: Column(
-                                        children: [
-                                          Align(
-                                            alignment: Alignment.topLeft,
-                                            child: SizedBox(
-                                              width: 300,
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                          vertical: 20,
+                                          horizontal: 20,
+                                        ),
+                                        child: Column(
+                                          children: [
+                                            Align(
+                                              alignment: Alignment.topLeft,
+                                              child: SizedBox(
+                                                width: 300,
+                                                child: Text(
+                                                  el.title,
+                                                  overflow: TextOverflow.ellipsis,
+                                                  style: const TextStyle(
+                                                    color: Colors.black,
+                                                    fontSize: 18,
+                                                    fontWeight: FontWeight.w600,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                            const SizedBox(height: 2),
+                                            Align(
+                                              alignment: Alignment.topLeft,
+                                              child: SizedBox(
+                                                width: 340,
+                                                child: Text(
+                                                  el.createTime,
+                                                  style: const TextStyle(
+                                                    color: Color.fromARGB(255, 94, 94, 94),
+                                                    overflow: TextOverflow.ellipsis,
+                                                    fontSize: 13,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                            const SizedBox(height: 15),
+                                            Container(
+                                              decoration: BoxDecoration(
+                                                border: Border.all(
+                                                  color: Colors.black, //                   <--- border color
+                                                  width: 0.3,
+                                                ),
+                                              ),
+                                            ),
+                                            const SizedBox(height: 15),
+                                            Align(
+                                              alignment: Alignment.topLeft,
                                               child: Text(
-                                                el.title,
-                                                overflow: TextOverflow.ellipsis,
+                                                el.description,
                                                 style: const TextStyle(
                                                   color: Colors.black,
-                                                  fontSize: 18,
-                                                  fontWeight: FontWeight.w600,
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.w400,
                                                 ),
                                               ),
                                             ),
-                                          ),
-                                          const SizedBox(height: 2),
-                                          Align(
-                                            alignment: Alignment.topLeft,
-                                            child: SizedBox(
-                                              width: 340,
-                                              child: Text(
-                                                el.createTime,
-                                                style: const TextStyle(
-                                                  color: Color.fromARGB(255, 94, 94, 94),
-                                                  overflow: TextOverflow.ellipsis,
-                                                  fontSize: 13,
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                          const SizedBox(height: 15),
-                                          Container(
-                                            decoration: BoxDecoration(
-                                              border: Border.all(
-                                                color: Colors.black, //                   <--- border color
-                                                width: 0.3,
-                                              ),
-                                            ),
-                                          ),
-                                          const SizedBox(height: 15),
-                                          Align(
-                                            alignment: Alignment.topLeft,
-                                            child: Text(
-                                              el.description,
-                                              style: const TextStyle(
-                                                color: Colors.black,
-                                                fontSize: 16,
-                                                fontWeight: FontWeight.w400,
-                                              ),
-                                            ),
-                                          ),
-                                        ],
+                                          ],
+                                        ),
                                       ),
                                     ),
                                   ),

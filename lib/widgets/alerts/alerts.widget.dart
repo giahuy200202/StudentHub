@@ -224,7 +224,7 @@ class _AlertsWidget extends ConsumerState<AlertsWidget> {
                   padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
                   child: Column(
                     children: [
-                      ...listNotifications.reversed.map(
+                      ...listNotifications.map(
                         (el) {
                           return Column(
                             children: [
